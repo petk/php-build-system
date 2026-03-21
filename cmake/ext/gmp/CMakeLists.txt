@@ -86,7 +86,11 @@ set_package_properties(
 
 target_link_libraries(php_ext_gmp PUBLIC GMP::GMP)
 
-add_dependencies(php_ext_gmp php_ext_random)
+set_property(
+  TARGET php_ext_gmp
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS random
+)
 
 set(HAVE_GMP TRUE)
 

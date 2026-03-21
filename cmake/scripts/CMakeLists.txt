@@ -87,7 +87,7 @@ endif()
 block()
   message(STATUS "Creating scripts/php-config")
 
-  get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
+  get_property(sapis GLOBAL PROPERTY PHP_ENABLED_SAPIS)
   set(sapis "$<JOIN:$<LIST:SORT,${sapis}>, >")
 
   # Replace the upstream php-config script hardcoded php include directory to a

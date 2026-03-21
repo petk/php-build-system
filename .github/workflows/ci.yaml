@@ -186,8 +186,10 @@ jobs:
 
       - name: Build and install PHP
         run: |
-          cmake --preset all-disabled -DCMAKE_INSTALL_PREFIX=/usr
-          cmake --build --preset all-disabled -DPHP_EXT_LIBXML=ON
+          cmake --preset all-disabled \
+            -DCMAKE_INSTALL_PREFIX=/usr \
+            -DPHP_EXT_LIBXML=ON
+          cmake --build --preset all-disabled
           sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
             --install php-build/all-disabled/php \
             -j $(nproc)
@@ -201,7 +203,7 @@ jobs:
             cd "$extension"
             cmake -B cmake-build
             cmake --build cmake-build -j
-            #ctest --test-dir cmake-build -j --verbose
+            ctest --test-dir cmake-build -j --verbose
             sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
               --install cmake-build \
               -j $(nproc)
@@ -209,7 +211,22 @@ jobs:
             cd ..
           done
 
-          skips="tokenizer mysqlnd pdo libxml date hash json pcre random reflection spl standard com_dotnet"
+          skips="\
+            com_dotnet \
+            date \
+            hash \
+            json \
+            libxml \
+            mysqlnd \
+            pcre \
+            pdo \
+            random \
+            reflection \
+            skeleton \
+            spl \
+            standard \
+            tokenizer \
+          "
           for extension in *; do
             for skip in $skips; do
               if [ "$extension" = "$skip" ]; then
@@ -222,11 +239,14 @@ jobs:
             cd "$extension"
             cmake -B cmake-build
             cmake --build cmake-build -j
-            #ctest --test-dir cmake-build -j --verbose
             sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" \
               --install cmake-build \
               -j $(nproc)
-            echo "extension=${extension}" | sudo tee -a /etc/php/php.ini
+            if [ "$extension" = "opcache" ]; then
+              echo "zend_extension=${extension}" | sudo tee -a /etc/php/php.ini
+            else
+              echo "extension=${extension}" | sudo tee -a /etc/php/php.ini
+            fi
             cd ..
           done
 
@@ -249,4 +269,4 @@ jobs:
         run: |
           cmake --preset all-disabled -DPHP_CONFIGURE_COMMAND=OFF
           cmake --build --preset all-disabled
-          ctest --preset all-disabled -R PhpTestConfigureCommand
+          ctest --preset all-disabled -R PhpSapiCliConfigureCommand

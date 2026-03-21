@@ -1,11 +1,11 @@
-function(php_tests_integration dir)
+function(php_add_test)
   cmake_parse_arguments(
     PARSE_ARGV
-    3
+    0
     parsed # prefix
     "" # options
-    "" # one-value keywords
-    "ARGS" # multi-value keywords
+    "NAME;DIR" # one-value keywords
+    "" # multi-value keywords
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -16,14 +16,46 @@ function(php_tests_integration dir)
     message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
   endif()
 
+  if(NOT parsed_NAME)
+    message(FATAL_ERROR "Missing NAME argument.")
+  endif()
+
+  if(NOT parsed_DIR)
+    message(FATAL_ERROR "Missing PATH argument.")
+  endif()
+
   add_test(
-    NAME PhpCMakeIntegration${dir}
+    NAME ${parsed_NAME}
     COMMAND
       ${CMAKE_COMMAND}
-      -B ${CMAKE_CURRENT_BINARY_DIR}/${dir}
-      -S ${CMAKE_CURRENT_SOURCE_DIR}/${dir}
+      -B ${CMAKE_CURRENT_BINARY_DIR}/${parsed_DIR}
+      -S ${CMAKE_CURRENT_SOURCE_DIR}/${parsed_DIR}
   )
 endfunction()
 
-php_tests_integration(CheckBuiltin)
-php_tests_integration(SearchLibraries)
+php_add_test(NAME PhpCMakeModuleCheckBuiltin DIR CheckBuiltin)
+php_add_test(NAME PhpCMakeModuleCoreExtensions DIR Core/Extensions)
+
+php_add_test(
+  NAME PhpCMakeModuleInternalSummaryConflictingExtensions
+  DIR Internal/Summary/ConflictingExtensions
+)
+set_tests_properties(
+  PhpCMakeModuleInternalSummaryConflictingExtensions
+  PROPERTIES
+    WILL_FAIL TRUE
+    FAIL_REGULAR_EXPRESSION "Please reconfigure PHP extensions, aborting CMake run."
+)
+
+php_add_test(
+  NAME PhpCMakeModuleInternalSummaryRequiredExtensions
+  DIR Internal/Summary/RequiredExtensions
+)
+set_tests_properties(
+  PhpCMakeModuleInternalSummaryRequiredExtensions
+  PROPERTIES
+    WILL_FAIL TRUE
+    FAIL_REGULAR_EXPRESSION "Please reconfigure PHP extensions, aborting CMake run."
+)
+
+php_add_test(NAME PhpCMakeModuleSearchLibraries DIR SearchLibraries)

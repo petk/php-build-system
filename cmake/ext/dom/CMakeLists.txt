@@ -280,7 +280,12 @@ target_sources(
         xpath_callbacks.h
 )
 
-target_include_directories(php_ext_dom PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lexbor)
+target_include_directories(
+  php_ext_dom
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/lexbor
+)
 
 target_compile_definitions(
   php_ext_dom
@@ -300,7 +305,11 @@ set_package_properties(
 
 target_link_libraries(php_ext_dom PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_ext_dom php_ext_libxml php_ext_random)
+set_property(
+  TARGET php_ext_dom
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS libxml random
+)
 
 set(HAVE_DOM TRUE)
 

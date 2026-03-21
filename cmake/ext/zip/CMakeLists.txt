@@ -71,7 +71,11 @@ target_sources(
 
 target_include_directories(php_ext_zip PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-add_dependencies(php_ext_zip php_ext_pcre)
+set_property(
+  TARGET php_ext_zip
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pcre
+)
 
 find_package(libzip 1.7.1)
 set_package_properties(

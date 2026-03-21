@@ -119,10 +119,18 @@ target_sources(
     ZendAccelerator.c
 )
 
-add_dependencies(php_ext_opcache php_ext_date php_ext_pcre)
+set_property(
+  TARGET php_ext_opcache
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS date pcre
+)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  add_dependencies(php_ext_opcache php_ext_hash)
+  set_property(
+    TARGET php_ext_opcache
+    APPEND
+    PROPERTY PHP_REQUIRED_EXTENSIONS hash
+  )
 endif()
 
 set_target_properties(

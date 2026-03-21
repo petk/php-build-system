@@ -227,8 +227,15 @@ function(php_add_command)
 
     if(use_host_php AND parsed_PHP_EXTENSIONS)
       foreach(extension IN LISTS parsed_PHP_EXTENSIONS)
+        # The opcache extension has non-standard name.
+        if(extension STREQUAL "opcache")
+          set(name "Zend OPcache")
+        else()
+          set(name "${extension}")
+        endif()
+
         execute_process(
-          COMMAND ${php_host_executable} --ri ${extension}
+          COMMAND ${php_host_executable} --ri ${name}
           RESULT_VARIABLE code
           OUTPUT_QUIET
           ERROR_QUIET

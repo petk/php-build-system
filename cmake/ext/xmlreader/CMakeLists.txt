@@ -86,12 +86,17 @@ set_package_properties(
 
 target_link_libraries(php_ext_xmlreader PRIVATE LibXml2::LibXml2)
 
-# Optional dependency.
-if(PHP_EXT_DOM)
-  add_dependencies(php_ext_xmlreader php_ext_dom)
-endif()
+set_property(
+  TARGET php_ext_xmlreader
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS libxml
+)
 
-add_dependencies(php_ext_xmlreader php_ext_libxml)
+set_property(
+  TARGET php_ext_xmlreader
+  APPEND
+  PROPERTY PHP_OPTIONAL_EXTENSIONS dom
+)
 
 set(HAVE_XMLREADER TRUE)
 

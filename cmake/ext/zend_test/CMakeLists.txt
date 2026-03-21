@@ -84,10 +84,38 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-# TODO: Fix this better.
-# If libxml extension is enabled, link libxml library as headers are used.
-return()
-if(PHP_EXT_LIBXML AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+# Run at the end of the configuration. If libxml extension is enabled, link
+# libxml library as headers are used.
+if(PHP_SOURCE_DIR)
+  set(dir ${PHP_SOURCE_DIR})
+else()
+  set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
+
+cmake_language(DEFER DIRECTORY ${dir} CALL php_ext_zend_test_link_libxml)
+
+function(php_ext_zend_test_link_libxml)
+  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    return()
+  endif()
+
+  # Check whether libxml extension is available.
+  if(TARGET PHP::Interpreter)
+    get_target_property(php_executable PHP::Interpreter LOCATION)
+    execute_process(
+      COMMAND ${php_executable} --ri libxml
+      RESULT_VARIABLE code
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
+
+    if(NOT code EQUAL 0)
+      return()
+    endif()
+  elseif(NOT TARGET PHP::ext::libxml)
+    return()
+  endif()
+
   include(PHP/Package/LibXml2)
 
   set_package_properties(
@@ -98,4 +126,4 @@ if(PHP_EXT_LIBXML AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   )
 
   target_link_libraries(php_ext_zend_test PRIVATE LibXml2::LibXml2)
-endif()
+endfunction()

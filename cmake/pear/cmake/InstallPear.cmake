@@ -43,17 +43,6 @@ function(php_pear_path_with_destdir)
   set(${ARGV1} "${path}" PARENT_SCOPE)
 endfunction()
 
-# Add PHP command-line options for shared dependent extensions.
-set(php_pear_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
-
-if(PHP_EXT_OPENSSL_SHARED)
-  list(APPEND php_pear_options -d extension=openssl)
-endif()
-
-if(PHP_EXT_XML_SHARED)
-  list(APPEND php_pear_options -d extension=xml)
-endif()
-
 php_pear_path_with_destdir(${php_pear_install_dir} php_pear_install_stage_dir)
 message(STATUS "Installing PEAR to ${php_pear_install_stage_dir}")
 

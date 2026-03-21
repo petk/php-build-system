@@ -98,14 +98,6 @@ target_include_directories(php_ext_xml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_xml PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-if(NOT PHP_EXT_LIBXML AND NOT PHP_EXT_XML_EXPAT)
-  message(
-    FATAL_ERROR
-    "The xml extension requires either libxml extension or Expat library. Set "
-    "'PHP_EXT_LIBXML' to 'ON', or 'PHP_EXT_XML_EXPAT' to 'ON'."
-  )
-endif()
-
 if(NOT PHP_EXT_XML_EXPAT)
   target_sources(php_ext_xml PRIVATE compat.c)
 
@@ -127,7 +119,11 @@ if(NOT PHP_EXT_XML_EXPAT)
 
   target_link_libraries(php_ext_xml PRIVATE LibXml2::LibXml2)
 
-  add_dependencies(php_ext_xml php_ext_libxml)
+  set_property(
+    TARGET php_ext_xml
+    APPEND
+    PROPERTY PHP_REQUIRED_EXTENSIONS libxml
+  )
 else()
   include(PHP/Package/EXPAT)
   find_package(EXPAT)
@@ -146,3 +142,42 @@ endif()
 set(HAVE_XML TRUE)
 
 configure_file(cmake/config.h.in config.h)
+
+# Run at the end of the configuration to notify user of using either libxml or
+# Expat library.
+if(PHP_SOURCE_DIR)
+  set(dir ${PHP_SOURCE_DIR})
+else()
+  set(dir ${CMAKE_CURRENT_SOURCE_DIR})
+endif()
+
+cmake_language(DEFER DIRECTORY ${dir} CALL php_ext_xml_validate)
+
+function(php_ext_xml_validate)
+  if(PHP_EXT_XML_EXPAT)
+    return()
+  endif()
+
+  # Check whether libxml extension is available.
+  if(TARGET PHP::Interpreter)
+    get_target_property(php_executable PHP::Interpreter LOCATION)
+    execute_process(
+      COMMAND ${php_executable} --ri libxml
+      RESULT_VARIABLE code
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
+
+    if(code EQUAL 0)
+      return()
+    endif()
+  elseif(TARGET PHP::ext::libxml)
+    return()
+  endif()
+
+  cmake_language(DEFER CALL message FATAL_ERROR [[
+    The PHP xml extension requires either the PHP libxml extension or the
+    Expat library. Please, enable the libxml extension, or set
+    'PHP_EXT_XML_EXPAT' to 'ON'.
+  ]])
+endfunction()

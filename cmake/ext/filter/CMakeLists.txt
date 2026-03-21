@@ -79,4 +79,8 @@ target_include_directories(php_ext_filter PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_filter PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-add_dependencies(php_ext_filter php_ext_pcre)
+set_property(
+  TARGET php_ext_filter
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pcre
+)
