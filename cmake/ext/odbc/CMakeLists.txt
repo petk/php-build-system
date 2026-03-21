@@ -219,25 +219,6 @@ set_property(
 )
 mark_as_advanced(PHP_EXT_ODBC_TYPE)
 
-# Validate ODBC type for odbc and pdo_odbc extensions. Ideally, the same ODBC
-# driver library should be used for both extensions.
-if(
-  PHP_EXT_ODBC
-  AND PHP_EXT_PDO_ODBC
-  AND NOT PHP_EXT_ODBC_TYPE STREQUAL PHP_EXT_PDO_ODBC_TYPE
-)
-  message(
-    FATAL_ERROR
-    "Different ODBC types detected for 'odbc' and 'pdo_odbc' PHP "
-    "extensions:\n"
-    "PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}\n"
-    "PHP_EXT_PDO_ODBC_TYPE=${PHP_EXT_PDO_ODBC_TYPE}\n"
-    "To prevent library symbol collisions when building both 'odbc' and "
-    "'pdo_odbc' please link with the same ODBC library. Or disable one of "
-    "the extensions by setting 'PHP_EXT_ODBC' or 'PHP_EXT_PDO_ODBC' to 'OFF'."
-  )
-endif()
-
 # Some ODBC drivers require setting ODBC_LIBRARY manually to be found.
 if(
   PHP_EXT_ODBC
@@ -402,3 +383,42 @@ endif()
 set(HAVE_UODBC TRUE)
 
 configure_file(cmake/config.h.in config.h)
+
+# Run at the end of the configuration when building odbc extension in php-src
+# statically. This validates ODBC type for odbc and pdo_odbc extensions.
+# Ideally, the same ODBC library should be used for both extensions.
+if(NOT PROJECT_IS_TOP_LEVEL)
+  cmake_language(DEFER DIRECTORY ${PHP_SOURCE_DIR} CALL php_ext_odbc_validate)
+
+  function(php_ext_odbc_validate)
+    if(NOT TARGET PHP::ext::pdo_odbc)
+      return()
+    endif()
+
+    get_target_property(odbc_type PHP::ext::odbc TYPE)
+    get_target_property(pdo_odbc_type PHP::ext::pdo_odbc TYPE)
+
+    if(
+      odbc_type STREQUAL "MODULE_LIBRARY"
+      OR pdo_odbc_type STREQUAL "MODULE_LIBRARY"
+    )
+      return()
+    endif()
+
+    if(PHP_EXT_ODBC_TYPE STREQUAL PHP_EXT_PDO_ODBC_TYPE)
+      return()
+    endif()
+
+    cmake_language(DEFER CALL message FATAL_ERROR "
+      Different ODBC types detected for odbc and pdo_odbc PHP extensions:
+
+      PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}
+      PHP_EXT_PDO_ODBC_TYPE=${PHP_EXT_PDO_ODBC_TYPE}
+
+      To prevent library symbol collisions when building both odbc and pdo_odbc
+      extensions statically, please link with the same ODBC library, or build
+      one of the extensions as shared by setting 'PHP_EXT_ODBC_SHARED' or
+      'PHP_EXT_PDO_ODBC_SHARED' to 'ON'.
+    ")
+  endfunction()
+endif()

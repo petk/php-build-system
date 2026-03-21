@@ -93,7 +93,17 @@ if(MSVC AND TODO)
   )
 endif()
 
-add_dependencies(php_ext_phar php_ext_hash php_ext_spl)
+set_property(
+  TARGET php_ext_phar
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS hash ext_spl
+)
+
+set_property(
+  TARGET php_ext_phar
+  APPEND
+  PROPERTY PHP_RECOMMENDED_EXTENSIONS openssl
+)
 
 ################################################################################
 # Generate lexer files.
@@ -149,6 +159,7 @@ set(
   -d phar.readonly=0
 )
 
+# TODO: Fix this better.
 if(PHP_EXT_PHAR_SHARED OR PHP_EXT_ZLIB_SHARED OR PHP_EXT_BZ2_SHARED)
   list(APPEND php_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
 endif()
@@ -183,7 +194,7 @@ add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   COMMAND
     ${php_executable}
-      ${php_options}
+      ${php_options} # TODO: The extensions-related options aren't needed here.
       ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
       > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   COMMENT "[ext/phar] Generating ${relative_dir}/phar.php"

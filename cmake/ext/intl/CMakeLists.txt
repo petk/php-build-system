@@ -235,4 +235,8 @@ if(ICU_VERSION VERSION_GREATER_EQUAL 60)
   target_compile_definitions(php_ext_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
 endif()
 
-add_dependencies(php_ext_intl php_ext_date)
+set_property(
+  TARGET php_ext_intl
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS date
+)

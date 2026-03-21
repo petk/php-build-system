@@ -80,7 +80,11 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:PGSQL_EXPORTS>
 )
 
-add_dependencies(php_ext_pgsql php_ext_pcre)
+set_property(
+  TARGET php_ext_pgsql
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pcre
+)
 
 include(PHP/Package/PostgreSQL)
 find_package(PostgreSQL ${PHP_PACKAGE_POSTGRESQL_MIN_VERSION})

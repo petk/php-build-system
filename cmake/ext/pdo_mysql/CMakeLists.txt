@@ -175,7 +175,11 @@ target_sources(
     pdo_mysql.stub.php
 )
 
-add_dependencies(php_ext_pdo_mysql php_ext_pdo)
+set_property(
+  TARGET php_ext_pdo_mysql
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pdo
+)
 
 target_compile_definitions(
   php_ext_pdo_mysql
@@ -207,7 +211,11 @@ if(MySQL_SOCKET_PATH)
 endif()
 
 if(NOT PHP_EXT_PDO_MYSQL_DRIVER STREQUAL "mysql")
-  add_dependencies(php_ext_pdo_mysql php_ext_mysqlnd)
+  set_property(
+    TARGET php_ext_pdo_mysql
+    APPEND
+    PROPERTY PHP_REQUIRED_EXTENSIONS mysqlnd
+  )
 
   set(PDO_USE_MYSQLND TRUE)
 

@@ -72,7 +72,11 @@ target_sources(
 
 target_include_directories(php_ext_snmp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-add_dependencies(php_ext_snmp php_ext_spl)
+set_property(
+  TARGET php_ext_snmp
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS spl
+)
 
 find_package(NetSnmp 5.3)
 set_package_properties(

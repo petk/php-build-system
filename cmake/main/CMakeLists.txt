@@ -191,7 +191,7 @@ block()
   set(pointers "")
   set(pointers_cli "")
 
-  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
+  get_property(extensions GLOBAL PROPERTY PHP_ENABLED_EXTENSIONS)
   foreach(extension IN LISTS extensions)
     # Skip if extension is shared.
     get_target_property(type PHP::ext::${extension} TYPE)
@@ -270,7 +270,7 @@ file(CONFIGURE OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/php_version.h CONTENT [[
 # extension headers (for example, php_openssl.h, php_zlib.h, etc.).
 ################################################################################
 
-get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
+get_property(extensions GLOBAL PROPERTY PHP_ENABLED_EXTENSIONS)
 foreach(extension IN LISTS extensions)
   add_dependencies(php_main PHP::ext::${extension})
 endforeach()
@@ -388,7 +388,7 @@ function(_php_main_configure_php_config)
 
   # Add SAPIs configuration.
   set(config "")
-  get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
+  get_property(sapis GLOBAL PROPERTY PHP_ENABLED_SAPIS)
   list(SORT sapis COMPARE NATURAL)
   foreach(sapi IN LISTS sapis)
     if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/sapi/${sapi}/config.h)
@@ -402,7 +402,7 @@ function(_php_main_configure_php_config)
 
   # Add extensions configuration.
   set(config "")
-  get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
+  get_property(extensions GLOBAL PROPERTY PHP_ENABLED_EXTENSIONS)
   list(SORT extensions COMPARE NATURAL)
   foreach(extension IN LISTS extensions)
     if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/ext/${extension}/config.h)

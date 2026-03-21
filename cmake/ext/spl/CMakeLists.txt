@@ -71,4 +71,8 @@ target_sources(
 
 target_compile_definitions(php_ext_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-add_dependencies(php_ext_spl php_ext_json php_ext_pcre php_ext_standard)
+set_property(
+  TARGET php_ext_spl
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS json pcre standard
+)
