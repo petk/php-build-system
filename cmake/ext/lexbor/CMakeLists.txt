@@ -246,6 +246,5 @@ target_include_directories(
 )
 
 set(HAVE_LEXBOR TRUE)
-set(LEXBOR_VERSION "2.5.0")
 
 configure_file(cmake/config.h.in config.h)
