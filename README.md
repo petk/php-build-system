@@ -451,6 +451,10 @@ The following features are only available in CMake:
   built and installed.
   See: https://github.com/php/php-src/issues/19477
 
+* PHP extensions can have their dependencies specified during the configure
+  phase:
+  See: https://github.com/php/php-src/issues/12797
+
 ## Documentation
 
 * CMake
