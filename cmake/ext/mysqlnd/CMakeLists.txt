@@ -210,7 +210,11 @@ if(PHP_EXT_MYSQLND_SSL)
 
   set(MYSQLND_HAVE_SSL TRUE)
 
-  add_dependencies(php_ext_mysqlnd php_ext_hash)
+  set_property(
+    TARGET php_ext_mysqlnd
+    APPEND
+    PROPERTY PHP_REQUIRED_EXTENSIONS hash
+  )
 endif()
 
 add_feature_info(

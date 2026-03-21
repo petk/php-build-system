@@ -16,7 +16,7 @@ define_property(
 
 define_property(
   GLOBAL
-  PROPERTY PHP_SAPIS
+  PROPERTY PHP_ENABLED_SAPIS
   BRIEF_DOCS "A list of all enabled PHP SAPIs"
 )
 
@@ -41,7 +41,7 @@ foreach(sapi IN LISTS sapis)
 
   list(POP_BACK CMAKE_MESSAGE_INDENT)
   if(TARGET php_sapi_${sapi})
-    set_property(GLOBAL APPEND PROPERTY PHP_SAPIS ${sapi})
+    set_property(GLOBAL APPEND PROPERTY PHP_ENABLED_SAPIS ${sapi})
     message(CHECK_PASS "enabled")
   else()
     message(CHECK_FAIL "disabled")
@@ -50,7 +50,7 @@ foreach(sapi IN LISTS sapis)
 endforeach()
 
 # Check if at least one SAPI is enabled.
-get_property(sapis GLOBAL PROPERTY PHP_SAPIS)
+get_property(sapis GLOBAL PROPERTY PHP_ENABLED_SAPIS)
 if(NOT sapis)
   message(
     WARNING

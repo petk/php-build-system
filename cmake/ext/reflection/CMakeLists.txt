@@ -45,4 +45,8 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-add_dependencies(php_ext_reflection php_ext_random)
+set_property(
+  TARGET php_ext_reflection
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS random
+)

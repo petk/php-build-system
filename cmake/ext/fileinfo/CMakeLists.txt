@@ -140,6 +140,10 @@ set_property(
     OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
 )
 
-add_dependencies(php_ext_fileinfo php_ext_pcre)
+set_property(
+  TARGET php_ext_fileinfo
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pcre
+)
 
 configure_file(cmake/config.h.in config.h)

@@ -90,7 +90,11 @@ target_link_libraries(php_ext_xmlwriter PRIVATE LibXml2::LibXml2)
 
 # The libxml extension is not technically required for xmlwriter to work but it
 # ensures proper error reporting and support for streams.
-add_dependencies(php_ext_xmlwriter php_ext_libxml)
+set_property(
+  TARGET php_ext_xmlwriter
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS libxml
+)
 
 set(HAVE_XMLWRITER TRUE)
 
