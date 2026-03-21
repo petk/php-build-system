@@ -100,7 +100,7 @@ endif()
 set_property(
   TARGET php_ext_phar
   APPEND
-  PROPERTY PHP_REQUIRED_EXTENSIONS hash ext_spl
+  PROPERTY PHP_REQUIRED_EXTENSIONS hash spl
 )
 
 set_property(
