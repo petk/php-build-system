@@ -161,7 +161,11 @@ target_sources(
 
 target_include_directories(php_ext_mysqli PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-add_dependencies(php_ext_mysqli php_ext_mysqlnd php_ext_spl)
+set_property(
+  TARGET php_ext_mysqli
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS mysqlnd spl
+)
 
 target_compile_definitions(php_ext_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 

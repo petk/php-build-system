@@ -46,7 +46,7 @@ function(_php_testing_post_configure)
   if(TARGET PHP::sapi::cli)
     set(php_executable "PHP::sapi::cli")
     set(run_tests "run-tests.php")
-    get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
+    get_property(extensions GLOBAL PROPERTY PHP_ENABLED_EXTENSIONS)
   elseif(TARGET PHP::Interpreter)
     set(php_executable "PHP::Interpreter")
 

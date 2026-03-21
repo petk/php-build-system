@@ -432,6 +432,8 @@ A list of PHP CMake modules:
 
 ## 10. Custom CMake properties
 
+Global properties:
+
 * `PHP_ALL_EXTENSIONS`
 
   Global property with a list of all PHP extensions in the `ext` directory.
@@ -440,10 +442,18 @@ A list of PHP CMake modules:
 
   Global property with a list of all PHP SAPIs in the `sapi` directory.
 
-* `PHP_ALWAYS_ENABLED_EXTENSIONS`
+* `PHP_ENABLED_EXTENSIONS`
 
-  Global property with a list of always enabled PHP extensions which can be
-  considered part of the core PHP.
+  Global property with a list of all enabled PHP extensions for the current
+  configuration. Extensions are sorted by their dependencies (extensions added
+  with CMake command `add_dependencies()`).
+
+* `PHP_ENABLED_SAPIS`
+
+  Global property with a list of all enabled PHP SAPIs for the current
+  configuration.
+
+Target properties:
 
 * `PHP_CLI`
 
@@ -477,27 +487,11 @@ A list of PHP CMake modules:
   )
   ```
 
-* `PHP_EXTENSION_<extension>_DEPS`
-
-  Global property with a list of all dependencies of PHP `<extension>` (the name of
-  the extension as named in `php-src/ext` directory).
-
-* `PHP_EXTENSIONS`
-
-  Global property with a list of all enabled PHP extensions for the current
-  configuration. Extensions are sorted by their dependencies (extensions added
-  with CMake command `add_dependencies()`).
-
 * `PHP_SAPI_FASTCGI`
 
   Target property that marks the selected PHP SAPI target as FastCGI-related.
   These SAPIs get the `main/fastcgi.c` object linked in the binary. For example,
   PHP CGI and PHP FPM SAPIs.
-
-* `PHP_SAPIS`
-
-  Global property with a list of all enabled PHP SAPIs for the current
-  configuration.
 
 * `PHP_THREAD_SAFETY`
 
@@ -522,6 +516,29 @@ A list of PHP CMake modules:
   ```cmake
   set_target_properties(php_ext_<extension_name> PROPERTIES PHP_ZEND_EXTENSION TRUE)
   ```
+
+* `PHP_REQUIRED_EXTENSIONS`
+
+  Target property for PHP extensions. It contains a list of all required PHP
+  extension names (dependencies). For example: `libxml` for specifying the
+  dependency on the PHP extension that requires libxml PHP extension.
+
+* `PHP_OPTIONAL_EXTENSIONS`
+
+  Target property for PHP extensions. It contains a list of all PHP extension
+  names (dependencies) that are optional and not required to build or enable the
+  PHP extension.
+
+* `PHP_RECOMMENDED_EXTENSIONS`
+
+  Target property for PHP extensions. It contains a list of all recommended PHP
+  extension names (dependencies) that are optional but suggested to enhance the
+  functionality.
+
+* `PHP_CONFLICTING_EXTENSIONS`
+
+  Target property for PHP extensions. It contains a list of all PHP extension
+  names that conflicts with this extension.
 
 ## 11. PHP extensions
 

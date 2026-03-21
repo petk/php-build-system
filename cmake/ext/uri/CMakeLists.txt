@@ -138,6 +138,10 @@ endif()
 
 target_compile_definitions(php_ext_uri PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-add_dependencies(php_ext_uri php_ext_lexbor)
+set_property(
+  TARGET php_ext_uri
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS lexbor
+)
 
 configure_file(cmake/config.h.in config.h)

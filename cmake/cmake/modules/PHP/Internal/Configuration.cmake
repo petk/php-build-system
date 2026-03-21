@@ -25,3 +25,39 @@ mark_as_advanced(PHP_TESTING)
 set_directory_properties(
   PROPERTIES EP_BASE ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/ExternalProject
 )
+
+define_property(
+  TARGET
+  PROPERTY PHP_CLI
+  BRIEF_DOCS "Whether the PHP SAPI or extension is CLI-based"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_ZEND_EXTENSION
+  BRIEF_DOCS "Whether the PHP extension target is Zend extension"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_REQUIRED_EXTENSIONS
+  BRIEF_DOCS "A list of required PHP extensions"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_OPTIONAL_EXTENSIONS
+  BRIEF_DOCS "A list of optional PHP extensions"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_RECOMMENDED_EXTENSIONS
+  BRIEF_DOCS "A list of optional recommended PHP extensions"
+)
+
+define_property(
+  TARGET
+  PROPERTY PHP_CONFLICTING_EXTENSIONS
+  BRIEF_DOCS "A list of conflicting PHP extensions"
+)

@@ -83,7 +83,11 @@ target_compile_definitions(
     $<$<PLATFORM_ID:Windows>:PHP_SIMPLEXML_EXPORTS>
 )
 
-add_dependencies(php_ext_simplexml php_ext_libxml php_ext_spl)
+set_property(
+  TARGET php_ext_simplexml
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS libxml spl
+)
 
 include(PHP/Package/LibXml2)
 

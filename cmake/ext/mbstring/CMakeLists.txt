@@ -109,7 +109,11 @@ target_include_directories(php_ext_mbstring PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 # (IPO).
 set_target_properties(php_ext_mbstring PROPERTIES INTERPROCEDURAL_OPTIMIZATION OFF)
 
-add_dependencies(php_ext_mbstring php_ext_pcre)
+set_property(
+  TARGET php_ext_mbstring
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS pcre
+)
 
 set(HAVE_MBSTRING TRUE)
 

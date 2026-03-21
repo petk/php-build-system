@@ -92,6 +92,33 @@ endif()
 # when building advanced extension, such as debugger, profiler, caching, etc.
 #set_target_properties(php_ext_%EXTNAME% PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
+# Configure dependencies if extension depends on other PHP extensions.
+#[[
+set_property(
+  TARGET php_ext_%EXTNAME%
+  APPEND
+  PROPERTY PHP_REQUIRED_EXTENSIONS php_extension_name php_extension_name_...
+)
+
+set_property(
+  TARGET php_ext_%EXTNAME%
+  APPEND
+  PROPERTY PHP_OPTIONAL_EXTENSIONS php_extension_name_...
+)
+
+set_property(
+  TARGET php_ext_%EXTNAME%
+  APPEND
+  PROPERTY PHP_RECOMMENDED_EXTENSIONS php_extension_name_...
+)
+
+set_property(
+  TARGET php_ext_%EXTNAME%
+  APPEND
+  PROPERTY PHP_CONFLICTING_EXTENSIONS php_extension_name_...
+)
+#]]
+
 # Add library target sources.
 target_sources(
   php_ext_%EXTNAME%

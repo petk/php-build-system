@@ -100,7 +100,10 @@ set_package_properties(
 
 target_link_libraries(php_ext_xsl PRIVATE LibXml2::LibXml2)
 
-add_dependencies(php_ext_xsl php_ext_libxml php_ext_dom)
+set_property(
+  TARGET php_ext_xsl
+  PROPERTY PHP_REQUIRED_EXTENSIONS libxml dom
+)
 
 find_package(LibXslt 1.1.0)
 set_package_properties(

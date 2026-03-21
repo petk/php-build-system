@@ -11,12 +11,6 @@ include(PHP/Core/Extensions)
 ################################################################################
 
 define_property(
-  TARGET
-  PROPERTY PHP_ZEND_EXTENSION
-  BRIEF_DOCS "Whether the PHP extension target is Zend extension"
-)
-
-define_property(
   GLOBAL
   PROPERTY PHP_ALL_EXTENSIONS
   BRIEF_DOCS "A list of all PHP extensions in the ext directory"
@@ -24,30 +18,7 @@ define_property(
 
 define_property(
   GLOBAL
-  PROPERTY PHP_ALWAYS_ENABLED_EXTENSIONS
-  BRIEF_DOCS "A list of always enabled PHP extensions"
-)
-
-set_property(
-  GLOBAL
-  PROPERTY
-    PHP_ALWAYS_ENABLED_EXTENSIONS
-      date
-      hash
-      json
-      lexbor
-      opcache
-      pcre
-      random
-      reflection
-      spl
-      standard
-      uri
-)
-
-define_property(
-  GLOBAL
-  PROPERTY PHP_EXTENSIONS
+  PROPERTY PHP_ENABLED_EXTENSIONS
   BRIEF_DOCS "A list of enabled PHP extensions"
 )
 
@@ -62,9 +33,6 @@ file(GLOB extensions ${CMAKE_CURRENT_SOURCE_DIR}/*/CMakeLists.txt)
 list(TRANSFORM extensions REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/|/CMakeLists.txt" "")
 set_property(GLOBAL PROPERTY PHP_ALL_EXTENSIONS ${extensions})
 
-# Sort and preconfigure extensions by their dependencies.
-php_extensions_preprocess(extensions)
-
 # Add subdirectories of extensions.
 foreach(extension IN LISTS extensions)
   list(APPEND CMAKE_MESSAGE_CONTEXT "${extension}")
@@ -72,7 +40,6 @@ foreach(extension IN LISTS extensions)
   message(CHECK_START "Configuring extension ${extension}")
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
   add_subdirectory("${extension}")
-  php_extensions_postconfigure("${extension}")
   list(POP_BACK CMAKE_MESSAGE_INDENT)
 
   if(NOT TARGET php_ext_${extension})
@@ -81,7 +48,7 @@ foreach(extension IN LISTS extensions)
     continue()
   endif()
 
-  set_property(GLOBAL APPEND PROPERTY PHP_EXTENSIONS ${extension})
+  set_property(GLOBAL APPEND PROPERTY PHP_ENABLED_EXTENSIONS ${extension})
 
   add_dependencies(php_ext_${extension} PHP::Zend)
 
@@ -140,6 +107,6 @@ foreach(extension IN LISTS extensions)
   list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 endforeach()
 
-get_property(extensions GLOBAL PROPERTY PHP_EXTENSIONS)
-list(REVERSE extensions)
-set_property(GLOBAL PROPERTY PHP_EXTENSIONS ${extensions})
+get_property(extensions GLOBAL PROPERTY PHP_ENABLED_EXTENSIONS)
+php_extensions_sort(extensions)
+set_property(GLOBAL PROPERTY PHP_ENABLED_EXTENSIONS ${extensions})
