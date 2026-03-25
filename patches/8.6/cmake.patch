@@ -82,7 +82,7 @@ index b76b5a787ca..76a4a3635ac 100644
  !/ext/fileinfo/libmagic/config.h
  !/ext/fileinfo/libmagic.patch
 diff --git a/README.md b/README.md
-index 9a058bb942e..172e0034fa0 100644
+index 545baa72096..11867cc97b5 100644
 --- a/README.md
 +++ b/README.md
 @@ -35,8 +35,30 @@ For other systems, see the [installation chapter](https://www.php.net/install).
@@ -223,7 +223,7 @@ index d396dfa3da7..ee7ae3f8975 100755
              error('Unable to copy config script: ' . $config_script);
          }
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
-index 7c812f5af44..b15bd8a66b9 100644
+index 13dc7074b9b..c1033aba97f 100644
 --- a/ext/iconv/iconv.c
 +++ b/ext/iconv/iconv.c
 @@ -44,7 +44,7 @@

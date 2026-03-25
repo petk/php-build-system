@@ -117,7 +117,7 @@ index c5376f67725..156c0b4bd2e 100644
  a default build, you will additionally need libxml2 and libsqlite3.
  
 diff --git a/configure.ac b/configure.ac
-index 88a6883d895..f4523915ea7 100644
+index 4666a90da93..e20406ef2e9 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1594,7 +1594,7 @@ else
