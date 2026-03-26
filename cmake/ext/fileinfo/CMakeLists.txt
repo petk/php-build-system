@@ -29,7 +29,6 @@ project(
 
 include(CheckSymbolExists)
 include(CMakeDependentOption)
-include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_FILEINFO "Enable the fileinfo extension" ON)
@@ -92,17 +91,6 @@ target_sources(
 
 # Check for major, minor, and makedev.
 include(PHP/CheckSysMacros)
-
-# The strcasestr is missing on Windows and Solaris <= 10 (Solaris 11 has it).
-cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(strcasestr string.h PHP_EXT_FILEINFO_HAVE_STRCASESTR)
-  set(HAVE_STRCASESTR ${PHP_EXT_FILEINFO_HAVE_STRCASESTR})
-cmake_pop_check_state()
-if(NOT PHP_EXT_FILEINFO_HAVE_STRCASESTR)
-  message(STATUS "Using libmagic strcasestr implementation")
-  target_sources(php_ext_fileinfo PRIVATE libmagic/strcasestr.c)
-endif()
 
 check_symbol_exists(strndup string.h PHP_EXT_FILEINFO_HAVE_STRNDUP)
 set(HAVE_STRNDUP ${PHP_EXT_FILEINFO_HAVE_STRNDUP})
