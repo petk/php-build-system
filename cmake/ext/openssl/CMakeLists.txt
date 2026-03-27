@@ -209,7 +209,7 @@ if(TARGET OpenSSL::SSL)
         FATAL_ERROR
         "The OpenSSL Argon2 password hashing is not supported in thread-safe "
         "mode for now. Please, disable thread safety (set 'PHP_THREAD_SAFETY' "
-        "to 'OFF'), or build without OpenSSL Argon2 (set "
+        "to 'OFF' when building PHP), or build without OpenSSL Argon2 (set "
         "'PHP_EXT_OPENSSL_ARGON2' to 'OFF')."
       )
     endif()
