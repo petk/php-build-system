@@ -122,8 +122,8 @@ if(PHP_EXT_SESSION_MM)
       FATAL_ERROR
       "Thread safety and libmm cannot be used together. The mm library (libmm) "
       "is not thread-safe, and mod_mm_c refuses to compile. Either disable the "
-      "thread safety by setting PHP_THREAD_SAFETY to 'OFF', or disable libmm "
-      "by setting 'PHP_EXT_SESSION_MM' to 'OFF'."
+      "thread safety by setting PHP_THREAD_SAFETY to 'OFF' when building PHP, "
+      "or disable libmm by setting 'PHP_EXT_SESSION_MM' to 'OFF'."
     )
   endif()
 

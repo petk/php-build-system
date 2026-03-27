@@ -215,6 +215,7 @@ set(PHP_API_VERSION "@PHP_API_VERSION@")
 set(PHP_ZEND_VERSION "$<TARGET_PROPERTY:PHP::Zend,VERSION>")
 set(PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
 set(PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>")
+set(PHP_THREAD_SAFETY "@PHP_THREAD_SAFETY@")
 
 ################################################################################
 # Check required components.

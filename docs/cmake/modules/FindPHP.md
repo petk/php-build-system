@@ -38,6 +38,8 @@ This module defines the following variables:
   was found.
 * `PHP_VERSION` - The version of package found.
 * `PHP_EXTENSION_DIR` - The path where PHP shared extensions are located.
+* `PHP_THREAD_SAFETY` - Boolean indicating whether the found PHP is built with
+  thread safety enabled.
 * `PHP_API_VERSION` - The PHP API version.
 * `PHP_ZEND_VERSION` - The version of the Zend Engine.
 * `PHP_ZEND_MODULE_API_NO` - The API number for PHP extensions.

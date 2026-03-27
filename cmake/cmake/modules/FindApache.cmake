@@ -41,7 +41,8 @@ The following cache variables may also be set:
 * `Apache_APR_CPPFLAGS` - A list of C preprocessor flags for the `apr` library.
 * `Apache_APU_CONFIG_EXECUTABLE` - Path to the Apache Portable Runtime Utilities
   config command-line tool.
-* `Apache_EXECUTABLE` - Path to the Apache command-line server program.
+* `Apache_EXECUTABLE` - Path to the Apache command-line server program
+  (`apache2`).
 * `Apache_INCLUDE_DIR` - Directory containing package library headers.
 * `Apache_APR_INCLUDE_DIR` - Directory containing `apr` library headers.
 * `Apache_APR_LIBRARY` - The path to the `apr` library.
