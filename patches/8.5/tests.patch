@@ -22,16 +22,25 @@ Subject: Fix tests
   Added helper function to get relative path to fix some tests as they
   are creating directories and files all over the place on the system,
   when test fails.
+
+  * php_uname('n') and gethostname() on systems without hostname may
+    return empty string.
+
+  * gethostbyame() with only letters on FreeBSD at time of writing took
+    extremely long.
 ---
  ext/dom/tests/dom_xinclude.phpt               |  4 +--
  ext/standard/tests/file/copy_variation4.phpt  | 12 +++++--
  ext/standard/tests/file/file.inc              | 21 +++++++++++++
  .../tests/file/unlink_variation10.phpt        | 31 ++++++++++++-------
+ .../general_functions/php_uname_basic.phpt    |  2 +-
+ .../tests/network/gethostbyname_error003.phpt |  4 +++
+ ext/standard/tests/network/gethostname.phpt   |  2 +-
  ext/zip/tests/gh18431.phpt                    |  4 +++
  ext/zip/tests/oo_addemptydir_error.phpt       |  2 +-
  ext/zip/tests/oo_addglob2.phpt                |  6 ++++
  ext/zip/tests/oo_encryption.phpt              |  6 ++++
- 8 files changed, 68 insertions(+), 18 deletions(-)
+ 11 files changed, 74 insertions(+), 20 deletions(-)
 
 diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
 index 0dfeb2dfb4a..410431de877 100644
@@ -177,6 +186,44 @@ index 127b070d23a..5894ab0b91a 100644
  
 -Warning: unlink(unlinkVar10.tmp/linkme.tmp): %s in %s on line %d
 +Warning: unlink(%SunlinkVar10.tmp/linkme.tmp): %s in %s on line %d
+diff --git a/ext/standard/tests/general_functions/php_uname_basic.phpt b/ext/standard/tests/general_functions/php_uname_basic.phpt
+index 11af4d03c5f..4718adfa1b6 100644
+--- a/ext/standard/tests/general_functions/php_uname_basic.phpt
++++ b/ext/standard/tests/general_functions/php_uname_basic.phpt
+@@ -24,7 +24,7 @@
+ -- Try all the defined mode's --
+ string(%d) "%s"
+ string(%d) "%s"
+-string(%d) "%s"
++string(%d) "%S"
+ string(%d) "%s"
+ string(%d) "%s"
+ string(%d) "%s"
+diff --git a/ext/standard/tests/network/gethostbyname_error003.phpt b/ext/standard/tests/network/gethostbyname_error003.phpt
+index ebc8a971cb0..0108e08e8f1 100644
+--- a/ext/standard/tests/network/gethostbyname_error003.phpt
++++ b/ext/standard/tests/network/gethostbyname_error003.phpt
+@@ -2,6 +2,10 @@
+ gethostbyname() function - basic type return error test
+ --CREDITS--
+ "Sylvain R." <sracine@phpquebec.org>
++--SKIPIF--
++<?php
++if (PHP_OS_FAMILY === 'BSD' && getenv("SKIP_SLOW_TESTS")) die("skip slow test");
++?>
+ --FILE--
+ <?php
+     var_dump(is_string(gethostbyname("asdfasdf")));
+diff --git a/ext/standard/tests/network/gethostname.phpt b/ext/standard/tests/network/gethostname.phpt
+index 57f4c498d0f..2a94413e027 100644
+--- a/ext/standard/tests/network/gethostname.phpt
++++ b/ext/standard/tests/network/gethostname.phpt
+@@ -7,4 +7,4 @@
+ var_dump(gethostname());
+ ?>
+ --EXPECTF--
+-string(%d) "%s"
++string(%d) "%S"
 diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
 index d4eb89c36c6..dcd7db6f400 100644
 --- a/ext/zip/tests/gh18431.phpt
