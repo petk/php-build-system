@@ -367,14 +367,22 @@ set(
 mark_as_advanced(PHP_EXTENSION_DIR)
 
 # Assemble the PHP_EXTENSION_DIR default value.
-if(NOT PHP_EXTENSION_DIR)
-  set_property(
-    CACHE PHP_EXTENSION_DIR
-    PROPERTY
-      VALUE
-        "${PHP_INSTALL_LIBDIR}/$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>$<$<BOOL:$<TARGET_PROPERTY:PHP::config,PHP_THREAD_SAFETY>>:-zts>"
-  )
-endif()
+block()
+  if(NOT PHP_EXTENSION_DIR)
+    if(PHP_THREAD_SAFETY)
+      set(ts "-zts")
+    else()
+      set(ts "")
+    endif()
+
+    set_property(
+      CACHE PHP_EXTENSION_DIR
+      PROPERTY
+        VALUE
+          "${PHP_INSTALL_LIBDIR}/$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>${ts}"
+    )
+  endif()
+endblock()
 
 set(
   CACHE{PHP_CONFIGURE_COMMAND}

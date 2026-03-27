@@ -36,6 +36,8 @@ This module defines the following variables:
   was found.
 * `PHP_VERSION` - The version of package found.
 * `PHP_EXTENSION_DIR` - The path where PHP shared extensions are located.
+* `PHP_THREAD_SAFETY` - Boolean indicating whether the found PHP is built with
+  thread safety enabled.
 * `PHP_API_VERSION` - The PHP API version.
 * `PHP_ZEND_VERSION` - The version of the Zend Engine.
 * `PHP_ZEND_MODULE_API_NO` - The API number for PHP extensions.
@@ -193,6 +195,7 @@ block(
     PHP${_php_prefix}_FOUND
     PHP${_php_prefix}_INSTALL_INCLUDEDIR
     PHP${_php_prefix}_INSTALL_LIBDIR
+    PHP${_php_prefix}_THREAD_SAFETY
     PHP${_php_prefix}_VERSION
     PHP${_php_prefix}_ZEND_EXTENSION_API_NO
     PHP${_php_prefix}_ZEND_MODULE_API_NO
@@ -236,36 +239,12 @@ block(
   endif()
 
   ##############################################################################
-  # Check version.
-  ##############################################################################
-
-  if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
-    execute_process(
-      COMMAND "${PHP${_php_prefix}_EXECUTABLE}" --version
-      OUTPUT_VARIABLE version
-      RESULT_VARIABLE result
-      ERROR_QUIET
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-    if(NOT result EQUAL 0)
-      string(
-        APPEND
-        reason
-        "Command '${PHP${_php_prefix}_EXECUTABLE} --version' failed. "
-      )
-    elseif(version MATCHES "PHP ([^ ]+) ")
-      set(PHP${_php_prefix}_VERSION "${CMAKE_MATCH_1}")
-    else()
-      string(APPEND reason "Invalid version format. ")
-    endif()
-  endif()
-
-  ##############################################################################
   # Find PHP development-related files.
   ##############################################################################
 
   if("Development" IN_LIST PHP_FIND_COMPONENTS)
+    list(APPEND required_vars PHP${_php_prefix}_INSTALL_INCLUDEDIR)
+
     find_program(
       PHP${_php_prefix}_CONFIG_EXECUTABLE
       NAMES php-config
@@ -323,11 +302,77 @@ block(
     endif()
 
     _php_find_php_get_lib_dir()
+
+    # Determine thread safety of the found PHP package.
+    if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
+      execute_process(
+        COMMAND ${PHP${_php_prefix}_EXECUTABLE} -r "var_dump(PHP_ZTS);"
+        OUTPUT_VARIABLE output
+        RESULT_VARIABLE result
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
+
+      set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
+
+      if(result EQUAL 0 AND output MATCHES "^bool\\\((.+)\\\)")
+        set(PHP${_php_prefix}_THREAD_SAFETY "${CMAKE_MATCH_1}")
+      endif()
+    elseif(PHP${_php_prefix}_INSTALL_INCLUDEDIR)
+      include(CheckSymbolExists)
+      include(CMakePushCheckState)
+
+      cmake_push_check_state(RESET)
+        set(CMAKE_REQUIRED_INCLUDES "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}")
+        set(CMAKE_REQUIRED_QUIET TRUE)
+
+        check_symbol_exists(ZTS main/php_config.h PHP${_php_prefix}_HAS_ZTS)
+
+        if(PHP${_php_prefix}_HAS_ZTS)
+          set(PHP${_php_prefix}_THREAD_SAFETY TRUE)
+        else()
+          set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
+        endif()
+      cmake_pop_check_state()
+    endif()
   endif()
 
   ##############################################################################
   # Get PHP version variables.
   ##############################################################################
+
+  if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
+    execute_process(
+      COMMAND "${PHP${_php_prefix}_EXECUTABLE}" --version
+      OUTPUT_VARIABLE version
+      RESULT_VARIABLE result
+      ERROR_QUIET
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    if(NOT result EQUAL 0)
+      string(
+        APPEND
+        reason
+        "Command '${PHP${_php_prefix}_EXECUTABLE} --version' failed. "
+      )
+    elseif(version MATCHES "PHP ([^ ]+) ")
+      set(PHP${_php_prefix}_VERSION "${CMAKE_MATCH_1}")
+    else()
+      string(APPEND reason "Invalid version format. ")
+    endif()
+  elseif(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php_version.h")
+    file(
+      STRINGS
+      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php_version.h
+      _
+      REGEX
+      "^[ \t]*#[ \t]*define[ \t]+PHP_VERSION[ \t]+\\\"([^\"]+)\\\"[ \t]*$"
+      LIMIT_COUNT 1
+    )
+
+    set(PHP${_php_prefix}_VERSION "${CMAKE_MATCH_1}")
+  endif()
 
   if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php.h")
     file(
