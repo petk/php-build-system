@@ -22,19 +22,19 @@ interpreted as being relative to the installation prefix `CMAKE_INSTALL_PREFIX`.
 
 Loadable via Apache's Dynamic Shared Object (DSO) support. If Apache will use
 PHP together with one of the threaded Multi-Processing Modules (MPMs), PHP must
-be configured and built with `PHP_THREAD_SAFETY` set to `ON`. Thread safety will
-be set automatically during the configuration step, if threaded Apache can be
-discovered on the system.
+be configured and built with `PHP_THREAD_SAFETY` set to `ON`. If threaded Apache
+is found on the system and PHP thread safety is not enabled during the
+configuration phase fatal error is emitted.
 
-Path where to look for the Apache installation on the system can be customized
-with the `APACHE_ROOT` and `Apache_APXS_EXECUTABLE` variables.
+## Examples
 
-For example:
+The path where to look for the Apache installation on the system can be
+customized with the `APACHE_ROOT` or `CMAKE_PREFIX_PATH` variables.
 
 ```sh
 cmake -B php-build -DPHP_SAPI_APACHE2HANDLER=ON -DAPACHE_ROOT=/opt/apache2
 # or
-cmake -B php-build -DPHP_SAPI_APACHE2HANDLER=ON -DApache_EXECUTABLE=/opt/apache2/bin/apxs
+cmake -B php-build -DPHP_SAPI_APACHE2HANDLER=ON -DCMAKE_PREFIX_PATH=/opt/apache2
 ```
 
 The path, where to install the PHP Apache module, can be overridden with the
@@ -153,13 +153,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL "AIX" AND EXISTS ${Apache_LIBEXECDIR}/httpd.exp)
 endif()
 
 if(Apache_THREADED AND NOT PHP_THREAD_SAFETY)
-  # Enable thread safety. Ideally, thread safety should be opt-in and such
-  # automatic enabling isn't encouraged.
-  set_property(CACHE PHP_THREAD_SAFETY PROPERTY VALUE TRUE)
   message(
-    WARNING
-    "Apache's current threaded MPM requires thread safety. "
-    "PHP_THREAD_SAFETY has been automatically set to 'ON'."
+    FATAL_ERROR
+    "Apache found on the system uses threaded Multi-Processing Modules (MPM) "
+    "and requires PHP thread safety enabled. Please enable it, by setting the "
+    "'PHP_THREAD_SAFETY' to 'ON'."
   )
 elseif(NOT Apache_THREADED AND NOT PHP_THREAD_SAFETY)
   # Run at the end of the configuration phase to notify that PHP needs thread
