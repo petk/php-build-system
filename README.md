@@ -287,6 +287,9 @@ The following features are only available in CMake:
 
 ### Behavior differences
 
+* sapi/apache2handler in CMake doesn't automatically enable PHP thread safety
+  (ZTS) when threaded Multi-Processing Modules (MPMs) are used by Apache.
+
 * sapi/phpdbg readline support works more intuitively regardless of the readline
   extension being enabled during the build.
 
