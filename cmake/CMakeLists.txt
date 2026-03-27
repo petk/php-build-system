@@ -202,7 +202,7 @@ endif()
 include(PHP/Internal/Stubs)
 
 # Configure PHP thread safety.
-include(cmake/ThreadSafety.cmake)
+include(PHP/Core/ThreadSafety)
 
 ################################################################################
 # Execute all deferred calls. Calls are additionally sorted with natural
@@ -325,6 +325,9 @@ install(
 )
 
 if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
+  # TODO:
+  # - Missing result variables such as PHP_THREAD_SAFETY, PHP_ZEND_*, etc.
+  # - PHP in config mode also sets CMAKE_MODULE_PATH automatically.
   install(
     PACKAGE_INFO PHP
     EXPORT php_development_export
