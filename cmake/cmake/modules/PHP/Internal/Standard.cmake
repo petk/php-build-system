@@ -84,7 +84,7 @@ block()
       PHP_HAS_WNO_TYPEDEF_REDEFINITION
     )
     if(PHP_HAS_WNO_TYPEDEF_REDEFINITION)
-      # Check whether building php-src or a standalone extension.
+      # Check whether building php-src or a self-contained extension.
       if(TARGET php_config)
         set(target "php_config")
       elseif(TARGET PHP::Extension)

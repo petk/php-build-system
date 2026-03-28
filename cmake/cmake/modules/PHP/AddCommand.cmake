@@ -207,7 +207,7 @@ function(php_add_command)
   endif()
 
   if(PHP_HOST_FOUND OR TARGET PHP::Interpreter)
-    # Check whether building a standalone PHP extension or in php-src.
+    # Check whether building a self-contained PHP extension or in php-src.
     if(TARGET PHP::Interpreter)
       set(php_host_version "${PHP_VERSION}")
       get_target_property(php_host_executable PHP::Interpreter LOCATION)

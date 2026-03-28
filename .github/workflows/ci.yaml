@@ -92,7 +92,7 @@ jobs:
             -j $(nproc) \
             ${{ matrix.generator.install_options }}
 
-      - name: Setup shared standalone extension
+      - name: Setup self-contained extension
         if: ${{ always() }}
         run: |
           php php-build/all-enabled/php-src/ext/ext_skel.php --ext phantom
@@ -162,7 +162,7 @@ jobs:
           make -j $(nproc)
           sudo make install
 
-      - name: Setup shared standalone extension
+      - name: Setup self-contained extension
         if: ${{ always() }}
         run: |
           php php-build/all-disabled/php-src/ext/ext_skel.php --ext phantom
@@ -175,9 +175,9 @@ jobs:
             -j $(nproc)
           php -d extension=phantom -m | grep phantom
 
-  standalone-extensions:
+  self-contained-extensions:
     runs-on: ubuntu-latest
-    name: Build php-src extensions as standalone
+    name: Build php-src extensions as self-contained
     steps:
       - name: Checkout
         uses: actions/checkout@v6
