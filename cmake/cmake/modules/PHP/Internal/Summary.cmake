@@ -1,6 +1,6 @@
 #[=============================================================================[
 This is an internal module and is not intended for direct usage inside projects.
-It prints out configuration summary for PHP or a standalone-built PHP extension.
+It prints out configuration summary for PHP or a self-contained PHP extension.
 
 Load this module in a CMake project with:
 
@@ -401,7 +401,7 @@ function(_php_summary_check_extension)
   return(PROPAGATE ${ARGV1})
 endfunction()
 
-# Validate standalone extension and output missing required extensions.
+# Validate self-contained extension and output missing required extensions.
 function(_php_summary_validate_extension extension)
   if(NOT TARGET PHP::ext::${extension})
     return()
@@ -610,7 +610,7 @@ function(php_summary_print)
   )
 endfunction()
 
-# Print standalone extension configuration summary.
+# Print self-contained extension configuration summary.
 function(php_summary_print_extension extension)
   if(PROJECT_VERSION)
     _php_summary_preamble_add_item(
