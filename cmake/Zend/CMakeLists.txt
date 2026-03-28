@@ -366,8 +366,8 @@ target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::Zend>)
 
 ################################################################################
 # TSRM (Thread Safe Resource Manager) is a separate directory in php-src as it
-# was once a standalone project. Ideally, it should be moved into Zend Engine at
-# some point.
+# was once a self-contained project. Ideally, it should be moved into Zend
+# Engine at some point.
 ################################################################################
 
 target_sources(

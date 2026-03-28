@@ -50,7 +50,7 @@ function(_php_stubs_get_php_command result)
       return(PROPAGATE ${result})
     endif()
 
-    # When building standalone extension and tokenizer is missing stop here.
+    # When building self-contained extension and tokenizer is missing stop here.
     if(TARGET PHP::Interpreter)
       return(PROPAGATE ${result})
     endif()
@@ -103,7 +103,7 @@ function(_php_stubs_get_binary_targets result dir)
   return(PROPAGATE ${result})
 endfunction()
 
-# When building standalone PHP extension or php-src.
+# When building self-contained PHP extension or php-src.
 if(
   (
     TARGET PHP::Interpreter

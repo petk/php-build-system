@@ -64,7 +64,7 @@ macro(php_extension)
     enable_testing()
 
     # Add test to execute run-tests.php for all *.phpt files when extension is
-    # built as standalone.
+    # built as self-contained.
     if(PROJECT_IS_TOP_LEVEL AND TARGET PHP::Interpreter)
       include(PHP/Internal/Testing)
       php_testing_add("${ARGV0}")
@@ -105,7 +105,7 @@ function(_php_extension_post_configure)
   if(type STREQUAL "MODULE_LIBRARY")
     get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
     if(NOT location)
-      # Check whether extension is built as standalone or inside php-src.
+      # Check whether extension is built as self-contained or inside php-src.
       if(PHP_BINARY_DIR)
         set(library_output_dir "${PHP_BINARY_DIR}/modules")
       else()
