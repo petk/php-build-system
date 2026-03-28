@@ -1,7 +1,7 @@
 #[=============================================================================[
 This is an internal module and is not intended for direct usage inside projects.
 It provides common PHP configuration options when building php-src and when
-building PHP extensions as standalone.
+building PHP extensions as self-contained.
 
 Load this module in a CMake project with:
 
