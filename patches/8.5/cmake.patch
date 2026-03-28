@@ -23,6 +23,7 @@ Subject: Add CMake changes for PHP-8.5 branch
  .editorconfig              |  2 +-
  .gitignore                 | 14 ++++++++++++
  README.md                  | 22 +++++++++++++++++++
+ Zend/zend_float.h          |  5 ++---
  configure.ac               |  2 +-
  ext/ext_skel.php           | 44 ++++++++++++++------------------------
  ext/iconv/iconv.c          |  2 +-
@@ -31,7 +32,7 @@ Subject: Add CMake changes for PHP-8.5 branch
  run-tests.php              | 24 +++++++++++++++------
  sapi/fpm/tests/tester.inc  |  4 ++++
  scripts/Makefile.frag      | 15 +++++++++++++
- 11 files changed, 108 insertions(+), 38 deletions(-)
+ 12 files changed, 110 insertions(+), 41 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 19be96087d9..58a83dfb688 100644
@@ -116,6 +117,24 @@ index 5b8ec6f0d7d..6bc2f0ad42f 100644
  For a minimal PHP build from Git, you will need autoconf, bison, and re2c. For
  a default build, you will additionally need libxml2 and libsqlite3.
  
+diff --git a/Zend/zend_float.h b/Zend/zend_float.h
+index 63e0f6f7f69..1e58d4232aa 100644
+--- a/Zend/zend_float.h
++++ b/Zend/zend_float.h
+@@ -67,11 +67,10 @@ END_EXTERN_C()
+     on how to do that?
+ 
+  MS Visual C:
+-  - Since MSVC users typically don't use autoconf or CMake, we will detect
+-    MSVC via compile time define.
++  - We will detect MSVC via compile time define.
+ */
+ 
+-/* MSVC detection (MSVC people usually don't use autoconf) */
++/* MSVC detection */
+ #if defined(_MSC_VER) && !defined(_WIN64)
+ #  define HAVE__CONTROLFP_S
+ #endif /* _MSC_VER */
 diff --git a/configure.ac b/configure.ac
 index 07e64e74887..3f16cc9dfff 100644
 --- a/configure.ac
