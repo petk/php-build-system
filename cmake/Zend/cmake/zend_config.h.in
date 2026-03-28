@@ -1,8 +1,8 @@
 /* Define to 1 if _controlfp is present and usable. */
 #cmakedefine HAVE__CONTROLFP 1
 
-/* Define to 1 if _controlfp_s is present and usable. */
-#cmakedefine HAVE__CONTROLFP_S 1
+/* Define if _controlfp_s is present and usable. */
+#cmakedefine HAVE__CONTROLFP_S
 
 /* Define to 1 if _FPU_SETCW is present and usable. */
 #cmakedefine HAVE__FPU_SETCW 1
