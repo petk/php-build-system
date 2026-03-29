@@ -177,12 +177,14 @@ include(PHP/AddCommand)
 
 php_add_command(
   php_sapi_cli_generate_mime_type_map
-  PHP_COMMAND
+  EXCLUDE_FROM_ALL
+  ARGS
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
     > ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
-  PHP_EXTENSIONS openssl
+  REQUIRED_EXTENSIONS openssl
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
   COMMENT "[sapi/cli] Regenerating mime_type_map.h"
-  VERBATIM
 )
 
 ################################################################################

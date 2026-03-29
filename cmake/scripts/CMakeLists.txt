@@ -6,7 +6,6 @@ include(PHP/PkgConfig)
 php_pkgconfig_generate_pc(
   php.pc.in
   php.pc
-  TARGET PHP::sapi::cli
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
