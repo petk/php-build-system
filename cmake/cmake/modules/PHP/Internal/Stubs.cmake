@@ -249,7 +249,7 @@ block()
 
       if(
         EXISTS "${legacy_arginfo_header}"
-        AND "${stub}" IS_NEWER_THAN "${legac_arginfo_header}"
+        AND "${stub}" IS_NEWER_THAN "${legacy_arginfo_header}"
       )
         file(TOUCH "${legacy_arginfo_header}")
       endif()
