@@ -180,11 +180,42 @@ block()
       file(TOUCH ${CMAKE_CURRENT_LIST_FILE})
     else()
       foreach(stub ${sources})
-        string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] arginfo_header "${stub}")
-        string(REGEX REPLACE [[\.stub\.php$]] [[_decl.h]] decl_header "${stub}")
-        if("${stub}" IS_NEWER_THAN "${arginfo_header}")
-          list(APPEND stubs ${stub})
-        elseif(EXISTS "${decl_header}" AND "${stub}" IS_NEWER_THAN "${decl_header}")
+        string(
+          REGEX REPLACE
+          [[\.stub\.php$]]
+          [[_arginfo.h]]
+          arginfo_header
+          "${stub}"
+        )
+
+        string(
+          REGEX REPLACE
+          [[\.stub\.php$]]
+          [[_legacy_arginfo.h]]
+          legacy_arginfo_header
+          "${stub}"
+        )
+
+        string(
+          REGEX REPLACE
+          [[\.stub\.php$]]
+          [[_decl.h]]
+          decl_header
+          "${stub}"
+        )
+
+        if(
+          (
+            EXISTS "${arginfo_header}"
+            AND "${stub}" IS_NEWER_THAN "${arginfo_header}"
+          ) OR (
+            EXISTS "${legacy_arginfo_header}"
+            AND "${stub}" IS_NEWER_THAN "${legacy_arginfo_header}"
+          ) OR (
+            EXISTS "${decl_header}"
+            AND "${stub}" IS_NEWER_THAN "${decl_header}"
+          )
+        )
           list(APPEND stubs ${stub})
         endif()
       endforeach()
@@ -205,12 +236,48 @@ block()
     # Ensure that *_{arginfo,decl}.h headers are newer than their *.stub.php
     # sources.
     foreach(stub ${stubs})
-      string(REGEX REPLACE [[\.stub\.php$]] [[_arginfo.h]] arginfo_header "${stub}")
-      string(REGEX REPLACE [[\.stub\.php$]] [[_decl.h]] decl_header "${stub}")
-      if("${stub}" IS_NEWER_THAN "${arginfo_header}")
+      string(
+        REGEX REPLACE
+        [[\.stub\.php$]]
+        [[_arginfo.h]]
+        arginfo_header
+        "${stub}"
+      )
+
+      string(
+        REGEX REPLACE
+        [[\.stub\.php$]]
+        [[_legacy_arginfo.h]]
+        legacy_arginfo_header
+        "${stub}"
+      )
+
+      string(
+        REGEX REPLACE
+        [[\.stub\.php$]]
+        [[_decl.h]]
+        decl_header
+        "${stub}"
+      )
+
+      if(
+        EXISTS "${arginfo_header}"
+        AND "${stub}" IS_NEWER_THAN "${arginfo_header}"
+      )
         file(TOUCH "${arginfo_header}")
       endif()
-      if(EXISTS "${decl_header}" AND "${stub}" IS_NEWER_THAN "${decl_header}")
+
+      if(
+        EXISTS "${legacy_arginfo_header}"
+        AND "${stub}" IS_NEWER_THAN "${legacy_arginfo_header}"
+      )
+        file(TOUCH "${legacy_arginfo_header}")
+      endif()
+
+      if(
+        EXISTS "${decl_header}"
+        AND "${stub}" IS_NEWER_THAN "${decl_header}"
+      )
         file(TOUCH "${decl_header}")
       endif()
     endforeach()
