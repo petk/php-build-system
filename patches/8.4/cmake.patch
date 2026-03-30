@@ -241,7 +241,7 @@ index ae7a3a987c0..5c5923c3839 100755
              error('Unable to copy config script: ' . $config_script);
          }
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
-index ba74eddd012..e54a9c25ed2 100644
+index 117a9e948f6..e8bd3b939ea 100644
 --- a/ext/iconv/iconv.c
 +++ b/ext/iconv/iconv.c
 @@ -44,7 +44,7 @@

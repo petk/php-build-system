@@ -71,7 +71,7 @@ index 139b47f2444..45444124d84 100644
 -#endif /* ZEND_BASIC_FUNCTIONS_DECL_f5583557f058e4862750d1262296d7f59cb0eed0_H */
 +#endif /* ZEND_BASIC_FUNCTIONS_DECL_514bcf8f34d3099330971f9fac6644986c883fb5_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
-index ef6b3c5a010..b66678d39ad 100644
+index 1d64c7ff696..6101dfed35a 100644
 --- a/ext/standard/config.m4
 +++ b/ext/standard/config.m4
 @@ -383,6 +383,11 @@ AS_VAR_IF([php_cv_func_getifaddrs], [yes],
