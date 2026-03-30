@@ -414,6 +414,16 @@ php_search_libraries(
 set(HAVE_RES_SEARCH ${PHP_HAVE_RES_SEARCH})
 
 check_symbol_exists(
+  posix_spawn_file_actions_addchdir
+  spawn.h
+  PHP_HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR
+)
+set(
+  HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR
+  ${PHP_HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR}
+)
+
+check_symbol_exists(
   posix_spawn_file_actions_addchdir_np
   spawn.h
   PHP_HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP
