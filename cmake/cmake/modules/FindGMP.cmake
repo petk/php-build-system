@@ -28,6 +28,14 @@ The following cache variables may also be set:
 * `GMP_INCLUDE_DIR` - Directory containing package library headers.
 * `GMP_LIBRARY` - The path to the package library.
 
+## Hints
+
+This module accepts the following variables before calling
+`find_package(GMP)`:
+
+* `GMP_USE_STATIC_LIBS` - Set this variable to boolean true to search for
+  static libraries.
+
 ## Examples
 
 Basic usage:
@@ -68,13 +76,24 @@ if(NOT GMP_INCLUDE_DIR)
   string(APPEND _reason "gmp.h not found. ")
 endif()
 
-find_library(
-  GMP_LIBRARY
-  NAMES gmp
-  HINTS ${PC_GMP_LIBRARY_DIRS}
-  DOC "The path to the GMP library"
-)
-mark_as_advanced(GMP_LIBRARY)
+block()
+  # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
+  if(GMP_USE_STATIC_LIBS)
+    if(WIN32)
+      list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
+    else()
+      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
+    endif()
+  endif()
+
+  find_library(
+    GMP_LIBRARY
+    NAMES gmp
+    HINTS ${PC_GMP_LIBRARY_DIRS}
+    DOC "The path to the GMP library"
+  )
+  mark_as_advanced(GMP_LIBRARY)
+endblock()
 
 if(NOT GMP_LIBRARY)
   string(APPEND _reason "GMP library not found. ")
@@ -82,7 +101,7 @@ endif()
 
 # Get version.
 block(PROPAGATE GMP_VERSION)
-  if(GMP_INCLUDE_DIR)
+  if(EXISTS ${GMP_INCLUDE_DIR}/gmp.h)
     file(
       STRINGS
       ${GMP_INCLUDE_DIR}/gmp.h
