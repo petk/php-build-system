@@ -72,6 +72,7 @@ find_path(
   PATH_SUFFIXES krb5 mit-krb5
   DOC "Directory containing Kerberos library headers"
 )
+mark_as_advanced(Kerberos_INCLUDE_DIR)
 
 if(NOT Kerberos_INCLUDE_DIR)
   string(APPEND _reason "krb5.h not found. ")
@@ -83,6 +84,7 @@ find_library(
   HINTS ${PC_Kerberos_LIBRARY_DIRS}
   DOC "The path to the Kerberos library"
 )
+mark_as_advanced(Kerberos_LIBRARY)
 
 if(NOT Kerberos_LIBRARY)
   string(APPEND _reason "Kerberos library not found. ")
@@ -97,6 +99,7 @@ find_program(
   NAMES krb5-config
   DOC "Path to the Kerberos command-line helper configuration script"
 )
+mark_as_advanced(Kerberos_EXECUTABLE)
 
 # Get version.
 block(PROPAGATE Kerberos_VERSION)
@@ -136,6 +139,7 @@ find_path(
   PATH_SUFFIXES mit-krb5
   DOC "Directory containing Kerberos GSSAPI library headers"
 )
+mark_as_advanced(Kerberos_GSSAPI_INCLUDE_DIR)
 
 find_library(
   Kerberos_GSSAPI_LIBRARY
@@ -144,20 +148,13 @@ find_library(
   PATH_SUFFIXES mit-krb5
   DOC "The path to the Kerberos GSSAPI library"
 )
+mark_as_advanced(Kerberos_GSSAPI_LIBRARY)
 
 if(Kerberos_GSSAPI_INCLUDE_DIR AND Kerberos_GSSAPI_LIBRARY)
   set(Kerberos_GSSAPI_FOUND TRUE)
 elseif("GSSAPI" IN_LIST Kerberos_FIND_COMPONENTS)
   string(APPEND _reason "Kerberos GSSAPI library (gssapi-krb5) not found. ")
 endif()
-
-mark_as_advanced(
-  Kerberos_EXECUTABLE
-  Kerberos_GSSAPI_INCLUDE_DIR
-  Kerberos_GSSAPI_LIBRARY
-  Kerberos_INCLUDE_DIR
-  Kerberos_LIBRARY
-)
 
 find_package_handle_standard_args(
   Kerberos

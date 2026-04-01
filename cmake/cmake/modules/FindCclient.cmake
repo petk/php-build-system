@@ -248,6 +248,7 @@ find_path(
   PATH_SUFFIXES c-client imap
   DOC "Directory containing c-client library headers"
 )
+mark_as_advanced(Cclient_INCLUDE_DIR)
 
 if(NOT Cclient_INCLUDE_DIR)
   string(APPEND _reason "c-client.h or rfc822.h not found. ")
@@ -263,12 +264,11 @@ find_library(
   NAMES_PER_DIR
   DOC "The path to the c-client library"
 )
+mark_as_advanced(Cclient_LIBRARY)
 
 if(NOT Cclient_LIBRARY)
   string(APPEND _reason "IMAP c-client library not found. ")
 endif()
-
-mark_as_advanced(Cclient_INCLUDE_DIR Cclient_LIBRARY)
 
 ################################################################################
 # Sanity checks.

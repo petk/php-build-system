@@ -64,6 +64,7 @@ find_path(
   HINTS ${PC_QDBM_INCLUDE_DIRS}
   DOC "Directory containing QDBM library headers"
 )
+mark_as_advanced(QDBM_INCLUDE_DIR)
 
 if(NOT QDBM_INCLUDE_DIR)
   string(APPEND _reason "depot.h not found. ")
@@ -75,6 +76,7 @@ find_library(
   HINTS ${PC_QDBM_LIBRARY_DIRS}
   DOC "The path to the QDBM library"
 )
+mark_as_advanced(QDBM_LIBRARY)
 
 if(NOT QDBM_LIBRARY)
   string(APPEND _reason "QDBM library not found. ")
@@ -100,8 +102,6 @@ block(PROPAGATE QDBM_VERSION)
     endif()
   endif()
 endblock()
-
-mark_as_advanced(QDBM_INCLUDE_DIR QDBM_LIBRARY)
 
 find_package_handle_standard_args(
   QDBM

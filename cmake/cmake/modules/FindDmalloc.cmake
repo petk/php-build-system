@@ -56,6 +56,7 @@ find_path(
   NAMES dmalloc.h
   DOC "Directory containing Dmalloc library headers"
 )
+mark_as_advanced(Dmalloc_INCLUDE_DIR)
 
 if(NOT Dmalloc_INCLUDE_DIR)
   string(APPEND _reason "dmalloc.h not found. ")
@@ -66,6 +67,7 @@ find_library(
   NAMES dmalloc
   DOC "The path to the Dmalloc library"
 )
+mark_as_advanced(Dmalloc_LIBRARY)
 
 if(NOT Dmalloc_LIBRARY)
   string(APPEND _reason "Dmalloc library not found. ")
@@ -96,8 +98,6 @@ block(PROPAGATE Dmalloc_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(Dmalloc_INCLUDE_DIR Dmalloc_LIBRARY)
 
 find_package_handle_standard_args(
   Dmalloc

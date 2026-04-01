@@ -31,7 +31,7 @@ set_package_properties(
 set(PHP_PACKAGE_LIBXML2_MIN_VERSION 2.9.0)
 
 # Download version when system dependency is not found.
-set(PHP_PACKAGE_LIBXML2_DOWNLOAD_VERSION 2.14.4)
+set(PHP_PACKAGE_LIBXML2_DOWNLOAD_VERSION 2.15.2)
 
 FetchContent_Declare(
   LibXml2
@@ -45,8 +45,14 @@ find_package(LibXml2 ${PHP_PACKAGE_LIBXML2_MIN_VERSION})
 
 if(NOT LibXml2_FOUND)
   set(FETCHCONTENT_QUIET NO)
-  set(LIBXML2_WITH_PYTHON OFF)
-  set(LIBXML2_WITH_LZMA OFF)
+
+  if(PHP_PACKAGE_LIBXML2_DOWNLOAD_VERSION VERSION_LESS 2.15)
+    set(LIBXML2_WITH_PYTHON OFF)
+  endif()
+
+  if(PHP_PACKAGE_LIBXML2_DOWNLOAD_VERSION VERSION_LESS 2.13)
+    set(LIBXML2_WITH_LZMA OFF)
+  endif()
 
   FetchContent_MakeAvailable(LibXml2)
 

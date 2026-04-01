@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_WebP_INCLUDE_DIRS}
   DOC "Directory containing libwebp library headers"
 )
+mark_as_advanced(WebP_INCLUDE_DIR)
 
 if(NOT WebP_INCLUDE_DIR)
   string(APPEND _reason "webp/decode.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_WebP_LIBRARY_DIRS}
   DOC "The path to the libwebp library"
 )
+mark_as_advanced(WebP_LIBRARY)
 
 if(NOT WebP_LIBRARY)
   string(APPEND _reason "WebP library not found. ")
@@ -82,8 +84,6 @@ endif()
 if(PC_WebP_VERSION AND WebP_INCLUDE_DIR IN_LIST PC_WebP_INCLUDE_DIRS)
   set(WebP_VERSION ${PC_WebP_VERSION})
 endif()
-
-mark_as_advanced(WebP_INCLUDE_DIR WebP_LIBRARY)
 
 find_package_handle_standard_args(
   WebP

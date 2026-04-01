@@ -64,6 +64,7 @@ find_path(
   HINTS ${PC_Argon2_INCLUDE_DIRS}
   DOC "Directory containing Argon2 library headers"
 )
+mark_as_advanced(Argon2_INCLUDE_DIR)
 
 if(NOT Argon2_INCLUDE_DIR)
   string(APPEND _reason "argon2.h not found. ")
@@ -75,6 +76,7 @@ find_library(
   HINTS ${PC_Argon2_LIBRARY_DIRS}
   DOC "The path to the Argon2 library"
 )
+mark_as_advanced(Argon2_LIBRARY)
 
 if(NOT Argon2_LIBRARY)
   string(APPEND _reason "Argon2 library (libargon2) not found. ")
@@ -125,8 +127,6 @@ elseif(Argon2_LIBRARY AND Argon2_INCLUDE_DIR)
     endif()
   cmake_pop_check_state()
 endif()
-
-mark_as_advanced(Argon2_INCLUDE_DIR Argon2_LIBRARY)
 
 find_package_handle_standard_args(
   Argon2

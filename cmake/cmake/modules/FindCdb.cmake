@@ -64,6 +64,7 @@ find_path(
   HINTS ${PC_Cdb_INCLUDE_DIRS}
   DOC "Directory containing cdb library headers"
 )
+mark_as_advanced(Cdb_INCLUDE_DIR)
 
 if(NOT Cdb_INCLUDE_DIR)
   string(APPEND _reason "cdb.h not found. ")
@@ -75,6 +76,7 @@ find_library(
   HINTS ${PC_Cdb_LIBRARY_DIRS}
   DOC "The path to the cdb library"
 )
+mark_as_advanced(Cdb_LIBRARY)
 
 if(NOT Cdb_LIBRARY)
   string(APPEND _reason "cdb library not found. ")
@@ -107,8 +109,6 @@ block(PROPAGATE Cdb_VERSION)
     endif()
   endif()
 endblock()
-
-mark_as_advanced(Cdb_INCLUDE_DIR Cdb_LIBRARY)
 
 find_package_handle_standard_args(
   Cdb
