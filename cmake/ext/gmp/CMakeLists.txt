@@ -18,6 +18,9 @@ Enables the extension.
 * Values: `ON|OFF`
 
 Builds extension as shared.
+
+> [!NOTE]
+> When the target system is Windows, the MPIR library is used instead of GMP.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -76,15 +79,24 @@ target_include_directories(php_ext_gmp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(php_ext_gmp PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-find_package(GMP 4.2)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(package_name "MPIR")
+  find_package(MPIR 2.6.0)
+  set(imported_target "MPIR::MPIR")
+else()
+  set(package_name "GMP")
+  find_package(GMP 4.2)
+  set(imported_target "GMP::GMP")
+endif()
+
 set_package_properties(
-  GMP
+  ${package_name}
   PROPERTIES
     TYPE REQUIRED
     PURPOSE "Necessary to enable the gmp extension."
 )
 
-target_link_libraries(php_ext_gmp PUBLIC GMP::GMP)
+target_link_libraries(php_ext_gmp PUBLIC ${imported_target})
 
 set_property(
   TARGET php_ext_gmp
