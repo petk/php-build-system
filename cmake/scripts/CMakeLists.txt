@@ -6,7 +6,6 @@ include(PHP/PkgConfig)
 php_pkgconfig_generate_pc(
   php.pc.in
   php.pc
-  TARGET PHP::sapi::cli
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
@@ -49,7 +48,7 @@ block()
   install(
     FILES ${PROJECT_BINARY_DIR}/scripts/man1/php-config.1
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    DESTINATION ${PHP_INSTALL_MANDIR}/man1
     COMPONENT php-doc
   )
 
@@ -58,7 +57,7 @@ block()
   install(
     FILES ${PROJECT_BINARY_DIR}/scripts/man1/phpize.1
     RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    DESTINATION ${PHP_INSTALL_MANDIR}/man1
     COMPONENT php-doc
   )
 endblock()
@@ -119,7 +118,7 @@ block()
     # TODO:
     set(EXTRA_LIBS "")
     set(EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
     set(program_prefix "@PHP_PROGRAM_PREFIX@")
     set(program_suffix "@PHP_PROGRAM_SUFFIX@")
     set(EXEEXT "@CMAKE_EXECUTABLE_SUFFIX@")
@@ -127,7 +126,7 @@ block()
     set(PHP_INSTALLED_SAPIS "@sapis@")
     set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
     set(EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
-    set(bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
   ]] code @ONLY)
   cmake_language(EVAL CODE "${code}")
   string(CONFIGURE "${content}" content @ONLY)
@@ -152,7 +151,7 @@ block()
   install(
     PROGRAMS
     ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION ${PHP_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
     COMPONENT php-development
   )
@@ -204,7 +203,7 @@ block()
   install(
     PROGRAMS
     ${CMAKE_CURRENT_BINARY_DIR}/phpize
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION ${PHP_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}
     COMPONENT php-development
   )

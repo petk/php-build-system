@@ -270,7 +270,7 @@ install(
   TARGETS php_sapi_phpdbg
   EXPORT php_sapi_phpdbg_export
   RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION ${PHP_INSTALL_BINDIR}
     COMPONENT php-sapi-phpdbg
 )
 
@@ -359,7 +359,7 @@ block()
     install(
       FILES ${CMAKE_CURRENT_BINARY_DIR}/phpdbg.1
       RENAME ${PHP_PROGRAM_PREFIX}phpdbg${PHP_PROGRAM_SUFFIX}.1
-      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+      DESTINATION ${PHP_INSTALL_MANDIR}/man1
       COMPONENT php-doc
     )
   endif()

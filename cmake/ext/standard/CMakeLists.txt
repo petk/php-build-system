@@ -521,15 +521,21 @@ add_dependencies(php_ext_standard_functions_cli php_ext_standard)
 
 include(PHP/AddCommand)
 
+file(GLOB dependencies ${CMAKE_CURRENT_SOURCE_DIR}/html_tables/mappings/*.TXT)
+
 php_add_command(
   php_ext_standard_generate_html_tables
-  PHP_COMMAND
+  EXCLUDE_FROM_ALL
+  ARGS
     ${CMAKE_CURRENT_SOURCE_DIR}/html_tables/html_table_gen.php
     > ${CMAKE_CURRENT_SOURCE_DIR}/html_tables.h
-  PHP_EXTENSIONS mbstring
+  REQUIRED_EXTENSIONS mbstring
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/html_tables.h
+  DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/html_tables/html_table_gen.php
+    ${dependencies}
   COMMENT "[ext/standard] Regenerating html_tables.h"
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/html_tables
-  VERBATIM
 )
 
 ################################################################################
