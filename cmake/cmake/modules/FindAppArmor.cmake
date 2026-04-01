@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_AppArmor_INCLUDE_DIRS}
   DOC "Directory containing AppArmor library headers"
 )
+mark_as_advanced(AppArmor_INCLUDE_DIR)
 
 if(NOT AppArmor_INCLUDE_DIR)
   string(APPEND _reason "sys/apparmor.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_AppArmor_LIBRARY_DIRS}
   DOC "The path to the AppArmor library"
 )
+mark_as_advanced(AppArmor_LIBRARY)
 
 if(NOT AppArmor_LIBRARY)
   string(APPEND _reason "AppArmor library not found. ")
@@ -85,8 +87,6 @@ if(
 )
   set(AppArmor_VERSION ${PC_AppArmor_VERSION})
 endif()
-
-mark_as_advanced(AppArmor_INCLUDE_DIR AppArmor_LIBRARY)
 
 find_package_handle_standard_args(
   AppArmor

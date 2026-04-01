@@ -89,6 +89,7 @@ find_path(
   HINTS ${PC_LDAP_INCLUDE_DIRS}
   DOC "Directory containing LDAP library headers"
 )
+mark_as_advanced(LDAP_INCLUDE_DIR)
 
 if(NOT LDAP_INCLUDE_DIR)
   string(APPEND _reason "ldap.h not found. ")
@@ -100,6 +101,7 @@ find_library(
   HINTS ${PC_LDAP_LIBRARY_DIRS}
   DOC "The path to the LDAP library"
 )
+mark_as_advanced(LDAP_LIBRARY)
 
 if(NOT LDAP_LIBRARY)
   string(APPEND _reason "LDAP library not found. ")
@@ -120,6 +122,7 @@ if(LDAP_LIBRARY)
     HINTS ${PC_LDAP_LBER_INCLUDE_DIRS}
     DOC "Directory containing LBER library headers"
   )
+  mark_as_advanced(LDAP_LBER_INCLUDE_DIR)
 
   find_library(
     LDAP_LBER_LIBRARY
@@ -127,6 +130,7 @@ if(LDAP_LIBRARY)
     HINTS ${PC_LDAP_LBER_LIBRARY_DIRS}
     DOC "The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library"
   )
+  mark_as_advanced(LDAP_LBER_LIBRARY)
 endif()
 
 if(LDAP_LBER_INCLUDE_DIR AND LDAP_LBER_LIBRARY)
@@ -161,13 +165,6 @@ block(PROPAGATE LDAP_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(
-  LDAP_INCLUDE_DIR
-  LDAP_LIBRARY
-  LDAP_LBER_INCLUDE_DIR
-  LDAP_LBER_LIBRARY
-)
 
 find_package_handle_standard_args(
   LDAP

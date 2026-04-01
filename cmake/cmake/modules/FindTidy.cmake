@@ -87,6 +87,7 @@ find_library(
   HINTS ${PC_Tidy_LIBRARY_DIRS}
   DOC "The path to the Tidy library"
 )
+mark_as_advanced(Tidy_LIBRARY)
 
 set(Tidy_HEADER "tidy.h")
 
@@ -109,6 +110,7 @@ find_path(
     tidyp # Tidy library fork (obsolete).
   DOC "Directory containing Tidy library headers"
 )
+mark_as_advanced(Tidy_INCLUDE_DIR)
 
 if(NOT Tidy_INCLUDE_DIR)
   string(APPEND _reason "${Tidy_HEADER} not found. ")
@@ -118,8 +120,6 @@ endif()
 if(PC_Tidy_VERSION AND Tidy_INCLUDE_DIR IN_LIST PC_Tidy_INCLUDE_DIRS)
   set(Tidy_VERSION ${PC_Tidy_VERSION})
 endif()
-
-mark_as_advanced(Tidy_INCLUDE_DIR Tidy_LIBRARY)
 
 find_package_handle_standard_args(
   Tidy

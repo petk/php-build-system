@@ -8,9 +8,9 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
 endif()
 
-set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../..)
+set(php_source_dir ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
-if(NOT EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
+if(NOT EXISTS ${php_source_dir}/Zend/zend_language_parser.y)
   message(FATAL_ERROR "Zend/zend_language_parser.y not found.")
 endif()
 
@@ -18,7 +18,7 @@ set(regex "^%token [^T]*(T_[^ \n]+)")
 
 file(
   STRINGS
-  "${PHP_SOURCE_DIR}/Zend/zend_language_parser.y"
+  "${php_source_dir}/Zend/zend_language_parser.y"
   lines
   REGEX "${regex}"
 )
@@ -55,7 +55,7 @@ string(STRIP "${content}" content)
 
 file(
   CONFIGURE
-  OUTPUT "${PHP_SOURCE_DIR}/ext/tokenizer/tokenizer_data.stub.php"
+  OUTPUT "${php_source_dir}/ext/tokenizer/tokenizer_data.stub.php"
   CONTENT [[
 <?php
 
@@ -86,7 +86,7 @@ set(tab "\t")
 
 file(
   CONFIGURE
-  OUTPUT "${PHP_SOURCE_DIR}/ext/tokenizer/tokenizer_data.c"
+  OUTPUT "${php_source_dir}/ext/tokenizer/tokenizer_data.c"
   CONTENT [[
 /*
    +----------------------------------------------------------------------+

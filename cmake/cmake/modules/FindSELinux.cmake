@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_Selinux_INCLUDE_DIRS}
   DOC "Directory containing SELinux library headers"
 )
+mark_as_advanced(SELinux_INCLUDE_DIR)
 
 if(NOT SELinux_INCLUDE_DIR)
   string(APPEND _reason "selinux/selinux.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_Selinux_LIBRARY_DIRS}
   DOC "The path to the SELinux library"
 )
+mark_as_advanced(SELinux_LIBRARY)
 
 if(NOT SELinux_LIBRARY)
   string(APPEND _reason "SELinux library (libselinux) not found. ")
@@ -82,8 +84,6 @@ endif()
 if(PC_SELinux_VERSION AND SELinux_INCLUDE_DIR IN_LIST PC_SELinux_INCLUDE_DIRS)
   set(SELinux_VERSION ${PC_SELinux_VERSION})
 endif()
-
-mark_as_advanced(SELinux_INCLUDE_DIR SELinux_LIBRARY)
 
 find_package_handle_standard_args(
   SELinux

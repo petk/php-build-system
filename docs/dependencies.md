@@ -6,6 +6,7 @@ projects.
 
 ## Index
 
+* [Index](#index)
 * [1. Introduction to dependencies](#1-introduction-to-dependencies)
 * [2. Why manage dependencies?](#2-why-manage-dependencies)
 * [3. Options for managing dependencies](#3-options-for-managing-dependencies)
@@ -295,6 +296,7 @@ find_path(
   HINTS ${PC_Foo_INCLUDE_DIRS}
   DOC "Directory containing Foo library headers"
 )
+mark_as_advanced(Foo_INCLUDE_DIR)
 
 if(NOT Foo_INCLUDE_DIR)
   string(APPEND reason "foo.h not found. ")
@@ -306,6 +308,7 @@ find_library(
   HINTS ${PC_Foo_LIBRARY_DIRS}
   DOC "The path to the Foo library"
 )
+mark_as_advanced(Foo_LIBRARY)
 
 if(NOT Foo_LIBRARY)
   string(APPEND reason "Foo library not found. ")
@@ -351,8 +354,6 @@ block(PROPAGATE Foo_VERSION)
     endif()
   endif()
 endblock()
-
-mark_as_advanced(Foo_INCLUDE_DIR Foo_LIBRARY)
 
 find_package_handle_standard_args(
   Foo

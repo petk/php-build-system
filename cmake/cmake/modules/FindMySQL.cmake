@@ -139,6 +139,7 @@ if("Client" IN_LIST MySQL_FIND_COMPONENTS)
     PATH_SUFFIXES mysql
     DOC "Directory containing MySQL library headers"
   )
+  mark_as_advanced(MySQL_INCLUDE_DIR)
 
   find_library(
     MySQL_LIBRARY
@@ -149,6 +150,7 @@ if("Client" IN_LIST MySQL_FIND_COMPONENTS)
       ${PC_MySQL_LIBRARY_DIRS}
     DOC "The path to the MySQL library"
   )
+  mark_as_advanced(MySQL_LIBRARY)
 
   if(NOT MySQL_INCLUDE_DIR)
     string(APPEND _reason "<mysql.h> not found. ")

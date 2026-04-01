@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_GMP_INCLUDE_DIRS}
   DOC "Directory containing GMP library headers"
 )
+mark_as_advanced(GMP_INCLUDE_DIR)
 
 if(NOT GMP_INCLUDE_DIR)
   string(APPEND _reason "gmp.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_GMP_LIBRARY_DIRS}
   DOC "The path to the GMP library"
 )
+mark_as_advanced(GMP_LIBRARY)
 
 if(NOT GMP_LIBRARY)
   string(APPEND _reason "GMP library not found. ")
@@ -104,8 +106,6 @@ block(PROPAGATE GMP_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(GMP_LIBRARY GMP_INCLUDE_DIR)
 
 find_package_handle_standard_args(
   GMP

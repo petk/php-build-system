@@ -64,6 +64,7 @@ find_path(
   HINTS ${PC_TokyoCabinet_INCLUDE_DIRS}
   DOC "Directory containing Tokyo Cabinet library headers"
 )
+mark_as_advanced(TokyoCabinet_INCLUDE_DIR)
 
 if(NOT TokyoCabinet_INCLUDE_DIR)
   string(APPEND _reason "tcadb.h not found. ")
@@ -75,6 +76,7 @@ find_library(
   HINTS ${PC_TokyoCabinet_LIBRARY_DIRS}
   DOC "The path to the Tokyo Cabinet library"
 )
+mark_as_advanced(TokyoCabinet_LIBRARY)
 
 if(NOT TokyoCabinet_LIBRARY)
   string(APPEND _reason "Tokyo Cabinet library not found. ")
@@ -107,8 +109,6 @@ block(PROPAGATE TokyoCabinet_VERSION)
     endif()
   endif()
 endblock()
-
-mark_as_advanced(TokyoCabinet_INCLUDE_DIR TokyoCabinet_LIBRARY)
 
 find_package_handle_standard_args(
   TokyoCabinet
