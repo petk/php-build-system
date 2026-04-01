@@ -42,6 +42,8 @@ This module defines the following variables:
 * `PHP_ZEND_VERSION` - The version of the Zend Engine.
 * `PHP_ZEND_MODULE_API_NO` - The API number for PHP extensions.
 * `PHP_ZEND_EXTENSION_API_NO` - The API number for Zend extensions.
+* `PHP_PROGRAM_PREFIX` - Prefix prepended to PHP program names.
+* `PHP_PROGRAM_SUFFIX` - Suffix appended to PHP program names.
 
 ## Cache variables
 
@@ -122,6 +124,30 @@ endif()
 # Internal helpers.
 ################################################################################
 
+# Determine bin directory containing installed PHP command-line executables. PHP
+# built with Autotools currently doesn't advertise a certain directory where PHP
+# command-line and binary executables are installed into. Determination is
+# heuristic.
+function(_php_find_php_get_bin_dir)
+  if(IS_EXECUTABLE ${PHP${_php_prefix}_EXECUTABLE})
+    cmake_path(
+      GET
+      PHP${_php_prefix}_EXECUTABLE
+      PARENT_PATH
+      PHP${_php_prefix}_INSTALL_BINDIR
+    )
+  elseif(IS_EXECUTABLE "${PHP${_php_prefix}_CONFIG_EXECUTABLE}")
+    cmake_path(
+      GET
+      PHP${_php_prefix}_CONFIG_EXECUTABLE
+      PARENT_PATH
+      PHP${_php_prefix}_INSTALL_BINDIR
+    )
+  endif()
+
+  return(PROPAGATE PHP${_php_prefix}_INSTALL_BINDIR)
+endfunction()
+
 # Determine PHP library directory where build-system files are installed. PHP
 # built with Autotools currently doesn't provide any useful option to retrieve
 # where the build-related files are installed. For example, gen_stub.php and
@@ -183,6 +209,153 @@ function(_php_find_php_get_lib_dir)
   return(PROPAGATE PHP${_php_prefix}_INSTALL_LIBDIR)
 endfunction()
 
+# Determine man directory containing installed PHP man pages.
+function(_php_find_php_get_man_dir)
+  if(IS_EXECUTABLE ${PHP${_php_prefix}_EXECUTABLE})
+    execute_process(
+      COMMAND
+        ${PHP${_php_prefix}_EXECUTABLE}
+        -r
+        "if (defined('PHP_MANDIR')) echo(PHP_MANDIR);"
+      OUTPUT_VARIABLE PHP${_php_prefix}_INSTALL_MANDIR
+      RESULT_VARIABLE result
+      ERROR_QUIET
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    if(NOT result EQUAL 0)
+      unset(PHP${_php_prefix}_INSTALL_MANDIR)
+    endif()
+  endif()
+
+  if(
+    NOT PHP${_php_prefix}_INSTALL_MANDIR
+    AND IS_EXECUTABLE "${PHP${_php_prefix}_CONFIG_EXECUTABLE}"
+  )
+    execute_process(
+      COMMAND "${PHP${_php_prefix}_CONFIG_EXECUTABLE}" --man-dir
+      OUTPUT_VARIABLE PHP${_php_prefix}_INSTALL_MANDIR
+      RESULT_VARIABLE result
+      ERROR_QUIET
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    if(NOT result EQUAL 0)
+      unset(PHP${_php_prefix}_INSTALL_MANDIR)
+    endif()
+  endif()
+
+  return(PROPAGATE PHP${_php_prefix}_INSTALL_MANDIR)
+endfunction()
+
+# Determine PHP program prefix and suffix. PHP built with Autotools doesn't
+# advertise these therefore determination is heuristic.
+function(_php_find_php_get_prefix_suffix)
+  if(
+    NOT IS_EXECUTABLE "${PHP${_php_prefix}_CONFIG_EXECUTABLE}"
+    AND NOT IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}"
+  )
+    return()
+  endif()
+
+  unset(PHP${_php_prefix}_PROGRAM_PREFIX)
+  unset(PHP${_php_prefix}_PROGRAM_SUFFIX)
+
+  if(EXISTS "${PHP${_php_prefix}_CONFIG_EXECUTABLE}")
+    file(
+      STRINGS
+      ${PHP${_php_prefix}_CONFIG_EXECUTABLE}
+      _
+      REGEX "^program_prefix=\\\"([^\"]*)\\\""
+      LIMIT_COUNT 1
+    )
+
+    set(PHP${_php_prefix}_PROGRAM_PREFIX "${CMAKE_MATCH_1}")
+
+    file(
+      STRINGS
+      ${PHP${_php_prefix}_CONFIG_EXECUTABLE}
+      _
+      REGEX "^program_suffix=\\\"([^\"]*)\\\""
+      LIMIT_COUNT 1
+    )
+
+    set(PHP${_php_prefix}_PROGRAM_SUFFIX "${CMAKE_MATCH_1}")
+  endif()
+
+  if(
+    NOT DEFINED PHP${_php_prefix}_PROGRAM_PREFIX
+    AND NOT DEFINED PHP${_php_prefix}_PROGRAM_SUFFIX
+    AND IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}"
+  )
+    cmake_path(GET PHP${_php_prefix}_EXECUTABLE FILENAME filename)
+
+    string(
+      REGEX REPLACE
+      "${CMAKE_EXECUTABLE_SUFFIX}$"
+      ""
+      filename
+      "${filename}"
+    )
+
+    unset(CMAKE_MATCH_1)
+    unset(CMAKE_MATCH_2)
+
+    string(REGEX MATCH "^(.*)php(.*)$" _ ${filename})
+
+    set(PHP${_php_prefix}_PROGRAM_PREFIX "${CMAKE_MATCH_1}")
+    set(PHP${_php_prefix}_PROGRAM_SUFFIX "${CMAKE_MATCH_2}")
+  endif()
+
+  return(
+    PROPAGATE
+      PHP${_php_prefix}_PROGRAM_PREFIX
+      PHP${_php_prefix}_PROGRAM_SUFFIX
+  )
+endfunction()
+
+# Determine thread safety of the found PHP package.
+function(_php_find_php_get_thread_safety)
+  if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
+    execute_process(
+      COMMAND ${PHP${_php_prefix}_EXECUTABLE} -r "var_dump(PHP_ZTS);"
+      OUTPUT_VARIABLE output
+      RESULT_VARIABLE result
+      ERROR_QUIET
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+
+    set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
+
+    if(result EQUAL 0 AND output MATCHES "^bool\\\((.+)\\\)")
+      set(PHP${_php_prefix}_THREAD_SAFETY "${CMAKE_MATCH_1}")
+    endif()
+  endif()
+
+  if(
+    NOT DEFINED PHP${_php_prefix}_THREAD_SAFETY
+    AND EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}"
+  )
+    include(CheckSymbolExists)
+    include(CMakePushCheckState)
+
+    cmake_push_check_state(RESET)
+      set(CMAKE_REQUIRED_INCLUDES "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}")
+      set(CMAKE_REQUIRED_QUIET TRUE)
+
+      check_symbol_exists(ZTS main/php_config.h PHP${_php_prefix}_HAS_ZTS)
+
+      if(PHP${_php_prefix}_HAS_ZTS)
+        set(PHP${_php_prefix}_THREAD_SAFETY TRUE)
+      else()
+        set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
+      endif()
+    cmake_pop_check_state()
+  endif()
+
+  return(PROPAGATE PHP${_php_prefix}_THREAD_SAFETY)
+endfunction()
+
 ################################################################################
 # Find PHP.
 ################################################################################
@@ -193,8 +366,12 @@ block(
     PHP${_php_prefix}_API_VERSION
     PHP${_php_prefix}_EXTENSION_DIR
     PHP${_php_prefix}_FOUND
+    PHP${_php_prefix}_INSTALL_BINDIR
     PHP${_php_prefix}_INSTALL_INCLUDEDIR
     PHP${_php_prefix}_INSTALL_LIBDIR
+    PHP${_php_prefix}_INSTALL_MANDIR
+    PHP${_php_prefix}_PROGRAM_PREFIX
+    PHP${_php_prefix}_PROGRAM_SUFFIX
     PHP${_php_prefix}_THREAD_SAFETY
     PHP${_php_prefix}_VERSION
     PHP${_php_prefix}_ZEND_EXTENSION_API_NO
@@ -229,6 +406,14 @@ block(
       DOC "Path to the PHP executable"
     )
     mark_as_advanced(PHP${_php_prefix}_EXECUTABLE)
+
+    # Compute a path with symbolic links resolved and leading tildes expanded.
+    file(
+      REAL_PATH
+      "${PHP${_php_prefix}_EXECUTABLE}"
+      PHP${_php_prefix}_EXECUTABLE
+      EXPAND_TILDE
+    )
 
     if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
       set(PHP_Interpreter_FOUND TRUE)
@@ -300,42 +485,13 @@ block(
         OUTPUT_STRIP_TRAILING_WHITESPACE
       )
     endif()
-
-    _php_find_php_get_lib_dir()
-
-    # Determine thread safety of the found PHP package.
-    if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
-      execute_process(
-        COMMAND ${PHP${_php_prefix}_EXECUTABLE} -r "var_dump(PHP_ZTS);"
-        OUTPUT_VARIABLE output
-        RESULT_VARIABLE result
-        ERROR_QUIET
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-      )
-
-      set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
-
-      if(result EQUAL 0 AND output MATCHES "^bool\\\((.+)\\\)")
-        set(PHP${_php_prefix}_THREAD_SAFETY "${CMAKE_MATCH_1}")
-      endif()
-    elseif(PHP${_php_prefix}_INSTALL_INCLUDEDIR)
-      include(CheckSymbolExists)
-      include(CMakePushCheckState)
-
-      cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_INCLUDES "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}")
-        set(CMAKE_REQUIRED_QUIET TRUE)
-
-        check_symbol_exists(ZTS main/php_config.h PHP${_php_prefix}_HAS_ZTS)
-
-        if(PHP${_php_prefix}_HAS_ZTS)
-          set(PHP${_php_prefix}_THREAD_SAFETY TRUE)
-        else()
-          set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
-        endif()
-      cmake_pop_check_state()
-    endif()
   endif()
+
+  _php_find_php_get_bin_dir()
+  _php_find_php_get_lib_dir()
+  _php_find_php_get_man_dir()
+  _php_find_php_get_prefix_suffix()
+  _php_find_php_get_thread_safety()
 
   ##############################################################################
   # Get PHP version variables.

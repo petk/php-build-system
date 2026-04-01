@@ -52,6 +52,8 @@ endif()
 
 find_package(PHP REQUIRED)
 
+include(PHP/AddCommand)
+
 include(PHP/Extension)
 php_extension(phar)
 
@@ -75,6 +77,7 @@ target_sources(
     phar_path_check.c
     phar.c
     stream.c
+    stub.h
     tar.c
     util.c
     zip.c
@@ -106,7 +109,7 @@ set_property(
 set_property(
   TARGET php_ext_phar
   APPEND
-  PROPERTY PHP_RECOMMENDED_EXTENSIONS openssl
+  PROPERTY PHP_RECOMMENDED_EXTENSIONS bz2 openssl zlib
 )
 
 ################################################################################
@@ -126,31 +129,54 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.1
     RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    DESTINATION ${PHP_INSTALL_MANDIR}/man1
     COMPONENT php-doc
   )
 
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/phar.phar.1
     RENAME ${PHP_PROGRAM_PREFIX}phar${PHP_PROGRAM_SUFFIX}.phar.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    DESTINATION ${PHP_INSTALL_MANDIR}/man1
     COMPONENT php-doc
   )
+endif()
+
+################################################################################
+# Generate ext/phar/stub.h.
+################################################################################
+
+php_add_command(
+  php_ext_phar_generate_stub_h
+  EXCLUDE_FROM_ALL
+  ARGS
+    ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
+  PHP_EXTENSIONS tokenizer
+  OUTPUT
+    ${CMAKE_CURRENT_SOURCE_DIR}/stub.h
+  DEPENDS
+    ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
+    ${CMAKE_CURRENT_SOURCE_DIR}/shortarc.php
+  COMMENT "[ext/phar] Regenerating stub.h"
+)
+
+################################################################################
+# Configure tests.
+################################################################################
+
+if(PHP_TESTING)
+  add_subdirectory(tests)
 endif()
 
 ################################################################################
 # The phar command-line script.
 ################################################################################
 
-if(NOT TARGET PHP::sapi::cli)
-  return()
-endif()
-
-if(NOT CMAKE_CROSSCOMPILING)
-  set(php_executable "$<TARGET_FILE:PHP::sapi::cli>")
-elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(php_executable "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
-else()
+if(NOT TARGET PHP::Interpreter AND NOT TARGET PHP::sapi::cli)
+  message(
+    WARNING
+    "PHP command-line interpreter is missing. The phar.phar command-line tool "
+    "will not be generated."
+  )
   return()
 endif()
 
@@ -163,30 +189,6 @@ set(
   -d phar.readonly=0
 )
 
-# TODO: Fix this better.
-if(PHP_EXT_PHAR_SHARED OR PHP_EXT_ZLIB_SHARED OR PHP_EXT_BZ2_SHARED)
-  list(APPEND php_options -d extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>)
-endif()
-
-foreach(extension IN ITEMS bz2 phar zlib)
-  string(TOUPPER "PHP_EXT_${extension}_SHARED" option)
-  if(${option})
-    list(APPEND php_options -d extension=${extension})
-  endif()
-endforeach()
-
-# The phar.inc is loaded in the phar/pharcommand.inc file based on the
-# execution. However, it's unclear how to reproduce its usage from the build
-# directory. This is here only to be synced with the upstream build system.
-if(NOT CMAKE_CURRENT_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_SOURCE_DIR)
-  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/phar)
-  file(
-    COPY_FILE
-    ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.inc
-    ${CMAKE_CURRENT_BINARY_DIR}/phar/phar.inc
-  )
-endif()
-
 cmake_path(
   RELATIVE_PATH
   CMAKE_CURRENT_BINARY_DIR
@@ -194,36 +196,102 @@ cmake_path(
   OUTPUT_VARIABLE relative_dir
 )
 
-add_custom_command(
+if(TARGET PHP::Interpreter)
+  set(args "")
+else()
+  set(args "ONLY_SAPI_CLI")
+endif()
+
+php_add_command(
+  php_ext_phar_generate_phar_php
+  ARGS
+    ${php_options}
+    ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
+    > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+  ${args}
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.php
-  COMMAND
-    ${php_executable}
-      ${php_options} # TODO: The extensions-related options aren't needed here.
-      ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
-      > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+  DEPENDS
+    php_ext_phar
+    ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/clicommand.inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/directorygraphiterator.inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/directorytreeiterator.inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/invertedregexiterator.inc
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/pharcommand.inc
   COMMENT "[ext/phar] Generating ${relative_dir}/phar.php"
-  VERBATIM
 )
 
-add_custom_command(
-  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-  COMMAND
-    ${php_executable}
-      ${php_options}
-      ${CMAKE_CURRENT_BINARY_DIR}/phar.php
-        pack
-        -f ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-        -a pharcommand
-        -c auto
-        -p 0
-        -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
-        -h sha1
-        -b "$<TARGET_FILE:PHP::sapi::cli>"
-        ${CMAKE_CURRENT_SOURCE_DIR}/phar
-  DEPENDS
+if(PHP_BINARY_DIR)
+  set(dir ${PHP_BINARY_DIR})
+  set(shebang "$<TARGET_FILE:PHP::sapi::cli>")
+else()
+  set(dir ${CMAKE_CURRENT_BINARY_DIR})
+  set(shebang "$<TARGET_FILE:PHP::Interpreter>")
+endif()
+
+get_target_property(type php_ext_phar TYPE)
+if(type STREQUAL "MODULE_LIBRARY")
+  list(
+    APPEND
+    php_options
+    -d extension=${dir}/modules/$<CONFIG>/phar${CMAKE_SHARED_MODULE_SUFFIX}
+  )
+endif()
+
+# The phar.inc is loaded in the phar/pharcommand.inc file based on the
+# execution. However, it's unclear how to reproduce its usage from the build
+# directory. Copying to build directory is here only to be synced with the
+# upstream build system, but the *.inc retrieval is added for reproducible
+# phar file generation. See https://github.com/php/php-src/issues/19997
+file(
+  GLOB
+  phar_sources_relative
+  LIST_DIRECTORIES FALSE
+  RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
+)
+if(NOT CMAKE_CURRENT_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_SOURCE_DIR)
+  file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/phar)
+
+  foreach(file IN LISTS phar_sources_relative)
+    file(
+      COPY_FILE
+      ${CMAKE_CURRENT_SOURCE_DIR}/${file}
+      ${CMAKE_CURRENT_BINARY_DIR}/${file}
+    )
+  endforeach()
+endif()
+
+set(phar_sources_absolute "")
+foreach(file IN LISTS phar_sources_relative)
+  list(APPEND phar_sources_absolute "${CMAKE_CURRENT_BINARY_DIR}/${file}")
+endforeach()
+
+php_add_command(
+  php_ext_phar_generate_phar_phar
+  ARGS
+    ${php_options}
     ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+      pack
+      -f ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+      -a pharcommand
+      -c auto
+      -p 0
+      -s ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
+      -h sha1
+      -b "${shebang}"
+      -l 1
+      ${phar_sources_relative}
+  ${args}
+  OPTIONAL_EXTENSIONS bz2 zlib
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
+  DEPENDS
+    php_ext_phar
+    ${CMAKE_CURRENT_BINARY_DIR}/phar.php
+    ${CMAKE_CURRENT_SOURCE_DIR}/phar/phar.php
+    ${phar_sources_absolute}
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "[ext/phar] Generating ${relative_dir}/phar.phar"
-  VERBATIM
 )
 
 # Set phar.phar permissions.
@@ -231,52 +299,55 @@ file(
   CONFIGURE
   OUTPUT CMakeFiles/PharPermissions.cmake
   CONTENT [[
-    file(
-      CHMOD
-      "@CMAKE_CURRENT_BINARY_DIR@/phar.phar"
-      FILE_PERMISSIONS
-        OWNER_READ
-        OWNER_WRITE
-        OWNER_EXECUTE
-        GROUP_READ
-        GROUP_WRITE
-        GROUP_EXECUTE
-        WORLD_READ
-        WORLD_EXECUTE
-    )
+    if(EXISTS "@CMAKE_CURRENT_BINARY_DIR@/phar.phar")
+      file(
+        CHMOD
+        "@CMAKE_CURRENT_BINARY_DIR@/phar.phar"
+        FILE_PERMISSIONS
+          OWNER_READ
+          OWNER_WRITE
+          OWNER_EXECUTE
+          GROUP_READ
+          GROUP_WRITE
+          GROUP_EXECUTE
+          WORLD_READ
+          WORLD_EXECUTE
+      )
+    endif()
   ]]
   @ONLY
 )
 
-add_custom_command(
-  OUTPUT php_ext_phar_generated_phar
-  COMMAND ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
-  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-  COMMENT ""
-)
-set_property(SOURCE php_ext_phar_generated_phar PROPERTY SYMBOLIC TRUE)
-
-file(
-  GLOB_RECURSE
-  dependent_files
-  ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
-  ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.php
-)
-
 add_custom_target(
-  php_ext_phar_generate_file
+  php_ext_phar_permissions
   ALL
+  COMMAND ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
   DEPENDS
-    PHP::sapi::cli
+    ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
     php_ext_phar
-    ${dependent_files}
-    php_ext_phar_generated_phar
 )
+
+if(TARGET PHP::sapi::cli)
+  add_dependencies(php_ext_phar_permissions PHP::sapi::cli)
+endif()
+
+if(TARGET PHP::Interpreter)
+  set(php_target "PHP::Interpreter")
+  set(php_executable "$<TARGET_FILE:${php_target}>")
+elseif(NOT CMAKE_CROSSCOMPILING)
+  set(php_target "PHP::sapi::cli")
+  set(php_executable "$<TARGET_FILE:${php_target}>")
+elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+  set(php_target "PHP::sapi::cli")
+  set(php_executable "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:${php_target}>")
+else()
+  return()
+endif()
 
 # Install phar.phar file to destination. Here a duplicate phar.phar generation
 # step is used to generate it to a destination directory because of the install
 # prefix used in shebang (when using 'cmake --install --prefix ...').
-install(DIRECTORY DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT php)
+install(DIRECTORY DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php)
 string(CONFIGURE [[
   execute_process(
     COMMAND
@@ -290,7 +361,7 @@ string(CONFIGURE [[
           -p 0
           -s "@CMAKE_CURRENT_SOURCE_DIR@/phar/phar.php"
           -h sha1
-          -b "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:PHP::sapi::cli>"
+          -b "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:@php_target@>"
           "@CMAKE_CURRENT_SOURCE_DIR@/phar"
   )
 
@@ -305,7 +376,7 @@ string(CONFIGURE [[
     INSTALL
       "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
       "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
-    DESTINATION $<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>
+    DESTINATION $<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>
     FILE_PERMISSIONS
       OWNER_READ
       OWNER_WRITE

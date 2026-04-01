@@ -58,6 +58,7 @@ block()
     COMMAND
       ${CMAKE_COMMAND}
         --build . --target php_rebuild ${parallel}
+    COMMENT ""
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS ${targets}
   )

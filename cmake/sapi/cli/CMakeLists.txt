@@ -153,7 +153,7 @@ install(
     php_sapi_cli
   EXPORT php_sapi_cli_export
   RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION ${PHP_INSTALL_BINDIR}
     COMPONENT php-sapi-cli
   FILE_SET HEADERS
     DESTINATION ${PHP_INSTALL_INCLUDEDIR}/sapi/cli
@@ -177,12 +177,14 @@ include(PHP/AddCommand)
 
 php_add_command(
   php_sapi_cli_generate_mime_type_map
-  PHP_COMMAND
+  EXCLUDE_FROM_ALL
+  ARGS
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
     > ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
-  PHP_EXTENSIONS openssl
+  REQUIRED_EXTENSIONS openssl
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
   COMMENT "[sapi/cli] Regenerating mime_type_map.h"
-  VERBATIM
 )
 
 ################################################################################
@@ -230,7 +232,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
     TARGETS php_sapi_cli_win
     EXPORT php_sapi_cli_export
     RUNTIME
-      DESTINATION ${CMAKE_INSTALL_BINDIR}
+      DESTINATION ${PHP_INSTALL_BINDIR}
       COMPONENT php-sapi-cli
   )
 endif()
@@ -246,7 +248,7 @@ block()
     install(
       FILES ${CMAKE_CURRENT_BINARY_DIR}/php.1
       RENAME ${PHP_PROGRAM_PREFIX}php${PHP_PROGRAM_SUFFIX}.1
-      DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+      DESTINATION ${PHP_INSTALL_MANDIR}/man1
       COMPONENT php-doc
     )
   endif()

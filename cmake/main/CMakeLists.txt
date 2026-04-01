@@ -119,7 +119,8 @@ if(PHP_HAS_ELF)
 
   php_add_command(
     php_main_generate_debug_gdb_scripts
-    PHP_COMMAND
+    AS_TARGET
+    ARGS
       ${PHP_SOURCE_DIR}/scripts/gdb/debug_gdb_scripts_gen.php
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/debug_gdb_scripts.c
@@ -128,7 +129,6 @@ if(PHP_HAS_ELF)
       ${PHP_SOURCE_DIR}/scripts/gdb/php_gdb.py
       ${PHP_SOURCE_DIR}/.gdbinit
     COMMENT "[main] Regenerating main/debug_gdb_scripts.c"
-    VERBATIM
   )
 endif()
 
@@ -293,7 +293,7 @@ function(_php_main_configure_build_defs)
       set(PHP_PEAR_INSTALL_DIR_VALUE "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_INSTALL_DIR_VALUE@,${CMAKE_INSTALL_PREFIX}>")
     endif()
 
-    set(PHP_BINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
+    set(PHP_BINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
 
     if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
       set(PHP_CONFIG_FILE_PATH "")
@@ -320,7 +320,7 @@ function(_php_main_configure_build_defs)
     if("@CMAKE_SYSTEM_NAME@" STREQUAL "Windows")
       set(PHP_MANDIR "")
     else()
-      set(PHP_MANDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
+      set(PHP_MANDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
     endif()
 
     set(PHP_PROG_SENDMAIL "@Sendmail_PROGRAM@")
