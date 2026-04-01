@@ -58,6 +58,7 @@ find_program(
   NAMES fb_config
   DOC "Path to the fb_config Firebird command-line utility"
 )
+mark_as_advanced(Firebird_CONFIG_EXECUTABLE)
 
 if(Firebird_CONFIG_EXECUTABLE)
   # Process CFLAGS to get include directories where to look for ibase.h.
@@ -99,6 +100,7 @@ find_path(
   HINTS ${Firebird_CONFIG_INCLUDE_DIRS}
   DOC "Directory containing Firebird library headers"
 )
+mark_as_advanced(Firebird_INCLUDE_DIR)
 
 if(NOT Firebird_INCLUDE_DIR)
   string(APPEND _reason "ibase.h not found. ")
@@ -111,6 +113,7 @@ find_library(
   NAMES_PER_DIR
   DOC "The path to the Firebird library"
 )
+mark_as_advanced(Firebird_LIBRARY)
 
 if(NOT Firebird_LIBRARY)
   string(APPEND _reason "Firebird library not found. ")
@@ -125,12 +128,6 @@ if(Firebird_CONFIG_EXECUTABLE)
     ERROR_QUIET
   )
 endif()
-
-mark_as_advanced(
-  Firebird_CONFIG_EXECUTABLE
-  Firebird_INCLUDE_DIR
-  Firebird_LIBRARY
-)
 
 find_package_handle_standard_args(
   Firebird
