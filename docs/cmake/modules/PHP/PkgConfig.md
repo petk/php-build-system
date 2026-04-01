@@ -38,7 +38,7 @@ Generates pkg-config `.pc` file from the given pc template:
 php_pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
-  TARGET <target>
+  [TARGET <target>]
   [VARIABLES <variable> <value> ...]
 )
 ```

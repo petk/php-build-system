@@ -545,7 +545,8 @@ include(cmake/Signals.cmake)
 if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   php_add_command(
     php_zend_generate_vm
-    PHP_COMMAND
+    AS_TARGET
+    ARGS
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.h
@@ -556,8 +557,9 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_def.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.skl
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
-    COMMENT "[Zend] Regenerating zend_vm_execute.h, zend_vm_handlers.h and zend_vm_opcodes.{h,c}"
-    VERBATIM
+    COMMENT
+      "[Zend] Regenerating zend_vm_execute.h, zend_vm_handlers.h and "
+      "zend_vm_opcodes.{h,c}"
   )
 endif()
 

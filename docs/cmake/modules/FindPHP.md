@@ -44,6 +44,8 @@ This module defines the following variables:
 * `PHP_ZEND_VERSION` - The version of the Zend Engine.
 * `PHP_ZEND_MODULE_API_NO` - The API number for PHP extensions.
 * `PHP_ZEND_EXTENSION_API_NO` - The API number for Zend extensions.
+* `PHP_PROGRAM_PREFIX` - Prefix prepended to PHP program names.
+* `PHP_PROGRAM_SUFFIX` - Suffix appended to PHP program names.
 
 ## Cache variables
 

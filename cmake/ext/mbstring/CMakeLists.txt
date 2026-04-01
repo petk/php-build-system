@@ -210,14 +210,15 @@ include(PHP/AddCommand)
 
 php_add_command(
   php_ext_mbstring_generate_codepoints
-  PHP_COMMAND
+  EXCLUDE_FROM_ALL
+  ARGS
     ${CMAKE_CURRENT_SOURCE_DIR}/gen_rare_cp_bitvec.php
     ${CMAKE_CURRENT_SOURCE_DIR}/common_codepoints.txt
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/rare_cp_bitvec.h
   DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/gen_rare_cp_bitvec.php
     ${CMAKE_CURRENT_SOURCE_DIR}/common_codepoints.txt
   COMMENT "[ext/mbstring] Regenerating rare_cp_bitvec.h"
-  VERBATIM
 )
 
 configure_file(cmake/config.h.in config.h)

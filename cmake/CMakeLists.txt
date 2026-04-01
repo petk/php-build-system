@@ -245,8 +245,10 @@ configure_package_config_file(
   INSTALL_DESTINATION ${PHP_INSTALL_CMAKE_CONFIG_FILE_DIR}
   PATH_VARS
     PHP_EXTENSION_DIR
+    PHP_INSTALL_BINDIR
     PHP_INSTALL_INCLUDEDIR
     PHP_INSTALL_LIBDIR
+    PHP_INSTALL_MANDIR
 )
 
 # Evaluate hardcoded generator expressions inside variable values.
@@ -332,6 +334,7 @@ if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
     PACKAGE_INFO PHP
     EXPORT php_development_export
     DESTINATION ${PHP_INSTALL_CPS_DIR}
+    COMPONENT php-development
   )
 
   set(CMAKE_EXPERIMENTAL_GENERATE_SBOM "ca494ed3-b261-4205-a01f-603c95e4cae0")
@@ -340,6 +343,7 @@ if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
     SBOM PHP
     EXPORT php_development_export
     DESTINATION ${PHP_INSTALL_SBOM_DIR}
+    COMPONENT php-development
   )
 endif()
 
