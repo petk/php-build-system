@@ -77,6 +77,8 @@ The following variables are set:
   was found.
 * `PHP_VERSION` - The version of package found.
 * `PHP_EXTENSION_DIR` - The path where PHP shared extensions are located.
+* `PHP_THREAD_SAFETY` - Boolean indicating whether the found PHP is built with
+  thread safety enabled.
 * `PHP_CMAKE_MODULE_PATH` - The path where include() and find_package() look for
   PHP CMake utility and find modules. This path is also automatically appended
   to the `CMAKE_MODULE_PATH` when `find_package(PHP)` is called and PHP is
@@ -85,6 +87,8 @@ The following variables are set:
 * `PHP_ZEND_VERSION` - The version of the Zend Engine.
 * `PHP_ZEND_MODULE_API_NO` - The API number for PHP extensions.
 * `PHP_ZEND_EXTENSION_API_NO` - The API number for Zend extensions.
+* `PHP_PROGRAM_PREFIX` - Prefix prepended to PHP program names.
+* `PHP_PROGRAM_SUFFIX` - Suffix appended to PHP program names.
 
 ## Hints
 
@@ -204,18 +208,22 @@ endif()
 ################################################################################
 
 set_and_check(PHP_EXTENSION_DIR "@PACKAGE_PHP_EXTENSION_DIR@")
+set_and_check(PHP_INSTALL_BINDIR "@PACKAGE_PHP_INSTALL_BINDIR@")
 set_and_check(PHP_INSTALL_INCLUDEDIR "@PACKAGE_PHP_INSTALL_INCLUDEDIR@")
 set_and_check(PHP_INSTALL_LIBDIR "@PACKAGE_PHP_INSTALL_LIBDIR@")
+set_and_check(PHP_INSTALL_MANDIR "@PACKAGE_PHP_INSTALL_MANDIR@")
 
 # Set path where additional PHP CMake modules are installed:
 set(PHP_CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 list(APPEND CMAKE_MODULE_PATH ${PHP_CMAKE_MODULE_PATH})
 
 set(PHP_API_VERSION "@PHP_API_VERSION@")
-set(PHP_ZEND_VERSION "$<TARGET_PROPERTY:PHP::Zend,VERSION>")
-set(PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
-set(PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>")
+set(PHP_PROGRAM_PREFIX "@PHP_PROGRAM_PREFIX@")
+set(PHP_PROGRAM_SUFFIX "@PHP_PROGRAM_SUFFIX@")
 set(PHP_THREAD_SAFETY "@PHP_THREAD_SAFETY@")
+set(PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>")
+set(PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
+set(PHP_ZEND_VERSION "$<TARGET_PROPERTY:PHP::Zend,VERSION>")
 
 ################################################################################
 # Check required components.

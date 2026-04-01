@@ -150,7 +150,7 @@ endif()
 
 string(CONFIGURE [[
   set(php_pear_install_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_INSTALL_DIR_VALUE@,${CMAKE_INSTALL_PREFIX}>")
-  set(php_pear_install_bin_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
+  set(php_pear_install_bin_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
   set(php_pear_current_source_dir "@CMAKE_CURRENT_SOURCE_DIR@")
   set(php_pear_current_binary_dir "@CMAKE_CURRENT_BINARY_DIR@")
   set(php_pear_php_executable "@php_executable@")

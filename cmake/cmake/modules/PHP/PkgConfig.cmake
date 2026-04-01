@@ -36,7 +36,7 @@ Generates pkg-config `.pc` file from the given pc template:
 php_pkgconfig_generate_pc(
   <pc-template-file>
   <pc-file-output>
-  TARGET <target>
+  [TARGET <target>]
   [VARIABLES <variable> <value> ...]
 )
 ```
@@ -143,11 +143,7 @@ function(php_pkgconfig_generate_pc)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
   endif()
 
-  if(NOT DEFINED parsed_TARGET)
-    message(FATAL_ERROR "${CMAKE_CURRENT_FUNCTION} expects a TARGET.")
-  endif()
-
-  if(NOT TARGET ${parsed_TARGET})
+  if(DEFINED parsed_TARGET AND NOT TARGET ${parsed_TARGET})
     message(FATAL_ERROR "${parsed_TARGET} is not a target.")
   endif()
 
@@ -185,14 +181,18 @@ function(php_pkgconfig_generate_pc)
     _php_pkgconfig_parse_variables("${parsed_VARIABLES}")
   endif()
 
-  get_target_property(type ${parsed_TARGET} TYPE)
   set(file_option "")
-  if(type STREQUAL "EXECUTABLE")
-    set(file_option "" EXECUTABLES "$<TARGET_FILE:${parsed_TARGET}>")
-  elseif(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
-    set(file_option LIBRARIES "$<TARGET_FILE:${parsed_TARGET}>")
-  elseif(type MATCHES "STATIC_LIBRARY")
-    set(file_option "")
+
+  if(parsed_TARGET)
+    get_target_property(type ${parsed_TARGET} TYPE)
+
+    if(type STREQUAL "EXECUTABLE")
+      set(file_option "" EXECUTABLES "$<TARGET_FILE:${parsed_TARGET}>")
+    elseif(type MATCHES "^(MODULE|SHARED)_LIBRARY$")
+      set(file_option LIBRARIES "$<TARGET_FILE:${parsed_TARGET}>")
+    elseif(type MATCHES "STATIC_LIBRARY")
+      set(file_option "")
+    endif()
   endif()
 
   string(CONFIGURE [[
