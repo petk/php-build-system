@@ -20,3 +20,6 @@ Enables the extension.
 * Values: `ON|OFF`
 
 Builds extension as shared.
+
+> [!NOTE]
+> When the target system is Windows, the MPIR library is used instead of GMP.
