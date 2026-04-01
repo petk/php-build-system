@@ -64,6 +64,7 @@ find_path(
   HINTS ${PC_libavif_INCLUDE_DIRS}
   DOC "Directory containing libavif library headers"
 )
+mark_as_advanced(libavif_INCLUDE_DIR)
 
 if(NOT libavif_INCLUDE_DIR)
   string(APPEND _reason "avif/avif.h not found. ")
@@ -75,6 +76,7 @@ find_library(
   HINTS ${PC_libavif_LIBRARY_DIRS}
   DOC "The path to the libavif library"
 )
+mark_as_advanced(libavif_LIBRARY)
 
 if(NOT libavif_LIBRARY)
   string(APPEND _reason "libavif library not found. ")
@@ -105,8 +107,6 @@ block(PROPAGATE libavif_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(libavif_INCLUDE_DIR libavif_LIBRARY)
 
 find_package_handle_standard_args(
   libavif

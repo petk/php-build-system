@@ -66,6 +66,7 @@ find_path(
   HINTS ${PC_libzip_INCLUDE_DIRS}
   DOC "Directory containing libzip library headers"
 )
+mark_as_advanced(libzip_INCLUDE_DIR)
 
 if(NOT libzip_INCLUDE_DIR)
   string(APPEND _reason "zip.h not found. ")
@@ -77,6 +78,7 @@ find_library(
   HINTS ${PC_libzip_LIBRARY_DIRS}
   DOC "The path to the libzip library"
 )
+mark_as_advanced(libzip_LIBRARY)
 
 if(NOT libzip_LIBRARY)
   string(APPEND _reason "libzip library not found. ")
@@ -102,8 +104,6 @@ block(PROPAGATE libzip_VERSION)
     set(libzip_VERSION ${PC_libzip_VERSION})
   endif()
 endblock()
-
-mark_as_advanced(libzip_INCLUDE_DIR libzip_LIBRARY)
 
 find_package_handle_standard_args(
   libzip

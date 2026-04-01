@@ -800,7 +800,7 @@ function(_php_bison_download_windows)
 endfunction()
 
 function(_php_bison_download_m4)
-  set(url https://mirrors.dotsrc.org/gnu/m4/m4-1.4.20.tar.gz)
+  set(url https://mirrors.dotsrc.org/gnu/m4/m4-1.4.21.tar.gz)
 
   message(STATUS "Downloading ${url}")
 

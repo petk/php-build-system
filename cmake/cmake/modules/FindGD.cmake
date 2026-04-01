@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_GD_INCLUDE_DIRS}
   DOC "Directory containing GD library headers"
 )
+mark_as_advanced(GD_INCLUDE_DIR)
 
 if(NOT GD_INCLUDE_DIR)
   string(APPEND _reason "gd.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_GD_LIBRARY_DIRS}
   DOC "The path to the GD library"
 )
+mark_as_advanced(GD_LIBRARY)
 
 if(NOT GD_LIBRARY)
   string(APPEND _reason "GD library (libgd) not found. ")
@@ -104,8 +106,6 @@ block(PROPAGATE GD_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(GD_INCLUDE_DIR GD_LIBRARY)
 
 find_package_handle_standard_args(
   GD

@@ -64,6 +64,7 @@ find_path(
   HINTS ${PC_LMDB_INCLUDE_DIRS}
   DOC "Directory containing LMDB library headers"
 )
+mark_as_advanced(LMDB_INCLUDE_DIR)
 
 if(NOT LMDB_INCLUDE_DIR)
   string(APPEND _reason "lmdb.h not found. ")
@@ -75,6 +76,7 @@ find_library(
   HINTS ${PC_LMDB_LIBRARY_DIRS}
   DOC "The path to the LMDB library"
 )
+mark_as_advanced(LMDB_LIBRARY)
 
 if(NOT LMDB_LIBRARY)
   string(APPEND _reason "LMDB library not found. ")
@@ -121,8 +123,6 @@ block(PROPAGATE LMDB_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(LMDB_INCLUDE_DIR LMDB_LIBRARY)
 
 find_package_handle_standard_args(
   LMDB

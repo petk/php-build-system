@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_SASL_INCLUDE_DIRS}
   DOC "Directory containing SASL library headers"
 )
+mark_as_advanced(SASL_INCLUDE_DIR)
 
 if(NOT SASL_INCLUDE_DIR)
   string(APPEND _reason "sasl/sasl.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_SASL_LIBRARY_DIRS}
   DOC "The path to the SASL library"
 )
+mark_as_advanced(SASL_LIBRARY)
 
 if(NOT SASL_LIBRARY)
   string(APPEND _reason "SASL library (libsasl2) not found. "
@@ -104,8 +106,6 @@ block(PROPAGATE SASL_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(SASL_INCLUDE_DIR SASL_LIBRARY)
 
 find_package_handle_standard_args(
   SASL
