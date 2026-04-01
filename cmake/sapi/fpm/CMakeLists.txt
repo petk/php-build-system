@@ -408,7 +408,7 @@ block()
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/php-fpm.8
     RENAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}.8
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man8
+    DESTINATION ${PHP_INSTALL_MANDIR}/man8
     COMPONENT php-doc
   )
 endblock()

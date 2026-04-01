@@ -79,7 +79,7 @@ install(
   TARGETS php_sapi_cgi
   EXPORT php_sapi_cgi_export
   RUNTIME
-    DESTINATION ${CMAKE_INSTALL_BINDIR}
+    DESTINATION ${PHP_INSTALL_BINDIR}
     COMPONENT php-sapi-cgi
 )
 
@@ -100,7 +100,7 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/php-cgi.1
     RENAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}.1
-    DESTINATION ${CMAKE_INSTALL_MANDIR}/man1
+    DESTINATION ${PHP_INSTALL_MANDIR}/man1
     COMPONENT php-doc
   )
 endif()
