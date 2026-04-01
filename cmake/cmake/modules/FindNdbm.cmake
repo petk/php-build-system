@@ -86,6 +86,7 @@ else()
     PATH_SUFFIXES db1
     DOC "Directory containing ndbm library headers"
   )
+  mark_as_advanced(Ndbm_INCLUDE_DIR)
 
   if(NOT Ndbm_INCLUDE_DIR)
     string(APPEND _reason "ndbm.h not found. ")
@@ -99,6 +100,7 @@ else()
     NAMES_PER_DIR
     DOC "The path to the ndbm library"
   )
+  mark_as_advanced(Ndbm_LIBRARY)
 
   if(NOT Ndbm_LIBRARY)
     string(APPEND _reason "ndbm library not found. ")
@@ -112,8 +114,6 @@ else()
       string(APPEND _reason "Sanity check failed: dbm_open not found. ")
     endif()
   endif()
-
-  mark_as_advanced(Ndbm_INCLUDE_DIR Ndbm_LIBRARY)
 endif()
 
 find_package_handle_standard_args(

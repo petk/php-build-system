@@ -54,6 +54,7 @@ find_path(
   NAMES mm.h
   DOC "Directory containing mm library headers"
 )
+mark_as_advanced(MM_INCLUDE_DIR)
 
 if(NOT MM_INCLUDE_DIR)
   string(APPEND _reason "mm.h not found. ")
@@ -64,12 +65,11 @@ find_library(
   NAMES mm
   DOC "The path to the mm library"
 )
+mark_as_advanced(MM_LIBRARY)
 
 if(NOT MM_LIBRARY)
   string(APPEND _reason "mm library not found. ")
 endif()
-
-mark_as_advanced(MM_INCLUDE_DIR MM_LIBRARY)
 
 find_package_handle_standard_args(
   MM

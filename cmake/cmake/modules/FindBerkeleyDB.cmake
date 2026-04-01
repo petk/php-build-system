@@ -66,6 +66,7 @@ find_path(
   PATH_SUFFIXES db
   DOC "Directory containing Berkeley DB library headers"
 )
+mark_as_advanced(BerkeleyDB_INCLUDE_DIR)
 
 if(NOT BerkeleyDB_INCLUDE_DIR)
   string(APPEND _reason "db.h not found. ")
@@ -76,6 +77,7 @@ find_library(
   NAMES db
   DOC "The path to the Berkeley DB library"
 )
+mark_as_advanced(BerkeleyDB_LIBRARY)
 
 if(NOT BerkeleyDB_LIBRARY)
   string(APPEND _reason "Berkeley DB library not found. ")
@@ -88,6 +90,7 @@ if(BerkeleyDB_USE_DB1)
     PATH_SUFFIXES db
     DOC "Directory containing Berkeley DB db_185.h header for v1 emulation"
   )
+  mark_as_advanced(BerkeleyDB_DB1_INCLUDE_DIR)
 
   message(CHECK_START "Checking for Berkeley DB 1.x support/emulation")
   cmake_push_check_state(RESET)
@@ -161,12 +164,6 @@ block(PROPAGATE BerkeleyDB_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(
-  BerkeleyDB_DB1_INCLUDE_DIR
-  BerkeleyDB_INCLUDE_DIR
-  BerkeleyDB_LIBRARY
-)
 
 find_package_handle_standard_args(
   BerkeleyDB

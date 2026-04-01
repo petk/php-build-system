@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_Oniguruma_INCLUDE_DIRS}
   DOC "Directory containing Oniguruma library headers"
 )
+mark_as_advanced(Oniguruma_INCLUDE_DIR)
 
 if(NOT Oniguruma_INCLUDE_DIR)
   string(APPEND _reason "oniguruma.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_Oniguruma_LIBRARY_DIRS}
   DOC "The path to the Oniguruma library"
 )
+mark_as_advanced(Oniguruma_LIBRARY)
 
 if(NOT Oniguruma_LIBRARY)
   string(APPEND _reason "Oniguruma library (libonig) not found. ")
@@ -103,8 +105,6 @@ block(PROPAGATE Oniguruma_VERSION)
     endforeach()
   endif()
 endblock()
-
-mark_as_advanced(Oniguruma_INCLUDE_DIR Oniguruma_LIBRARY)
 
 find_package_handle_standard_args(
   Oniguruma

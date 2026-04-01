@@ -64,6 +64,7 @@ find_path(
   HINTS ${PC_Editline_INCLUDE_DIRS}
   DOC "Directory containing Editline library headers"
 )
+mark_as_advanced(Editline_INCLUDE_DIR)
 
 if(NOT Editline_INCLUDE_DIR)
   string(APPEND _reason "editline/readline.h not found. ")
@@ -75,6 +76,7 @@ find_library(
   HINTS ${PC_Editline_LIBRARY_DIRS}
   DOC "The path to the Editline library"
 )
+mark_as_advanced(Editline_LIBRARY)
 
 if(NOT Editline_LIBRARY)
   string(APPEND _reason "Editline library not found. ")
@@ -102,8 +104,6 @@ if(
 )
   set(Editline_VERSION ${PC_Editline_VERSION})
 endif()
-
-mark_as_advanced(Editline_INCLUDE_DIR Editline_LIBRARY)
 
 find_package_handle_standard_args(
   Editline

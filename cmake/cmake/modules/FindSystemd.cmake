@@ -63,6 +63,7 @@ find_path(
   HINTS ${PC_Systemd_INCLUDE_DIRS}
   DOC "Directory containing systemd library headers"
 )
+mark_as_advanced(Systemd_INCLUDE_DIR)
 
 if(NOT Systemd_INCLUDE_DIR)
   string(APPEND _reason "systemd/sd-daemon.h not found. ")
@@ -74,6 +75,7 @@ find_library(
   HINTS ${PC_Systemd_LIBRARY_DIRS}
   DOC "The path to the systemd library"
 )
+mark_as_advanced(Systemd_LIBRARY)
 
 if(NOT Systemd_LIBRARY)
   string(APPEND _reason "The systemd library not found. ")
@@ -96,6 +98,7 @@ if(Systemd_INCLUDE_DIR AND Systemd_LIBRARY)
         NAMES_PER_DIR
         DOC "Path to the systemd executable"
       )
+      mark_as_advanced(Systemd_EXECUTABLE)
 
       if(Systemd_EXECUTABLE)
         execute_process(
@@ -111,8 +114,6 @@ if(Systemd_INCLUDE_DIR AND Systemd_LIBRARY)
     endif()
   endblock()
 endif()
-
-mark_as_advanced(Systemd_INCLUDE_DIR Systemd_LIBRARY Systemd_EXECUTABLE)
 
 find_package_handle_standard_args(
   Systemd

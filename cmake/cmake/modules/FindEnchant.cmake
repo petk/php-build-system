@@ -48,7 +48,7 @@ include(FindPackageHandleStandardArgs)
 set_package_properties(
   Enchant
   PROPERTIES
-    URL "https://abiword.github.io/enchant/"
+    URL "https://rrthomas.github.io/enchant/"
     DESCRIPTION "Interface for a number of spellchecking libraries"
 )
 
@@ -66,6 +66,7 @@ find_path(
   HINTS ${PC_Enchant_INCLUDE_DIRS}
   DOC "Directory containing Enchant library headers"
 )
+mark_as_advanced(Enchant_INCLUDE_DIR)
 
 if(NOT Enchant_INCLUDE_DIR)
   string(APPEND _reason "enchant.h not found. ")
@@ -78,6 +79,7 @@ find_library(
   HINTS ${PC_Enchant_LIBRARY_DIRS}
   DOC "The path to the Enchant library"
 )
+mark_as_advanced(Enchant_LIBRARY)
 
 if(NOT Enchant_LIBRARY)
   string(APPEND _reason "Enchant library not found. ")
@@ -87,8 +89,6 @@ endif()
 if(PC_Enchant_VERSION AND Enchant_INCLUDE_DIR IN_LIST PC_Enchant_INCLUDE_DIRS)
   set(Enchant_VERSION ${PC_Enchant_VERSION})
 endif()
-
-mark_as_advanced(Enchant_INCLUDE_DIR Enchant_LIBRARY)
 
 find_package_handle_standard_args(
   Enchant

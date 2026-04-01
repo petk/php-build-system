@@ -62,6 +62,7 @@ find_path(
   HINTS ${PC_Capstone_INCLUDE_DIRS}
   DOC "Directory containing Capstone library headers"
 )
+mark_as_advanced(Capstone_INCLUDE_DIR)
 
 if(NOT Capstone_INCLUDE_DIR)
   string(APPEND _reason "capstone/capstone.h not found. ")
@@ -73,6 +74,7 @@ find_library(
   HINTS ${PC_Capstone_LIBRARY_DIRS}
   DOC "The path to the Capstone library"
 )
+mark_as_advanced(Capstone_LIBRARY)
 
 if(NOT Capstone_LIBRARY)
   string(APPEND _reason "Capstone library not found. ")
@@ -111,8 +113,6 @@ block(PROPAGATE Capstone_VERSION)
     endif()
   endif()
 endblock()
-
-mark_as_advanced(Capstone_INCLUDE_DIR Capstone_LIBRARY)
 
 find_package_handle_standard_args(
   Capstone

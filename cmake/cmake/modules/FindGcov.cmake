@@ -64,18 +64,21 @@ find_program(
   NAMES lcov
   DOC "Path to the graphical GCOV front-end"
 )
+mark_as_advanced(Gcov_LCOV_EXECUTABLE)
 
 find_program(
   Gcov_GENHTML_EXECUTABLE
   NAMES genhtml
   DOC "Path to the generator for HTML view from LCOV coverage data files"
 )
+mark_as_advanced(Gcov_GENHTML_EXECUTABLE)
 
 find_program(
   Gcov_GCOVR_EXECUTABLE
   NAMES gcovr
   DOC "Path to the generator for simple coverage reports"
 )
+mark_as_advanced(Gcov_GCOVR_EXECUTABLE)
 
 if(NOT Gcov_LCOV_EXECUTABLE)
   string(APPEND _reason "Required lcov program was not found. ")
@@ -88,12 +91,6 @@ endif()
 if(NOT Gcov_GCOVR_EXECUTABLE)
   string(APPEND _reason "Required gcovr program was not found. ")
 endif()
-
-mark_as_advanced(
-  Gcov_GCOVR_EXECUTABLE
-  Gcov_GENHTML_EXECUTABLE
-  Gcov_LCOV_EXECUTABLE
-)
 
 find_package_handle_standard_args(
   Gcov

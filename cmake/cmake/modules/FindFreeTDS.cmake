@@ -57,6 +57,7 @@ find_path(
   PATH_SUFFIXES freetds
   DOC "Directory containing FreeTDS library headers"
 )
+mark_as_advanced(FreeTDS_INCLUDE_DIR)
 
 if(NOT FreeTDS_INCLUDE_DIR)
   string(APPEND _reason "sybdb.h not found. ")
@@ -67,6 +68,7 @@ find_library(
   NAMES sybdb
   DOC "The path to the FreeTDS library"
 )
+mark_as_advanced(FreeTDS_LIBRARY)
 
 if(NOT FreeTDS_LIBRARY)
   string(APPEND _reason "FreeTDS library not found. ")
@@ -86,8 +88,6 @@ if(FreeTDS_INCLUDE_DIR AND FreeTDS_LIBRARY)
     string(APPEND _reason "Sanity check failed: dbsqlexec not found. ")
   endif()
 endif()
-
-mark_as_advanced(FreeTDS_INCLUDE_DIR FreeTDS_LIBRARY)
 
 find_package_handle_standard_args(
   FreeTDS
