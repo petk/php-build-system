@@ -11,16 +11,9 @@ This extension provides interface for using Editline library.
 ### PHP_EXT_READLINE
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_READLINE_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -31,7 +24,6 @@ project(
 )
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -47,14 +39,6 @@ add_feature_info(
   "editable command lines support"
 )
 
-cmake_dependent_option(
-  PHP_EXT_READLINE_SHARED
-  "Build the readline extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_READLINE
-  OFF
-)
-
 if(NOT PHP_EXT_READLINE)
   return()
 endif()
@@ -66,7 +50,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(readline)
 
-if(PHP_EXT_READLINE_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_READLINE STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_readline MODULE)
 else()
   add_library(php_ext_readline OBJECT)

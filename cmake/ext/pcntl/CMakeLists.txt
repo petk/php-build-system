@@ -14,16 +14,9 @@ This extension provides support for process control support.
 ### PHP_EXT_PCNTL
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_PCNTL_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -40,7 +33,6 @@ endif()
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CheckTypeSize)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -56,14 +48,6 @@ add_feature_info(
   "process control support"
 )
 
-cmake_dependent_option(
-  PHP_EXT_PCNTL_SHARED
-  "Build the pcntl extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_PCNTL
-  OFF
-)
-
 if(NOT PHP_EXT_PCNTL)
   return()
 endif()
@@ -76,7 +60,7 @@ include(PHP/SystemExtensions)
 include(PHP/Extension)
 php_extension(pcntl)
 
-if(PHP_EXT_PCNTL_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_PCNTL STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pcntl MODULE)
 else()
   add_library(php_ext_pcntl OBJECT)

@@ -8,16 +8,9 @@ This extension provides binding for the Enchant spelling library.
 ### PHP_EXT_ENCHANT
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_ENCHANT_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -28,7 +21,6 @@ project(
 )
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -40,14 +32,6 @@ add_feature_info(
   "Enchant spelling library binding"
 )
 
-cmake_dependent_option(
-  PHP_EXT_ENCHANT_SHARED
-  "Build the enchant extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_ENCHANT
-  OFF
-)
-
 if(NOT PHP_EXT_ENCHANT)
   return()
 endif()
@@ -57,7 +41,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(enchant)
 
-if(PHP_EXT_ENCHANT_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_ENCHANT STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_enchant MODULE)
 else()
   add_library(php_ext_enchant OBJECT)

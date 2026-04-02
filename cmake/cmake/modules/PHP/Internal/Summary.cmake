@@ -244,7 +244,7 @@ function(_php_summary_validate_extensions)
             APPEND
             shared_extensions_summary
             " * ${extension}\n"
-            "   Either set 'PHP_EXT_${extension_upper}_SHARED' to 'ON' (its "
+            "   Either set 'PHP_EXT_${extension_upper}' to 'shared' (its "
             "dependency, the ${dependency} extension is configured as shared) "
             "or build ${dependency} statically."
             "\n"

@@ -9,19 +9,12 @@ library.
 ### PHP_EXT_OPENSSL
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `openssl` extension.
+Enables the extension.
 
 Where to find OpenSSL installation on the system, can be customized with the
 `OPENSSL_ROOT_DIR` variable.
-
-### PHP_EXT_OPENSSL_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
 
 ### PHP_EXT_OPENSSL_SYSTEM_CIPHERS
 
@@ -88,14 +81,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_OPENSSL_SHARED
-  "Build the openssl extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_OPENSSL
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_OPENSSL_SYSTEM_CIPHERS
   "Use system default cipher list instead of hardcoded value for OpenSSL"
   OFF
@@ -149,7 +134,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(openssl)
 
-if(PHP_EXT_OPENSSL_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_OPENSSL STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_openssl MODULE)
 else()
   add_library(php_ext_openssl OBJECT)

@@ -9,16 +9,9 @@ library.
 ### PHP_EXT_INTL
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_INTL_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -28,7 +21,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_INTL "Enable the intl extension" ${PROJECT_IS_TOP_LEVEL})
@@ -37,14 +29,6 @@ add_feature_info(
   "ext/intl"
   PHP_EXT_INTL
   "ICU library wrapper for internationalization support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_INTL_SHARED
-  "Build the intl extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_INTL
-  OFF
 )
 
 if(NOT PHP_EXT_INTL)
@@ -58,7 +42,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(intl)
 
-if(PHP_EXT_INTL_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_INTL STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_intl MODULE)
 else()
   add_library(php_ext_intl OBJECT)

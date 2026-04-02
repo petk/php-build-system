@@ -9,16 +9,9 @@ files.
 ### PHP_EXT_ZLIB
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_ZLIB_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ## Examples
 
@@ -58,7 +51,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_ZLIB "Enable the zlib extension" ${PROJECT_IS_TOP_LEVEL})
@@ -67,14 +59,6 @@ add_feature_info(
   "ext/zlib"
   PHP_EXT_ZLIB
   "gzip (.gz) compressed archives support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_ZLIB_SHARED
-  "Build the zlib extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_ZLIB
-  OFF
 )
 
 if(NOT PHP_EXT_ZLIB)
@@ -86,7 +70,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(zlib)
 
-if(PHP_EXT_ZLIB_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_ZLIB STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_zlib MODULE)
 else()
   add_library(php_ext_zlib OBJECT)

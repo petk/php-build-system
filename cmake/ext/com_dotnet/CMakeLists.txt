@@ -29,16 +29,9 @@ The .NET version 5 and later are not supported as they have removed the
 ### PHP_EXT_COM_DOTNET
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_COM_DOTNET_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_COM_DOTNET_ENABLE_DOTNET
 
@@ -72,14 +65,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_COM_DOTNET_SHARED
-  "Build the com_dotnet extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_COM_DOTNET
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_COM_DOTNET_ENABLE_DOTNET
   "Enable .NET support"
   ON
@@ -96,7 +81,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(com_dotnet)
 
-if(PHP_EXT_COM_DOTNET_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_COM_DOTNET STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_com_dotnet MODULE)
 else()
   add_library(php_ext_com_dotnet OBJECT)

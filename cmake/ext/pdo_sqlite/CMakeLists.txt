@@ -8,16 +8,9 @@ This extension provides PDO interface for using SQLite database.
 ### PHP_EXT_PDO_SQLITE
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_PDO_SQLITE_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -28,7 +21,6 @@ project(
 )
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -40,14 +32,6 @@ add_feature_info(
   "SQLite database PDO driver"
 )
 
-cmake_dependent_option(
-  PHP_EXT_PDO_SQLITE_SHARED
-  "Build the pdo_sqlite extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_PDO_SQLITE
-  OFF
-)
-
 if(NOT PHP_EXT_PDO_SQLITE)
   return()
 endif()
@@ -57,7 +41,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_sqlite)
 
-if(PHP_EXT_PDO_SQLITE_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_PDO_SQLITE STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_sqlite MODULE)
 else()
   add_library(php_ext_pdo_sqlite OBJECT)

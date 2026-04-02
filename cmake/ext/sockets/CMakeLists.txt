@@ -8,16 +8,9 @@ This extension provides support for a low-level socket communication interface.
 ### PHP_EXT_SOCKETS
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SOCKETS_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -31,7 +24,6 @@ include(CheckIncludeFiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -43,14 +35,6 @@ add_feature_info(
   "low-level socket communication interface"
 )
 
-cmake_dependent_option(
-  PHP_EXT_SOCKETS_SHARED
-  "Build the sockets extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_SOCKETS
-  OFF
-)
-
 if(NOT PHP_EXT_SOCKETS)
   return()
 endif()
@@ -60,7 +44,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sockets)
 
-if(PHP_EXT_SOCKETS_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_SOCKETS STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sockets MODULE)
 else()
   add_library(php_ext_sockets OBJECT)

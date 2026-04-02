@@ -8,16 +8,9 @@ This extension provides image processing and graphics draw (GD) support.
 ### PHP_EXT_GD
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_GD_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_GD_EXTERNAL
 
@@ -168,14 +161,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_GD_SHARED
-  "Build the gd extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_GD
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_GD_EXTERNAL
   "Use external (system) GD library instead of the bundled libgd from PHP sources"
   OFF
@@ -282,7 +267,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gd)
 
-if(PHP_EXT_GD_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_GD STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gd MODULE)
 else()
   add_library(php_ext_gd OBJECT)
