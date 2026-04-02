@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(PhpTestCheckBuiltin LANGUAGES C)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../../modules)
-
 include(PHP/CheckBuiltin)
 
 php_check_builtin(__builtin_clz PHP_TESTS_HAS_BUILTIN_CLZ)

@@ -9,16 +9,9 @@ password hashing.
 ### PHP_EXT_SODIUM
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SODIUM_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -28,7 +21,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_SODIUM "Enable the sodium extension" ${PROJECT_IS_TOP_LEVEL})
@@ -37,14 +29,6 @@ add_feature_info(
   "ext/sodium"
   PHP_EXT_SODIUM
   "encryption, decryption, signatures and password hashing"
-)
-
-cmake_dependent_option(
-  PHP_EXT_SODIUM_SHARED
-  "Build the sodium extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_SODIUM
-  OFF
 )
 
 if(NOT PHP_EXT_SODIUM)
@@ -58,7 +42,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(sodium)
 
-if(PHP_EXT_SODIUM_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_SODIUM STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sodium MODULE)
 else()
   add_library(php_ext_sodium OBJECT)

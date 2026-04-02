@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(PhpTestSearchLibraries LANGUAGES C)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../../modules)
-
 include(PHP/SearchLibraries)
 
 php_search_libraries(

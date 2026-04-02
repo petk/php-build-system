@@ -37,6 +37,7 @@ option(
   "Enable the libxml extension (can be built only statically)"
   ON
 )
+set_property(CACHE PHP_EXT_LIBXML PROPERTY STRINGS ON OFF)
 
 add_feature_info(
   "ext/libxml"

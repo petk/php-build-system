@@ -8,16 +8,9 @@ This extension provides support for Oracle Database.
 ### PHP_EXT_OCI8
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_GMP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_OCI8_11G
 
@@ -60,14 +53,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_OCI8_SHARED
-  "Build the oci8 extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_OCI8
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_OCI8_11G
   "Enable OCI8 support using Oracle 11g Instant Client"
   OFF
@@ -100,7 +85,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(oci8)
 
-if(PHP_EXT_OCI8_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_OCI8 STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_oci8 MODULE)
 else()
   add_library(php_ext_oci8 OBJECT)

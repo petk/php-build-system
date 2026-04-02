@@ -8,7 +8,7 @@ This extension enables the PHP OPcode caching engine.
 ### PHP_EXT_OPCACHE
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension. This extension is always built as shared when enabled.
 
@@ -49,6 +49,7 @@ include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_OPCACHE "Enable the Zend OPcache extension" ON)
+
 add_feature_info(
   "ext/opcache"
   PHP_EXT_OPCACHE

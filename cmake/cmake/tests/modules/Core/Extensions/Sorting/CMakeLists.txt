@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(PhpTestExtensions LANGUAGES NONE)
-
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../../../../modules)
+project(PhpTestExtensionsSorting LANGUAGES NONE)
 
 include(PHP/Core/Extensions)
 

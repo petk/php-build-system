@@ -103,7 +103,7 @@ string(CONFIGURE [[
       "the install phase '$<INSTALL_PREFIX>'.\n"
       "PHP is not relocatable software as it has absolute paths hardcoded in "
       "the <main/build-defs.h> header and cannot utilize relative paths yet. "
-      "For now, please configure the installation prefix only at the confgure "
+      "For now, please configure the installation prefix only at the configure "
       "phase. The '--prefix' option at the install phase "
       "'cmake --install <build-dir>', won't be properly utilized."
       "\n"

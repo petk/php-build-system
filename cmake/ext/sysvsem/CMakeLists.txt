@@ -11,16 +11,9 @@ This extension provides the System V semaphore support.
 ### PHP_EXT_SYSVSEM
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SYSVSEM_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -35,7 +28,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckTypeSize)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -47,14 +39,6 @@ add_feature_info(
   "System V semaphore support"
 )
 
-cmake_dependent_option(
-  PHP_EXT_SYSVSEM_SHARED
-  "Build the sysvsem extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_SYSVSEM
-  OFF
-)
-
 if(NOT PHP_EXT_SYSVSEM)
   return()
 endif()
@@ -64,7 +48,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sysvsem)
 
-if(PHP_EXT_SYSVSEM_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_SYSVSEM STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvsem MODULE)
 else()
   add_library(php_ext_sysvsem OBJECT)

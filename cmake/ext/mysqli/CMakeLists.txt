@@ -8,16 +8,9 @@ This extension provides MySQL-compatible databases support.
 ### PHP_EXT_MYSQLI
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_MYSQLI_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_MYSQLI_SOCKET
 
@@ -71,7 +64,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_MYSQLI "Enable the mysqli extension" ${PROJECT_IS_TOP_LEVEL})
@@ -80,14 +72,6 @@ add_feature_info(
   "ext/mysqli"
   PHP_EXT_MYSQLI
   "MySQL-compatible databases support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_MYSQLI_SHARED
-  "Build the mysqli extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_MYSQLI
-  OFF
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -133,7 +117,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mysqli)
 
-if(PHP_EXT_MYSQLI_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_MYSQLI STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mysqli MODULE)
 else()
   add_library(php_ext_mysqli OBJECT)

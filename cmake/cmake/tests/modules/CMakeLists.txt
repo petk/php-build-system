@@ -28,13 +28,23 @@ function(php_add_test)
     NAME ${parsed_NAME}
     COMMAND
       ${CMAKE_COMMAND}
+      -DCMAKE_MODULE_PATH=${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../modules
       -B ${CMAKE_CURRENT_BINARY_DIR}/${parsed_DIR}
       -S ${CMAKE_CURRENT_SOURCE_DIR}/${parsed_DIR}
   )
 endfunction()
 
 php_add_test(NAME PhpCMakeModuleCheckBuiltin DIR CheckBuiltin)
-php_add_test(NAME PhpCMakeModuleCoreExtensions DIR Core/Extensions)
+
+php_add_test(
+  NAME PhpCMakeModuleCoreExtensionsSorting
+  DIR Core/Extensions/Sorting
+)
+
+php_add_test(
+  NAME PhpCMakeModuleCoreExtensionsVariables
+  DIR Core/Extensions/Variables
+)
 
 php_add_test(
   NAME PhpCMakeModuleInternalSummaryConflictingExtensions

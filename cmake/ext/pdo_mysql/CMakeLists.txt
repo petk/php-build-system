@@ -8,16 +8,9 @@ This extension provides PDO interface for using MySQL-compatible databases.
 ### PHP_EXT_PDO_MYSQL
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `pdo_mysql` extension.
-
-### PHP_EXT_PDO_MYSQL_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_PDO_MYSQL_DRIVER
 
@@ -81,7 +74,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(
@@ -94,14 +86,6 @@ add_feature_info(
   "ext/pdo_mysql"
   PHP_EXT_PDO_MYSQL
   "MySQL-compatible databases PDO driver"
-)
-
-cmake_dependent_option(
-  PHP_EXT_PDO_MYSQL_SHARED
-  "Build the pdo_mysql extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_PDO_MYSQL
-  OFF
 )
 
 # Driver selection option.
@@ -159,7 +143,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_mysql)
 
-if(PHP_EXT_PDO_MYSQL_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_PDO_MYSQL STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_mysql MODULE)
 else()
   add_library(php_ext_pdo_mysql OBJECT)
