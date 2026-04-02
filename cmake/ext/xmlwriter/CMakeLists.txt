@@ -8,16 +8,9 @@ This extension provides support for libxml xmlWriter API.
 ### PHP_EXT_XMLWRITER
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_XMLWRITER_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -27,7 +20,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_XMLWRITER "Enable the xmlwriter extension" ON)
@@ -36,14 +28,6 @@ add_feature_info(
   "ext/xmlwriter"
   PHP_EXT_XMLWRITER
   "libxml xmlWriter API support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_XMLWRITER_SHARED
-  "Build the xmlwriter extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_XMLWRITER
-  OFF
 )
 
 if(NOT PHP_EXT_XMLWRITER)
@@ -55,7 +39,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(xmlwriter)
 
-if(PHP_EXT_XMLWRITER_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_XMLWRITER STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_xmlwriter MODULE)
 else()
   add_library(php_ext_xmlwriter OBJECT)

@@ -8,16 +8,9 @@ This extension provides support for PHP archives (phar).
 ### PHP_EXT_PHAR
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_PHAR_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -27,7 +20,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_PHAR "Enable the phar extension" ON)
@@ -36,14 +28,6 @@ add_feature_info(
   "ext/phar"
   PHP_EXT_PHAR
   "PHP archives support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_PHAR_SHARED
-  "Build the phar extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_PHAR
-  OFF
 )
 
 if(NOT PHP_EXT_PHAR)
@@ -61,7 +45,7 @@ php_extension(phar)
 # Add library.
 ################################################################################
 
-if(PHP_EXT_PHAR_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_PHAR STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_phar MODULE)
 else()
   add_library(php_ext_phar OBJECT)

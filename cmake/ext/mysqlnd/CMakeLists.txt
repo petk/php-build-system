@@ -9,16 +9,9 @@ in PHP extensions.
 ### PHP_EXT_MYSQLND
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `mysqlnd` extension.
-
-### PHP_EXT_MYSQLND_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_MYSQLND_COMPRESSION
 
@@ -64,14 +57,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_MYSQLND_SHARED
-  "Build the mysqlnd extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_MYSQLND
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_MYSQLND_COMPRESSION
   "Enable compressed protocol support in mysqlnd"
   ON
@@ -103,7 +88,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mysqlnd)
 
-if(PHP_EXT_MYSQLND_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_MYSQLND STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mysqlnd MODULE)
 else()
   add_library(php_ext_mysqlnd OBJECT)

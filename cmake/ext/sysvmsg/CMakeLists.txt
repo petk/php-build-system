@@ -12,16 +12,9 @@ This extension provides support for using System V message based IPC
 ### PHP_EXT_SYSVMSG
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SYSVMSG_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -36,7 +29,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 include(CheckIncludeFiles)
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_SYSVMSG "Enable the sysvmsg extension" ${PROJECT_IS_TOP_LEVEL})
@@ -45,14 +37,6 @@ add_feature_info(
   "ext/sysvmsg"
   PHP_EXT_SYSVMSG
   "System V message based IPC support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_SYSVMSG_SHARED
-  "Build the sysvmsg extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_SYSVMSG
-  OFF
 )
 
 if(NOT PHP_EXT_SYSVMSG)
@@ -74,7 +58,7 @@ if(NOT PHP_EXT_SYSVMSG_HAVE_SYS_MSG_H)
   )
 endif()
 
-if(PHP_EXT_SYSVMSG_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_SYSVMSG STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sysvmsg MODULE)
 else()
   add_library(php_ext_sysvmsg OBJECT)

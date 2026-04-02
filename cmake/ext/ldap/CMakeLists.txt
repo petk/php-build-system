@@ -9,16 +9,9 @@ Protocol).
 ### PHP_EXT_LDAP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_LDAP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_LDAP_SASL
 
@@ -50,14 +43,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_LDAP_SHARED
-  "Build the ldap extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_LDAP
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_LDAP_SASL
   "Build ldap extension with Cyrus SASL support"
   OFF
@@ -74,7 +59,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(ldap)
 
-if(PHP_EXT_LDAP_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_LDAP STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_ldap MODULE)
 else()
   add_library(php_ext_ldap OBJECT)

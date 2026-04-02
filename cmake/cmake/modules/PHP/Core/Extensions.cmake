@@ -101,3 +101,57 @@ function(php_extensions_sort)
 
   return(PROPAGATE ${ARGV0})
 endfunction()
+
+# Configures extension in php-src before adding the extension subdirectory with
+# some additional php-src-specific features:
+# - Sets the PHP_EXT_<EXTENSION_NAME> cache variable value from possible
+#   "SHARED" (or other variants) to lowercase "shared".
+function(php_extensions_pre_configure extension)
+  string(TOUPPER "${extension}" extension_upper)
+
+  if(NOT DEFINED PHP_EXT_${extension_upper})
+    return()
+  endif()
+
+  get_property(value CACHE PHP_EXT_${extension_upper} PROPERTY VALUE)
+
+  string(TOLOWER "${value}" value_lower)
+
+  if(value_lower STREQUAL "shared" AND NOT value STREQUAL value_lower)
+    set_property(CACHE PHP_EXT_${extension_upper} PROPERTY VALUE "shared")
+  endif()
+endfunction()
+
+# Configures extension in php-src with some additional php-src-specific
+# features:
+# - Adjusts the PHP_EXT_<EXTENSION_NAME> cache variable type to accept the
+#   "shared" value.
+function(php_extensions_post_configure extension)
+  string(TOUPPER "${extension}" extension_upper)
+
+  if(NOT DEFINED PHP_EXT_${extension_upper})
+    return()
+  endif()
+
+  get_property(strings CACHE PHP_EXT_${extension_upper} PROPERTY STRINGS)
+
+  if(DEFINED strings)
+    return()
+  endif()
+
+  get_property(help CACHE PHP_EXT_${extension_upper} PROPERTY HELPSTRING)
+  get_property(value CACHE PHP_EXT_${extension_upper} PROPERTY VALUE)
+
+  set(
+    CACHE{PHP_EXT_${extension_upper}}
+    TYPE STRING
+    HELP "${help}"
+    FORCE
+    VALUE "${value}"
+  )
+
+  set_property(
+    CACHE PHP_EXT_${extension_upper}
+    PROPERTY STRINGS ON OFF shared
+  )
+endfunction()
