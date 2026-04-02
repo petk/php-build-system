@@ -8,16 +8,9 @@ This extension provides additional support for testing PHP itself.
 ### PHP_EXT_ZEND_TEST
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_ZEND_TEST_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -27,7 +20,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_ZEND_TEST "Enable the zend_test extension" ${PROJECT_IS_TOP_LEVEL})
@@ -36,14 +28,6 @@ add_feature_info(
   "ext/zend_test"
   PHP_EXT_ZEND_TEST
   "additional PHP build testing support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_ZEND_TEST_SHARED
-  "Build the zend_test extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_ZEND_TEST
-  OFF
 )
 
 if(NOT PHP_EXT_ZEND_TEST)
@@ -55,7 +39,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(zend_test)
 
-if(PHP_EXT_ZEND_TEST_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_ZEND_TEST STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_zend_test MODULE)
 else()
   add_library(php_ext_zend_test OBJECT)

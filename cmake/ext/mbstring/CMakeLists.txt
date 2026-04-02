@@ -8,16 +8,9 @@ This extension provides the multibyte string support.
 ### PHP_EXT_MBSTRING
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_MBSTRING_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_MBSTRING_MBREGEX
 
@@ -48,14 +41,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_MBSTRING_SHARED
-  "Build the mbstring extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_MBSTRING
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_MBSTRING_MBREGEX
   "Enable multibyte regex support (requires Oniguruma)"
   ON
@@ -82,7 +67,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(mbstring)
 
-if(PHP_EXT_MBSTRING_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_MBSTRING STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_mbstring MODULE)
 else()
   add_library(php_ext_mbstring OBJECT)

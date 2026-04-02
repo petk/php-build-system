@@ -9,16 +9,9 @@ XHTML and XML documents.
 ### PHP_EXT_TIDY
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_TIDY_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -31,7 +24,6 @@ project(
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -41,14 +33,6 @@ add_feature_info(
   "ext/tidy"
   PHP_EXT_TIDY
   "HTML, XHTML and XML correction support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_TIDY_SHARED
-  "Build the tidy extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_TIDY
-  OFF
 )
 
 if(NOT PHP_EXT_TIDY)
@@ -62,7 +46,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(tidy)
 
-if(PHP_EXT_TIDY_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_TIDY STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_tidy MODULE)
 else()
   add_library(php_ext_tidy OBJECT)

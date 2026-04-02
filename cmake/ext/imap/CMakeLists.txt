@@ -8,16 +8,9 @@ This extension provides support for operating with the IMAP protocol.
 ### PHP_EXT_IMAP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_IMAP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_IMAP_KERBEROS
 
@@ -54,14 +47,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_IMAP_SHARED
-  "Build the imap extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_IMAP
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_IMAP_KERBEROS
   "Explicitly include Kerberos support in the imap extension."
   OFF
@@ -86,7 +71,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(imap)
 
-if(PHP_EXT_IMAP_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_IMAP STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_imap MODULE)
 else()
   add_library(php_ext_imap OBJECT)

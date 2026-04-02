@@ -8,16 +8,9 @@ This extension provides GNU Multiple Precision Arithmetic support.
 ### PHP_EXT_GMP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_GMP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 > [!NOTE]
 > When the target system is Windows, the MPIR library is used instead of GMP.
@@ -30,7 +23,6 @@ project(
   LANGUAGES C
 )
 
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_GMP "Enable the gmp extension" ${PROJECT_IS_TOP_LEVEL})
@@ -39,14 +31,6 @@ add_feature_info(
   "ext/gmp"
   PHP_EXT_GMP
   "GNU Multiple Precision Arithmetic support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_GMP_SHARED
-  "Build the gmp extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_GMP
-  OFF
 )
 
 if(NOT PHP_EXT_GMP)
@@ -58,7 +42,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gmp)
 
-if(PHP_EXT_GMP_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_GMP STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gmp MODULE)
 else()
   add_library(php_ext_gmp OBJECT)

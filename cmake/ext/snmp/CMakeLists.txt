@@ -8,16 +8,9 @@ This extension provides support for Simple Network Management Protocol (SNMP).
 ### PHP_EXT_SNMP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SNMP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -28,7 +21,6 @@ project(
 )
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -40,14 +32,6 @@ add_feature_info(
   "Simple Network Management Protocol (SNMP) support"
 )
 
-cmake_dependent_option(
-  PHP_EXT_SNMP_SHARED
-  "Build the snmp extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_SNMP
-  OFF
-)
-
 if(NOT PHP_EXT_SNMP)
   return()
 endif()
@@ -57,7 +41,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(snmp)
 
-if(PHP_EXT_SNMP_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_SNMP STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_snmp MODULE)
 else()
   add_library(php_ext_snmp OBJECT)

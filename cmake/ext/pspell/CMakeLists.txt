@@ -8,16 +8,9 @@ This extension provides spellchecking support.
 ### PHP_EXT_PSPELL
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_PSPELL_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -28,7 +21,6 @@ project(
 )
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -38,14 +30,6 @@ add_feature_info(
   "ext/pspell"
   PHP_EXT_PSPELL
   "spellchecking support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_PSPELL_SHARED
-  "Build the pspell extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_PSPELL
-  OFF
 )
 
 if(NOT PHP_EXT_PSPELL)
@@ -59,7 +43,7 @@ include(PHP/CheckCompilerFlag)
 include(PHP/Extension)
 php_extension(pspell)
 
-if(PHP_EXT_PSPELL_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_PSPELL STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pspell MODULE)
 else()
   add_library(php_ext_pspell OBJECT)

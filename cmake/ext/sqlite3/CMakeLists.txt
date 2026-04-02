@@ -8,16 +8,9 @@ This extension provides support for using SQLite database.
 ### PHP_EXT_SQLITE3
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SQLITE3_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -28,7 +21,6 @@ project(
 )
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -40,14 +32,6 @@ add_feature_info(
   "SQLite database support"
 )
 
-cmake_dependent_option(
-  PHP_EXT_SQLITE3_SHARED
-  "Build the sqlite3 extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_SQLITE3
-  OFF
-)
-
 if(NOT PHP_EXT_SQLITE3)
   return()
 endif()
@@ -57,7 +41,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(sqlite3)
 
-if(PHP_EXT_SQLITE3_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_SQLITE3 STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_sqlite3 MODULE)
 else()
   add_library(php_ext_sqlite3 OBJECT)

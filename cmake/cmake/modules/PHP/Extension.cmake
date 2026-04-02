@@ -47,14 +47,6 @@ macro(php_extension)
   include(PHP/Internal/CMakeDefaults)
   include(PHP/Internal/Standard)
 
-  # Mark shared option variable as advanced.
-  block()
-    string(TOUPPER "${ARGV0}" extension_upper)
-    if(DEFINED PHP_EXT_${extension_upper}_SHARED)
-      mark_as_advanced(PHP_EXT_${extension_upper}_SHARED)
-    endif()
-  endblock()
-
   cmake_language(
     EVAL CODE
     "cmake_language(DEFER CALL _php_extension_post_configure \"${ARGV0}\")"

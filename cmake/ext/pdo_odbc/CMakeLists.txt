@@ -9,16 +9,9 @@ Connectivity (ODBC) databases.
 ### PHP_EXT_PDO_ODBC
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `pdo-odbc` extension.
-
-### PHP_EXT_PDO_ODBC_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_PDO_ODBC_TYPE
 
@@ -85,7 +78,6 @@ project(
 )
 
 include(CheckLibraryExists)
-include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_PDO_ODBC "Enable the pdo_odbc extension" ${PROJECT_IS_TOP_LEVEL})
@@ -93,14 +85,6 @@ add_feature_info(
   "ext/pdo_odbc"
   PHP_EXT_PDO_ODBC
   "Unified Open Database Connectivity (ODBC) databases PDO driver"
-)
-
-cmake_dependent_option(
-  PHP_EXT_PDO_ODBC_SHARED
-  "Build the pdo_odbc extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_PDO_ODBC
-  OFF
 )
 
 set(
@@ -144,7 +128,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(pdo_odbc)
 
-if(PHP_EXT_PDO_ODBC_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_PDO_ODBC STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_pdo_odbc MODULE)
 else()
   add_library(php_ext_pdo_odbc OBJECT)
