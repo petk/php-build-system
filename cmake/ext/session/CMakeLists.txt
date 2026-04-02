@@ -9,16 +9,9 @@ accesses.
 ### PHP_EXT_SESSION
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SESSION_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_SESSION_MM
 
@@ -47,14 +40,6 @@ add_feature_info(
 )
 
 cmake_dependent_option(
-  PHP_EXT_SESSION_SHARED
-  "Build the session extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_SESSION
-  OFF
-)
-
-cmake_dependent_option(
   PHP_EXT_SESSION_MM
   "Include libmm support for session storage (only for non-ZTS build)"
   OFF
@@ -77,7 +62,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(session)
 
-if(PHP_EXT_SESSION_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_SESSION STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_session MODULE)
 else()
   add_library(php_ext_session OBJECT)

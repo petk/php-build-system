@@ -1050,7 +1050,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-phpdbgs</td>
-      <td>PHP_SAPI_PHPDBG_SHARED=ON</td>
+      <td>PHP_SAPI_PHPDBG=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1071,7 +1071,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-bcmath=shared</td>
       <td>--enable-bcmath=shared</td>
-      <td>PHP_EXT_BCMATH_SHARED=ON</td>
+      <td>PHP_EXT_BCMATH=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1092,7 +1092,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-bz2=shared</td>
       <td>--with-bz2=shared</td>
-      <td>PHP_EXT_BZ2_SHARED=ON</td>
+      <td>PHP_EXT_BZ2=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1110,7 +1110,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-calendar=shared</td>
       <td>--enable-calendar=shared</td>
-      <td>PHP_EXT_CALENDAR_SHARED=ON</td>
+      <td>PHP_EXT_CALENDAR=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1122,7 +1122,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-com-dotnet=shared (default PHP &gt;= 8.5)</td>
-      <td>PHP_EXT_COM_DOTNET_SHARED=ON</td>
+      <td>PHP_EXT_COM_DOTNET=shared</td>
       <td>Windows only</td>
     </tr>
     <tr>
@@ -1152,7 +1152,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-ctype=shared</td>
       <td>--enable-ctype=shared</td>
-      <td>PHP_EXT_CTYPE_SHARED=ON</td>
+      <td>PHP_EXT_CTYPE=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1184,7 +1184,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-curl=shared</td>
       <td>--with-curl=shared</td>
-      <td>PHP_EXT_CURL_SHARED=ON</td>
+      <td>PHP_EXT_CURL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1202,7 +1202,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-dba=shared</td>
       <td>--with-dba=shared</td>
-      <td>PHP_EXT_DBA_SHARED=ON</td>
+      <td>PHP_EXT_DBA=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1425,7 +1425,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-dom=shared</td>
       <td>--with-dom=shared</td>
-      <td>PHP_EXT_DOM_SHARED=ON</td>
+      <td>PHP_EXT_DOM=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1458,7 +1458,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-enchant=shared</td>
       <td>--with-enchant=shared</td>
-      <td>PHP_EXT_ENCHANT_SHARED=ON</td>
+      <td>PHP_EXT_ENCHANT=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1476,7 +1476,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-exif=shared</td>
       <td>--enable-exif=shared</td>
-      <td>PHP_EXT_EXIF_SHARED=ON</td>
+      <td>PHP_EXT_EXIF=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1501,7 +1501,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-ffi=shared</td>
       <td>--with-ffi=shared</td>
-      <td>PHP_EXT_FFI_SHARED=ON</td>
+      <td>PHP_EXT_FFI=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1513,7 +1513,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-fileinfo=shared</td>
       <td>--enable-fileinfo=shared</td>
-      <td>PHP_EXT_FILEINFO_SHARED=ON</td>
+      <td>PHP_EXT_FILEINFO=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1531,7 +1531,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-filter=shared</td>
       <td>--enable-filter=shared</td>
-      <td>PHP_EXT_FILTER_SHARED=ON</td>
+      <td>PHP_EXT_FILTER=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1555,7 +1555,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-ftp=shared</td>
       <td>--enable-ftp=shared</td>
-      <td>PHP_EXT_FTP_SHARED=ON</td>
+      <td>PHP_EXT_FTP=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1597,7 +1597,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-gd=shared</td>
       <td>--with-gd=shared</td>
-      <td>PHP_EXT_GD_SHARED=ON</td>
+      <td>PHP_EXT_GD=shared</td>
       <td>default in Windows JScript</td>
     </tr>
     <tr>
@@ -1758,7 +1758,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-gettext=shared</td>
       <td>--with-gettext=shared</td>
-      <td>PHP_EXT_GETTEXT_SHARED=ON</td>
+      <td>PHP_EXT_GETTEXT=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1779,7 +1779,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-gmp=shared</td>
       <td>--with-gmp=shared</td>
-      <td>PHP_EXT_GMP_SHARED=ON</td>
+      <td>PHP_EXT_GMP=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1806,7 +1806,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-iconv=shared</td>
       <td>--with-iconv=shared</td>
-      <td>PHP_EXT_ICONV_SHARED=ON</td>
+      <td>PHP_EXT_ICONV=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1890,7 +1890,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-intl=shared</td>
       <td>--enable-intl=shared</td>
-      <td>PHP_EXT_INTL_SHARED=ON</td>
+      <td>PHP_EXT_INTL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1913,7 +1913,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-ldap=shared</td>
       <td>--with-ldap=shared</td>
-      <td>PHP_EXT_LDAP_SHARED=ON</td>
+      <td>PHP_EXT_LDAP=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -1969,7 +1969,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-mbstring=shared</td>
       <td>--enable-mbstring=shared</td>
-      <td>PHP_EXT_MBSTRING_SHARED=ON</td>
+      <td>PHP_EXT_MBSTRING=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2006,7 +2006,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-mysqli=shared</td>
       <td>--with-mysqli=shared</td>
-      <td>PHP_EXT_MYSQLI_SHARED=ON</td>
+      <td>PHP_EXT_MYSQLI=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2042,7 +2042,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-mysqlnd=shared</td>
       <td>N/A</td>
-      <td>PHP_EXT_MYSQLND_SHARED=ON</td>
+      <td>PHP_EXT_MYSQLND=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2087,7 +2087,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-oci8=shared</td>
       <td>N/A</td>
-      <td>PHP_EXT_OCI8_SHARED=ON</td>
+      <td>PHP_EXT_OCI8=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2141,7 +2141,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;N/A</td>
       <td>--enable-odbc=shared</td>
-      <td>PHP_EXT_ODBC_SHARED=ON</td>
+      <td>PHP_EXT_ODBC=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2423,7 +2423,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-openssl=shared</td>
       <td>--with-openssl=shared</td>
-      <td>PHP_EXT_OPENSSL_SHARED=ON</td>
+      <td>PHP_EXT_OPENSSL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2496,7 +2496,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-pcntl=shared</td>
       <td>N/A</td>
-      <td>PHP_EXT_PCNTL_SHARED=ON</td>
+      <td>PHP_EXT_PCNTL=shared</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
@@ -2539,7 +2539,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-pdo=shared</td>
       <td>&emsp;--enable-pdo=shared</td>
-      <td>PHP_EXT_PDO_SHARED=ON</td>
+      <td>PHP_EXT_PDO=shared</td>
       <td>(on Windows can't be built as shared yet)</td>
     </tr>
     <tr>
@@ -2568,7 +2568,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-dblib=shared</td>
       <td>--with-pdo-dblib=shared</td>
-      <td>PHP_EXT_PDO_DBLIB_SHARED=ON</td>
+      <td>PHP_EXT_PDO_DBLIB=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2607,7 +2607,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-firebird=shared</td>
       <td>--with-pdo-firebird=shared</td>
-      <td>PHP_EXT_PDO_FIREBIRD_SHARED=ON</td>
+      <td>PHP_EXT_PDO_FIREBIRD=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2631,7 +2631,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-mysql=shared</td>
       <td>--with-pdo-mysql=shared</td>
-      <td>PHP_EXT_PDO_MYSQL_SHARED=ON</td>
+      <td>PHP_EXT_PDO_MYSQL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2699,7 +2699,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-oci=shared</td>
       <td>--with-pdo-oci=shared</td>
-      <td>PHP_EXT_PDO_OCI_SHARED=ON</td>
+      <td>PHP_EXT_PDO_OCI=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2735,7 +2735,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-odbc=shared</td>
       <td>--with-pdo-odbc=shared</td>
-      <td>PHP_EXT_PDO_ODBC_SHARED=ON</td>
+      <td>PHP_EXT_PDO_ODBC=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2760,7 +2760,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-pgsql=shared</td>
       <td>--with-pdo-pgsql=shared</td>
-      <td>PHP_EXT_PDO_PGSQL_SHARED=ON</td>
+      <td>PHP_EXT_PDO_PGSQL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2779,7 +2779,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pdo-sqlite=shared</td>
       <td>--with-pdo-sqlite=shared</td>
-      <td>PHP_EXT_PDO_SQLITE_SHARED=ON</td>
+      <td>PHP_EXT_PDO_SQLITE=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2810,7 +2810,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pgsql=shared</td>
       <td>--with-pgsql=shared</td>
-      <td>PHP_EXT_PGSQL_SHARED=ON</td>
+      <td>PHP_EXT_PGSQL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2822,7 +2822,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-phar=shared</td>
       <td>--enable-phar=shared</td>
-      <td>PHP_EXT_PHAR_SHARED=ON</td>
+      <td>PHP_EXT_PHAR=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2858,7 +2858,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-posix=shared</td>
       <td>N/A</td>
-      <td>PHP_EXT_POSIX_SHARED=ON</td>
+      <td>PHP_EXT_POSIX=shared</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
@@ -2885,7 +2885,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-pspell=shared</td>
       <td>--with-pspell=shared</td>
-      <td>PHP_EXT_PSPELL_SHARED=ON</td>
+      <td>PHP_EXT_PSPELL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2910,7 +2910,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-libedit=shared</td>
       <td>--with-readline=shared</td>
-      <td>PHP_EXT_READLINE_SHARED=ON</td>
+      <td>PHP_EXT_READLINE=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2940,7 +2940,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-session=shared</td>
       <td>N/A</td>
-      <td>PHP_EXT_SESSION_SHARED=ON</td>
+      <td>PHP_EXT_SESSION=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2979,7 +2979,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-shmop=shared</td>
       <td>--enable-shmop=shared</td>
-      <td>PHP_EXT_SHMOP_SHARED=ON</td>
+      <td>PHP_EXT_SHMOP=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -2991,7 +2991,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-simplexml=shared</td>
       <td>--with-simplexml=shared</td>
-      <td>PHP_EXT_SIMPLEXML_SHARED=ON</td>
+      <td>PHP_EXT_SIMPLEXML=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3018,7 +3018,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-snmp=shared</td>
       <td>--with-snmp=shared</td>
-      <td>PHP_EXT_SNMP_SHARED=ON</td>
+      <td>PHP_EXT_SNMP=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3036,7 +3036,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-soap=shared</td>
       <td>--enable-soap=shared</td>
-      <td>PHP_EXT_SOAP_SHARED=ON</td>
+      <td>PHP_EXT_SOAP=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3054,7 +3054,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-sockets=shared</td>
       <td>--enable-sockets=shared</td>
-      <td>PHP_EXT_SOCKETS_SHARED=ON</td>
+      <td>PHP_EXT_SOCKETS=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3079,7 +3079,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-sodium=shared</td>
       <td>--with-sodium=shared</td>
-      <td>PHP_EXT_SODIUM_SHARED=ON</td>
+      <td>PHP_EXT_SODIUM=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3098,7 +3098,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-sqlite3=shared</td>
       <td>--with-sqlite3=shared</td>
-      <td>PHP_EXT_SQLITE3_SHARED</td>
+      <td>PHP_EXT_SQLITE3=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3153,7 +3153,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-sysvmsg=shared</td>
       <td>N/A</td>
-      <td>PHP_EXT_SYSVMSG_SHARED=ON</td>
+      <td>PHP_EXT_SYSVMSG=shared</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
@@ -3171,7 +3171,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-sysvsem=shared</td>
       <td>N/A</td>
-      <td>PHP_EXT_SYSVSEM_SHARED=ON</td>
+      <td>PHP_EXT_SYSVSEM=shared</td>
       <td>for *nix platforms only</td>
     </tr>
     <tr>
@@ -3189,7 +3189,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-sysvshm=shared</td>
       <td>--enable-sysvshm=shared</td>
-      <td>PHP_EXT_SYSVSHM_SHARED=ON</td>
+      <td>PHP_EXT_SYSVSHM=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3210,7 +3210,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-tidy=shared</td>
       <td>--with-tidy=shared</td>
-      <td>PHP_EXT_TIDY_SHARED=ON</td>
+      <td>PHP_EXT_TIDY=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3222,7 +3222,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-tokenizer=shared</td>
       <td>--enable-tokenizer=shared</td>
-      <td>PHP_EXT_TOKENIZER_SHARED=ON</td>
+      <td>PHP_EXT_TOKENIZER=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3259,7 +3259,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-xml=shared</td>
       <td>--with-xml=shared</td>
-      <td>PHP_EXT_XML_SHARED=ON</td>
+      <td>PHP_EXT_XML=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3296,7 +3296,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-xmlreader=shared</td>
       <td>--enable-xmlreader=shared</td>
-      <td>PHP_EXT_XMLREADER_SHARED=ON</td>
+      <td>PHP_EXT_XMLREADER=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3314,7 +3314,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-xmlwriter=shared</td>
       <td>--enable-xmlwriter=shared</td>
-      <td>PHP_EXT_XMLWRITER_SHARED=ON</td>
+      <td>PHP_EXT_XMLWRITER=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3348,7 +3348,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-xsl=shared</td>
       <td>--with-xsl=shared</td>
-      <td>PHP_EXT_XSL_SHARED=ON</td>
+      <td>PHP_EXT_XSL=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3366,7 +3366,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--enable-zend-test=shared</td>
       <td>--enable-zend-test=shared</td>
-      <td>PHP_EXT_ZEND_TEST_SHARED=ON</td>
+      <td>PHP_EXT_ZEND_TEST=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3391,7 +3391,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-zip=shared</td>
       <td>--enable-zip=shared</td>
-      <td>PHP_EXT_ZIP_SHARED=ON</td>
+      <td>PHP_EXT_ZIP=shared</td>
       <td></td>
     </tr>
     <tr>
@@ -3416,7 +3416,7 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>&emsp;--with-zlib=shared</td>
       <td>--enable-zlib=shared</td>
-      <td>PHP_EXT_ZLIB_SHARED=ON</td>
+      <td>PHP_EXT_ZLIB=shared</td>
       <td></td>
     </tr>
     <tr>

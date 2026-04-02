@@ -10,13 +10,6 @@ This extension provides support for using CURL - Client URL Library.
 ### PHP_EXT_CURL
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_CURL_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

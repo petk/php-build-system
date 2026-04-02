@@ -13,13 +13,6 @@ This extension provides support for POSIX-like functions.
 ### PHP_EXT_POSIX
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_POSIX_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

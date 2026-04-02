@@ -11,16 +11,9 @@ files.
 ### PHP_EXT_ZLIB
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_ZLIB_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ## Examples
 

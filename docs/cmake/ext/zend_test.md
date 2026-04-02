@@ -10,13 +10,6 @@ This extension provides additional support for testing PHP itself.
 ### PHP_EXT_ZEND_TEST
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_ZEND_TEST_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

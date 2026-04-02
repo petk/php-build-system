@@ -10,16 +10,9 @@ This extension provides MySQL-compatible databases support.
 ### PHP_EXT_MYSQLI
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_MYSQLI_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_MYSQLI_SOCKET
 

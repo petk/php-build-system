@@ -9,16 +9,9 @@ Support) API.
 ### PHP_EXT_GETTEXT
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_GETTEXT_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -29,7 +22,6 @@ project(
 )
 
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -41,14 +33,6 @@ add_feature_info(
   "GNU gettext support using NLS (Native Language Support) API"
 )
 
-cmake_dependent_option(
-  PHP_EXT_GETTEXT_SHARED
-  "Build the gettext extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_GETTEXT
-  OFF
-)
-
 if(NOT PHP_EXT_GETTEXT)
   return()
 endif()
@@ -58,7 +42,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(gettext)
 
-if(PHP_EXT_GETTEXT_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_GETTEXT STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_gettext MODULE)
 else()
   add_library(php_ext_gettext OBJECT)

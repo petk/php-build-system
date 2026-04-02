@@ -10,13 +10,6 @@ This extension provides support for reading and writing ZIP compressed archives.
 ### PHP_EXT_ZIP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_ZIP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

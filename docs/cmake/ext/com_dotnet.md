@@ -31,16 +31,9 @@ The .NET version 5 and later are not supported as they have removed the
 ### PHP_EXT_COM_DOTNET
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_COM_DOTNET_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 ### PHP_EXT_COM_DOTNET_ENABLE_DOTNET
 

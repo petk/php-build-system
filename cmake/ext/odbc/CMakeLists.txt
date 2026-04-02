@@ -9,16 +9,9 @@ databases.
 ### PHP_EXT_ODBC
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `odbc` extension.
-
-### PHP_EXT_ODBC_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_ODBC_TYPE
 
@@ -183,7 +176,6 @@ project(
 
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -192,14 +184,6 @@ add_feature_info(
   "ext/odbc"
   PHP_EXT_ODBC
   "Unified Open Database Connectivity (ODBC) databases support"
-)
-
-cmake_dependent_option(
-  PHP_EXT_ODBC_SHARED
-  "Build the odbc extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_ODBC
-  OFF
 )
 
 set(
@@ -242,7 +226,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(odbc)
 
-if(PHP_EXT_ODBC_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_ODBC STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_odbc MODULE)
 else()
   add_library(php_ext_odbc OBJECT)
@@ -417,8 +401,8 @@ if(NOT PROJECT_IS_TOP_LEVEL)
 
       To prevent library symbol collisions when building both odbc and pdo_odbc
       extensions statically, please link with the same ODBC library, or build
-      one of the extensions as shared by setting 'PHP_EXT_ODBC_SHARED' or
-      'PHP_EXT_PDO_ODBC_SHARED' to 'ON'.
+      one of the extensions as shared by setting 'PHP_EXT_ODBC' or
+      'PHP_EXT_PDO_ODBC' to 'shared'.
     ")
   endfunction()
 endif()

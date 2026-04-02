@@ -11,16 +11,9 @@ in PHP extensions.
 ### PHP_EXT_MYSQLND
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `mysqlnd` extension.
-
-### PHP_EXT_MYSQLND_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_MYSQLND_COMPRESSION
 

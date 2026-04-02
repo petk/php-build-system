@@ -10,13 +10,6 @@ This extension provides support for file content type and encoding.
 ### PHP_EXT_FILEINFO
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_FILEINFO_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

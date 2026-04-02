@@ -10,13 +10,6 @@ This extension provides toolset for converting XML to a processable object.
 ### PHP_EXT_SIMPLEXML
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SIMPLEXML_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

@@ -10,13 +10,6 @@ This extension provides PDO interface for using Firebird database.
 ### PHP_EXT_PDO_FIREBIRD
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_PDO_FIREBIRD_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

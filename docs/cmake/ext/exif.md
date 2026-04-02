@@ -10,13 +10,6 @@ This extension provides support for working with exchangeable image metadata.
 ### PHP_EXT_EXIF
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_EXIF_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

@@ -10,13 +10,6 @@ This extension provides support for libxml xmlWriter API.
 ### PHP_EXT_XMLWRITER
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_XMLWRITER_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

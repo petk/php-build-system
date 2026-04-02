@@ -11,16 +11,9 @@ databases.
 ### PHP_EXT_ODBC
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `odbc` extension.
-
-### PHP_EXT_ODBC_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_ODBC_TYPE
 

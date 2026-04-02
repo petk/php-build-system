@@ -6,16 +6,9 @@
 ### PHP_EXT_%EXTNAMECAPS%
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_%EXTNAMECAPS%_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 # CMakeLists.txt file for the PHP %EXTNAME% extension.
@@ -32,9 +25,6 @@ project(
   HOMEPAGE_URL "https://example.org"
   LANGUAGES C
 )
-
-# Include CMake module to use cmake_dependent_option().
-include(CMakeDependentOption)
 
 # Include CMake module to use add_feature_info() and set_package_properties().
 include(FeatureSummary)
@@ -54,15 +44,6 @@ add_feature_info(
   "short description of extension features"
 )
 
-# Dependent boolean option that builds extension as a shared library.
-cmake_dependent_option(
-  PHP_EXT_%EXTNAMECAPS%_SHARED
-  "Build the %EXTNAME% extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_%EXTNAMECAPS%
-  OFF
-)
-
 # If extension is disabled CMake configuration stops here.
 if(NOT PHP_EXT_%EXTNAMECAPS%)
   return()
@@ -76,8 +57,8 @@ include(PHP/Extension)
 php_extension(%EXTNAME%)
 
 # Add a target to be built as a dynamically loadable module (shared extension),
-# or statically.
-if(PHP_EXT_%EXTNAMECAPS%_SHARED OR PROJECT_IS_TOP_LEVEL)
+# or as an object library (when building extension statically in php-src).
+if(PHP_EXT_%EXTNAMECAPS% STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_%EXTNAME% MODULE)
 else()
   add_library(php_ext_%EXTNAME% OBJECT)

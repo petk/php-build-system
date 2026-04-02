@@ -10,13 +10,6 @@ This extension provides support for Simple Network Management Protocol (SNMP).
 ### PHP_EXT_SNMP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SNMP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

@@ -10,13 +10,6 @@ This extension provides support for calendar conversion.
 ### PHP_EXT_CALENDAR
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_CALENDAR_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

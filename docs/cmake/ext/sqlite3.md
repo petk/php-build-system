@@ -10,13 +10,6 @@ This extension provides support for using SQLite database.
 ### PHP_EXT_SQLITE3
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SQLITE3_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

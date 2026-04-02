@@ -11,7 +11,7 @@ running PHP tests during development.
 ### PHP_EXT_DL_TEST
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
 

@@ -11,19 +11,12 @@ library.
 ### PHP_EXT_OPENSSL
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `openssl` extension.
+Enables the extension.
 
 Where to find OpenSSL installation on the system, can be customized with the
 `OPENSSL_ROOT_DIR` variable.
-
-### PHP_EXT_OPENSSL_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
 
 ### PHP_EXT_OPENSSL_SYSTEM_CIPHERS
 

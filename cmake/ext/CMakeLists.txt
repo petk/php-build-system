@@ -38,8 +38,15 @@ foreach(extension IN LISTS extensions)
   list(APPEND CMAKE_MESSAGE_CONTEXT "${extension}")
 
   message(CHECK_START "Configuring extension ${extension}")
+
   list(APPEND CMAKE_MESSAGE_INDENT "  ")
+
+  php_extensions_pre_configure(${extension})
+
   add_subdirectory("${extension}")
+
+  php_extensions_post_configure(${extension})
+
   list(POP_BACK CMAKE_MESSAGE_INDENT)
 
   if(NOT TARGET php_ext_${extension})

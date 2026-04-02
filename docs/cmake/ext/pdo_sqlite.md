@@ -10,13 +10,6 @@ This extension provides PDO interface for using SQLite database.
 ### PHP_EXT_PDO_SQLITE
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_PDO_SQLITE_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

@@ -11,16 +11,9 @@ This extension provides support for POSIX-like functions.
 ### PHP_EXT_POSIX
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_POSIX_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -37,7 +30,6 @@ endif()
 include(CheckIncludeFiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -49,14 +41,6 @@ add_feature_info(
   "IEEE 1003.1 (POSIX.1) interface"
 )
 
-cmake_dependent_option(
-  PHP_EXT_POSIX_SHARED
-  "Build the posix extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_POSIX
-  OFF
-)
-
 if(NOT PHP_EXT_POSIX)
   return()
 endif()
@@ -66,7 +50,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(posix)
 
-if(PHP_EXT_POSIX_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_POSIX STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_posix MODULE)
 else()
   add_library(php_ext_posix OBJECT)

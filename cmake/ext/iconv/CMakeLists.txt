@@ -9,16 +9,9 @@ facility.
 ### PHP_EXT_ICONV
 
 * Default: `ON`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_ICONV_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -31,7 +24,6 @@ project(
 include(CheckPrototypeDefinition)
 include(CheckSourceRuns)
 include(CheckSymbolExists)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -43,14 +35,6 @@ add_feature_info(
   "internationalization conversion interface"
 )
 
-cmake_dependent_option(
-  PHP_EXT_ICONV_SHARED
-  "Build the iconv extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_ICONV
-  OFF
-)
-
 if(NOT PHP_EXT_ICONV)
   return()
 endif()
@@ -60,7 +44,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(iconv)
 
-if(PHP_EXT_ICONV_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_ICONV STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_iconv MODULE)
 else()
   add_library(php_ext_iconv OBJECT)

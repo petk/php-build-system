@@ -8,16 +8,9 @@ This extension provides the database (dbm-style) abstraction layer.
 ### PHP_EXT_DBA
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `dba` extension.
-
-### PHP_EXT_DBA_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_DBA_CDB
 
@@ -117,14 +110,6 @@ add_feature_info(
   "ext/dba"
   PHP_EXT_DBA
   "dbm-style database abstraction"
-)
-
-cmake_dependent_option(
-  PHP_EXT_DBA_SHARED
-  "Build the dba extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_DBA
-  OFF
 )
 
 cmake_dependent_option(
@@ -294,7 +279,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(dba)
 
-if(PHP_EXT_DBA_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_DBA STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_dba MODULE)
 else()
   add_library(php_ext_dba OBJECT)
@@ -388,8 +373,8 @@ if(PHP_EXT_DBA_DB)
       FATAL_ERROR
       "When building dba extension as shared, at least Berkeley DB version 3.3 "
       "is required. Found Berkeley DB version ${BerkeleyDB_VERSION}. Either "
-      "the Berkeley DB should be upgraded or set the 'PHP_EXT_DBA_SHARED' to "
-      "'OFF'."
+      "the Berkeley DB should be upgraded or build the dba extension "
+      "statically in the php-src tree."
     )
   endif()
 

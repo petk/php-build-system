@@ -9,16 +9,9 @@ through PHP.
 ### PHP_EXT_FFI
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_FFI_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 #]=============================================================================]
 
 cmake_minimum_required(VERSION 4.3...4.4)
@@ -30,7 +23,6 @@ project(
 
 include(CheckSymbolExists)
 include(CheckTypeSize)
-include(CMakeDependentOption)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -42,14 +34,6 @@ add_feature_info(
   "Foreign Function Interface (FFI)"
 )
 
-cmake_dependent_option(
-  PHP_EXT_FFI_SHARED
-  "Build the ffi extension as a shared library"
-  ${PROJECT_IS_TOP_LEVEL}
-  PHP_EXT_FFI
-  OFF
-)
-
 if(NOT PHP_EXT_FFI)
   return()
 endif()
@@ -59,7 +43,7 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(ffi)
 
-if(PHP_EXT_FFI_SHARED OR PROJECT_IS_TOP_LEVEL)
+if(PHP_EXT_FFI STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_ffi MODULE)
 else()
   add_library(php_ext_ffi OBJECT)

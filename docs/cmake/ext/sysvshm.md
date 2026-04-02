@@ -10,13 +10,6 @@ This extension provides the System V shared memory support.
 ### PHP_EXT_SYSVSHM
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SYSVSHM_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

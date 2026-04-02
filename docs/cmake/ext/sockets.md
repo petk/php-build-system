@@ -10,13 +10,6 @@ This extension provides support for a low-level socket communication interface.
 ### PHP_EXT_SOCKETS
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SOCKETS_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

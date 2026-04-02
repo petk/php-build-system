@@ -10,16 +10,9 @@ This extension provides the database (dbm-style) abstraction layer.
 ### PHP_EXT_DBA
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `dba` extension.
-
-### PHP_EXT_DBA_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_DBA_CDB
 

@@ -10,13 +10,6 @@ This extension provides support for writing SOAP servers and clients.
 ### PHP_EXT_SOAP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SOAP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

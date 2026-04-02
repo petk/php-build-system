@@ -14,13 +14,6 @@ This extension provides support for using System V message based IPC
 ### PHP_EXT_SYSVMSG
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SYSVMSG_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

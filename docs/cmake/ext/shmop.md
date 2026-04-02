@@ -10,13 +10,6 @@ This extension provides support for shared memory segments operations.
 ### PHP_EXT_SHMOP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_SHMOP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.

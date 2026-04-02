@@ -10,16 +10,9 @@ This extension provides GNU Multiple Precision Arithmetic support.
 ### PHP_EXT_GMP
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
 Enables the extension.
-
-### PHP_EXT_GMP_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared.
 
 > [!NOTE]
 > When the target system is Windows, the MPIR library is used instead of GMP.

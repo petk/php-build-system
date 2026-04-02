@@ -11,16 +11,9 @@ Connectivity (ODBC) databases.
 ### PHP_EXT_PDO_ODBC
 
 * Default: `OFF`
-* Values: `ON|OFF`
+* Values: `ON|OFF|shared`
 
-Enables the PHP `pdo-odbc` extension.
-
-### PHP_EXT_PDO_ODBC_SHARED
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Builds extension as shared library.
+Enables the extension.
 
 ### PHP_EXT_PDO_ODBC_TYPE
 
