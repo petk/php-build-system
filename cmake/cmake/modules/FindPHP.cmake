@@ -408,12 +408,23 @@ block(
     mark_as_advanced(PHP${_php_prefix}_EXECUTABLE)
 
     # Compute a path with symbolic links resolved and leading tildes expanded.
-    file(
-      REAL_PATH
-      "${PHP${_php_prefix}_EXECUTABLE}"
-      PHP${_php_prefix}_EXECUTABLE
-      EXPAND_TILDE
-    )
+    if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
+      block()
+        file(
+          REAL_PATH
+          "${PHP${_php_prefix}_EXECUTABLE}"
+          result
+          EXPAND_TILDE
+        )
+
+        if(NOT result STREQUAL PHP${_php_prefix}_EXECUTABLE)
+          set_property(
+            CACHE PHP${_php_prefix}_EXECUTABLE
+            PROPERTY VALUE "${result}"
+          )
+        endif()
+      endblock()
+    endif()
 
     if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
       set(PHP_Interpreter_FOUND TRUE)
