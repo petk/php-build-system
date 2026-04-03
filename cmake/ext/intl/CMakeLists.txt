@@ -42,23 +42,25 @@ find_package(PHP REQUIRED)
 include(PHP/Extension)
 php_extension(intl)
 
+# ext/intl on Windows must be built as shared due to some ICU type conflict in
+# Zend/zend_strtod.c.
+if(
+  CMAKE_SYSTEM_NAME STREQUAL "Windows"
+  AND NOT PROJECT_IS_TOP_LEVEL
+  AND NOT PHP_EXT_INTL STREQUAL "shared"
+)
+  set_property(CACHE PHP_EXT_INTL PROPERTY VALUE "shared")
+  message(
+    WARNING
+    "The PHP intl extension on Windows can be only built as shared. "
+    "PHP_EXT_INTL has been automatically set to 'shared'."
+  )
+endif()
+
 if(PHP_EXT_INTL STREQUAL "shared" OR PROJECT_IS_TOP_LEVEL)
   add_library(php_ext_intl MODULE)
 else()
   add_library(php_ext_intl OBJECT)
-endif()
-
-# TODO: Recheck this.
-get_target_property(type php_ext_intl TYPE)
-if(
-  NOT type STREQUAL "MODULE_LIBRARY"
-  AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
-)
-  message(
-    AUTHOR_WARNING
-    "TODO: Recheck if Windows still requires ext/intl to be always built as "
-    "shared (zend_strtod.c/ICU type conflict)."
-  )
 endif()
 
 target_sources(
@@ -184,6 +186,13 @@ if(PHP_HAS_WNO_WRITE_STRINGS_CXX)
       $<$<COMPILE_LANGUAGE:CXX>:-Wno-write-strings>
   )
 endif()
+
+# /EHsc enables exception handling.
+target_compile_options(
+  php_ext_intl
+  PRIVATE
+    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<COMPILE_LANGUAGE:CXX>>:/EHsc>
+)
 
 target_compile_definitions(
   php_ext_intl
