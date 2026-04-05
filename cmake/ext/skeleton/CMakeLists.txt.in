@@ -100,14 +100,14 @@ set_property(
 )
 #]]
 
-# Add library target sources.
+# Add extension source files.
 target_sources(
   php_ext_%EXTNAME%
   PRIVATE
     %EXTNAME%.c
     %EXTNAME%.stub.php
   # Add headers to a file set, if extension provides headers that should be
-  # installed and will be consumed by other sources.
+  # installed and can be consumed by other extensions or applications.
   PUBLIC
     FILE_SET HEADERS
       FILES
