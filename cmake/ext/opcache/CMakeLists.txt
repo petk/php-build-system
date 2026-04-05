@@ -335,7 +335,7 @@ if(PHP_EXT_OPCACHE_JIT)
     PRIVATE
       IR_PHP
       ${ir_target}
-      $<$<CONFIG:Debug,DebugAssertions>:IR_DEBUG>
+      $<$<CONFIG:Debug,PhpRelWithDebInfo>:IR_DEBUG>
   )
 
   foreach(

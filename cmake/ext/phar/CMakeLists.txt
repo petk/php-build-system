@@ -80,7 +80,7 @@ if(MSVC AND TODO)
     php_ext_phar
     PRIVATE
       # Silence irrelevant warning in release builds.
-      $<$<NOT:$<CONFIG:Debug,DebugAssertions>>:LINKER:/IGNORE:4089>
+      $<$<NOT:$<CONFIG:Debug,PhpRelWithDebInfo>>:LINKER:/IGNORE:4089>
   )
 endif()
 
