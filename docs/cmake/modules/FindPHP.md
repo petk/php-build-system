@@ -12,7 +12,7 @@ find_package(PHP [<version>] [COMPONENTS <components>...] [...])
 ## Components
 
 This module supports optional components which can be specified using the
-find_package() command:
+`find_package()` command:
 
 ```cmake
 find_package(PHP [COMPONENTS <components>...])
@@ -21,6 +21,11 @@ find_package(PHP [COMPONENTS <components>...])
 Supported components include:
 
 * `Interpreter` - Finds the PHP command-line interpreter executable.
+* `Development` - Finds PHP headers required to build PHP extensions or
+  applications.
+
+If no components are specified, by default, the `Interpreter` and `Development`
+components are searched.
 
 ## Imported targets
 

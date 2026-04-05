@@ -315,7 +315,7 @@ else()
     target_compile_definitions(
       php_ext_pcre
       PRIVATE
-        $<$<CONFIG:Debug,DebugAssertions>:HAVE_PCRE_VALGRIND_SUPPORT>
+        $<$<CONFIG:Debug,PhpRelWithDebInfo>:HAVE_PCRE_VALGRIND_SUPPORT>
     )
   endif()
 endif()

@@ -440,8 +440,8 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>&emsp;--enable-debug-assertions</td>
       <td>--enable-debug-pack</td>
       <td>
-        Single configuration generators: <code>CMAKE_BUILD_TYPE=DebugAssertions</code><br>
-        Multi configuration generators: <code>cmake --build dir --config DebugAssertions</code>
+        Single configuration generators: <code>CMAKE_BUILD_TYPE=PhpRelWithDebInfo</code><br>
+        Multi configuration generators: <code>cmake --build dir --config PhpRelWithDebInfo</code>
       </td>
       <td></td>
     </tr>

@@ -84,7 +84,6 @@ else()
     endif()
 
     get_target_property(link_options CURL::libcurl INTERFACE_LINK_OPTIONS)
-    message(STATUS "link_options=${link_options}")
     if(link_options)
       set_target_properties(
         CURL::CURL
@@ -93,7 +92,6 @@ else()
     endif()
 
     get_target_property(compile_options CURL::libcurl INTERFACE_COMPILE_OPTIONS)
-    message(STATUS "compile_options=${compile_options}")
     if(compile_options)
       set_target_properties(
         CURL::CURL

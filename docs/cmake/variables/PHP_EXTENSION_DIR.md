@@ -7,7 +7,7 @@ determined automatically. Can be overridden at runtime using the PHP
 `extension_dir` INI directive. By default, it is a relative path inside the
 installation prefix (`CMAKE_INSTALL_PREFIX`) path. The `ZEND_MODULE_API_NO` is a
 value from the `Zend/zend_modules.h`. The `CONFIG` is CMake build type (`Debug`,
-`Release`, `DebugAssertions`, `RelWithDebInfo`, `MinSizeRel`).
+`MinSizeRel`, `PhpRelWithDebInfo`, `Release`, `RelWithDebInfo`).
 
 For example, default value for the `Release` build type with thread safety
 enabled would be `lib/php/20230901-zts-Release`. After the default installation

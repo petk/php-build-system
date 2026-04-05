@@ -317,7 +317,7 @@ Several common build types are pre-configured and readily available:
 * Release
 * MinSizeRel
 * RelWithDebInfo
-* DebugAssertions (custom PHP build type)
+* PhpRelWithDebInfo (custom PHP build type)
 
 The selection of a build type varies depending on the generator in use.
 
