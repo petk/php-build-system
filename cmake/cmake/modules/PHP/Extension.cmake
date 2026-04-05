@@ -52,6 +52,10 @@ macro(php_extension)
     "cmake_language(DEFER CALL _php_extension_post_configure \"${ARGV0}\")"
   )
 
+  if(PROJECT_IS_TOP_LEVEL AND PHP_CCACHE)
+    find_package(Ccache)
+  endif()
+
   if(PHP_TESTING)
     enable_testing()
 

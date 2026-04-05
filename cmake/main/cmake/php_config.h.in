@@ -618,7 +618,7 @@
 #cmakedefine WORDS_BIGENDIAN
 
 /* Define to 1 if PHP debugging is enabled, and to 0 if not. */
-#define ZEND_DEBUG $<IF:$<CONFIG:Debug,DebugAssertions>,1,0>
+#define ZEND_DEBUG $<IF:$<CONFIG:Debug,PhpRelWithDebInfo>,1,0>
 
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1

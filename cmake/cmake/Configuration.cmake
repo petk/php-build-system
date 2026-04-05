@@ -351,9 +351,6 @@ mark_as_advanced(PHP_GCOV)
 option(PHP_LIBGCC "Explicitly link against libgcc")
 mark_as_advanced(PHP_LIBGCC)
 
-option(PHP_CCACHE "Use ccache if available on the system" ON)
-mark_as_advanced(PHP_CCACHE)
-
 cmake_dependent_option(
   PHP_SYSTEM_GLOB
   "Use the system glob() function instead of the PHP provided replacement"
