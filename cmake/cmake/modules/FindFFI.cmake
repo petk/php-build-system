@@ -31,8 +31,7 @@ The following cache variables may also be set:
 
 ## Hints
 
-This module accepts the following variables before calling
-`find_package(FFI)`:
+This module accepts the following variables before calling `find_package(FFI)`:
 
 * `FFI_USE_STATIC_LIBS` - Set this variable to boolean true to search for static
   libraries.
