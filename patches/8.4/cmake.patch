@@ -21,18 +21,18 @@ Subject: Add CMake changes for PHP-8.4 branch
   and installed on the host with Autotools.
 ---
  .editorconfig              |  2 +-
- .gitignore                 | 14 ++++++++++++
- README.md                  | 22 +++++++++++++++++++
- Zend/zend_float.h          |  5 ++---
+ .gitignore                 | 14 ++++++++++
+ README.md                  | 22 +++++++++++++++
+ Zend/zend_float.h          |  5 ++--
  configure.ac               |  2 +-
- ext/ext_skel.php           | 44 ++++++++++++++------------------------
+ ext/ext_skel.php           | 56 ++++++++++++++++++--------------------
  ext/iconv/iconv.c          |  2 +-
- ext/skeleton/.gitignore.in | 15 +++++++++++++
+ ext/skeleton/.gitignore.in | 15 ++++++++++
  ext/standard/proc_open.c   |  2 +-
- run-tests.php              | 24 +++++++++++++++------
- sapi/fpm/tests/tester.inc  |  4 ++++
- scripts/Makefile.frag      | 15 +++++++++++++
- 12 files changed, 110 insertions(+), 41 deletions(-)
+ run-tests.php              | 24 ++++++++++++----
+ sapi/fpm/tests/tester.inc  |  4 +++
+ scripts/Makefile.frag      | 15 ++++++++++
+ 12 files changed, 120 insertions(+), 43 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 7911bf8490b..1d9b530947e 100644
@@ -149,7 +149,7 @@ index 4666a90da93..e20406ef2e9 100644
  PHP_SUBST([all_targets])
  PHP_SUBST([install_targets])
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
-index ae7a3a987c0..5c5923c3839 100755
+index ae7a3a987c0..9620a90fd34 100755
 --- a/ext/ext_skel.php
 +++ b/ext/ext_skel.php
 @@ -27,14 +27,6 @@ function error($message) {
@@ -221,25 +221,42 @@ index ae7a3a987c0..5c5923c3839 100755
      printf('Thank you for using PHP!%s', PHP_EOL);
  }
  /* }}} */
-@@ -302,11 +283,18 @@ function copy_config_scripts() {
-         $files[] = 'config.w32';
+@@ -282,7 +263,7 @@ function process_source_tags($file, $short_name) {
+         $source = str_replace('%HEADER%', $header, $source);
      }
  
-+    $files[] = 'CMakeLists.txt';
-+    $files[] = 'cmake/config.h.in';
+-    if (!file_put_contents($file, $source)) {
++    if (file_put_contents($file, $source) === false) {
+         error('Unable to save contents to file: ' . $short_name);
+     }
+ }
+@@ -304,10 +285,25 @@ function copy_config_scripts() {
+ 
      $files[] = '.gitignore';
  
++    $cmake_files = glob($options['skel'] . 'cmake/*', GLOB_MARK);
++    $cmake_files = array_map(function ($file) use ($options) {
++        return substr($file, strlen($options['skel']));
++    }, $cmake_files);
++    $cmake_files[] = 'CMakeLists.txt';
++    $files = array_merge($files, $cmake_files);
++
      foreach($files as $config_script) {
          $new_config_script = $options['dir'] . $options['ext'] . DIRECTORY_SEPARATOR . $config_script;
  
+-        if (!copy($options['skel'] . $config_script . '.in', $new_config_script)) {
 +        $directory = dirname($new_config_script);
 +        if (!is_dir($directory) && !mkdir($directory, 0777, true)) {
 +            error('Unable to create ' . $directory . ' directory in the output directory');
 +        }
 +
-         if (!copy($options['skel'] . $config_script . '.in', $new_config_script)) {
++        $file = $options['skel'] . $config_script;
++        $file = file_exists($file . '.in') ? $file . '.in' : $file;
++
++        if (!copy($file, $new_config_script)) {
              error('Unable to copy config script: ' . $config_script);
          }
+ 
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
 index 117a9e948f6..e8bd3b939ea 100644
 --- a/ext/iconv/iconv.c
