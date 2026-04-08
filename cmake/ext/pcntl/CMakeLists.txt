@@ -32,7 +32,6 @@ endif()
 
 include(CheckSourceCompiles)
 include(CheckSymbolExists)
-include(CheckTypeSize)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
@@ -218,19 +217,6 @@ cmake_push_check_state(RESET)
   ]] PHP_EXT_PCNTL_HAVE_DECL_P_UID)
   set(HAVE_DECL_P_UID ${PHP_EXT_PCNTL_HAVE_DECL_P_UID})
 cmake_pop_check_state()
-
-cmake_push_check_state(RESET)
-  set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
-  check_type_size(
-    siginfo_t
-    PHP_EXT_PCNTL_SIZEOF_STRUCT_SIGINFO_T
-    RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_STRUCT_SIGINFO_T
-  )
-cmake_pop_check_state()
-
-if(PHP_EXT_PCNTL_HAVE_STRUCT_SIGINFO_T)
-  target_compile_definitions(php_ext_pcntl PRIVATE HAVE_STRUCT_SIGINFO_T)
-endif()
 
 # Check if sched_getcpu() is supported. Value -1 means ENOSYS in this context.
 cmake_push_check_state(RESET)
