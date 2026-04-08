@@ -22,17 +22,17 @@ Subject: Add CMake changes for PHP-8.5 branch
 ---
  .editorconfig              |  2 +-
  .gitignore                 | 14 ++++++++++
- README.md                  | 22 +++++++++++++++
+ README.md                  | 22 ++++++++++++++++
  Zend/zend_float.h          |  5 ++--
  configure.ac               |  2 +-
- ext/ext_skel.php           | 56 ++++++++++++++++++--------------------
+ ext/ext_skel.php           | 52 +++++++++++++++++---------------------
  ext/iconv/iconv.c          |  2 +-
- ext/skeleton/.gitignore.in | 15 ++++++++++
+ ext/skeleton/.gitignore.in | 15 +++++++++++
  ext/standard/proc_open.c   |  2 +-
- run-tests.php              | 24 ++++++++++++----
+ run-tests.php              | 24 +++++++++++++-----
  sapi/fpm/tests/tester.inc  |  4 +++
- scripts/Makefile.frag      | 15 ++++++++++
- 12 files changed, 120 insertions(+), 43 deletions(-)
+ scripts/Makefile.frag      | 15 +++++++++++
+ 12 files changed, 117 insertions(+), 42 deletions(-)
 
 diff --git a/.editorconfig b/.editorconfig
 index 19be96087d9..58a83dfb688 100644
@@ -149,7 +149,7 @@ index 07e64e74887..3f16cc9dfff 100644
  PHP_SUBST([all_targets])
  PHP_SUBST([install_targets])
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
-index d396dfa3da7..df59fd2aefd 100755
+index d396dfa3da7..ca6b15d7f42 100755
 --- a/ext/ext_skel.php
 +++ b/ext/ext_skel.php
 @@ -24,14 +24,6 @@ function error($message) {
@@ -230,13 +230,14 @@ index d396dfa3da7..df59fd2aefd 100755
          error('Unable to save contents to file: ' . $short_name);
      }
  }
-@@ -304,10 +285,25 @@ function copy_config_scripts() {
+@@ -304,9 +285,22 @@ function copy_config_scripts() {
      $files[] = '.gitignore';
      $files[] = 'composer.json';
  
 +    $cmake_files = glob($options['skel'] . 'cmake/*', GLOB_MARK);
++    // Remove absolute path and '.in' file extension.
 +    $cmake_files = array_map(function ($file) use ($options) {
-+        return substr($file, strlen($options['skel']));
++        return substr($file, strlen($options['skel']), -3);
 +    }, $cmake_files);
 +    $cmake_files[] = 'CMakeLists.txt';
 +    $files = array_merge($files, $cmake_files);
@@ -244,21 +245,16 @@ index d396dfa3da7..df59fd2aefd 100755
      foreach($files as $config_script) {
          $new_config_script = $options['dir'] . $options['ext'] . DIRECTORY_SEPARATOR . $config_script;
  
--        if (!copy($options['skel'] . $config_script . '.in', $new_config_script)) {
 +        $directory = dirname($new_config_script);
 +        if (!is_dir($directory) && !mkdir($directory, 0777, true)) {
 +            error('Unable to create ' . $directory . ' directory in the output directory');
 +        }
 +
-+        $file = $options['skel'] . $config_script;
-+        $file = file_exists($file . '.in') ? $file . '.in' : $file;
-+
-+        if (!copy($file, $new_config_script)) {
+         if (!copy($options['skel'] . $config_script . '.in', $new_config_script)) {
              error('Unable to copy config script: ' . $config_script);
          }
- 
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
-index fd3a22deb10..f5d44788002 100644
+index de1eb76ac52..ab87cb57f04 100644
 --- a/ext/iconv/iconv.c
 +++ b/ext/iconv/iconv.c
 @@ -44,7 +44,7 @@
