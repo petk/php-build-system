@@ -13,7 +13,8 @@ find_package(NetSnmp [<version>] [...])
 
 This module provides the following imported targets:
 
-* `NetSnmp::NetSnmp` - The package library, if found.
+* `NetSnmp::NetSnmp` - Target encapsulating the package usage requirements,
+  available if package was found.
 
 ## Result variables
 
