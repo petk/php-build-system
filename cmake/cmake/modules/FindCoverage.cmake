@@ -60,7 +60,7 @@ This module provides the following imported targets:
 This module defines the following variables:
 
 * `Coverage_FOUND` - Boolean indicating whether the compiler supports code
-  coverate features.
+  coverage features.
 
 ## Cache variables
 
