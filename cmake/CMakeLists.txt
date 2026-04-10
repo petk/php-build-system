@@ -204,6 +204,9 @@ include(PHP/Internal/Stubs)
 # Configure PHP thread safety.
 include(PHP/Core/ThreadSafety)
 
+# Configure code coverage.
+include(cmake/Coverage.cmake)
+
 ################################################################################
 # Execute all deferred calls. Calls are additionally sorted with natural
 # comparison method by their IDs. If call hasn't set any ID number, CMake
