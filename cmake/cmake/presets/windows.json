@@ -38,6 +38,7 @@
         "PHP_EXT_XMLREADER": false,
         "PHP_EXT_XMLWRITER": false,
         "PHP_EXT_ZEND_TEST": true,
+        "PHP_EXT_ZIP": "shared",
 
         "PHP_SAPI_EMBED": true,
 
