@@ -80,29 +80,19 @@ endif()
 if(libzip_VERSION VERSION_EQUAL 1.3.1 OR libzip_VERSION VERSION_EQUAL 1.7.0)
   message(
     FATAL_ERROR
-    "ext/zip: libzip ${libzip_VERSION} is not supported. Try upgrading libzip."
+    "ext/zip: libzip ${libzip_VERSION} is not supported. Please upgrade libzip."
   )
 endif()
 
 # Link publicly for internal_functions files.
 target_link_libraries(php_ext_zip PUBLIC libzip::zip)
 
-# Note: ZIP_STATIC needs to be defined when using static libzip on Windows only
-# since version 1.0 to 1.3.2
-if(
-  CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  AND libzip_VERSION VERSION_GREATER_EQUAL 1.0
-  AND libzip_VERSION VERSION_LESS 1.4.0
-)
-  # TODO: Adjust this if the libzip is a static library.
+# TODO: Adjust this if the libzip is a static library.
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   if(TODO)
-    set(ZIP_STATIC TRUE)
-    #set(LZMA_API_STATIC TRUE)
+    target_compile_definitions(php_ext_zip PRIVATE LZMA_API_STATIC)
   endif()
 endif()
-
-# TODO: When downloading and building libzip from source additional deps are
-# required.
 
 if(libzip_FOUND)
   if(libzip_VERSION VERSION_GREATER_EQUAL 1.0.0)
