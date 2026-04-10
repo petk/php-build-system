@@ -87,12 +87,6 @@ block(
     string(APPEND reason "<zip.h> not found. ")
   endif()
 
-  if(WIN32)
-      list(PREPEND CMAKE_FIND_LIBRARY_SUFFIXES .lib .a)
-    else()
-      set(CMAKE_FIND_LIBRARY_SUFFIXES .a)
-    endif()
-
   # Support preference of static libs by adjusting CMAKE_FIND_LIBRARY_SUFFIXES.
   if(libzip_USE_STATIC_LIBS)
     if(WIN32)
