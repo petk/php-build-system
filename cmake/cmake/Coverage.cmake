@@ -151,6 +151,10 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
     list(APPEND patterns "${CMAKE_CURRENT_SOURCE_DIR}/ext/mbstring/libmbfl/*")
   endif()
 
+  if(PHP_EXT_OPCACHE)
+    list(APPEND patterns "${CMAKE_CURRENT_SOURCE_DIR}/ext/opcache/jit/libudis86/*")
+  endif()
+
   add_custom_command(
     OUTPUT php_coverage_lcov_strip
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/php_lcov.info
