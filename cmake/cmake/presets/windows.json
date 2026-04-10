@@ -11,7 +11,7 @@
       "name": "windows",
       "displayName": "Windows configuration",
       "description": "PHP configuration for Windows",
-      "binaryDir": "${sourceDir}/php-build/windows",
+      "binaryDir": "${sourceDir}/php-build/${presetName}",
       "installDir": "C:/temp",
       "cacheVariables": {
         "PHP_EXT_BCMATH": true,
@@ -57,7 +57,6 @@
       "inherits": "windows",
       "displayName": "Thread safety (ZTS) with all extensions disabled",
       "description": "PHP thread safe (ZTS) build with all PHP extensions and SAPIs disabled, only with CLI SAPI",
-      "binaryDir": "${sourceDir}/php-build/windows-ts",
       "cacheVariables": {
         "PHP_THREAD_SAFETY": true
       }

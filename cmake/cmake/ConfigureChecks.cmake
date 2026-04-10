@@ -985,39 +985,6 @@ if(PHP_CCACHE)
   find_package(Ccache)
 endif()
 
-# Check GCOV.
-if(PHP_GCOV)
-  if(NOT CMAKE_C_COMPILER_ID MATCHES "^(.*Clang|GNU)$")
-    message(
-      FATAL_ERROR
-      "GNU-compatible compiler is required for using PHP_GCOV='ON'."
-    )
-  endif()
-
-  if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
-    message(
-      WARNING
-      "When 'PHP_GCOV' is enabled, ccache should be disabled by setting the "
-      "'PHP_CCACHE' to 'OFF' or by setting the 'CCACHE_DISABLE' environment "
-      "variable."
-    )
-  endif()
-
-  find_package(Gcov)
-  set_package_properties(
-    Gcov
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable GCOV coverage report and symbols."
-  )
-
-  if(TARGET Gcov::Gcov)
-    target_link_libraries(php_config INTERFACE Gcov::Gcov)
-    gcov_generate_report()
-    set(HAVE_GCOV TRUE)
-  endif()
-endif()
-
 # Valgrind.
 if(PHP_VALGRIND)
   find_package(Valgrind)

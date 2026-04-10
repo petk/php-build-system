@@ -162,9 +162,6 @@
 /* Define to 1 if you have the 'gai_strerror' function. */
 #cmakedefine HAVE_GAI_STRERROR 1
 
-/* Define to 1 if GCOV code coverage is enabled. */
-#cmakedefine HAVE_GCOV 1
-
 /* Define to 1 if you have the 'getaddrinfo' function. */
 #cmakedefine HAVE_GETADDRINFO 1
 
