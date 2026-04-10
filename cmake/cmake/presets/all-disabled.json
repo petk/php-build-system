@@ -7,7 +7,7 @@
       "name": "all-disabled",
       "displayName": "All extensions disabled",
       "description": "PHP configuration with all PHP extensions and SAPIs disabled, only with CLI SAPI",
-      "binaryDir": "${sourceDir}/php-build/all-disabled",
+      "binaryDir": "${sourceDir}/php-build/${presetName}",
       "installDir": "/tmp",
       "cacheVariables": {
         "PHP_EXT_COM_DOTNET": false,
@@ -38,9 +38,18 @@
       "inherits": "all-disabled",
       "displayName": "Thread safety (ZTS) with all extensions disabled",
       "description": "PHP thread safe (ZTS) build with all PHP extensions and SAPIs disabled, only with CLI SAPI",
-      "binaryDir": "${sourceDir}/php-build/all-disabled-ts",
       "cacheVariables": {
         "PHP_THREAD_SAFETY": true
+      }
+    },
+    {
+      "name": "all-disabled-coverage",
+      "inherits": "all-disabled",
+      "displayName": "All extensions disabled with code coverage enabled",
+      "description": "PHP configuration with code coverage enabled and all PHP extensions and SAPIs disabled, only with CLI SAPI",
+      "cacheVariables": {
+        "PHP_COVERAGE": true,
+        "PHP_CCACHE": false
       }
     }
   ],
@@ -54,6 +63,20 @@
       "name": "all-disabled-ts",
       "inherits": "all-disabled",
       "configurePreset": "all-disabled-ts"
+    },
+    {
+      "name": "all-disabled-coverage",
+      "inherits": "all-disabled",
+      "configurePreset": "all-disabled-coverage"
+    },
+    {
+      "name": "all-disabled-coverage-gcovr",
+      "inherits": "all-disabled",
+      "configurePreset": "all-disabled-coverage",
+      "targets": [
+        "php_coverage_gcovr_html",
+        "php_coverage_gcovr_xml"
+      ]
     }
   ],
   "testPresets": [
@@ -75,6 +98,34 @@
       "name": "all-disabled-ts",
       "inherits": "all-disabled",
       "configurePreset": "all-disabled-ts"
+    },
+    {
+      "name": "all-disabled-coverage",
+      "inherits": "all-disabled",
+      "configurePreset": "all-disabled-coverage"
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "all-disabled-coverage",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "all-disabled-coverage"
+        },
+        {
+          "type": "build",
+          "name": "all-disabled-coverage"
+        },
+        {
+          "type": "test",
+          "name": "all-disabled-coverage"
+        },
+        {
+          "type": "build",
+          "name": "all-disabled-coverage-gcovr"
+        }
+      ]
     }
   ]
 }

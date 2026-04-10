@@ -10,6 +10,7 @@ Load this module in a CMake project with:
 This module provides the following cache variables:
 
 * PHP_CCACHE
+* PHP_COVERAGE
 * PHP_TESTING
 #]=============================================================================]
 
@@ -17,6 +18,9 @@ include_guard(GLOBAL)
 
 option(PHP_CCACHE "Use ccache if available on the system" ON)
 mark_as_advanced(PHP_CCACHE)
+
+option(PHP_COVERAGE "Enable GCOV code coverage and include GCOV symbols")
+mark_as_advanced(PHP_COVERAGE)
 
 option(
   PHP_TESTING

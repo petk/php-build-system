@@ -196,13 +196,13 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_CONFIG_FILE_PATH`](/docs/cmake/variables/PHP_CONFIG_FILE_PATH.md)
 * [`PHP_CONFIG_FILE_SCAN_DIR`](/docs/cmake/variables/PHP_CONFIG_FILE_SCAN_DIR.md)
 * [`PHP_CONFIGURE_COMMAND`](/docs/cmake/variables/PHP_CONFIGURE_COMMAND.md)
+* [`PHP_COVERAGE`](/docs/cmake/variables/PHP_COVERAGE.md)
 * [`PHP_DEFAULT_SHORT_OPEN_TAG`](/docs/cmake/variables/PHP_DEFAULT_SHORT_OPEN_TAG.md)
 * [`PHP_DMALLOC`](/docs/cmake/variables/PHP_DMALLOC.md)
 * [`PHP_DTRACE`](/docs/cmake/variables/PHP_DTRACE.md)
 * [`PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES`](/docs/cmake/variables/PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES.md)
 * [`PHP_EXTENSION_DIR`](/docs/cmake/variables/PHP_EXTENSION_DIR.md)
 * [`PHP_FD_SETSIZE`](/docs/cmake/variables/PHP_FD_SETSIZE.md)
-* [`PHP_GCOV`](/docs/cmake/variables/PHP_GCOV.md)
 * [`PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX`](/docs/cmake/variables/PHP_INSTALL_CMAKE_CONFIG_FILE_DIR_SUFFIX.md)
 * [`PHP_INSTALL_CPS_DIR_SUFFIX`](/docs/cmake/variables/PHP_INSTALL_CPS_DIR_SUFFIX.md)
 * [`PHP_INSTALL_DATADIR_SUFFIX`](/docs/cmake/variables/PHP_INSTALL_DATADIR_SUFFIX.md)
@@ -653,16 +653,13 @@ A list of Autoconf `configure` command-line configuration options, Windows
     <tr>
       <td>--disable-gcov</td>
       <td>N/A</td>
-      <td>PHP_GCOV=OFF</td>
+      <td>PHP_COVERAGE=OFF</td>
       <td>default</td>
     </tr>
     <tr>
       <td>&emsp;--enable-gcov</td>
       <td>N/A</td>
-      <td>
-        PHP_GCOV=ON<br>
-        [GCOV_ROOT=DIR]
-      </td>
+      <td>PHP_COVERAGE=ON</td>
       <td></td>
     </tr>
     <tr>

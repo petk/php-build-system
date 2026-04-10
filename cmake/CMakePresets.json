@@ -17,18 +17,27 @@
     {
       "name": "default",
       "displayName": "Default PHP configuration",
-      "description": "Configuration with the most commonly used PHP extensions enabled",
-      "binaryDir": "${sourceDir}/php-build/default",
+      "description": "Configuration with commonly used PHP extensions",
+      "binaryDir": "${sourceDir}/php-build/${presetName}",
       "installDir": "/tmp"
     },
     {
       "name": "default-ts",
       "inherits": "default",
       "displayName": "Default PHP configuration with thread safety (ZTS)",
-      "description": "Configuration with the most commonly used PHP extensions enabled and thread safety enabled (ZTS)",
-      "binaryDir": "${sourceDir}/php-build/default-ts",
+      "description": "Configuration with commonly used PHP extensions and thread safety (ZTS)",
       "cacheVariables": {
         "PHP_THREAD_SAFETY": true
+      }
+    },
+    {
+      "name": "default-coverage",
+      "inherits": "default",
+      "displayName": "Default PHP configuration with code coverage",
+      "description": "Configuration with commonly used PHP extensions and code coverage",
+      "cacheVariables": {
+        "PHP_COVERAGE": true,
+        "PHP_CCACHE": false
       }
     }
   ],
@@ -42,6 +51,19 @@
       "name": "default-ts",
       "inherits": "default",
       "configurePreset": "default-ts"
+    },
+    {
+      "name": "default-coverage",
+      "inherits": "default",
+      "configurePreset": "default-coverage"
+    },
+    {
+      "name": "default-coverage-gcovr",
+      "inherits": "default-coverage",
+      "targets": [
+        "php_coverage_gcovr_html",
+        "php_coverage_gcovr_xml"
+      ]
     }
   ],
   "testPresets": [
@@ -63,6 +85,11 @@
       "name": "default-ts",
       "inherits": "default",
       "configurePreset": "default-ts"
+    },
+    {
+      "name": "default-coverage",
+      "inherits": "default",
+      "configurePreset": "default-coverage"
     }
   ],
   "workflowPresets": [
@@ -93,6 +120,27 @@
         {
           "type": "test",
           "name": "default"
+        }
+      ]
+    },
+    {
+      "name": "default-coverage",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "default-coverage"
+        },
+        {
+          "type": "build",
+          "name": "default-coverage"
+        },
+        {
+          "type": "test",
+          "name": "default-coverage"
+        },
+        {
+          "type": "build",
+          "name": "default-coverage-gcovr"
         }
       ]
     }
