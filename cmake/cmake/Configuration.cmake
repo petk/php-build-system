@@ -345,9 +345,6 @@ mark_as_advanced(PHP_ADDRESS_SANITIZER)
 option(PHP_UNDEFINED_SANITIZER "Enable the undefined sanitizer compiler option")
 mark_as_advanced(PHP_UNDEFINED_SANITIZER)
 
-option(PHP_GCOV "Enable GCOV code coverage and include GCOV symbols")
-mark_as_advanced(PHP_GCOV)
-
 option(PHP_LIBGCC "Explicitly link against libgcc")
 mark_as_advanced(PHP_LIBGCC)
 

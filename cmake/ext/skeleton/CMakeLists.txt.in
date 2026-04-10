@@ -128,6 +128,11 @@ target_compile_definitions(
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
+# Configure code coverage.
+if(PROJECT_IS_TOP_LEVEL AND PHP_COVERAGE)
+  include(cmake/Coverage.cmake)
+endif()
+
 set(PHP_EXT_%EXTNAMECAPS%_ENABLED TRUE)
 
 # Create configuration header.

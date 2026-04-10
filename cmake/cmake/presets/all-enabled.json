@@ -7,7 +7,7 @@
       "name": "all-enabled",
       "displayName": "All extensions enabled",
       "description": "PHP configuration with all PHP extensions and SAPIs enabled",
-      "binaryDir": "${sourceDir}/php-build/all-enabled",
+      "binaryDir": "${sourceDir}/php-build/${presetName}",
       "installDir": "/tmp",
       "cacheVariables": {
         "PHP_PEAR": true,
@@ -85,7 +85,6 @@
       "inherits": "all-enabled",
       "displayName": "All extensions enabled and build as shared",
       "description": "PHP configuration with all PHP extensions shared and SAPIs enabled",
-      "binaryDir": "${sourceDir}/php-build/all-enabled-shared",
       "cacheVariables": {
         "TODO_PHP_BUILD_ALL_EXT_SHARED": true
       }
@@ -95,7 +94,6 @@
       "inherits": "all-enabled",
       "displayName": "All extensions enabled with thread safety (ZTS)",
       "description": "PHP thread safe (ZTS) configuration with all PHP extensions and SAPIs enabled",
-      "binaryDir": "${sourceDir}/php-build/all-enabled-ts",
       "cacheVariables": {
         "PHP_THREAD_SAFETY": true
       }
@@ -105,7 +103,6 @@
       "inherits": "all-enabled",
       "displayName": "All extensions enabled with different configuration",
       "description": "PHP configuration with all PHP extensions and SAPIs enabled and different configuration options",
-      "binaryDir": "${sourceDir}/php-build/all-enabled-2",
       "cacheVariables": {
         "PHP_DMALLOC": true,
         "PHP_DTRACE": true,
@@ -117,6 +114,16 @@
         "PHP_EXT_SESSION_MM": true,
         "PHP_EXT_STANDARD_CRYPT_EXTERNAL": true,
         "PHP_EXT_XML_EXPAT": true
+      }
+    },
+    {
+      "name": "all-enabled-coverage",
+      "inherits": "all-enabled",
+      "displayName": "All extensions enabled with code coverage enabled",
+      "description": "PHP configuration with all PHP extensions, SAPIs and code coverage enabled",
+      "cacheVariables": {
+        "PHP_COVERAGE": true,
+        "PHP_CCACHE": false
       }
     }
   ],
@@ -140,6 +147,20 @@
       "name": "all-enabled-2",
       "inherits": "all-enabled",
       "configurePreset": "all-enabled-2"
+    },
+    {
+      "name": "all-enabled-coverage",
+      "inherits": "all-enabled",
+      "configurePreset": "all-enabled-coverage"
+    },
+    {
+      "name": "all-enabled-coverage-gcovr",
+      "inherits": "all-enabled",
+      "configurePreset": "all-enabled-coverage",
+      "targets": [
+        "php_coverage_gcovr_html",
+        "php_coverage_gcovr_xml"
+      ]
     }
   ],
   "testPresets": [
@@ -171,9 +192,14 @@
       "name": "all-enabled-2",
       "inherits": "all-enabled",
       "configurePreset": "all-enabled-2"
+    },
+    {
+      "name": "all-enabled-coverage",
+      "inherits": "all-enabled",
+      "configurePreset": "all-enabled-coverage"
     }
   ],
-   "workflowPresets": [
+  "workflowPresets": [
     {
       "name": "all-enabled",
       "steps": [
@@ -201,6 +227,27 @@
         {
           "type": "test",
           "name": "all-enabled"
+        }
+      ]
+    },
+    {
+      "name": "all-enabled-coverage",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "all-enabled-coverage"
+        },
+        {
+          "type": "build",
+          "name": "all-enabled-coverage"
+        },
+        {
+          "type": "test",
+          "name": "all-enabled-coverage"
+        },
+        {
+          "type": "build",
+          "name": "all-enabled-coverage-gcovr"
         }
       ]
     }
