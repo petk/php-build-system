@@ -169,6 +169,7 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
           ${CMAKE_CURRENT_SOURCE_DIR}/ext/hash/sha3/*
           ${CMAKE_CURRENT_SOURCE_DIR}/ext/pcre/pcre2lib/*
           ${CMAKE_CURRENT_SOURCE_DIR}/ext/lexbor/lexbor/*
+          ${CMAKE_CURRENT_SOURCE_DIR}/ext/opcache/jit/ir/*
           ${CMAKE_CURRENT_SOURCE_DIR}/ext/uri/uriparser/*
       --ignore-errors unused
     COMMENT "[lcov] Stripping bundled libraries from php_lcov.info"
