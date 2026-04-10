@@ -9,15 +9,17 @@ Finds the libzip library:
 find_package(libzip [<version>] [...])
 ```
 
-This is a helper in case system doesn't have the libzip's Config find module
-yet. It seems that libzip find module provided by the library requires also
-zip tools installed on the system.
+This module is provided in case the system doesn't have the libzip's CMake
+config file installation yet. It seems that libzip config files provided by the
+library require also zip tools installed on the system, which is not required to
+use only the libzip library.
 
 ## Imported targets
 
 This module provides the following imported targets:
 
-* `libzip::zip` - The package library, if found.
+* `libzip::zip` - Target encapsulating the package usage requirements, available
+  if package was found.
 
 ## Result variables
 
@@ -33,6 +35,14 @@ The following cache variables may also be set:
 
 * `libzip_INCLUDE_DIR` - Directory containing package library headers.
 * `libzip_LIBRARY` - The path to the package library.
+
+## Hints
+
+This module accepts the following variables before calling
+`find_package(libzip)`:
+
+* `libzip_USE_STATIC_LIBS` - Set this variable to boolean true to search for
+  static libraries.
 
 ## Examples
 
