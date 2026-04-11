@@ -280,10 +280,10 @@ function(php_re2c name input output)
   cmake_parse_arguments(
     PARSE_ARGV
     3
-    parsed # prefix
-    "ADD_DEFAULT_OPTIONS;CODEGEN;ABSOLUTE_PATHS" # options
-    "HEADER;WORKING_DIRECTORY;COMPUTED_GOTOS" # one-value keywords
-    "OPTIONS;DEPENDS" # multi-value keywords
+    parsed
+    "ADD_DEFAULT_OPTIONS;CODEGEN;ABSOLUTE_PATHS"
+    "HEADER;WORKING_DIRECTORY;COMPUTED_GOTOS"
+    "OPTIONS;DEPENDS"
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
