@@ -231,10 +231,10 @@ function(php_add_command)
   cmake_parse_arguments(
     PARSE_ARGV
     1
-    parsed # prefix
-    "EXCLUDE_FROM_ALL;AS_TARGET;ONLY_HOST_PHP;ONLY_SAPI_CLI" # options
-    "MIN_PHP_HOST_VERSION;WORKING_DIRECTORY" # one-value keywords
-    "ARGS;REQUIRED_EXTENSIONS;OPTIONAL_EXTENSIONS;OUTPUT;DEPENDS;COMMENT" # multi-value keywords
+    parsed
+    "EXCLUDE_FROM_ALL;AS_TARGET;ONLY_HOST_PHP;ONLY_SAPI_CLI"
+    "MIN_PHP_HOST_VERSION;WORKING_DIRECTORY"
+    "ARGS;REQUIRED_EXTENSIONS;OPTIONAL_EXTENSIONS;OUTPUT;DEPENDS;COMMENT"
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -465,10 +465,10 @@ function(_php_add_command_create_script)
   cmake_parse_arguments(
     PARSE_ARGV
     0
-    parsed # prefix
-    "" # options
-    "TARGET;SCRIPT;WORKING_DIRECTORY;COMMENT" # one-value keywords
-    "REQUIRED_EXTENSIONS;OPTIONAL_EXTENSIONS" # multi-value keywords
+    parsed
+    ""
+    "TARGET;SCRIPT;WORKING_DIRECTORY;COMMENT"
+    "REQUIRED_EXTENSIONS;OPTIONAL_EXTENSIONS"
   )
 
   if(TARGET ${parsed_TARGET}_implicit AND TARGET PHP::sapi::cli)

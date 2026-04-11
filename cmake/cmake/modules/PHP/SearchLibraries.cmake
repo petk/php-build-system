@@ -266,10 +266,10 @@ function(php_search_libraries)
   cmake_parse_arguments(
     PARSE_ARGV
     0
-    parsed # prefix
-    "RECHECK_HEADERS" # options
-    "SYMBOL;SOURCE_COMPILES;SOURCE_RUNS;RESULT_VARIABLE;LIBRARY_VARIABLE" # one-value keywords
-    "HEADERS;LIBRARIES;TARGET" # multi-value keywords
+    parsed
+    "RECHECK_HEADERS"
+    "SYMBOL;SOURCE_COMPILES;SOURCE_RUNS;RESULT_VARIABLE;LIBRARY_VARIABLE"
+    "HEADERS;LIBRARIES;TARGET"
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
