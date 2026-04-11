@@ -2,10 +2,10 @@ function(php_add_test)
   cmake_parse_arguments(
     PARSE_ARGV
     0
-    parsed # prefix
-    "" # options
-    "NAME;DIR" # one-value keywords
-    "" # multi-value keywords
+    parsed
+    ""
+    "NAME;DIR"
+    ""
   )
 
   if(parsed_UNPARSED_ARGUMENTS)

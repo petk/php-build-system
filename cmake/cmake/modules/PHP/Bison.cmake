@@ -301,10 +301,10 @@ function(php_bison name input output)
   cmake_parse_arguments(
     PARSE_ARGV
     3
-    parsed # prefix
-    "ADD_DEFAULT_OPTIONS;CODEGEN;HEADER;VERBOSE;ABSOLUTE_PATHS" # options
-    "HEADER_FILE;WORKING_DIRECTORY;REPORT_FILE" # one-value keywords
-    "OPTIONS;DEPENDS" # multi-value keywords
+    parsed
+    "ADD_DEFAULT_OPTIONS;CODEGEN;HEADER;VERBOSE;ABSOLUTE_PATHS"
+    "HEADER_FILE;WORKING_DIRECTORY;REPORT_FILE"
+    "OPTIONS;DEPENDS"
   )
 
   if(parsed_UNPARSED_ARGUMENTS)

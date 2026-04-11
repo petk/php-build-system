@@ -133,10 +133,10 @@ function(php_pkgconfig_generate_pc)
   cmake_parse_arguments(
     PARSE_ARGV
     2
-    parsed      # prefix
-    ""          # options
-    "TARGET"    # one-value keywords
-    "VARIABLES" # multi-value keywords
+    parsed
+    ""
+    "TARGET"
+    "VARIABLES"
   )
 
   if(parsed_UNPARSED_ARGUMENTS)

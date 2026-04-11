@@ -36,10 +36,10 @@ function(php_extensions_sort)
   cmake_parse_arguments(
     PARSE_ARGV
     1
-    parsed # prefix
-    ""     # options
-    ""     # one-value keywords
-    ""     # multi-value keywords
+    parsed
+    ""
+    ""
+    ""
   )
 
   if(parsed_UNPARSED_ARGUMENTS)

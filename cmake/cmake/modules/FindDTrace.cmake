@@ -145,10 +145,10 @@ function(dtrace_target)
   cmake_parse_arguments(
     PARSE_ARGV
     1
-    parsed             # prefix
-    ""                 # options
-    "INPUT;HEADER"     # one-value keywords
-    "SOURCES;INCLUDES" # multi-value keywords
+    parsed
+    ""
+    "INPUT;HEADER"
+    "SOURCES;INCLUDES"
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
