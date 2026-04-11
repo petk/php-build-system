@@ -133,10 +133,10 @@ function(_php_check_attribute what attribute result)
   cmake_parse_arguments(
     PARSE_ARGV
     3
-    parsed # prefix
-    ""     # options
-    ""     # one-value keywords
-    ""     # multi-value keywords
+    parsed
+    ""
+    ""
+    ""
   )
 
   if(parsed_UNPARSED_ARGUMENTS)

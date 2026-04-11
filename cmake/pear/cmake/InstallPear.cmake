@@ -20,10 +20,10 @@ function(php_pear_path_with_destdir)
   cmake_parse_arguments(
     PARSE_ARGV
     2
-    parsed # prefix
-    ""     # options
-    ""     # one-value keywords
-    ""     # multi-value keywords
+    parsed
+    ""
+    ""
+    ""
   )
 
   if(
