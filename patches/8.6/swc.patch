@@ -4,7 +4,7 @@ Subject: Enable linking with zlib for SWC files
 See https://github.com/php/php-src/issues/20868
 ---
  ext/standard/basic_functions.stub.php         |   2 +-
- ext/standard/basic_functions_arginfo.h        | Bin 175091 -> 175125 bytes
+ ext/standard/basic_functions_arginfo.h        | Bin 175093 -> 175127 bytes
  ext/standard/basic_functions_decl.h           | Bin 918 -> 918 bytes
  ext/standard/config.m4                        |   5 +++++
  ext/standard/config.w32                       |   7 +++++++
@@ -16,7 +16,7 @@ See https://github.com/php/php-src/issues/20868
  10 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
-index 1f3d5617f8d..a343df8cc8d 100644
+index c437f0d7f6c..d21edc4963f 100644
 --- a/ext/standard/basic_functions.stub.php
 +++ b/ext/standard/basic_functions.stub.php
 @@ -593,7 +593,7 @@ enum SortDirection {
@@ -29,13 +29,13 @@ index 1f3d5617f8d..a343df8cc8d 100644
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index 991d76d91fc..fbf2a561837 100644
+index 1ba20c6b26c..c59520f9467 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: 749c71a6220260eb3fb593b982a9d97821e0539b
-+ * Stub hash: 38a9d21d7850aaa2b05a2304aac04107d9ffc971
+- * Stub hash: a846d7e3dd1f1cebd8c6257132c97b3758067127
++ * Stub hash: 6ce66457cb4dadd346e5a66696a0a57ecfa45a06
   * Has decl header: yes */
  
  ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
@@ -49,18 +49,18 @@ index 991d76d91fc..fbf2a561837 100644
  #endif
  	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
 diff --git a/ext/standard/basic_functions_decl.h b/ext/standard/basic_functions_decl.h
-index fce41100fc7..72125dec187 100644
+index ab27bb64f0c..f0f3e84ea0c 100644
 --- a/ext/standard/basic_functions_decl.h
 +++ b/ext/standard/basic_functions_decl.h
 @@ -1,8 +1,8 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: 749c71a6220260eb3fb593b982a9d97821e0539b */
-+ * Stub hash: 38a9d21d7850aaa2b05a2304aac04107d9ffc971 */
+- * Stub hash: a846d7e3dd1f1cebd8c6257132c97b3758067127 */
++ * Stub hash: 6ce66457cb4dadd346e5a66696a0a57ecfa45a06 */
  
--#ifndef ZEND_BASIC_FUNCTIONS_DECL_749c71a6220260eb3fb593b982a9d97821e0539b_H
--#define ZEND_BASIC_FUNCTIONS_DECL_749c71a6220260eb3fb593b982a9d97821e0539b_H
-+#ifndef ZEND_BASIC_FUNCTIONS_DECL_38a9d21d7850aaa2b05a2304aac04107d9ffc971_H
-+#define ZEND_BASIC_FUNCTIONS_DECL_38a9d21d7850aaa2b05a2304aac04107d9ffc971_H
+-#ifndef ZEND_BASIC_FUNCTIONS_DECL_a846d7e3dd1f1cebd8c6257132c97b3758067127_H
+-#define ZEND_BASIC_FUNCTIONS_DECL_a846d7e3dd1f1cebd8c6257132c97b3758067127_H
++#ifndef ZEND_BASIC_FUNCTIONS_DECL_6ce66457cb4dadd346e5a66696a0a57ecfa45a06_H
++#define ZEND_BASIC_FUNCTIONS_DECL_6ce66457cb4dadd346e5a66696a0a57ecfa45a06_H
  
  typedef enum zend_enum_SortDirection {
  	ZEND_ENUM_SortDirection_Ascending = 1,
@@ -68,8 +68,8 @@ index fce41100fc7..72125dec187 100644
  	ZEND_ENUM_RoundingMode_PositiveInfinity = 8,
  } zend_enum_RoundingMode;
  
--#endif /* ZEND_BASIC_FUNCTIONS_DECL_749c71a6220260eb3fb593b982a9d97821e0539b_H */
-+#endif /* ZEND_BASIC_FUNCTIONS_DECL_38a9d21d7850aaa2b05a2304aac04107d9ffc971_H */
+-#endif /* ZEND_BASIC_FUNCTIONS_DECL_a846d7e3dd1f1cebd8c6257132c97b3758067127_H */
++#endif /* ZEND_BASIC_FUNCTIONS_DECL_6ce66457cb4dadd346e5a66696a0a57ecfa45a06_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
 index 1d64c7ff696..6101dfed35a 100644
 --- a/ext/standard/config.m4
@@ -105,10 +105,10 @@ index 589929027f6..4bebd74393e 100644
  
  EXTENSION("standard", "array.c base64.c basic_functions.c browscap.c \
 diff --git a/ext/standard/image.c b/ext/standard/image.c
-index 08cf8983d02..38b7270ac04 100644
+index 86937184200..af8ac6c2060 100644
 --- a/ext/standard/image.c
 +++ b/ext/standard/image.c
-@@ -28,7 +28,7 @@
+@@ -26,7 +26,7 @@
  #endif
  #include "php_image.h"
  
@@ -117,7 +117,7 @@ index 08cf8983d02..38b7270ac04 100644
  #include "zlib.h"
  #endif
  
-@@ -154,7 +154,7 @@ static unsigned long int php_swf_get_bits (unsigned char* buffer, unsigned int p
+@@ -152,7 +152,7 @@ static unsigned long int php_swf_get_bits (unsigned char* buffer, unsigned int p
  }
  /* }}} */
  
@@ -126,7 +126,7 @@ index 08cf8983d02..38b7270ac04 100644
  /* {{{ php_handle_swc */
  static struct php_gfxinfo *php_handle_swc(php_stream * stream)
  {
-@@ -1503,10 +1503,10 @@ static void php_getimagesize_from_stream(php_stream *stream, char *input, zval *
+@@ -1501,10 +1501,10 @@ static void php_getimagesize_from_stream(php_stream *stream, char *input, zval *
  			break;
  		case IMAGE_FILETYPE_SWC:
  			/* TODO: with the new php_image_register_handler() APIs, this restriction could be solved */

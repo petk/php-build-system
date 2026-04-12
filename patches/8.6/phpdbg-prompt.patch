@@ -29,10 +29,10 @@ terminals.
  1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/sapi/phpdbg/phpdbg_utils.c b/sapi/phpdbg/phpdbg_utils.c
-index 728baa92124..2cb084436ff 100644
+index c8689ba340d..874e46f8b32 100644
 --- a/sapi/phpdbg/phpdbg_utils.c
 +++ b/sapi/phpdbg/phpdbg_utils.c
-@@ -318,10 +318,14 @@ PHPDBG_API const char *phpdbg_get_prompt(void) /* {{{ */
+@@ -316,10 +316,14 @@ PHPDBG_API const char *phpdbg_get_prompt(void) /* {{{ */
  	}
  
  	/* create cached prompt */
