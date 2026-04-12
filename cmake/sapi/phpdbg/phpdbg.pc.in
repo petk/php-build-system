@@ -53,7 +53,7 @@ php_zend_module_api_no=@PHP_ZEND_MODULE_API_NO@
 Name: PHP debugger
 Description: Interactive PHP debugger
 URL: https://www.php.net
-License: PHP
+License: @PHP_SPDX_LICENSE@
 Version: @PHP_VERSION@
 Cflags.private: @PHP_CFLAGS_PRIVATE@
 Cflags: -I${includedir}/${php_includedir_suffix} -I${includedir}/${php_includedir_suffix}/main -I${includedir}/${php_includedir_suffix}/TSRM -I${includedir}/${php_includedir_suffix}/Zend -I${includedir}/${php_includedir_suffix}/ext -I${includedir}/${php_includedir_suffix}/ext/lexbor
