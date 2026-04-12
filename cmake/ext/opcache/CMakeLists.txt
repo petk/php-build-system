@@ -41,6 +41,7 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_OPCACHE
+  SPDX_LICENSE "PHP-3.01 AND MIT AND BSD-2-Clause AND (GPL-2.0-only OR BSD-3-Clause)"
   LANGUAGES C
 )
 
