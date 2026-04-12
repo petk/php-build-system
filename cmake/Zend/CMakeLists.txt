@@ -38,7 +38,7 @@ include(cmake/Version.cmake)
 project(
   PHP_ZEND
   VERSION ${PHP_ZEND_VERSION}
-  SPDX_LICENSE "Zend-2.0"
+  SPDX_LICENSE "Zend-2.0 AND BSL-1.0"
   DESCRIPTION "Zend Engine library"
   HOMEPAGE_URL "https://www.php.net"
   LANGUAGES C
