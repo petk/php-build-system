@@ -18,7 +18,7 @@ include(PHP/Core/Version)
 project(
   PHP
   VERSION ${PHP_VERSION}
-  SPDX_LICENSE "PHP-3.01"
+  SPDX_LICENSE "BSD-3-Clause"
   DESCRIPTION "Widely-used general-purpose scripting language"
   HOMEPAGE_URL "https://www.php.net"
   LANGUAGES C
@@ -367,11 +367,11 @@ message(
   STATUS
   [[License
 
-This software is subject to the PHP License, available in this
-distribution in the file LICENSE. By continuing this installation
-process, you are bound by the terms of this license agreement.
-If you do not agree with the terms of this license, you must abort
-the installation process at this point.
+This software is subject to the Modified BSD License, available in
+this distribution in the file LICENSE. By continuing this
+installation process, you are bound by the terms of this license
+agreement. If you do not agree with the terms of this license, you
+must abort the installation process at this point.
 
 Thank you for using PHP.
 ]]

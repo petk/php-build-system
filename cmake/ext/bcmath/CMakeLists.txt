@@ -19,6 +19,7 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_BCMATH
+  SPDX_LICENSE "BSD-3-Clause AND LGPL-2.1-or-later"
   LANGUAGES C
 )
 

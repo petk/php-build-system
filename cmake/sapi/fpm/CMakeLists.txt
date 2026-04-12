@@ -83,6 +83,12 @@ Where to find systemd installation on the system, can be customized with the
 > system doesn't have systemd.
 #]=============================================================================]
 
+project(
+  PHP_SAPI_FPM
+  SPDX_LICENSE "BSD-3-Clause AND BSD-2-Clause"
+  LANGUAGES C
+)
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
 endif()

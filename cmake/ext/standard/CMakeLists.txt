@@ -25,6 +25,7 @@ bundled PHP crypt.
 project(
   PHP_EXT_STANDARD
   LANGUAGES C
+  SPDX_LICENSE "BSD-3-Clause AND BSD-2-Clause"
 )
 
 if(PROJECT_IS_TOP_LEVEL)
