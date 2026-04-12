@@ -8,6 +8,7 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_LEXBOR
+  SPDX_LICENSE "PHP-3.01 AND Apache-2.0"
   LANGUAGES C
 )
 
