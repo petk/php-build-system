@@ -11,7 +11,8 @@ find_package(SASL [<version>] [...])
 
 This module provides the following imported targets:
 
-* `SASL::SASL` - The package library, if found.
+* `SASL::SASL` - Target encapsulating the package library usage requirements,
+  available if package was found.
 
 ## Result variables
 
@@ -49,40 +50,43 @@ set_package_properties(
     DESCRIPTION "Simple authentication and security layer library"
 )
 
-set(_reason "")
+block(PROPAGATE SASL_FOUND SASL_VERSION)
+  set(reason "")
 
-find_package(PkgConfig QUIET)
-if(PkgConfig_FOUND)
-  pkg_check_modules(PC_SASL QUIET libsasl2)
-endif()
+  find_package(PkgConfig QUIET)
+  if(PkgConfig_FOUND)
+    pkg_check_modules(PC_SASL QUIET libsasl2)
+  endif()
 
-find_path(
-  SASL_INCLUDE_DIR
-  NAMES sasl/sasl.h
-  HINTS ${PC_SASL_INCLUDE_DIRS}
-  DOC "Directory containing SASL library headers"
-)
-mark_as_advanced(SASL_INCLUDE_DIR)
-
-if(NOT SASL_INCLUDE_DIR)
-  string(APPEND _reason "sasl/sasl.h not found. ")
-endif()
-
-find_library(
-  SASL_LIBRARY
-  NAMES sasl2
-  HINTS ${PC_SASL_LIBRARY_DIRS}
-  DOC "The path to the SASL library"
-)
-mark_as_advanced(SASL_LIBRARY)
-
-if(NOT SASL_LIBRARY)
-  string(APPEND _reason "SASL library (libsasl2) not found. "
+  find_path(
+    SASL_INCLUDE_DIR
+    NAMES sasl/sasl.h
+    HINTS ${PC_SASL_INCLUDE_DIRS}
+    DOC "Directory containing SASL library headers"
   )
-endif()
+  mark_as_advanced(SASL_INCLUDE_DIR)
 
-block(PROPAGATE SASL_VERSION)
-  if(SASL_INCLUDE_DIR)
+  if(NOT SASL_INCLUDE_DIR)
+    string(APPEND reason "sasl/sasl.h not found. ")
+  endif()
+
+  find_library(
+    SASL_LIBRARY
+    NAMES sasl2
+    HINTS ${PC_SASL_LIBRARY_DIRS}
+    DOC "The path to the SASL library"
+  )
+  mark_as_advanced(SASL_LIBRARY)
+
+  if(NOT SASL_LIBRARY)
+    string(APPEND reason "SASL library (libsasl2) not found. ")
+  endif()
+
+  ##############################################################################
+  # Get version.
+  ##############################################################################
+
+  if(EXISTS ${SASL_INCLUDE_DIR}/sasl/sasl.h)
     file(
       STRINGS
       ${SASL_INCLUDE_DIR}/sasl/sasl.h
@@ -105,31 +109,31 @@ block(PROPAGATE SASL_VERSION)
       endforeach()
     endforeach()
   endif()
-endblock()
 
-find_package_handle_standard_args(
-  SASL
-  REQUIRED_VARS
-    SASL_LIBRARY
-    SASL_INCLUDE_DIR
-  VERSION_VAR SASL_VERSION
-  HANDLE_VERSION_RANGE
-  REASON_FAILURE_MESSAGE "${_reason}"
-)
+  ##############################################################################
 
-unset(_reason)
-
-if(NOT SASL_FOUND)
-  return()
-endif()
-
-if(NOT TARGET SASL::SASL)
-  add_library(SASL::SASL UNKNOWN IMPORTED)
-
-  set_target_properties(
-    SASL::SASL
-    PROPERTIES
-      IMPORTED_LOCATION "${SASL_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${SASL_INCLUDE_DIR}"
+  find_package_handle_standard_args(
+    SASL
+    REQUIRED_VARS
+      SASL_LIBRARY
+      SASL_INCLUDE_DIR
+    VERSION_VAR SASL_VERSION
+    HANDLE_VERSION_RANGE
+    REASON_FAILURE_MESSAGE "${reason}"
   )
-endif()
+
+  if(NOT SASL_FOUND)
+    return()
+  endif()
+
+  if(NOT TARGET SASL::SASL)
+    add_library(SASL::SASL UNKNOWN IMPORTED)
+
+    set_target_properties(
+      SASL::SASL
+      PROPERTIES
+        IMPORTED_LOCATION "${SASL_LIBRARY}"
+        INTERFACE_INCLUDE_DIRECTORIES "${SASL_INCLUDE_DIR}"
+    )
+  endif()
+endblock()

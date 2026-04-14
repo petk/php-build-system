@@ -1,4 +1,4 @@
-/* Define to 1 if 'ldap_set_rebind_proc' has 3 arguments. */
+/* Define to 1 if 'ldap_set_rebind_proc' is available and has 3 arguments. */
 #cmakedefine HAVE_3ARG_SETREBINDPROC 1
 
 /* Define to 1 if the PHP extension 'ldap' is available. */
