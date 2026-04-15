@@ -472,18 +472,18 @@ set(HAVE_SIGSETJMP ${PHP_ZEND_HAVE_SIGSETJMP})
 check_symbol_exists(strnlen string.h PHP_ZEND_HAVE_STRNLEN)
 set(HAVE_STRNLEN ${PHP_ZEND_HAVE_STRNLEN})
 
+include(cmake/CheckAlignment.cmake)
 include(cmake/CheckAsmGoto.cmake)
 include(cmake/CheckCpuidCount.cmake)
 include(cmake/CheckDlsym.cmake)
 include(cmake/CheckFloatPrecision.cmake)
-include(cmake/CheckMMAlignment.cmake)
+include(cmake/CheckGlobalRegisterVariables.cmake)
+include(cmake/CheckMaxExecutionTimers.cmake)
+include(cmake/CheckSignals.cmake)
 include(cmake/CheckStackDirection.cmake)
 include(cmake/CheckStrerrorR.cmake)
 include(cmake/Fibers.cmake)
 include(cmake/GenerateGrammar.cmake)
-include(cmake/GlobalRegisterVariables.cmake)
-include(cmake/MaxExecutionTimers.cmake)
-include(cmake/Signals.cmake)
 
 ################################################################################
 # Create files and set installation.

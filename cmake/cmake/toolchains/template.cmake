@@ -40,7 +40,7 @@ set(PHP_WRITE_STDOUT_EXITCODE 0)
 set(PHP_ZEND_CHECK_STACK_LIMIT_EXITCODE 0)
 
 # Set the exit code and the output of the ZEND_MM check.
-# See CheckMMAlignment.cmake.
+# See Zend/cmake/CheckAlignment.cmake.
 set(PHP_ZEND_MM_EXITCODE 0)
 set(PHP_ZEND_MM_EXITCODE__TRYRUN_OUTPUT "(size_t)8 (size_t)3 0")
 
