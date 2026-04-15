@@ -509,17 +509,17 @@ php_search_libraries(
   TARGET php_zend PRIVATE
 )
 
+include(cmake/CheckAlignment.cmake)
 include(cmake/CheckAsmGoto.cmake)
 include(cmake/CheckCpuidCount.cmake)
 include(cmake/CheckFloatPrecision.cmake)
-include(cmake/CheckMMAlignment.cmake)
+include(cmake/CheckGlobalRegisterVariables.cmake)
+include(cmake/CheckMaxExecutionTimers.cmake)
+include(cmake/CheckSignals.cmake)
 include(cmake/CheckStackDirection.cmake)
 include(cmake/CheckStrerrorR.cmake)
 include(cmake/Fibers.cmake)
 include(cmake/GenerateGrammar.cmake)
-include(cmake/GlobalRegisterVariables.cmake)
-include(cmake/MaxExecutionTimers.cmake)
-include(cmake/Signals.cmake)
 
 ################################################################################
 # Create files and set installation.
