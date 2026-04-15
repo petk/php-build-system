@@ -25,6 +25,12 @@ if(NOT DEFINED PHP_ZEND_HAVE_PRESERVE_NONE)
     set(CMAKE_REQUIRED_QUIET TRUE)
 
     check_source_runs(C [[
+      #if defined __has_attribute
+      # if !__has_attribute(preserve_none)
+      #  error "Compiler does not support preserve_none attribute."
+      # endif
+      #endif
+
       #include <stdio.h>
       #include <stdint.h>
 
