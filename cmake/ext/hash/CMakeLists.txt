@@ -20,6 +20,7 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_HASH
+  SPDX_LICENSE "BSD-3-Clause AND BSD-2-Clause"
   LANGUAGES C
 )
 
