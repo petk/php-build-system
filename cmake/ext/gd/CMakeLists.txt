@@ -143,6 +143,7 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_GD
+  SPDX_LICENSE "PHP-3.01 AND GD"
   LANGUAGES C
 )
 

@@ -68,6 +68,7 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_PCRE
+  SPDX_LICENSE "PHP-3.01 AND (BSD-3-Clause WITH PCRE2-exception)"
   LANGUAGES C
 )
 
