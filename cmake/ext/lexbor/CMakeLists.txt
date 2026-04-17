@@ -62,15 +62,23 @@ target_sources(
     lexbor/core/shs.c
     lexbor/core/str.c
     lexbor/core/strtod.c
+    lexbor/css/at_rule.c
+    lexbor/css/at_rule/state.c
+    lexbor/css/blank.c
     lexbor/css/css.c
+    lexbor/css/declaration.c
     lexbor/css/log.c
     lexbor/css/parser.c
+    lexbor/css/property.c
+    lexbor/css/property/state.c
+    lexbor/css/rule.c
     lexbor/css/selectors/pseudo_state.c
     lexbor/css/selectors/pseudo.c
     lexbor/css/selectors/selector.c
     lexbor/css/selectors/selectors.c
     lexbor/css/selectors/state.c
     lexbor/css/state.c
+    lexbor/css/stylesheet.c
     lexbor/css/syntax/anb.c
     lexbor/css/syntax/parser.c
     lexbor/css/syntax/state.c
@@ -78,6 +86,8 @@ target_sources(
     lexbor/css/syntax/token.c
     lexbor/css/syntax/tokenizer.c
     lexbor/css/syntax/tokenizer/error.c
+    lexbor/css/unit.c
+    lexbor/css/value.c
     lexbor/dom/interface.c
     lexbor/dom/interfaces/attr.c
     lexbor/dom/interfaces/cdata_section.c
@@ -153,7 +163,9 @@ target_sources(
     lexbor/html/interfaces/progress_element.c
     lexbor/html/interfaces/quote_element.c
     lexbor/html/interfaces/script_element.c
+    lexbor/html/interfaces/search_element.c
     lexbor/html/interfaces/select_element.c
+    lexbor/html/interfaces/selectedcontent_element.c
     lexbor/html/interfaces/slot_element.c
     lexbor/html/interfaces/source_element.c
     lexbor/html/interfaces/span_element.c
@@ -174,6 +186,7 @@ target_sources(
     lexbor/html/interfaces/video_element.c
     lexbor/html/interfaces/window.c
     lexbor/html/parser.c
+    lexbor/html/tag.c
     lexbor/html/token_attr.c
     lexbor/html/token.c
     lexbor/html/tokenizer.c
@@ -203,8 +216,6 @@ target_sources(
     lexbor/html/tree/insertion_mode/in_head_noscript.c
     lexbor/html/tree/insertion_mode/in_head.c
     lexbor/html/tree/insertion_mode/in_row.c
-    lexbor/html/tree/insertion_mode/in_select_in_table.c
-    lexbor/html/tree/insertion_mode/in_select.c
     lexbor/html/tree/insertion_mode/in_table_body.c
     lexbor/html/tree/insertion_mode/in_table_text.c
     lexbor/html/tree/insertion_mode/in_table.c
