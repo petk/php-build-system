@@ -85,15 +85,23 @@ target_sources(
     lexbor/lexbor/core/shs.c
     lexbor/lexbor/core/str.c
     lexbor/lexbor/core/strtod.c
+    lexbor/lexbor/css/at_rule.c
+    lexbor/lexbor/css/at_rule/state.c
+    lexbor/lexbor/css/blank.c
     lexbor/lexbor/css/css.c
+    lexbor/lexbor/css/declaration.c
     lexbor/lexbor/css/log.c
     lexbor/lexbor/css/parser.c
+    lexbor/lexbor/css/property.c
+    lexbor/lexbor/css/property/state.c
+    lexbor/lexbor/css/rule.c
     lexbor/lexbor/css/selectors/pseudo_state.c
     lexbor/lexbor/css/selectors/pseudo.c
     lexbor/lexbor/css/selectors/selector.c
     lexbor/lexbor/css/selectors/selectors.c
     lexbor/lexbor/css/selectors/state.c
     lexbor/lexbor/css/state.c
+    lexbor/lexbor/css/stylesheet.c
     lexbor/lexbor/css/syntax/anb.c
     lexbor/lexbor/css/syntax/parser.c
     lexbor/lexbor/css/syntax/state.c
@@ -101,6 +109,8 @@ target_sources(
     lexbor/lexbor/css/syntax/token.c
     lexbor/lexbor/css/syntax/tokenizer.c
     lexbor/lexbor/css/syntax/tokenizer/error.c
+    lexbor/lexbor/css/unit.c
+    lexbor/lexbor/css/value.c
     lexbor/lexbor/dom/interface.c
     lexbor/lexbor/dom/interfaces/attr.c
     lexbor/lexbor/dom/interfaces/cdata_section.c
@@ -176,7 +186,9 @@ target_sources(
     lexbor/lexbor/html/interfaces/progress_element.c
     lexbor/lexbor/html/interfaces/quote_element.c
     lexbor/lexbor/html/interfaces/script_element.c
+    lexbor/lexbor/html/interfaces/search_element.c
     lexbor/lexbor/html/interfaces/select_element.c
+    lexbor/lexbor/html/interfaces/selectedcontent_element.c
     lexbor/lexbor/html/interfaces/slot_element.c
     lexbor/lexbor/html/interfaces/source_element.c
     lexbor/lexbor/html/interfaces/span_element.c
@@ -197,6 +209,7 @@ target_sources(
     lexbor/lexbor/html/interfaces/video_element.c
     lexbor/lexbor/html/interfaces/window.c
     lexbor/lexbor/html/parser.c
+    lexbor/lexbor/html/tag.c
     lexbor/lexbor/html/token_attr.c
     lexbor/lexbor/html/token.c
     lexbor/lexbor/html/tokenizer.c
@@ -226,8 +239,6 @@ target_sources(
     lexbor/lexbor/html/tree/insertion_mode/in_head_noscript.c
     lexbor/lexbor/html/tree/insertion_mode/in_head.c
     lexbor/lexbor/html/tree/insertion_mode/in_row.c
-    lexbor/lexbor/html/tree/insertion_mode/in_select_in_table.c
-    lexbor/lexbor/html/tree/insertion_mode/in_select.c
     lexbor/lexbor/html/tree/insertion_mode/in_table_body.c
     lexbor/lexbor/html/tree/insertion_mode/in_table_text.c
     lexbor/lexbor/html/tree/insertion_mode/in_table.c
