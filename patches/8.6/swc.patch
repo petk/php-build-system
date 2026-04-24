@@ -4,7 +4,7 @@ Subject: Enable linking with zlib for SWC files
 See https://github.com/php/php-src/issues/20868
 ---
  ext/standard/basic_functions.stub.php         |   2 +-
- ext/standard/basic_functions_arginfo.h        | Bin 175093 -> 175127 bytes
+ ext/standard/basic_functions_arginfo.h        | Bin 175547 -> 175581 bytes
  ext/standard/basic_functions_decl.h           | Bin 918 -> 918 bytes
  ext/standard/config.m4                        |   5 +++++
  ext/standard/config.w32                       |   7 +++++++
@@ -16,7 +16,7 @@ See https://github.com/php/php-src/issues/20868
  10 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
-index c437f0d7f6c..d21edc4963f 100644
+index 1999c9b92be..891be5e92f4 100644
 --- a/ext/standard/basic_functions.stub.php
 +++ b/ext/standard/basic_functions.stub.php
 @@ -593,7 +593,7 @@ enum SortDirection {
@@ -29,17 +29,17 @@ index c437f0d7f6c..d21edc4963f 100644
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index 1ba20c6b26c..c59520f9467 100644
+index e51a837ffa4..dcc342a3c56 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: a846d7e3dd1f1cebd8c6257132c97b3758067127
-+ * Stub hash: 6ce66457cb4dadd346e5a66696a0a57ecfa45a06
+- * Stub hash: 36b71aa7bbfe478a5e4af400b2822a77067efa2f
++ * Stub hash: 440bdd4fd760a9f9eaf74f483b41a9c631645b9e
   * Has decl header: yes */
  
  ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
-@@ -3651,7 +3651,7 @@ static void register_basic_functions_symbols(int module_number)
+@@ -3659,7 +3659,7 @@ static void register_basic_functions_symbols(int module_number)
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JP2", IMAGE_FILETYPE_JP2, CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JPX", IMAGE_FILETYPE_JPX, CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JB2", IMAGE_FILETYPE_JB2, CONST_PERSISTENT);
@@ -49,18 +49,18 @@ index 1ba20c6b26c..c59520f9467 100644
  #endif
  	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
 diff --git a/ext/standard/basic_functions_decl.h b/ext/standard/basic_functions_decl.h
-index ab27bb64f0c..f0f3e84ea0c 100644
+index b3eb25c5d98..f40cdb34710 100644
 --- a/ext/standard/basic_functions_decl.h
 +++ b/ext/standard/basic_functions_decl.h
 @@ -1,8 +1,8 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: a846d7e3dd1f1cebd8c6257132c97b3758067127 */
-+ * Stub hash: 6ce66457cb4dadd346e5a66696a0a57ecfa45a06 */
+- * Stub hash: 36b71aa7bbfe478a5e4af400b2822a77067efa2f */
++ * Stub hash: 440bdd4fd760a9f9eaf74f483b41a9c631645b9e */
  
--#ifndef ZEND_BASIC_FUNCTIONS_DECL_a846d7e3dd1f1cebd8c6257132c97b3758067127_H
--#define ZEND_BASIC_FUNCTIONS_DECL_a846d7e3dd1f1cebd8c6257132c97b3758067127_H
-+#ifndef ZEND_BASIC_FUNCTIONS_DECL_6ce66457cb4dadd346e5a66696a0a57ecfa45a06_H
-+#define ZEND_BASIC_FUNCTIONS_DECL_6ce66457cb4dadd346e5a66696a0a57ecfa45a06_H
+-#ifndef ZEND_BASIC_FUNCTIONS_DECL_36b71aa7bbfe478a5e4af400b2822a77067efa2f_H
+-#define ZEND_BASIC_FUNCTIONS_DECL_36b71aa7bbfe478a5e4af400b2822a77067efa2f_H
++#ifndef ZEND_BASIC_FUNCTIONS_DECL_440bdd4fd760a9f9eaf74f483b41a9c631645b9e_H
++#define ZEND_BASIC_FUNCTIONS_DECL_440bdd4fd760a9f9eaf74f483b41a9c631645b9e_H
  
  typedef enum zend_enum_SortDirection {
  	ZEND_ENUM_SortDirection_Ascending = 1,
@@ -68,8 +68,8 @@ index ab27bb64f0c..f0f3e84ea0c 100644
  	ZEND_ENUM_RoundingMode_PositiveInfinity = 8,
  } zend_enum_RoundingMode;
  
--#endif /* ZEND_BASIC_FUNCTIONS_DECL_a846d7e3dd1f1cebd8c6257132c97b3758067127_H */
-+#endif /* ZEND_BASIC_FUNCTIONS_DECL_6ce66457cb4dadd346e5a66696a0a57ecfa45a06_H */
+-#endif /* ZEND_BASIC_FUNCTIONS_DECL_36b71aa7bbfe478a5e4af400b2822a77067efa2f_H */
++#endif /* ZEND_BASIC_FUNCTIONS_DECL_440bdd4fd760a9f9eaf74f483b41a9c631645b9e_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
 index 1d64c7ff696..6101dfed35a 100644
 --- a/ext/standard/config.m4
