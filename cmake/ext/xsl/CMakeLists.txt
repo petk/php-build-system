@@ -89,7 +89,8 @@ set_property(
   PROPERTY PHP_REQUIRED_EXTENSIONS libxml dom
 )
 
-find_package(LibXslt 1.1.0)
+include(PHP/Package/LibXslt)
+find_package(LibXslt ${PHP_PACKAGE_LIBXSLT_MIN_VERSION})
 set_package_properties(
   LibXslt
   PROPERTIES
