@@ -28,7 +28,7 @@ Supported components include:
 * `LDAP` - Finds the main LDAP library.
 * `LBER` - Finds the OpenLDAP LBER (Lightweight Basic Encoding Rules) library.
 
-If no components are specified, by default, the `LDAP` is searched as requied
+If no components are specified, by default, the `LDAP` is searched as required
 component and `LBER` as optional component.
 
 ## Imported targets
