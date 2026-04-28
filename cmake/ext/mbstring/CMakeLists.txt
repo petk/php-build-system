@@ -129,6 +129,12 @@ file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
 ################################################################################
 
 if(PHP_EXT_MBSTRING_MBREGEX)
+  message(
+    DEPRECATION
+    "The 'PHP_EXT_MBSTRING_MBREGEX' option is deprecated as of PHP 8.6.0 and "
+    "will be removed in future PHP versions."
+  )
+
   find_package(Oniguruma)
   set_package_properties(
     Oniguruma
