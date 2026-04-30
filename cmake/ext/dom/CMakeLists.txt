@@ -290,6 +290,11 @@ target_compile_definitions(
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:LIBXML_STATIC>
 )
 
+target_compile_options(
+  php_ext_dom
+  PRIVATE $<$<AND:$<PLATFORM_ID:Windows>,$<COMPILE_LANGUAGE:C>>:/utf-8>
+)
+
 include(PHP/Package/LibXml2)
 
 set_package_properties(
