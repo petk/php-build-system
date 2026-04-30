@@ -98,7 +98,12 @@ target_sources(
         xpath_callbacks.h
 )
 
-target_include_directories(php_ext_dom PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(
+  php_ext_dom
+  PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}
+    $<IF:$<BOOL:${PROJECT_IS_TOP_LEVEL}>,${PHP_INSTALL_INCLUDEDIR}/ext/lexbor,${CMAKE_CURRENT_SOURCE_DIR}/../lexbor>
+)
 
 target_compile_definitions(
   php_ext_dom

@@ -137,6 +137,11 @@ else()
   )
 endif()
 
+target_include_directories(
+  php_ext_uri
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../lexbor
+)
+
 target_compile_definitions(php_ext_uri PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 set_property(
