@@ -100,17 +100,6 @@ block()
     content
     "${content}"
   )
-
-  # For consistency, add include directories that were specified as
-  # INSTALL_INTERFACE.
-  string(
-    REGEX REPLACE
-    "\nincludes=\"([^\"]+)\""
-    "\nincludes=\"\\1 -I$include_dir/ext/lexbor\""
-    content
-    "${content}"
-  )
-
   file(
     WRITE
     "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-config.in"
