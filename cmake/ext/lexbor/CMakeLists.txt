@@ -44,7 +44,7 @@ file(
 target_sources(
   php_ext_lexbor
   PRIVATE
-  php_lexbor.c
+    php_lexbor.c
     lexbor/core/array_obj.c
     lexbor/core/array.c
     lexbor/core/avl.c
@@ -247,7 +247,7 @@ target_compile_definitions(
 
 target_compile_options(
   php_ext_lexbor
-  PRIVATE $<$<COMPILE_LANG_AND_ID:C,MSVC>:/utf-8>
+  PRIVATE $<$<AND:$<PLATFORM_ID:Windows>,$<COMPILE_LANGUAGE:C>>:/utf-8>
 )
 
 target_include_directories(

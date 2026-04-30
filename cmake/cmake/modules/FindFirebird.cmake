@@ -64,33 +64,31 @@ if(Firebird_CONFIG_EXECUTABLE)
   # Process CFLAGS to get include directories where to look for ibase.h.
   execute_process(
     COMMAND "${Firebird_CONFIG_EXECUTABLE}" --cflags
-    OUTPUT_VARIABLE Firebird_CFLAGS
+    OUTPUT_VARIABLE Firebird_CONFIG_INCLUDE_DIRS
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
   )
-  separate_arguments(Firebird_CFLAGS NATIVE_COMMAND "${Firebird_CFLAGS}")
-  set(Firebird_CONFIG_INCLUDE_DIRS "")
-  foreach(flag ${Firebird_CFLAGS})
-    if(flag MATCHES "^-I")
-      list(APPEND Firebird_CONFIG_INCLUDE_DIRS ${flag})
-    endif()
-  endforeach()
+  separate_arguments(
+    Firebird_CONFIG_INCLUDE_DIRS
+    NATIVE_COMMAND
+    "${Firebird_CONFIG_INCLUDE_DIRS}"
+  )
+  list(FILTER Firebird_CONFIG_INCLUDE_DIRS INCLUDE REGEX "^-I")
   list(TRANSFORM Firebird_CONFIG_INCLUDE_DIRS REPLACE "^-I" "")
 
   # Process libraries to get the Firebird library name.
   execute_process(
     COMMAND "${Firebird_CONFIG_EXECUTABLE}" --libs
-    OUTPUT_VARIABLE Firebird_LIBS
+    OUTPUT_VARIABLE Firebird_CONFIG_LIBRARY_NAMES
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_QUIET
   )
-  separate_arguments(Firebird_LIBS NATIVE_COMMAND "${Firebird_LIBS}")
-  set(Firebird_CONFIG_LIBRARY_NAMES "")
-  foreach(lib ${Firebird_LIBS})
-    if(lib MATCHES "^-l")
-      list(APPEND Firebird_CONFIG_LIBRARY_NAMES ${lib})
-    endif()
-  endforeach()
+  separate_arguments(
+    Firebird_CONFIG_LIBRARY_NAMES
+    NATIVE_COMMAND
+    "${Firebird_CONFIG_LIBRARY_NAMES}"
+  )
+  list(FILTER Firebird_CONFIG_LIBRARY_NAMES INCLUDE REGEX "^-l")
   list(TRANSFORM Firebird_CONFIG_LIBRARY_NAMES REPLACE "^-l" "")
 endif()
 
