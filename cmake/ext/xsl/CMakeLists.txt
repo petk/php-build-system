@@ -69,7 +69,7 @@ if(MSVC)
   target_link_options(
     php_ext_xsl
     PRIVATE
-      $<$<CONFIG:Debug,PhpRelWithDebInfo>:LINKER:/nodefaultlib:msvcrt>
+      $<$<AND:$<CONFIG:Debug,PhpRelWithDebInfo>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:LINKER:/nodefaultlib:msvcrt>
   )
 endif()
 
