@@ -16,23 +16,20 @@ This module also checks whether IPO/LTO can be enabled based on the PHP
 configuration (due to global register variables) and compiler/platform.
 
 https://cmake.org/cmake/help/latest/prop_tgt/INTERPROCEDURAL_OPTIMIZATION.html
-
-TODO: Recheck Clang errors as OBJECT libraries doesn't seem to work.
-TODO: Recheck and add PHP_LTO option to docs.
 #]=============================================================================]
 
 include_guard(GLOBAL)
 
-option(PHP_LTO "Build PHP with link time optimization (LTO) if supported")
-mark_as_advanced(PHP_LTO)
+option(PHP_IPO "Enable interprocedural optimization (IPO/LTO)")
+mark_as_advanced(PHP_IPO)
 
 block(PROPAGATE CMAKE_INTERPROCEDURAL_OPTIMIZATION)
-  set(enable_ipo ${PHP_LTO})
+  set(enable_ipo ${PHP_IPO})
   set(reason "")
 
-  if(NOT PHP_LTO)
-    set(enable_ipo FALSE)
+  if(NOT PHP_IPO)
     # Disabled.
+    set(enable_ipo FALSE)
   elseif(
     CMAKE_C_COMPILER_ID STREQUAL "GNU"
     AND (

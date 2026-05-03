@@ -213,6 +213,7 @@ Some useful overridable configuration options built into CMake itself. All these
 * [`PHP_INSTALL_MULTI_VERSION`](/docs/cmake/variables/PHP_INSTALL_MULTI_VERSION.md)
 * [`PHP_INSTALL_SBOM_DIR_SUFFIX`](/docs/cmake/variables/PHP_INSTALL_SBOM_DIR_SUFFIX.md)
 * [`PHP_INSTALL_SYSCONFDIR_SUFFIX`](/docs/cmake/variables/PHP_INSTALL_SYSCONFDIR_SUFFIX.md)
+* [`PHP_IPO`](/docs/cmake/variables/PHP_IPO.md)
 * [`PHP_IPV6`](/docs/cmake/variables/PHP_IPV6.md)
 * [`PHP_LIBGCC`](/docs/cmake/variables/PHP_LIBGCC.md)
 * [`PHP_MEMORY_SANITIZER`](/docs/cmake/variables/_PHP_MEMORY_SANITIZER.md)
