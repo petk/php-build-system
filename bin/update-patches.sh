@@ -131,7 +131,7 @@ for php in $phpVersions; do
     fi
 
     # Update stub files if any.
-    "$phpExecutable" build/get_stub.php
+    "$phpExecutable" build/gen_stub.php
     if test -n "$($git status --porcelain)"; then
       "$git" add .
       "$git" commit --amend --no-edit
