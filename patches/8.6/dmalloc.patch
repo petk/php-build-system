@@ -10,7 +10,7 @@ See: https://github.com/php/php-src/pull/8465
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/sapi/cli/php_cli_server.c b/sapi/cli/php_cli_server.c
-index 0dfbe2d3db2..ed5c9237d6f 100644
+index 797979b6730..6547d2e823e 100644
 --- a/sapi/cli/php_cli_server.c
 +++ b/sapi/cli/php_cli_server.c
 @@ -13,6 +13,8 @@
