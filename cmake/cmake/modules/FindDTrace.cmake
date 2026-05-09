@@ -4,7 +4,7 @@
 Finds DTrace and provides command for using it in CMake:
 
 ```cmake
-find_package(DTrace)
+find_package(DTrace [...])
 ```
 
 DTrace (Dynamic Tracing), a comprehensive tracing framework originally developed
@@ -13,7 +13,7 @@ systems. While the name "DTrace" is associated with the original implementation
 (now maintained by the DTrace.org community), there are other compatible
 implementations such as SystemTap, which is widely used on Linux systems.
 
-This CMake module specifically detects and uses the SystemTap implementation of
+This module specifically detects and uses the SystemTap implementation of
 DTrace.
 
 ## Imported targets
@@ -26,7 +26,7 @@ This module provides the following imported targets:
 
 This module defines the following variables:
 
-* `DTrace_FOUND` - Boolean indicating whether DTrace library was found.
+* `DTrace_FOUND` - Boolean indicating whether DTrace support was found.
 
 ## Cache variables
 
@@ -35,32 +35,41 @@ The following cache variables may also be set:
 * `DTrace_INCLUDE_DIR` - Directory containing DTrace library headers.
 * `DTrace_EXECUTABLE` - Path to the DTrace command-line utility.
 
-## Functions provided by this module
+## Commands
 
-Module defines the following function to initialize the DTrace support.
+This module provides the following commands if DTrace was found:
+
+### `dtrace_target()`
+
+Initializes the DTrace support:
 
 ```cmake
 dtrace_target(
   <target-name>
   INPUT <input>
   HEADER <header>
-  SOURCES <source>...
-  [INCLUDES <includes>...]
+  SOURCES <sources>...
+  [LINK_LIBRARIES <libs>...]
 )
 ```
 
-Generates DTrace header `<header>` and creates `INTERFACE` library
-`<target-name>` with probe definition object file added as INTERFACE source.
+This command generates DTrace header `<header>` and creates `INTERFACE` library
+`<target-name>` with probe definition object file added as an INTERFACE source.
+
+The arguments are:
 
 * `<target-name>` - DTrace INTERFACE library with the generated DTrace probe
   definition object file.
-* `INPUT` - Name of the file with DTrace probe descriptions. Relative path is
-  interpreted as being relative to the current source directory.
-* `HEADER` - Name of the DTrace probe header file to be generated. Relative path
-  is interpreted as being relative to the current binary directory.
-* `SOURCES` - A list of source files to build DTrace object. Relative paths are
-  interpreted as being relative to the current source directory.
-* `INCLUDES` - A list of include directories for appending to DTrace object.
+* `INPUT <input>` - Name of the file with DTrace probe descriptions. Relative
+  path is interpreted as being relative to the current source directory.
+* `HEADER <header>` - Name of the DTrace probe header file to be generated.
+  Relative path is interpreted as being relative to the current binary
+  directory.
+* `SOURCES <sources>...` - A list of source files to build DTrace object.
+  Relative paths are interpreted as being relative to the current source
+  directory.
+* `LINK_LIBRARIES <libs>...` - Optional. A list of system libraries or CMake
+  targets to be linked in the generated DTrace object target.
 
 ## Examples
 
@@ -71,13 +80,16 @@ Basic usage:
 
 find_package(DTrace)
 
-dtrace_target(
-  foo_dtrace
-  INPUT foo_dtrace.d
-  HEADER foo_dtrace_generated.h
-  SOURCES foo.c ...
-)
-target_link_libraries(foo PRIVATE DTrace::DTrace)
+if(DTrace_FOUND)
+  dtrace_target(
+    foo_dtrace
+    INPUT foo_dtrace.d
+    HEADER foo_dtrace_generated.h
+    SOURCES foo.c ...
+  )
+
+  target_link_libraries(foo PRIVATE DTrace::DTrace)
+endif()
 
 add_executable(bar)
 target_link_libraries(bar PRIVATE foo_dtrace)
@@ -94,39 +106,43 @@ set_package_properties(
     DESCRIPTION "Performance analysis and troubleshooting tool"
 )
 
-set(_reason "")
+block(PROPAGATE DTrace_FOUND)
+  set(reason "")
 
-find_path(
-  DTrace_INCLUDE_DIR
-  NAMES sys/sdt.h
-  DOC "Directory containing DTrace library headers"
-)
-
-find_program(
-  DTrace_EXECUTABLE
-  NAMES dtrace
-  DOC "The path to the executable dtrace generation tool"
-)
-
-if(NOT DTrace_EXECUTABLE)
-  string(APPEND _reason "DTrace generation tool not found. Please install DTrace. ")
-endif()
-
-if(NOT DTrace_INCLUDE_DIR)
-  string(APPEND _reason "sys/sdt.h not found. ")
-endif()
-
-mark_as_advanced(DTrace_EXECUTABLE)
-
-find_package_handle_standard_args(
-  DTrace
-  REQUIRED_VARS
-    DTrace_EXECUTABLE
+  find_path(
     DTrace_INCLUDE_DIR
-  REASON_FAILURE_MESSAGE "${_reason}"
-)
+    NAMES sys/sdt.h
+    DOC "Directory containing DTrace library headers"
+  )
+  mark_as_advanced(DTrace_INCLUDE_DIR)
 
-unset(_reason)
+  if(NOT DTrace_INCLUDE_DIR)
+    string(APPEND reason "<sys/sdt.h> not found. ")
+  endif()
+
+  find_program(
+    DTrace_EXECUTABLE
+    NAMES dtrace
+    DOC "The path to the executable dtrace generation tool"
+  )
+  mark_as_advanced(DTrace_EXECUTABLE)
+
+  if(NOT DTrace_EXECUTABLE)
+    string(
+      APPEND
+      reason
+      "DTrace command-line generation tool not found. Please install DTrace. "
+    )
+  endif()
+
+  find_package_handle_standard_args(
+    DTrace
+    REQUIRED_VARS
+      DTrace_EXECUTABLE
+      DTrace_INCLUDE_DIR
+    REASON_FAILURE_MESSAGE "${reason}"
+  )
+endblock()
 
 if(NOT DTrace_FOUND)
   return()
@@ -148,7 +164,7 @@ function(dtrace_target)
     parsed
     ""
     "INPUT;HEADER"
-    "SOURCES;INCLUDES"
+    "SOURCES;LINK_LIBRARIES"
   )
 
   if(parsed_UNPARSED_ARGUMENTS)
@@ -240,7 +256,10 @@ function(dtrace_target)
   set(target ${ARGV0})
   add_library(${target}_object OBJECT ${parsed_SOURCES} ${parsed_HEADER})
   target_link_libraries(${target}_object PRIVATE DTrace::DTrace)
-  target_include_directories(${target}_object PRIVATE ${parsed_INCLUDES})
+
+  if(parsed_LINK_LIBRARIES)
+    target_link_libraries(${target}_object PRIVATE ${parsed_LINK_LIBRARIES})
+  endif()
 
   cmake_path(GET parsed_INPUT FILENAME input)
   set(output CMakeFiles/${input}.o)
