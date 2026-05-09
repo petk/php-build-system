@@ -6,7 +6,7 @@
 Finds DTrace and provides command for using it in CMake:
 
 ```cmake
-find_package(DTrace)
+find_package(DTrace [...])
 ```
 
 DTrace (Dynamic Tracing), a comprehensive tracing framework originally developed
@@ -15,7 +15,7 @@ systems. While the name "DTrace" is associated with the original implementation
 (now maintained by the DTrace.org community), there are other compatible
 implementations such as SystemTap, which is widely used on Linux systems.
 
-This CMake module specifically detects and uses the SystemTap implementation of
+This module specifically detects and uses the SystemTap implementation of
 DTrace.
 
 ## Imported targets
@@ -28,7 +28,7 @@ This module provides the following imported targets:
 
 This module defines the following variables:
 
-* `DTrace_FOUND` - Boolean indicating whether DTrace library was found.
+* `DTrace_FOUND` - Boolean indicating whether DTrace support was found.
 
 ## Cache variables
 
@@ -37,32 +37,41 @@ The following cache variables may also be set:
 * `DTrace_INCLUDE_DIR` - Directory containing DTrace library headers.
 * `DTrace_EXECUTABLE` - Path to the DTrace command-line utility.
 
-## Functions provided by this module
+## Commands
 
-Module defines the following function to initialize the DTrace support.
+This module provides the following commands if DTrace was found:
+
+### `dtrace_target()`
+
+Initializes the DTrace support:
 
 ```cmake
 dtrace_target(
   <target-name>
   INPUT <input>
   HEADER <header>
-  SOURCES <source>...
-  [INCLUDES <includes>...]
+  SOURCES <sources>...
+  [LINK_LIBRARIES <libs>...]
 )
 ```
 
-Generates DTrace header `<header>` and creates `INTERFACE` library
-`<target-name>` with probe definition object file added as INTERFACE source.
+This command generates DTrace header `<header>` and creates `INTERFACE` library
+`<target-name>` with probe definition object file added as an INTERFACE source.
+
+The arguments are:
 
 * `<target-name>` - DTrace INTERFACE library with the generated DTrace probe
   definition object file.
-* `INPUT` - Name of the file with DTrace probe descriptions. Relative path is
-  interpreted as being relative to the current source directory.
-* `HEADER` - Name of the DTrace probe header file to be generated. Relative path
-  is interpreted as being relative to the current binary directory.
-* `SOURCES` - A list of source files to build DTrace object. Relative paths are
-  interpreted as being relative to the current source directory.
-* `INCLUDES` - A list of include directories for appending to DTrace object.
+* `INPUT <input>` - Name of the file with DTrace probe descriptions. Relative
+  path is interpreted as being relative to the current source directory.
+* `HEADER <header>` - Name of the DTrace probe header file to be generated.
+  Relative path is interpreted as being relative to the current binary
+  directory.
+* `SOURCES <sources>...` - A list of source files to build DTrace object.
+  Relative paths are interpreted as being relative to the current source
+  directory.
+* `LINK_LIBRARIES <libs>...` - Optional. A list of system libraries or CMake
+  targets to be linked in the generated DTrace object target.
 
 ## Examples
 
@@ -73,13 +82,16 @@ Basic usage:
 
 find_package(DTrace)
 
-dtrace_target(
-  foo_dtrace
-  INPUT foo_dtrace.d
-  HEADER foo_dtrace_generated.h
-  SOURCES foo.c ...
-)
-target_link_libraries(foo PRIVATE DTrace::DTrace)
+if(DTrace_FOUND)
+  dtrace_target(
+    foo_dtrace
+    INPUT foo_dtrace.d
+    HEADER foo_dtrace_generated.h
+    SOURCES foo.c ...
+  )
+
+  target_link_libraries(foo PRIVATE DTrace::DTrace)
+endif()
 
 add_executable(bar)
 target_link_libraries(bar PRIVATE foo_dtrace)
