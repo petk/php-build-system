@@ -1003,8 +1003,7 @@ if(PHP_DTRACE)
         ${PHP_SOURCE_DIR}/Zend/zend_exceptions.c
         ${PHP_SOURCE_DIR}/Zend/zend_execute.c
         ${PHP_SOURCE_DIR}/Zend/zend.c
-      INCLUDES
-        $<TARGET_PROPERTY:PHP::config,INTERFACE_INCLUDE_DIRECTORIES>
+      LINK_LIBRARIES PHP::config
     )
 
     target_link_libraries(php_config INTERFACE DTrace::DTrace)
