@@ -1029,9 +1029,10 @@ if(PHP_DTRACE)
         ${PHP_SOURCE_DIR}/Zend/zend.c
       LINK_LIBRARIES PHP::config
     )
+    set_target_properties(php_dtrace PROPERTIES PHP_CORE TRUE)
 
     target_link_libraries(php_config INTERFACE DTrace::DTrace)
-    target_link_libraries(php_sapi INTERFACE php_dtrace)
+    target_link_libraries(php_core_objects INTERFACE php_dtrace)
 
     set(HAVE_DTRACE TRUE)
   endif()

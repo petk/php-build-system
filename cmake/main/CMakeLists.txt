@@ -104,6 +104,8 @@ target_sources(
         $<$<NOT:$<PLATFORM_ID:Windows>>:${PHP_BINARY_DIR}/$<CONFIG>/main/php_config.h>
 )
 
+set_target_properties(php_main PROPERTIES PHP_CORE TRUE)
+
 ################################################################################
 # Add usage requirements to PHP interface targets.
 ################################################################################
@@ -111,7 +113,7 @@ target_sources(
 target_compile_definitions(
   php_config
   INTERFACE
-    $<$<PLATFORM_ID:Windows>:SAPI_EXPORTS>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<BOOL:$<TARGET_PROPERTY:PHP_CORE>>>:SAPI_EXPORTS>
 )
 
 target_include_directories(
@@ -123,8 +125,8 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_libraries(php_sapi INTERFACE PHP::main)
-target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::main>)
+target_link_libraries(php_core_objects INTERFACE PHP::main)
+target_sources(php_core_objects INTERFACE $<TARGET_OBJECTS:PHP::main>)
 
 ################################################################################
 # Add FastCGI target with objects for use in PHP SAPIs such as CGI and FPM.
@@ -133,7 +135,7 @@ add_library(php_main_fastcgi OBJECT fastcgi.c)
 add_dependencies(php_main_fastcgi php_main)
 
 target_sources(
-  php_sapi
+  php_core
   INTERFACE
     $<$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_FASTCGI>>:$<TARGET_OBJECTS:php_main_fastcgi>>
 )
@@ -148,8 +150,14 @@ add_library(php_main_internal_functions_cli OBJECT internal_functions_cli.c)
 add_dependencies(php_main_internal_functions php_main)
 add_dependencies(php_main_internal_functions_cli php_main)
 
+set_target_properties(
+  php_main_internal_functions
+  php_main_internal_functions_cli
+  PROPERTIES PHP_CORE TRUE
+)
+
 target_sources(
-  php_sapi
+  php_core_objects
   INTERFACE
     $<IF:$<BOOL:$<TARGET_PROPERTY:PHP_CLI>>,$<TARGET_OBJECTS:php_main_internal_functions_cli>,$<TARGET_OBJECTS:php_main_internal_functions>>
 )
