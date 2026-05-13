@@ -15,7 +15,7 @@ endif()
 php_bison(
   php_ext_json_parser
   json_parser.y
-  ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/json_parser.tab.c
   HEADER
   ADD_DEFAULT_OPTIONS
   ${verbose}
@@ -27,7 +27,7 @@ include(PHP/Re2c)
 php_re2c(
   php_ext_json_scanner
   json_scanner.re
-  ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/json_scanner.c
   HEADER ${CMAKE_CURRENT_SOURCE_DIR}/php_json_scanner_defs.h
   ADD_DEFAULT_OPTIONS
   OPTIONS --bit-vectors --conditions

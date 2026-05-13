@@ -22,7 +22,7 @@ Generates lexer file from the given template file using the re2c generator:
 php_re2c(
   <name>
   <input>
-  <output>
+  OUTPUT <output>
   [HEADER <header>]
   [ADD_DEFAULT_OPTIONS]
   [OPTIONS <options>...]
@@ -56,7 +56,7 @@ scripts (script mode).
   Relative source file path `<input>` is interpreted as being relative to the
   current source directory (`CMAKE_CURRENT_SOURCE_DIR`).
 
-* `<output>`
+* `OUTPUT <output>`
 
   Name of the generated lexer file. Relative `<output>` file path is interpreted
   as being relative to the current binary directory
@@ -169,7 +169,7 @@ These variables can be set before using this module to configure behavior:
 
 include(PHP/Re2c)
 
-php_re2c(foo foo.re foo.c OPTIONS --bit-vectors --conditions)
+php_re2c(foo foo.re OUTPUT foo.c OPTIONS --bit-vectors --conditions)
 # This will run:
 #   re2c --bit-vectors --conditions --output foo.c foo.re
 ```
@@ -181,7 +181,7 @@ This module provides some default options when using the `ADD_DEFAULT_OPTIONS`:
 ```cmake
 include(PHP/Re2c)
 
-php_re2c(foo foo.re foo.c ADD_DEFAULT_OPTIONS OPTIONS --conditions)
+php_re2c(foo foo.re OUTPUT foo.c ADD_DEFAULT_OPTIONS OPTIONS --conditions)
 # This will run:
 #   re2c --no-debug-info --no-generation-date --conditions --output foo.c foo.re
 ```
@@ -191,7 +191,7 @@ php_re2c(foo foo.re foo.c ADD_DEFAULT_OPTIONS OPTIONS --conditions)
 ```cmake
 include(PHP/Re2c)
 
-php_re2c(foo foo.re foo.c OPTIONS $<$<CONFIG:Debug>:--debug-output> -F)
+php_re2c(foo foo.re OUTPUT foo.c OPTIONS $<$<CONFIG:Debug>:--debug-output> -F)
 # When build type is Debug, this will run:
 #   re2c --debug-output -F --output foo.c foo.re
 # For other build types, including the script modes (CMAKE_ROLE is not PROJECT):
@@ -207,7 +207,7 @@ Target created by `php_re2c()` can be used to specify additional dependencies:
 
 include(PHP/Re2c)
 
-php_re2c(foo_lexer lexer.re lexer.c)
+php_re2c(foo_lexer lexer.re OUTPUT lexer.c)
 add_dependencies(some_target foo_lexer)
 ```
 
@@ -276,13 +276,13 @@ endmacro()
 # Functions.
 ################################################################################
 
-function(php_re2c name input output)
+function(php_re2c name input)
   cmake_parse_arguments(
     PARSE_ARGV
-    3
+    2
     parsed
     "ADD_DEFAULT_OPTIONS;CODEGEN;ABSOLUTE_PATHS"
-    "HEADER;WORKING_DIRECTORY;COMPUTED_GOTOS"
+    "OUTPUT;HEADER;WORKING_DIRECTORY;COMPUTED_GOTOS"
     "OPTIONS;DEPENDS"
   )
 
@@ -294,6 +294,10 @@ function(php_re2c name input output)
     message(FATAL_ERROR "Missing values for: ${parsed_KEYWORDS_MISSING_VALUES}")
   endif()
 
+  if(NOT DEFINED parsed_OUTPUT)
+    message(FATAL_ERROR "Missing OUTPUT argument")
+  endif()
+
   cmake_path(
     ABSOLUTE_PATH
     input
@@ -303,12 +307,12 @@ function(php_re2c name input output)
 
   cmake_path(
     ABSOLUTE_PATH
-    output
+    parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
 
-  set(outputs ${output})
+  set(outputs ${parsed_OUTPUT})
 
   if(parsed_HEADER)
     cmake_path(
@@ -362,7 +366,7 @@ function(php_re2c name input output)
       set(parsed_WORKING_DIRECTORY ${PHP_SOURCE_DIR})
     else()
       # Otherwise set working directory to the directory of the output file.
-      cmake_path(GET output PARENT_PATH parsed_WORKING_DIRECTORY)
+      cmake_path(GET parsed_OUTPUT PARENT_PATH parsed_WORKING_DIRECTORY)
     endif()
   endif()
   cmake_path(
@@ -398,7 +402,7 @@ function(php_re2c name input output)
   # Assemble status message.
   cmake_path(
     RELATIVE_PATH
-    output
+    parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relative_path
   )
@@ -453,7 +457,7 @@ function(_php_re2c_set_package_properties)
   # Set package PURPOSE property.
   cmake_path(
     RELATIVE_PATH
-    output
+    parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
     OUTPUT_VARIABLE relative_path
   )
@@ -583,7 +587,7 @@ function(_php_re2c_get_commands result)
 
   if(parsed_ABSOLUTE_PATHS)
     set(input_argument "${input}")
-    set(output_argument "${output}")
+    set(output_argument "${parsed_OUTPUT}")
   else()
     cmake_path(
       RELATIVE_PATH
@@ -593,7 +597,7 @@ function(_php_re2c_get_commands result)
     )
     cmake_path(
       RELATIVE_PATH
-      output
+      parsed_OUTPUT
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
       OUTPUT_VARIABLE output_argument
     )

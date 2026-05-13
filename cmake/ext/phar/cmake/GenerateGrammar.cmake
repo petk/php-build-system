@@ -9,7 +9,7 @@ include(PHP/Re2c)
 php_re2c(
   php_ext_phar_path_check
   phar_path_check.re
-  ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phar_path_check.c
   ADD_DEFAULT_OPTIONS
   OPTIONS --bit-vectors
   CODEGEN
