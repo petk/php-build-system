@@ -24,7 +24,7 @@ Generates parser file from the given template file using the Bison generator:
 php_bison(
   <name>
   <input>
-  <output>
+  OUTPUT <output>
   [HEADER | HEADER_FILE <header>]
   [ADD_DEFAULT_OPTIONS]
   [OPTIONS <options>...]
@@ -58,7 +58,7 @@ scripts (script mode).
   Relative source file path `<input>` is interpreted as being relative to the
   current source directory (`CMAKE_CURRENT_SOURCE_DIR`).
 
-* `<output>`
+* `OUTPUT <output>`
 
   Name of the generated parser file. Relative `<output>` file path is
   interpreted as being relative to the current binary directory
@@ -181,7 +181,7 @@ These variables can be set before using this module to configure behavior:
 
 include(PHP/Bison)
 
-php_bison(foo foo.y foo.c OPTIONS -Wall --debug)
+php_bison(foo foo.y OUTPUT foo.c OPTIONS -Wall --debug)
 # This will run:
 #   bison -Wall --debug foo.y --output foo.c
 ```
@@ -193,7 +193,7 @@ This module provides some default options when using the `ADD_DEFAULT_OPTIONS`:
 ```cmake
 include(PHP/Bison)
 
-php_bison(foo foo.y foo.c ADD_DEFAULT_OPTIONS OPTIONS --debug --yacc)
+php_bison(foo foo.y OUTPUT foo.c ADD_DEFAULT_OPTIONS OPTIONS --debug --yacc)
 # This will run:
 #   bison -Wall --no-lines --debug --yacc foo.y --output foo.c
 ```
@@ -203,7 +203,7 @@ php_bison(foo foo.y foo.c ADD_DEFAULT_OPTIONS OPTIONS --debug --yacc)
 ```cmake
 include(PHP/Bison)
 
-php_bison(foo foo.y foo.c OPTIONS $<$<CONFIG:Debug>:--debug> --yacc)
+php_bison(foo foo.y OUTPUT foo.c OPTIONS $<$<CONFIG:Debug>:--debug> --yacc)
 # When build type is Debug, this will run:
 #   bison --debug --yacc foo.y --output foo.c
 # For other build types, including the script modes (CMAKE_ROLE is not PROJECT):
@@ -219,7 +219,7 @@ Target created by `php_bison()` can be used to specify additional dependencies:
 
 include(PHP/Bison)
 
-php_bison(foo_parser parser.y parser.c)
+php_bison(foo_parser parser.y OUTPUT parser.c)
 add_dependencies(some_target foo_parser)
 ```
 

@@ -9,7 +9,7 @@ include(PHP/Re2c)
 php_re2c(
   php_ext_pdo_pgsql_sql_parser
   pgsql_sql_parser.re
-  ${CMAKE_CURRENT_SOURCE_DIR}/pgsql_sql_parser.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/pgsql_sql_parser.c
   ADD_DEFAULT_OPTIONS
   CODEGEN
 )

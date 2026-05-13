@@ -15,7 +15,7 @@ endif()
 php_bison(
   php_zend_ini_parser
   zend_ini_parser.y
-  ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_parser.c
   HEADER
   ADD_DEFAULT_OPTIONS
   ${verbose}
@@ -25,7 +25,7 @@ php_bison(
 php_bison(
   php_zend_language_parser
   zend_language_parser.y
-  ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_parser.c
   HEADER
   ADD_DEFAULT_OPTIONS
   ${verbose}
@@ -89,7 +89,7 @@ include(PHP/Re2c)
 php_re2c(
   php_zend_ini_scanner
   zend_ini_scanner.l
-  ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner.c
   HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_ini_scanner_defs.h
   ADD_DEFAULT_OPTIONS
   OPTIONS
@@ -104,7 +104,7 @@ php_re2c(
 php_re2c(
   php_zend_language_scanner
   zend_language_scanner.l
-  ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner.c
   HEADER ${CMAKE_CURRENT_SOURCE_DIR}/zend_language_scanner_defs.h
   ADD_DEFAULT_OPTIONS
   OPTIONS
