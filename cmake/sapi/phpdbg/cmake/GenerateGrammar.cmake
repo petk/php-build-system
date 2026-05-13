@@ -15,7 +15,7 @@ endif()
 php_bison(
   php_sapi_phpdbg_parser
   phpdbg_parser.y
-  ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_parser.c
   HEADER
   ADD_DEFAULT_OPTIONS
   ${verbose}
@@ -27,7 +27,7 @@ include(PHP/Re2c)
 php_re2c(
   php_sapi_phpdbg_lexer
   phpdbg_lexer.l
-  ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
   ADD_DEFAULT_OPTIONS
   OPTIONS
     --bit-vectors
