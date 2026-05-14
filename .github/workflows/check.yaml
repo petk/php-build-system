@@ -31,7 +31,7 @@ jobs:
 
       - name: Install checking tools
         run: |
-          pipx install codespell
+          pipx install codespell gersemi
           cargo install typos-cli --locked
           curl -OL https://github.com/petk/normalizator/releases/latest/download/normalizator.phar
           chmod +x normalizator.phar
@@ -47,6 +47,13 @@ jobs:
       - name: Run typos
         if: ${{ always() }}
         run: typos
+
+      - name: Run Gersemi
+        if: ${{ always() }}
+        run: |
+          gersemi --config cmake/cmake/gersemi/.gersemirc --diff --check \
+            cmake \
+            CMakeLists.txt
 
       - name: Run normalizator.phar
         if: ${{ always() }}
