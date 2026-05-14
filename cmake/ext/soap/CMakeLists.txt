@@ -64,6 +64,7 @@ target_compile_definitions(
   php_ext_soap
   PRIVATE
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
+    # TODO: Fix LIBXML_STATIC usage based on the static/shared libxml2 package.
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:LIBXML_STATIC>
 )
 
