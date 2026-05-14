@@ -48,10 +48,10 @@ jobs:
         if: ${{ always() }}
         run: typos
 
-      - name: Run Gersemi
+      - name: Run gersemi
         if: ${{ always() }}
         run: |
-          gersemi --config cmake/cmake/gersemi/.gersemirc --diff --check \
+          gersemi --config cmake/cmake/gersemi/.gersemirc.yaml --diff --check \
             cmake \
             CMakeLists.txt
 
