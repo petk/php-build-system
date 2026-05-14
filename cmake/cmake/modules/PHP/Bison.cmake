@@ -386,7 +386,7 @@ function(php_bison name input)
   if(NOT parsed_WORKING_DIRECTORY)
     if(PHP_BISON_WORKING_DIRECTORY)
       set(parsed_WORKING_DIRECTORY ${PHP_BISON_WORKING_DIRECTORY})
-    elseif(PHP_HOMEPAGE_URL AND PHP_SOURCE_DIR)
+    elseif(DEFINED PHP_IS_TOP_LEVEL)
       # Building php-src.
       set(parsed_WORKING_DIRECTORY ${PHP_SOURCE_DIR})
     else()
