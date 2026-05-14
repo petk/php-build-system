@@ -2,7 +2,7 @@ if(NOT TARGET PHP::sapi::cli AND NOT TARGET PHP::Interpreter)
   return()
 endif()
 
-if(PHP_SOURCE_DIR)
+if(DEFINED PHP_IS_TOP_LEVEL)
   set(dir ${PHP_SOURCE_DIR})
 else()
   set(dir ${PROJECT_SOURCE_DIR})
@@ -11,13 +11,13 @@ endif()
 cmake_language(DEFER DIRECTORY ${dir} CALL php_ext_phar_add_tests)
 
 function(php_ext_phar_add_tests)
-  # Check whether building a self-contained extension or in php-src.
-  if(TARGET PHP::Interpreter)
-    set(php_executable "PHP::Interpreter")
-    set(extensions phar)
-  else()
+  # Check whether building php-src or a self-contained extension.
+  if(DEFINED PHP_IS_TOP_LEVEL)
     set(php_executable "PHP::sapi::cli")
     set(extensions bz2 openssl phar zlib)
+  else()
+    set(php_executable "PHP::Interpreter")
+    set(extensions phar)
   endif()
 
   # Configure phar and dependent extensions.

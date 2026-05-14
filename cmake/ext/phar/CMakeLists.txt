@@ -204,7 +204,7 @@ php_add_command(
   COMMENT "[ext/phar] Generating ${relative_dir}/phar.php"
 )
 
-if(PHP_BINARY_DIR)
+if(DEFINED PHP_IS_TOP_LEVEL)
   set(dir ${PHP_BINARY_DIR})
   set(shebang "$<TARGET_FILE:PHP::sapi::cli>")
 else()
