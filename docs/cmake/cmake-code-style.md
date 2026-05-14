@@ -33,11 +33,7 @@ ecosystem.
 * [9. Installation components](#9-installation-components)
 * [10. Tests](#10-tests)
 * [11. See also](#11-see-also)
-  * [11.1. Tools](#111-tools)
-    * [11.1.1. Gersemi](#1111-gersemi)
-    * [11.1.2. cmake-format (by cmakelang project)](#1112-cmake-format-by-cmakelang-project)
-    * [11.1.3. cmake-lint (by cmakelang project)](#1113-cmake-lint-by-cmakelang-project)
-    * [11.1.4. cmakelint](#1114-cmakelint)
+  * [11.1. Gersemi](#111-gersemi)
   * [11.2. Further resources](#112-further-resources)
 
 ## 1. Introduction
@@ -623,73 +619,14 @@ add_test(NAME PhpUnitTest COMMAND ...)
 
 ## 11. See also
 
-### 11.1. Tools
+### 11.1. Gersemi
 
-There are some tools available for formatting and linting CMake files. While
-these tools can offer valuable assistance, it's worth emphasizing that the
-current recommendation is generally not to rely on any specific linting tool.
-This is primarily due to their varying levels of utility and a lack of updates
-to keep pace with new CMake versions. It's worth mentioning that this
-recommendation may evolve in the future as these tools continue to develop.
-
-#### 11.1.1. Gersemi
-
-The [`gersemi`](https://github.com/BlankSpruce/gersemi) tool can check and fix
-CMake code style:
+There are some tools available for formatting and linting CMake files. This
+repository uses [`gersemi`](https://github.com/BlankSpruce/gersemi) tool to
+check and fix CMake code style:
 
 ```sh
-gersemi --check --indent 2 --diff --definitions cmake -- cmake
-```
-
-#### 11.1.2. cmake-format (by cmakelang project)
-
-The [`cmake-format`](https://cmake-format.readthedocs.io/en/latest/) tool can
-find formatting issues and sync the CMake code style:
-
-```sh
-cmake-format --check <CMakeLists.txt cmake/...>
-```
-
-It can utilize the configuration file (default `cmake-format.[json|py|yaml]`) or
-by passing the `--config-files` or `-c` option:
-
-```sh
-cmake-format -c path/to/cmake-format.json --check -- <CMakeLists.txt cmake/...>
-```
-
-Default configuration in JSON format can be printed to stdout:
-
-```sh
-cmake-format --dump-config json
-```
-
-Option `--in-place` or `-i` fixes particular CMake file in-place instead of
-dumping the formatted content to stdout:
-
-```sh
-cmake-format -i path/to/cmake/file
-```
-
-#### 11.1.3. cmake-lint (by cmakelang project)
-
-The [`cmake-lint`](https://cmake-format.readthedocs.io/en/latest/cmake-lint.html)
-tool is part of the cmakelang project and can help with linting CMake files:
-
-```sh
-cmake-lint <CMakeLists.txt cmake/...>
-```
-
-This tool can also utilize the `cmake-format.[json|py|yaml]` file using the `-c`
-option.
-
-#### 11.1.4. cmakelint
-
-For linting there is also a separate and useful
-[cmakelint](https://github.com/cmake-lint/cmake-lint) tool which similarly lints
-and helps to better structure CMake files:
-
-```sh
-cmakelint <cmake/CMakeLists.txt cmake/...>
+gersemi --config cmake/cmake/gersemi/.gersemirc --diff --check .
 ```
 
 ### 11.2. Further resources
