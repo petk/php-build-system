@@ -156,7 +156,7 @@ if(TARGET Intl::Intl)
         FIXTURES_CLEANUP PhpExtGettextFixtures
     )
 
-    if(PHP_SOURCE_DIR)
+    if(DEFINED PHP_IS_TOP_LEVEL)
       set(dir "${PHP_SOURCE_DIR}")
     else()
       set(dir "${CMAKE_CURRENT_SOURCE_DIR}")

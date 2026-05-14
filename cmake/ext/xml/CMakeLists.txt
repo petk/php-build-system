@@ -130,7 +130,7 @@ configure_file(cmake/config.h.in config.h)
 
 # Run at the end of the configuration to notify user of using either libxml or
 # Expat library.
-if(PHP_SOURCE_DIR)
+if(DEFINED PHP_IS_TOP_LEVEL)
   set(dir ${PHP_SOURCE_DIR})
 else()
   set(dir ${CMAKE_CURRENT_SOURCE_DIR})
