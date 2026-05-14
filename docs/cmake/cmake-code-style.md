@@ -33,7 +33,7 @@ ecosystem.
 * [9. Installation components](#9-installation-components)
 * [10. Tests](#10-tests)
 * [11. See also](#11-see-also)
-  * [11.1. Gersemi](#111-gersemi)
+  * [11.1. gersemi](#111-gersemi)
   * [11.2. Further resources](#112-further-resources)
 
 ## 1. Introduction
@@ -619,14 +619,14 @@ add_test(NAME PhpUnitTest COMMAND ...)
 
 ## 11. See also
 
-### 11.1. Gersemi
+### 11.1. gersemi
 
 There are some tools available for formatting and linting CMake files. This
 repository uses [`gersemi`](https://github.com/BlankSpruce/gersemi) tool to
 check and fix CMake code style:
 
 ```sh
-gersemi --config cmake/cmake/gersemi/.gersemirc --diff --check .
+gersemi --config cmake/cmake/gersemi/.gersemirc.yaml --diff --check .
 ```
 
 ### 11.2. Further resources
