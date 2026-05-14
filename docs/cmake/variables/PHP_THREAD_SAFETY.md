@@ -9,8 +9,7 @@ execution.
 
 For instance, if Apache uses PHP with a threaded Multi-Processing Module (MPM)
 or on Windows, PHP must be configured and built with `PHP_THREAD_SAFETY` set to
-`ON`. Thread safety is also enabled automatically during configuration if a
-threaded Apache is detected on the system.
+`ON`.
 
 Since enabling thread safety adds complexity to PHP usage and installation due
 to separate builds of PHP SAPIs and extensions, it is recommended to enable it
