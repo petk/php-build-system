@@ -52,7 +52,7 @@ macro(php_extension)
     "cmake_language(DEFER CALL _php_extension_post_configure \"${ARGV0}\")"
   )
 
-  if(PROJECT_IS_TOP_LEVEL AND PHP_CCACHE)
+  if(NOT DEFINED PHP_IS_TOP_LEVEL AND PHP_CCACHE)
     find_package(Ccache)
   endif()
 
@@ -61,7 +61,7 @@ macro(php_extension)
 
     # Add test to execute run-tests.php for all *.phpt files when extension is
     # built as self-contained.
-    if(PROJECT_IS_TOP_LEVEL AND TARGET PHP::Interpreter)
+    if(NOT DEFINED PHP_IS_TOP_LEVEL)
       include(PHP/Internal/Testing)
       php_testing_add("${ARGV0}")
     endif()
@@ -102,7 +102,7 @@ function(_php_extension_post_configure)
     get_target_property(location php_ext_${extension} LIBRARY_OUTPUT_DIRECTORY)
     if(NOT location)
       # Check whether extension is built as self-contained or inside php-src.
-      if(PHP_BINARY_DIR)
+      if(DEFINED PHP_IS_TOP_LEVEL)
         set(library_output_dir "${PHP_BINARY_DIR}/modules")
       else()
         set(library_output_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
@@ -154,7 +154,7 @@ function(_php_extension_post_configure)
   # Generate *_arginfo.h headers from *.stub.php sources.
   ##############################################################################
 
-  if(PROJECT_IS_TOP_LEVEL)
+  if(NOT DEFINED PHP_IS_TOP_LEVEL)
     include(PHP/Internal/Stubs)
   endif()
 
@@ -190,7 +190,7 @@ function(_php_extension_post_configure)
   # Output configuration summary.
   ##############################################################################
 
-  if(PROJECT_IS_TOP_LEVEL)
+  if(NOT DEFINED PHP_IS_TOP_LEVEL)
     include(PHP/Internal/Summary)
     php_summary_print_extension(${extension})
   endif()

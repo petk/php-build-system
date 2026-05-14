@@ -110,7 +110,7 @@ set(PHP_OCI8_INSTANT_CLIENT "")
 # Run at the end of the configuration: Warn about Apache if oci8 extension is
 # enabled on Linux without PHP_SIGCHILD.
 if(NOT PHP_OCI8_INSTANT_CLIENT AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  if(PHP_SOURCE_DIR)
+  if(DEFINED PHP_IS_TOP_LEVEL)
     set(dir ${PHP_SOURCE_DIR})
   else()
     set(dir ${CMAKE_CURRENT_SOURCE_DIR})
