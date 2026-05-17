@@ -22,6 +22,9 @@ mark_as_advanced(PHP_CCACHE)
 option(PHP_COVERAGE "Enable GCOV code coverage and include GCOV symbols")
 mark_as_advanced(PHP_COVERAGE)
 
+option(PHP_IPO "Enable interprocedural optimization (IPO/LTO)")
+mark_as_advanced(PHP_IPO)
+
 option(
   PHP_TESTING
   "Whether to enable and configure tests"
