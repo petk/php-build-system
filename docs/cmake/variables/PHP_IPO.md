@@ -3,5 +3,5 @@
 * Default: `OFF`
 * Values: `ON|OFF`
 
-Enable interprocedural optimization (IPO/LTO) if it is supported by the compiler
-and PHP.
+Enables interprocedural optimization (IPO/LTO) if it is supported by the
+compiler and PHP.

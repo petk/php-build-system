@@ -159,6 +159,31 @@ function(_php_extension_post_configure)
   endif()
 
   ##############################################################################
+  # Configure interprocedural optimization (IPO/LTO).
+  ##############################################################################
+
+  if(NOT DEFINED PHP_IS_TOP_LEVEL AND PHP_IPO)
+    include(PHP/Internal/Optimization)
+
+    php_optimization(result)
+
+    if(result)
+      get_target_property(
+        ipo
+        php_ext_${extension}
+        INTERPROCEDURAL_OPTIMIZATION
+      )
+
+      if(ipo MATCHES "-NOTFOUND$")
+        set_target_properties(
+          php_ext_${extension}
+          PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE
+        )
+      endif()
+    endif()
+  endif()
+
+  ##############################################################################
   # Specify extension's default installation rules.
   ##############################################################################
 

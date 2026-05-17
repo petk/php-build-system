@@ -120,7 +120,10 @@ define_property(
 )
 
 # Check whether IPO/LTO can be enabled.
-include(PHP/Core/Optimization)
+if(PHP_IPO)
+  include(PHP/Internal/Optimization)
+  php_optimization(CMAKE_INTERPROCEDURAL_OPTIMIZATION)
+endif()
 
 # Enable position-independent code (PIC) for all targets and
 # position-independent executables (PIE) for executable targets.
