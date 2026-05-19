@@ -58,6 +58,8 @@ project(
   LANGUAGES C
 )
 
+include(CheckCompilerFlag)
+
 if(NOT TIMELIB_TARGET)
   set(TIMELIB_TARGET timelib)
   add_library(${TIMELIB_TARGET})
@@ -104,6 +106,15 @@ target_compile_definitions(
     # timelib includes C99 <stdint.h> header conditionally.
     HAVE_STDINT_H
 )
+
+check_compiler_flag(C -fwrapv PHP_EXT_DATE_HAS_FWRAP)
+if(PHP_EXT_DATE_HAS_FWRAP)
+  set_source_files_properties(
+    ${timelib_sources}
+    TARGET_DIRECTORY ${TIMELIB_TARGET}
+    PROPERTIES COMPILE_OPTIONS -fwrapv
+  )
+endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set(HAVE_IO_H TRUE)
