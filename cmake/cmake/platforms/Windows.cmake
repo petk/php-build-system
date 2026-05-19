@@ -50,6 +50,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   # much longer compared to POSIX-based environments, the following are always
   # known on Windows targets.
   ##############################################################################
+
   set(HAVE_STDDEF_H TRUE) # Defined by check_type_size().
   set(HAVE_STDINT_H TRUE) # Defined by check_type_size().
   set(HAVE_SYS_TYPES_H TRUE) # Defined by check_type_size().

@@ -110,7 +110,7 @@ target_compile_definitions(
 check_compiler_flag(C -fwrapv PHP_EXT_DATE_HAS_FWRAP)
 if(PHP_EXT_DATE_HAS_FWRAP)
   set_source_files_properties(
-    ${timelibSources}
+    ${timelib_sources}
     TARGET_DIRECTORY ${TIMELIB_TARGET}
     PROPERTIES COMPILE_OPTIONS -fwrapv
   )
