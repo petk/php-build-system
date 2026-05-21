@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_TIDY
-  LANGUAGES C
-)
+project(PHP_EXT_TIDY LANGUAGES C)
 
 include(CheckIncludeFiles)
 include(CheckSourceCompiles)
@@ -52,12 +49,7 @@ else()
   add_library(php_ext_tidy OBJECT)
 endif()
 
-target_sources(
-  php_ext_tidy
-  PRIVATE
-    tidy.c
-    tidy.stub.php
-)
+target_sources(php_ext_tidy PRIVATE tidy.c tidy.stub.php)
 
 target_include_directories(php_ext_tidy PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -88,43 +80,44 @@ target_compile_definitions(php_ext_tidy PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 find_package(Tidy)
 set_package_properties(
   Tidy
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the tidy extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the tidy extension."
 )
 
 target_link_libraries(php_ext_tidy PRIVATE Tidy::Tidy)
 
 if(TARGET Tidy::Tidy)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Tidy::Tidy)
 
-    # Check for <tidybuffio.h> (as opposed to the legacy <buffio.h>), which
-    # indicates that the found library is tidy-html5 and not the legacy
-    # htmltidy. The two are compatible, except the legacy doesn't have the
-    # <tidybuffio.h> header.
-    check_include_files(tidybuffio.h PHP_EXT_TIDY_HAVE_TIDYBUFFIO_H)
-    set(HAVE_TIDYBUFFIO_H ${PHP_EXT_TIDY_HAVE_TIDYBUFFIO_H})
+  set(CMAKE_REQUIRED_LIBRARIES Tidy::Tidy)
 
-    check_symbol_exists(
-      tidyOptGetDoc
-      "${Tidy_HEADER}"
-      PHP_EXT_TIDY_HAVE_TIDYOPTGETDOC
-    )
-    set(HAVE_TIDYOPTGETDOC ${PHP_EXT_TIDY_HAVE_TIDYOPTGETDOC})
+  # Check for <tidybuffio.h> (as opposed to the legacy <buffio.h>), which
+  # indicates that the found library is tidy-html5 and not the legacy
+  # htmltidy. The two are compatible, except the legacy doesn't have the
+  # <tidybuffio.h> header.
+  check_include_files(tidybuffio.h PHP_EXT_TIDY_HAVE_TIDYBUFFIO_H)
+  set(HAVE_TIDYBUFFIO_H ${PHP_EXT_TIDY_HAVE_TIDYBUFFIO_H})
 
-    check_symbol_exists(
-      tidyReleaseDate
-      "${Tidy_HEADER}"
-      PHP_EXT_TIDY_HAVE_TIDYRELEASEDATE
-    )
-    set(HAVE_TIDYRELEASEDATE ${PHP_EXT_TIDY_HAVE_TIDYRELEASEDATE})
+  check_symbol_exists(
+    tidyOptGetDoc
+    "${Tidy_HEADER}"
+    PHP_EXT_TIDY_HAVE_TIDYOPTGETDOC
+  )
+  set(HAVE_TIDYOPTGETDOC ${PHP_EXT_TIDY_HAVE_TIDYOPTGETDOC})
 
-    # The tidyOptGetCategory() function (added in tidy-html5 5.4.0) is only
-    # usable in PHP at the time of writing due to unconditional usage of the
-    # TidyInternalCategory enumeration (added in tidy-html5 5.6.0). The tidyp
-    # fork, doesn't have tidyOptGetCategory().
-    check_source_compiles(C [[
+  check_symbol_exists(
+    tidyReleaseDate
+    "${Tidy_HEADER}"
+    PHP_EXT_TIDY_HAVE_TIDYRELEASEDATE
+  )
+  set(HAVE_TIDYRELEASEDATE ${PHP_EXT_TIDY_HAVE_TIDYRELEASEDATE})
+
+  # The tidyOptGetCategory() function (added in tidy-html5 5.4.0) is only
+  # usable in PHP at the time of writing due to unconditional usage of the
+  # TidyInternalCategory enumeration (added in tidy-html5 5.6.0). The tidyp
+  # fork, doesn't have tidyOptGetCategory().
+  check_source_compiles(
+    C
+    [[
       #include <tidy.h>
       int main(void)
       {
@@ -135,8 +128,11 @@ if(TARGET Tidy::Tidy)
         tidyRelease(doc);
         return 0;
       }
-    ]] PHP_EXT_TIDY_HAVE_TIDYOPTGETCATEGORY)
-    set(HAVE_TIDYOPTGETCATEGORY ${PHP_EXT_TIDY_HAVE_TIDYOPTGETCATEGORY})
+    ]]
+    PHP_EXT_TIDY_HAVE_TIDYOPTGETCATEGORY
+  )
+  set(HAVE_TIDYOPTGETCATEGORY ${PHP_EXT_TIDY_HAVE_TIDYOPTGETCATEGORY})
+
   cmake_pop_check_state()
 
   if(Tidy_HEADER STREQUAL "tidy.h")

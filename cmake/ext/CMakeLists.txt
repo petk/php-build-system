@@ -30,7 +30,10 @@ list(APPEND CMAKE_MESSAGE_CONTEXT "ext")
 
 # Get a list of all PHP extensions in the current directory.
 file(GLOB extensions ${CMAKE_CURRENT_SOURCE_DIR}/*/CMakeLists.txt)
-list(TRANSFORM extensions REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/|/CMakeLists.txt" "")
+list(
+  TRANSFORM extensions
+  REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/|/CMakeLists.txt" ""
+)
 set_property(GLOBAL PROPERTY PHP_ALL_EXTENSIONS ${extensions})
 
 # Add subdirectories of extensions.
@@ -106,8 +109,8 @@ foreach(extension IN LISTS extensions)
   # Add configuration compile options before the extension compile options.
   target_compile_options(
     php_ext_${extension}
-    BEFORE PRIVATE
-      $<TARGET_PROPERTY:PHP::config,INTERFACE_COMPILE_OPTIONS>
+    BEFORE
+    PRIVATE $<TARGET_PROPERTY:PHP::config,INTERFACE_COMPILE_OPTIONS>
   )
 
   message(CHECK_PASS "enabled")

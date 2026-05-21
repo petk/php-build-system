@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_ENCHANT
-  LANGUAGES C
-)
+project(PHP_EXT_ENCHANT LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -47,45 +44,40 @@ else()
   add_library(php_ext_enchant OBJECT)
 endif()
 
-target_sources(
-  php_ext_enchant
-  PRIVATE
-    enchant.c
-    enchant.stub.php
-)
+target_sources(php_ext_enchant PRIVATE enchant.c enchant.stub.php)
 
 target_include_directories(php_ext_enchant PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(Enchant 1.4.2)
 set_package_properties(
   Enchant
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the enchant extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the enchant extension."
 )
 
 if(TARGET Enchant::Enchant)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Enchant::Enchant)
 
-    # The enchant_get_version() is available since 1.6.0.
-    check_symbol_exists(
-      enchant_get_version
-      enchant.h
-      PHP_EXT_ENCHANT_HAVE_ENCHANT_GET_VERSION
-    )
-    set(HAVE_ENCHANT_GET_VERSION ${PHP_EXT_ENCHANT_HAVE_ENCHANT_GET_VERSION})
+  set(CMAKE_REQUIRED_LIBRARIES Enchant::Enchant)
 
-    # The enchant_broker_set_param() is available since 1.5.0 and removed in 2.x.
-    check_symbol_exists(
-      enchant_broker_set_param
-      enchant.h
-      PHP_EXT_ENCHANT_HAVE_ENCHANT_BROKER_SET_PARAM
-    )
-    set(
-      HAVE_ENCHANT_BROKER_SET_PARAM
-      ${PHP_EXT_ENCHANT_HAVE_ENCHANT_BROKER_SET_PARAM}
-    )
+  # The enchant_get_version() is available since 1.6.0.
+  check_symbol_exists(
+    enchant_get_version
+    enchant.h
+    PHP_EXT_ENCHANT_HAVE_ENCHANT_GET_VERSION
+  )
+  set(HAVE_ENCHANT_GET_VERSION ${PHP_EXT_ENCHANT_HAVE_ENCHANT_GET_VERSION})
+
+  # The enchant_broker_set_param() is available since 1.5.0 and removed in 2.x.
+  check_symbol_exists(
+    enchant_broker_set_param
+    enchant.h
+    PHP_EXT_ENCHANT_HAVE_ENCHANT_BROKER_SET_PARAM
+  )
+  set(
+    HAVE_ENCHANT_BROKER_SET_PARAM
+    ${PHP_EXT_ENCHANT_HAVE_ENCHANT_BROKER_SET_PARAM}
+  )
+
   cmake_pop_check_state()
 endif()
 

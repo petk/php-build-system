@@ -15,20 +15,13 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_CALENDAR
-  LANGUAGES C
-)
+project(PHP_EXT_CALENDAR LANGUAGES C)
 
 include(FeatureSummary)
 
 option(PHP_EXT_CALENDAR "Enable the calendar extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/calendar"
-  PHP_EXT_CALENDAR
-  "calendar conversion support"
-)
+add_feature_info("ext/calendar" PHP_EXT_CALENDAR "calendar conversion support")
 
 if(NOT PHP_EXT_CALENDAR)
   return()
@@ -59,10 +52,7 @@ target_sources(
     julian.c
 )
 
-target_include_directories(
-  php_ext_calendar
-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
-)
+target_include_directories(php_ext_calendar PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 set(HAVE_CALENDAR TRUE)
 

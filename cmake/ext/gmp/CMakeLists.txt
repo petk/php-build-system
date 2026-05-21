@@ -18,10 +18,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_GMP
-  LANGUAGES C
-)
+project(PHP_EXT_GMP LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -50,13 +47,8 @@ endif()
 
 target_sources(
   php_ext_gmp
-  PRIVATE
-    gmp.c
-    gmp.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_gmp_int.h
+  PRIVATE gmp.c gmp.stub.php
+  PUBLIC FILE_SET HEADERS FILES php_gmp_int.h
 )
 
 target_include_directories(php_ext_gmp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -75,18 +67,12 @@ endif()
 
 set_package_properties(
   ${package_name}
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the gmp extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the gmp extension."
 )
 
 target_link_libraries(php_ext_gmp PUBLIC ${imported_target})
 
-set_property(
-  TARGET php_ext_gmp
-  APPEND
-  PROPERTY PHP_REQUIRED_EXTENSIONS random
-)
+set_property(TARGET php_ext_gmp APPEND PROPERTY PHP_REQUIRED_EXTENSIONS random)
 
 set(HAVE_GMP TRUE)
 

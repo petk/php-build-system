@@ -18,20 +18,13 @@ This extension is always built as shared when enabled.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_DL_TEST
-  LANGUAGES C
-)
+project(PHP_EXT_DL_TEST LANGUAGES C)
 
 include(FeatureSummary)
 
 option(PHP_EXT_DL_TEST "Enable the dl_test extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/dl_test"
-  PHP_EXT_DL_TEST
-  "dl() function testing"
-)
+add_feature_info("ext/dl_test" PHP_EXT_DL_TEST "dl() function testing")
 
 if(NOT PHP_EXT_DL_TEST)
   return()
@@ -45,17 +38,11 @@ php_extension(dl_test)
 # The dl_test extension can be built only as a shared library.
 add_library(php_ext_dl_test MODULE)
 
-target_sources(
-  php_ext_dl_test
-  PRIVATE
-    dl_test.c
-    dl_test.stub.php
-)
+target_sources(php_ext_dl_test PRIVATE dl_test.c dl_test.stub.php)
 
 target_include_directories(php_ext_dl_test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_dl_test
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
