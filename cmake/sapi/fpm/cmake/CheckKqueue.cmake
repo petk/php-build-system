@@ -14,8 +14,10 @@ if(NOT DEFINED PHP_SAPI_FPM_HAVE_KQUEUE)
   message(CHECK_START "Checking for kqueue")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(
+    C
+    [[
       #include <sys/types.h>
       #include <sys/event.h>
       #include <sys/time.h>
@@ -31,7 +33,9 @@ if(NOT DEFINED PHP_SAPI_FPM_HAVE_KQUEUE)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAVE_KQUEUE)
+    ]]
+    PHP_SAPI_FPM_HAVE_KQUEUE
+  )
   cmake_pop_check_state()
 
   if(PHP_SAPI_FPM_HAVE_KQUEUE)

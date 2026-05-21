@@ -62,9 +62,11 @@ set(HAVE_SETPROCTITLE ${PHP_SAPI_HAVE_SETPROCTITLE})
 # For some BSD-based systems.
 message(CHECK_START "Checking for PS_STRINGS")
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
+set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_source_compiles(C [[
+check_source_compiles(
+  C
+  [[
     #include <machine/vmparam.h> // For old BSD.
     #include <sys/exec.h>
 
@@ -75,7 +77,9 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  ]] PHP_SAPI_CLI_HAVE_PS_STRINGS)
+  ]]
+  PHP_SAPI_CLI_HAVE_PS_STRINGS
+)
 cmake_pop_check_state()
 if(PHP_SAPI_CLI_HAVE_PS_STRINGS)
   message(CHECK_PASS "yes")
@@ -101,23 +105,14 @@ target_sources(
     php_cli.c
     php_http_parser.c
     ps_title.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        cli.h
+  PUBLIC FILE_SET HEADERS FILES cli.h
 )
 
-target_compile_definitions(
-  php_sapi_cli
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
+target_compile_definitions(php_sapi_cli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 target_link_libraries(
   php_sapi_cli
-  PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
-    $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
+  PRIVATE $<BUILD_INTERFACE:PHP::sapi> $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
 )
 
 if(MSVC)
@@ -149,12 +144,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 install(
-  TARGETS
-    php_sapi_cli
+  TARGETS php_sapi_cli
   EXPORT php_sapi_cli_export
-  RUNTIME
-    DESTINATION ${PHP_INSTALL_BINDIR}
-    COMPONENT php-sapi-cli
+  RUNTIME DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php-sapi-cli
   FILE_SET HEADERS
     DESTINATION ${PHP_INSTALL_INCLUDEDIR}/sapi/cli
     COMPONENT php-development
@@ -180,7 +172,8 @@ php_add_command(
   EXCLUDE_FROM_ALL
   ARGS
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
-    > ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
+    >
+    ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
   REQUIRED_EXTENSIONS openssl
   OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/mime_type_map.h
   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/generate_mime_type_map.php
@@ -213,15 +206,12 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
 
   target_compile_definitions(
     php_sapi_cli_win
-    PRIVATE
-      ZEND_ENABLE_STATIC_TSRMLS_CACHE
+    PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
   )
 
   target_link_libraries(
     php_sapi_cli_win
-    PRIVATE
-      $<BUILD_INTERFACE:PHP::sapi>
-      shell32
+    PRIVATE $<BUILD_INTERFACE:PHP::sapi> shell32
   )
 
   if(MSVC)
@@ -231,9 +221,7 @@ if(PHP_SAPI_CLI_WIN_NO_CONSOLE)
   install(
     TARGETS php_sapi_cli_win
     EXPORT php_sapi_cli_export
-    RUNTIME
-      DESTINATION ${PHP_INSTALL_BINDIR}
-      COMPONENT php-sapi-cli
+    RUNTIME DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php-sapi-cli
   )
 endif()
 

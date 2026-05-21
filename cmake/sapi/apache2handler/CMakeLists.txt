@@ -96,16 +96,13 @@ set_target_properties(
 
 target_compile_definitions(
   php_sapi_apache2handler
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 find_package(Apache 2.0.44)
 set_package_properties(
   Apache
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the Apache PHP SAPI."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the Apache PHP SAPI."
 )
 
 if(Apache_FOUND AND NOT PHP_SAPI_APACHE2HANDLER_INSTALL_DIR)
@@ -117,9 +114,7 @@ endif()
 
 target_link_libraries(
   php_sapi_apache2handler
-  PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
-    Apache::Apache
+  PRIVATE $<BUILD_INTERFACE:PHP::sapi> Apache::Apache
 )
 
 # Manually enable runtime linking on AIX.
@@ -163,12 +158,15 @@ elseif(NOT Apache_THREADED AND NOT PHP_THREAD_SAFETY)
   # Run at the end of the configuration phase to notify that PHP needs thread
   # safety, when using Apache threaded MPM.
   cmake_language(
-    DEFER
-    DIRECTORY ${PHP_SOURCE_DIR}
+    DEFER DIRECTORY ${PHP_SOURCE_DIR}
     CALL php_sapi_apache2handler_notice
   )
   function(php_sapi_apache2handler_notice)
-    cmake_language(DEFER CALL message NOTICE [[
+    cmake_language(
+      DEFER
+      CALL message
+      NOTICE
+      [[
 
       Notice:
 
@@ -177,7 +175,8 @@ elseif(NOT Apache_THREADED AND NOT PHP_THREAD_SAFETY)
       MPM, make sure PHP is configured and built with
       'PHP_THREAD_SAFETY' set to 'ON'.
 
-    ]])
+      ]]
+    )
   endfunction()
 endif()
 

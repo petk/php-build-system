@@ -16,11 +16,7 @@ include(FeatureSummary)
 
 option(PHP_SAPI_CGI "Enable the CGI (Common Gateway Interface) SAPI" ON)
 
-add_feature_info(
-  "sapi/cgi"
-  PHP_SAPI_CGI
-  "Common Gateway Interface executable"
-)
+add_feature_info("sapi/cgi" PHP_SAPI_CGI "Common Gateway Interface executable")
 
 if(NOT PHP_SAPI_CGI)
   return()
@@ -29,12 +25,7 @@ endif()
 add_executable(php_sapi_cgi)
 add_executable(PHP::sapi::cgi ALIAS php_sapi_cgi)
 
-target_sources(
-  php_sapi_cgi
-  PRIVATE
-    cgi_main.c
-    cgi_main.stub.php
-)
+target_sources(php_sapi_cgi PRIVATE cgi_main.c cgi_main.stub.php)
 
 target_compile_definitions(php_sapi_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
@@ -78,9 +69,7 @@ endif()
 install(
   TARGETS php_sapi_cgi
   EXPORT php_sapi_cgi_export
-  RUNTIME
-    DESTINATION ${PHP_INSTALL_BINDIR}
-    COMPONENT php-sapi-cgi
+  RUNTIME DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php-sapi-cgi
 )
 
 install(

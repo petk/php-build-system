@@ -35,12 +35,12 @@ function(_php_sapi_phpdbg_check_tiocgwinsz result)
 
   message(CHECK_START "Checking whether <termios.h> defines TIOCGWINSZ")
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(
-      TIOCGWINSZ
-      termios.h
-      PHP_SAPI_PHPDBG_HAS_TIOCGWINSZ_IN_TERMIOS
-    )
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(
+    TIOCGWINSZ
+    termios.h
+    PHP_SAPI_PHPDBG_HAS_TIOCGWINSZ_IN_TERMIOS
+  )
   cmake_pop_check_state()
   if(PHP_SAPI_PHPDBG_HAS_TIOCGWINSZ_IN_TERMIOS)
     message(CHECK_PASS "yes")
@@ -50,12 +50,12 @@ function(_php_sapi_phpdbg_check_tiocgwinsz result)
 
   message(CHECK_START "Checking whether <sys/ioctl.h> defines TIOCGWINSZ")
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(
-      TIOCGWINSZ
-      sys/ioctl.h
-      PHP_SAPI_PHPDBG_HAS_TIOCGWINSZ_IN_SYS_IOCTL
-    )
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(
+    TIOCGWINSZ
+    sys/ioctl.h
+    PHP_SAPI_PHPDBG_HAS_TIOCGWINSZ_IN_SYS_IOCTL
+  )
   cmake_pop_check_state()
   if(PHP_SAPI_PHPDBG_HAS_TIOCGWINSZ_IN_SYS_IOCTL)
     message(CHECK_PASS "yes")

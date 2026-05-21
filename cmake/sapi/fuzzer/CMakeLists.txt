@@ -37,11 +37,7 @@ option(
   "Enable the fuzzer SAPI module - Clang fuzzing test module (for developers)"
 )
 
-add_feature_info(
-  "sapi/fuzzer"
-  PHP_SAPI_FUZZER
-  "Clang fuzzing module"
-)
+add_feature_info("sapi/fuzzer" PHP_SAPI_FUZZER "Clang fuzzing module")
 
 if(PHP_SAPI_FUZZER)
   set(
@@ -80,42 +76,41 @@ if(LIB_FUZZING_ENGINE OR DEFINED ENV{LIB_FUZZING_ENGINE})
   message(STATUS "LIB_FUZZING_ENGINE=${lib_fuzzing_engine}")
   target_link_options(
     php_sapi_fuzzer
-    INTERFACE
-      "$<$<LINK_LANGUAGE:C,CXX>:${lib_fuzzing_engine}>"
+    INTERFACE "$<$<LINK_LANGUAGE:C,CXX>:${lib_fuzzing_engine}>"
   )
 else()
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LINK_OPTIONS -fsanitize=fuzzer-no-link)
+  set(CMAKE_REQUIRED_LINK_OPTIONS -fsanitize=fuzzer-no-link)
 
-    php_check_compiler_flag(
-      C
-      -fsanitize=fuzzer-no-link
-      PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_C
+  php_check_compiler_flag(
+    C
+    -fsanitize=fuzzer-no-link
+    PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_C
+  )
+  if(NOT PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_C)
+    message(
+      FATAL_ERROR
+      "The fuzzer SAPI cannot be enabled. C compiler ${CMAKE_C_COMPILER_ID} "
+      "doesn't support the -fsanitize=fuzzer-no-link option."
     )
-    if(NOT PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_C)
+  endif()
+
+  get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+  if(CXX IN_LIST languages)
+    php_check_compiler_flag(
+      CXX
+      -fsanitize=fuzzer-no-link
+      PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_CXX
+    )
+    if(NOT PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_CXX)
       message(
         FATAL_ERROR
-        "The fuzzer SAPI cannot be enabled. C compiler ${CMAKE_C_COMPILER_ID} "
-        "doesn't support the -fsanitize=fuzzer-no-link option."
+        "The fuzzer SAPI cannot be enabled. C++ compiler "
+        "${CMAKE_CXX_COMPILER_ID} doesn't support the "
+        "-fsanitize=fuzzer-no-link option."
       )
     endif()
-
-    get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
-    if(CXX IN_LIST languages)
-      php_check_compiler_flag(
-        CXX
-        -fsanitize=fuzzer-no-link
-        PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_CXX
-      )
-      if(NOT PHP_SAPI_FUZZER_HAS_FSANITIZE_FLAG_CXX)
-        message(
-          FATAL_ERROR
-          "The fuzzer SAPI cannot be enabled. C++ compiler "
-          "${CMAKE_CXX_COMPILER_ID} doesn't support the "
-          "-fsanitize=fuzzer-no-link option."
-        )
-      endif()
-    endif()
+  endif()
   cmake_pop_check_state()
 
   target_compile_options(
@@ -138,15 +133,9 @@ set_target_properties(
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}fuzzer${PHP_PROGRAM_SUFFIX}
 )
 
-target_link_libraries(
-  php_sapi_fuzzer
-  PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
-)
+target_link_libraries(php_sapi_fuzzer PRIVATE $<BUILD_INTERFACE:PHP::sapi>)
 
 install(
   TARGETS php_sapi_fuzzer
-  RUNTIME
-    DESTINATION ${PHP_INSTALL_BINDIR}
-    COMPONENT php-sapi-fuzzer
+  RUNTIME DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php-sapi-fuzzer
 )

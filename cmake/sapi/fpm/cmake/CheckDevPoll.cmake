@@ -14,8 +14,10 @@ if(NOT DEFINED PHP_SAPI_FPM_HAVE_DEVPOLL)
   message(CHECK_START "Checking for /dev/poll")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(
+    C
+    [[
       #include <stdio.h>
       #include <sys/devpoll.h>
 
@@ -32,7 +34,9 @@ if(NOT DEFINED PHP_SAPI_FPM_HAVE_DEVPOLL)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAVE_DEVPOLL)
+    ]]
+    PHP_SAPI_FPM_HAVE_DEVPOLL
+  )
   cmake_pop_check_state()
 
   if(PHP_SAPI_FPM_HAVE_DEVPOLL)

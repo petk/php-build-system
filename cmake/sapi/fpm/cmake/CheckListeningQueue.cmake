@@ -15,11 +15,13 @@ include(PHP/SystemExtensions)
 
 function(_php_sapi_fpm_check_lq_tcp_info result)
   cmake_push_check_state(RESET)
-    # Requires _DEFAULT_SOURCE, which is enabled by _GNU_SOURCE.
-    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  # Requires _DEFAULT_SOURCE, which is enabled by _GNU_SOURCE.
+  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  check_source_compiles(
+    C
+    [[
       #include <netinet/tcp.h>
 
       int main(void)
@@ -31,7 +33,9 @@ function(_php_sapi_fpm_check_lq_tcp_info result)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_${result})
+    ]]
+    PHP_SAPI_FPM_${result}
+  )
   cmake_pop_check_state()
 
   set(${result} ${PHP_SAPI_FPM_${result}})
@@ -42,9 +46,11 @@ endfunction()
 # For macOS.
 function(_php_sapi_fpm_check_lq_tcp_connection_info result)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  check_source_compiles(
+    C
+    [[
       #include <netinet/tcp.h>
 
       int main(void)
@@ -56,7 +62,9 @@ function(_php_sapi_fpm_check_lq_tcp_connection_info result)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_${result})
+    ]]
+    PHP_SAPI_FPM_${result}
+  )
   cmake_pop_check_state()
 
   set(${result} ${PHP_SAPI_FPM_${result}})
@@ -67,9 +75,11 @@ endfunction()
 # For FreeBSD.
 function(_php_sapi_fpm_check_lq_so_listenq result)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  check_source_compiles(
+    C
+    [[
       #include <sys/socket.h>
 
       int main(void)
@@ -81,7 +91,9 @@ function(_php_sapi_fpm_check_lq_so_listenq result)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_${result})
+    ]]
+    PHP_SAPI_FPM_${result}
+  )
   cmake_pop_check_state()
 
   set(${result} ${PHP_SAPI_FPM_${result}})

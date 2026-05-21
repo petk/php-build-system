@@ -83,11 +83,7 @@ Where to find systemd installation on the system, can be customized with the
 > system doesn't have systemd.
 #]=============================================================================]
 
-project(
-  PHP_SAPI_FPM
-  SPDX_LICENSE "PHP-3.01 AND BSD-2-Clause"
-  LANGUAGES C
-)
+project(PHP_SAPI_FPM SPDX_LICENSE "PHP-3.01 AND BSD-2-Clause" LANGUAGES C)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -104,11 +100,7 @@ include(PHP/SearchLibraries)
 ################################################################################
 
 option(PHP_SAPI_FPM "Enable the FPM SAPI module")
-add_feature_info(
-  "sapi/fpm"
-  PHP_SAPI_FPM
-  "FastCGI Process Manager"
-)
+add_feature_info("sapi/fpm" PHP_SAPI_FPM "FastCGI Process Manager")
 
 set(
   CACHE{PHP_SAPI_FPM_USER}
@@ -220,18 +212,12 @@ target_sources(
 
 target_include_directories(
   php_sapi_fpm
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/fpm
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/fpm
 )
 
 target_compile_definitions(php_sapi_fpm PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-target_link_libraries(
-  php_sapi_fpm
-  PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
-)
+target_link_libraries(php_sapi_fpm PRIVATE $<BUILD_INTERFACE:PHP::sapi>)
 
 set_target_properties(
   php_sapi_fpm
@@ -257,7 +243,11 @@ set(HAVE_SETPFLAGS ${PHP_SAPI_FPM_HAVE_SETPFLAGS})
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" PHP_SAPI_HAVE_SETPROCTITLE)
 set(HAVE_SETPROCTITLE ${PHP_SAPI_HAVE_SETPROCTITLE})
 
-check_symbol_exists(setproctitle_fast unistd.h PHP_SAPI_FPM_HAVE_SETPROCTITLE_FAST)
+check_symbol_exists(
+  setproctitle_fast
+  unistd.h
+  PHP_SAPI_FPM_HAVE_SETPROCTITLE_FAST
+)
 set(HAVE_SETPROCTITLE_FAST ${PHP_SAPI_FPM_HAVE_SETPROCTITLE_FAST})
 
 check_symbol_exists(sysconf unistd.h PHP_SAPI_FPM_HAVE_SYSCONF)
@@ -327,9 +317,9 @@ if(PHP_SAPI_FPM_ACL)
 
   if(TARGET ACL::ACL)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
-      check_include_files(sys/acl.h PHP_SAPI_FPM_HAVE_SYS_ACL_H)
-      set(HAVE_SYS_ACL_H ${PHP_SAPI_FPM_HAVE_SYS_ACL_H})
+    set(CMAKE_REQUIRED_LIBRARIES ACL::ACL)
+    check_include_files(sys/acl.h PHP_SAPI_FPM_HAVE_SYS_ACL_H)
+    set(HAVE_SYS_ACL_H ${PHP_SAPI_FPM_HAVE_SYS_ACL_H})
     cmake_pop_check_state()
 
     set(HAVE_FPM_ACL TRUE)
@@ -376,39 +366,47 @@ block()
   # Replace the hardcoded runstatedir with a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.8.in" content)
   string(
-    REPLACE
-    [[@php_fpm_localstatedir@/run/php-fpm.pid]]
+    REPLACE [[@php_fpm_localstatedir@/run/php-fpm.pid]]
     [[@php_fpm_runstatedir@/php-fpm.pid]]
     content
     "${content}"
   )
   file(
-    WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.8.in"
+    WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.8.in"
     "${content}"
   )
 
-  string(CONFIGURE [[
-    set(php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(php_fpm_runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
-    set(PHP_VERSION "@PHP_VERSION@")
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        set(php_fpm_localstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(php_fpm_runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
+        set(PHP_VERSION "@PHP_VERSION@")
+      ]]
+    code
+    @ONLY
+  )
   cmake_language(EVAL CODE "${code}")
   string(CONFIGURE "${content}" content @ONLY)
   file(GENERATE OUTPUT php-fpm.8 CONTENT "${content}")
 
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
-  string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-fpm.8.in"
-      "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.8"
-      @ONLY
-    )
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        @code@
+        configure_file(
+          "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-fpm.8.in"
+          "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.8"
+          @ONLY
+        )
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-doc)
 
   install(
@@ -424,11 +422,16 @@ endblock()
 ################################################################################
 
 block()
-  string(CONFIGURE [[
-    set(prefix "${CMAKE_INSTALL_PREFIX}")
-    set(EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        set(prefix "${CMAKE_INSTALL_PREFIX}")
+        set(EXPANDED_LOCALSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_LOCALSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(php_fpm_sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+      ]]
+    code
+    @ONLY
+  )
   cmake_language(EVAL CODE "${code}")
 
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.conf.in" content)
@@ -437,14 +440,19 @@ block()
 
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
-  string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@CMAKE_CURRENT_SOURCE_DIR@/php-fpm.conf.in"
-      "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.conf"
-      @ONLY
-    )
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        @code@
+        configure_file(
+          "@CMAKE_CURRENT_SOURCE_DIR@/php-fpm.conf.in"
+          "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.conf"
+          @ONLY
+        )
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
@@ -453,13 +461,18 @@ endblock()
 ################################################################################
 
 block()
-  string(CONFIGURE [[
-    set(prefix "${CMAKE_INSTALL_PREFIX}")
-    set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
-    set(php_fpm_user "@PHP_SAPI_FPM_USER@")
-    set(php_fpm_group "@PHP_SAPI_FPM_GROUP@")
-    set(EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_DATADIR@,${CMAKE_INSTALL_PREFIX}>")
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        set(prefix "${CMAKE_INSTALL_PREFIX}")
+        set(php_fpm_prefix "${CMAKE_INSTALL_PREFIX}")
+        set(php_fpm_user "@PHP_SAPI_FPM_USER@")
+        set(php_fpm_group "@PHP_SAPI_FPM_GROUP@")
+        set(EXPANDED_DATADIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_DATADIR@,${CMAKE_INSTALL_PREFIX}>")
+      ]]
+    code
+    @ONLY
+  )
   cmake_language(EVAL CODE "${code}")
 
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/www.conf.in" content)
@@ -468,14 +481,19 @@ block()
 
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
-  string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@CMAKE_CURRENT_SOURCE_DIR@/www.conf.in"
-      "@CMAKE_CURRENT_BINARY_DIR@/www.conf"
-      @ONLY
-    )
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        @code@
+        configure_file(
+          "@CMAKE_CURRENT_SOURCE_DIR@/www.conf.in"
+          "@CMAKE_CURRENT_BINARY_DIR@/www.conf"
+          @ONLY
+        )
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
@@ -487,39 +505,47 @@ block()
   # Replace the hardcoded runstatedir with a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/init.d.php-fpm.in" content)
   string(
-    REPLACE
-    [[php_fpm_PID=@localstatedir@/run/php-fpm.pid]]
+    REPLACE [[php_fpm_PID=@localstatedir@/run/php-fpm.pid]]
     [[php_fpm_PID=@runstatedir@/php-fpm.pid]]
     content
     "${content}"
   )
   file(
-    WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/init.d.php-fpm.in"
+    WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/init.d.php-fpm.in"
     "${content}"
   )
 
-  string(CONFIGURE [[
-    set(prefix "${CMAKE_INSTALL_PREFIX}")
-    set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
-    set(sbindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SBINDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        set(prefix "${CMAKE_INSTALL_PREFIX}")
+        set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+        set(sbindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SBINDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(sysconfdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(runstatedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+      ]]
+    code
+    @ONLY
+  )
   cmake_language(EVAL CODE "${code}")
   string(CONFIGURE "${content}" content @ONLY)
   file(GENERATE OUTPUT init.d.php-fpm CONTENT "${content}")
 
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
-  string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/init.d.php-fpm.in"
-      "@CMAKE_CURRENT_BINARY_DIR@/init.d.php-fpm"
-      @ONLY
-    )
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        @code@
+        configure_file(
+          "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/init.d.php-fpm.in"
+          "@CMAKE_CURRENT_BINARY_DIR@/init.d.php-fpm"
+          @ONLY
+        )
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
@@ -531,38 +557,46 @@ block()
   # Replace the hardcoded runstatedir with a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-fpm.service.in" content)
   string(
-    REPLACE
-    [[PIDFile=@EXPANDED_LOCALSTATEDIR@/run/php-fpm.pid]]
+    REPLACE [[PIDFile=@EXPANDED_LOCALSTATEDIR@/run/php-fpm.pid]]
     [[PIDFile=@EXPANDED_RUNSTATEDIR@/php-fpm.pid]]
     content
     "${content}"
   )
   file(
-    WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.service.in"
+    WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-fpm.service.in"
     "${content}"
   )
 
-  string(CONFIGURE [[
-    set(php_fpm_systemd "@PHP_FPM_SYSTEMD@")
-    set(EXPANDED_RUNSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SBINDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        set(php_fpm_systemd "@PHP_FPM_SYSTEMD@")
+        set(EXPANDED_RUNSTATEDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_RUNSTATEDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(EXPANDED_SBINDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SBINDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(EXPANDED_SYSCONFDIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_SYSCONFDIR@,${CMAKE_INSTALL_PREFIX}>")
+      ]]
+    code
+    @ONLY
+  )
   cmake_language(EVAL CODE "${code}")
   string(CONFIGURE "${content}" content @ONLY)
   file(GENERATE OUTPUT php-fpm.service CONTENT "${content}")
 
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
-  string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-fpm.service.in"
-      "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.service"
-      @ONLY
-    )
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        @code@
+        configure_file(
+          "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-fpm.service.in"
+          "@CMAKE_CURRENT_BINARY_DIR@/php-fpm.service"
+          @ONLY
+        )
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-sapi-fpm)
 endblock()
 
@@ -573,9 +607,7 @@ endblock()
 install(
   TARGETS php_sapi_fpm
   EXPORT php_sapi_fpm_export
-  RUNTIME
-    DESTINATION ${CMAKE_INSTALL_SBINDIR}
-    COMPONENT php-sapi-fpm
+  RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR} COMPONENT php-sapi-fpm
 )
 
 install(
@@ -600,38 +632,39 @@ install(
 )
 
 install(
-  CODE "
-  if(NOT IS_ABSOLUTE \"${PHP_INSTALL_SYSCONFDIR}\")
-    set(
-      sysconf_dir
-      \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PHP_INSTALL_SYSCONFDIR}\"
-    )
-  else()
-    set(sysconf_dir \"\$ENV{DESTDIR}${PHP_INSTALL_SYSCONFDIR}\")
-  endif()
+  CODE
+    "
+      if(NOT IS_ABSOLUTE \"${PHP_INSTALL_SYSCONFDIR}\")
+        set(
+          sysconf_dir
+          \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/${PHP_INSTALL_SYSCONFDIR}\"
+        )
+      else()
+        set(sysconf_dir \"\$ENV{DESTDIR}${PHP_INSTALL_SYSCONFDIR}\")
+      endif()
 
-  if(EXISTS \"\${sysconf_dir}/php-fpm.conf\")
-    message(
-      STATUS
-      \"Skipping PHP FPM defconfig installation. Files already exist.\"
-    )
-  else()
-    message(STATUS \"Installing PHP FPM defconfig to \${sysconf_dir}\")
+      if(EXISTS \"\${sysconf_dir}/php-fpm.conf\")
+        message(
+          STATUS
+          \"Skipping PHP FPM defconfig installation. Files already exist.\"
+        )
+      else()
+        message(STATUS \"Installing PHP FPM defconfig to \${sysconf_dir}\")
 
-    file(MAKE_DIRECTORY \"\${sysconf_dir}/php-fpm.d\")
+        file(MAKE_DIRECTORY \"\${sysconf_dir}/php-fpm.d\")
 
-    file(
-      COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
-      \"\${sysconf_dir}/php-fpm.conf.default\"
-    )
+        file(
+          COPY_FILE
+          \"${CMAKE_CURRENT_BINARY_DIR}/php-fpm.conf\"
+          \"\${sysconf_dir}/php-fpm.conf.default\"
+        )
 
-    file(
-      COPY_FILE
-      \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
-      \"\${sysconf_dir}/php-fpm.d/www.conf.default\"
-    )
-  endif()"
+        file(
+          COPY_FILE
+          \"${CMAKE_CURRENT_BINARY_DIR}/www.conf\"
+          \"\${sysconf_dir}/php-fpm.d/www.conf.default\"
+        )
+      endif()"
   COMPONENT php-sapi-fpm
 )
 
@@ -642,8 +675,7 @@ install(
 configure_file(status.html.in status.html @ONLY)
 
 install(
-  FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/status.html
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/status.html
   DESTINATION ${PHP_INSTALL_DATADIR}/fpm
   COMPONENT php-sapi-fpm
 )
