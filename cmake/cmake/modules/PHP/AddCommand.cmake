@@ -401,6 +401,7 @@ function(php_add_command)
     add_custom_target(
       ${ARGV0}_implicit
       ALL
+      # gersemi: off
       COMMAND
         ${CMAKE_COMMAND}
         -D "PHP_OUTPUT=${parsed_OUTPUT}"
@@ -409,12 +410,14 @@ function(php_add_command)
         -D "PHP_OPTIONS=-d;extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
         -D "PHP_DEPENDS=${parsed_DEPENDS}"
         -P ${script}
+      # gersemi: on
       DEPENDS ${parsed_DEPENDS}
       VERBATIM
     )
   elseif(parsed_OUTPUT AND NOT parsed_EXCLUDE_FROM_ALL)
     add_custom_command(
       OUTPUT ${parsed_OUTPUT}
+      # gersemi: off
       COMMAND
         ${CMAKE_COMMAND}
         -D "PHP_OUTPUT=${parsed_OUTPUT}"
@@ -423,6 +426,7 @@ function(php_add_command)
         -D "PHP_OPTIONS=-d;extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
         -D "PHP_DEPENDS=${parsed_DEPENDS}"
         -P ${script}
+      # gersemi: on
       DEPENDS ${parsed_DEPENDS}
       COMMENT ""
       VERBATIM
@@ -431,6 +435,7 @@ function(php_add_command)
 
   add_custom_target(
     ${ARGV0}
+    # gersemi: off
     COMMAND
       ${CMAKE_COMMAND}
       -D "PHP_OUTPUT=${parsed_OUTPUT}"
@@ -440,6 +445,7 @@ function(php_add_command)
       -D "PHP_DEPENDS=${parsed_DEPENDS}"
       -D "PHP_EXECUTE_EXPLICITLY=TRUE"
       -P ${script}
+    # gersemi: on
     DEPENDS ${parsed_DEPENDS}
     VERBATIM
   )
@@ -447,17 +453,17 @@ function(php_add_command)
   # Run at the end of the configure phase.
   cmake_language(
     EVAL CODE
-    "cmake_language(
-      DEFER
-      DIRECTORY \"${PHP_SOURCE_DIR}\"
-      CALL _php_add_command_create_script
-      TARGET \"${ARGV0}\"
-      SCRIPT \"${script}\"
-      WORKING_DIRECTORY \"${parsed_WORKING_DIRECTORY}\"
-      REQUIRED_EXTENSIONS \"${parsed_REQUIRED_EXTENSIONS}\"
-      OPTIONAL_EXTENSIONS \"${parsed_OPTIONAL_EXTENSIONS}\"
-      COMMENT \"${parsed_COMMENT}\"
-    )"
+      "cmake_language(
+        DEFER
+        DIRECTORY \"${PHP_SOURCE_DIR}\"
+        CALL _php_add_command_create_script
+        TARGET \"${ARGV0}\"
+        SCRIPT \"${script}\"
+        WORKING_DIRECTORY \"${parsed_WORKING_DIRECTORY}\"
+        REQUIRED_EXTENSIONS \"${parsed_REQUIRED_EXTENSIONS}\"
+        OPTIONAL_EXTENSIONS \"${parsed_OPTIONAL_EXTENSIONS}\"
+        COMMENT \"${parsed_COMMENT}\"
+      )"
   )
 endfunction()
 

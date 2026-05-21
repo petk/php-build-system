@@ -169,6 +169,7 @@ if(PHP_TESTING)
   enable_testing()
 endif()
 
+# gersemi: off
 FetchContent_Declare(
   php
   URL ${php_url}
@@ -179,6 +180,7 @@ FetchContent_Declare(
     -P
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PhpBuildSystem/patch.cmake
 )
+# gersemi: on
 
 # Create script for the FetchContent_Declare(PATCH_COMMAND).
 file(
