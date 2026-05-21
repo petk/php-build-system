@@ -241,7 +241,9 @@ include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
   PHPConfigVersion.cmake
+  # gersemi: off
   VERSION "${PHP_VERSION}" # Set explicitly so also PHP_VERSION_LABEL is added.
+  # gersemi: on
   COMPATIBILITY AnyNewerVersion
 )
 

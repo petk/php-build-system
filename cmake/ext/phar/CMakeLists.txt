@@ -131,11 +131,9 @@ include(PHP/AddCommand)
 php_add_command(
   php_ext_phar_generate_stub_h
   AS_TARGET
-  ARGS
-    ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
-  PHP_EXTENSIONS tokenizer
-  OUTPUT
-    ${CMAKE_CURRENT_SOURCE_DIR}/stub.h
+  ARGS ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
+  REQUIRED_EXTENSIONS tokenizer
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/stub.h
   DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/makestub.php
     ${CMAKE_CURRENT_SOURCE_DIR}/shortarc.php
@@ -166,10 +164,10 @@ endif()
 set(
   php_options
   -n
-  -d open_basedir=
-  -d output_buffering=0
-  -d memory_limit=-1
-  -d phar.readonly=0
+  -dopen_basedir=
+  -doutput_buffering=0
+  -dmemory_limit=-1
+  -dphar.readonly=0
 )
 
 cmake_path(
@@ -187,11 +185,12 @@ endif()
 
 php_add_command(
   php_ext_phar_generate_phar_php
+  ${args}
   ARGS
     ${php_options}
     ${CMAKE_CURRENT_SOURCE_DIR}/build_precommand.php
-    > ${CMAKE_CURRENT_BINARY_DIR}/phar.php
-  ${args}
+    >
+    ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.php
   DEPENDS
     php_ext_phar
@@ -252,6 +251,8 @@ endforeach()
 
 php_add_command(
   php_ext_phar_generate_phar_phar
+  ${args}
+  # gersemi: off
   ARGS
     ${php_options}
     ${CMAKE_CURRENT_BINARY_DIR}/phar.php
@@ -265,7 +266,7 @@ php_add_command(
       -b "${shebang}"
       -l 1
       ${phar_sources_relative}
-  ${args}
+  # gersemi: on
   OPTIONAL_EXTENSIONS bz2 zlib
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
   DEPENDS
@@ -331,43 +332,48 @@ endif()
 # step is used to generate it to a destination directory because of the install
 # prefix used in shebang (when using 'cmake --install --prefix ...').
 install(DIRECTORY DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php)
-string(CONFIGURE [[
-  execute_process(
-    COMMAND
-      "@php_executable@"
-        @php_options@
-        "@CMAKE_CURRENT_BINARY_DIR@/phar.php"
-          pack
-          -f "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
-          -a pharcommand
-          -c auto
-          -p 0
-          -s "@CMAKE_CURRENT_SOURCE_DIR@/phar/phar.php"
-          -h sha1
-          -b "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:@php_target@>"
-          "@CMAKE_CURRENT_SOURCE_DIR@/phar"
-  )
+string(
+  CONFIGURE
+    [[
+    execute_process(
+      COMMAND
+        "@php_executable@"
+          @php_options@
+          "@CMAKE_CURRENT_BINARY_DIR@/phar.php"
+            pack
+            -f "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
+            -a pharcommand
+            -c auto
+            -p 0
+            -s "@CMAKE_CURRENT_SOURCE_DIR@/phar/phar.php"
+            -h sha1
+            -b "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:@php_target@>"
+            "@CMAKE_CURRENT_SOURCE_DIR@/phar"
+    )
 
-  file(
-    CREATE_LINK
-    @PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
-    "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
-    SYMBOLIC
-  )
-
-  file(
-    INSTALL
-      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
+    file(
+      CREATE_LINK
+      @PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
       "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
-    DESTINATION $<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>
-    FILE_PERMISSIONS
-      OWNER_READ
-      OWNER_WRITE
-      OWNER_EXECUTE
-      GROUP_READ
-      GROUP_EXECUTE
-      WORLD_READ
-      WORLD_EXECUTE
-  )
-]] code @ONLY)
+      SYMBOLIC
+    )
+
+    file(
+      INSTALL
+        "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
+        "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
+      DESTINATION $<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>
+      FILE_PERMISSIONS
+        OWNER_READ
+        OWNER_WRITE
+        OWNER_EXECUTE
+        GROUP_READ
+        GROUP_EXECUTE
+        WORLD_READ
+        WORLD_EXECUTE
+    )
+]]
+  code
+  @ONLY
+)
 install(CODE "${code}" COMPONENT php)

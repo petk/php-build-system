@@ -267,6 +267,7 @@ function(dtrace_target)
 
   add_custom_command(
     OUTPUT ${output}
+    # gersemi: off
     COMMAND
       CC="${CMAKE_C_COMPILER}"
       ${DTrace_EXECUTABLE}
@@ -274,6 +275,7 @@ function(dtrace_target)
       -G # Generate a SystemTap probe definition object file.
       -o ${output}
       -I${DTrace_INCLUDE_DIR}
+    # gersemi: on
     DEPENDS ${target}_object
     COMMENT "[DTrace] Generating DTrace probe object ${parent}/${output}"
     VERBATIM
