@@ -12,16 +12,25 @@ if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Darwin")
   # errors.
   message(STATUS "Setting -no_warning_for_no_symbols for targets")
 
-  set(CMAKE_C_ARCHIVE_CREATE   "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
+  set(CMAKE_C_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
   set(CMAKE_CXX_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
   set(CMAKE_ASM_ARCHIVE_CREATE "<CMAKE_AR> Scr <TARGET> <LINK_FLAGS> <OBJECTS>")
 
   # Xcode's libtool supports the -no_warning_for_no_symbols but llvm-ranlib
   # doesn't.
   if(NOT CMAKE_RANLIB MATCHES ".*llvm-ranlib$")
-    set(CMAKE_C_ARCHIVE_FINISH   "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-    set(CMAKE_CXX_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
-    set(CMAKE_ASM_ARCHIVE_FINISH "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>")
+    set(
+      CMAKE_C_ARCHIVE_FINISH
+      "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>"
+    )
+    set(
+      CMAKE_CXX_ARCHIVE_FINISH
+      "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>"
+    )
+    set(
+      CMAKE_ASM_ARCHIVE_FINISH
+      "<CMAKE_RANLIB> -no_warning_for_no_symbols -c <TARGET>"
+    )
   endif()
 endif()
 

@@ -33,8 +33,7 @@ if(
   if(PHP_HAS_FNO_OPTIMIZE_STRLEN_C)
     target_compile_options(
       php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-optimize-strlen>
     )
   endif()
 endif()
@@ -53,7 +52,11 @@ target_compile_options(
 
 php_check_compiler_flag(C -Wno-unused-parameter PHP_HAS_WNO_UNUSED_PARAMETER_C)
 if(CXX IN_LIST languages)
-  php_check_compiler_flag(CXX -Wno-unused-parameter PHP_HAS_WNO_UNUSED_PARAMETER_CXX)
+  php_check_compiler_flag(
+    CXX
+    -Wno-unused-parameter
+    PHP_HAS_WNO_UNUSED_PARAMETER_CXX
+  )
 endif()
 target_compile_options(
   php_config
@@ -153,7 +156,11 @@ target_compile_options(
 
 php_check_compiler_flag(C -Wformat-truncation PHP_HAS_WFORMAT_TRUNCATION_C)
 if(CXX IN_LIST languages)
-  php_check_compiler_flag(CXX -Wformat-truncation PHP_HAS_WFORMAT_TRUNCATION_CXX)
+  php_check_compiler_flag(
+    CXX
+    -Wformat-truncation
+    PHP_HAS_WFORMAT_TRUNCATION_CXX
+  )
 endif()
 target_compile_options(
   php_config
@@ -189,8 +196,7 @@ php_check_compiler_flag(C -ffp-contract=off PHP_HAS_FFP_CONTRACT_OFF_C)
 if(PHP_HAS_FFP_CONTRACT_OFF_C)
   target_compile_options(
     php_config
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:ASM,C>:-ffp-contract=off>
+    INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-ffp-contract=off>
   )
 endif()
 
@@ -270,31 +276,32 @@ if(PHP_ADDRESS_SANITIZER)
   message(CHECK_START "Checking address sanitizer compiler option")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=address")
+  set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=address")
 
-    php_check_compiler_flag(C -fsanitize=address PHP_HAS_ADDRESS_SANITIZER_C)
-    if(CXX IN_LIST languages)
-      php_check_compiler_flag(CXX -fsanitize=address PHP_HAS_ADDRESS_SANITIZER_CXX)
-    endif()
+  php_check_compiler_flag(C -fsanitize=address PHP_HAS_ADDRESS_SANITIZER_C)
+  if(CXX IN_LIST languages)
+    php_check_compiler_flag(
+      CXX
+      -fsanitize=address
+      PHP_HAS_ADDRESS_SANITIZER_CXX
+    )
+  endif()
   cmake_pop_check_state()
 
   if(PHP_HAS_ADDRESS_SANITIZER_C OR PHP_HAS_ADDRESS_SANITIZER_CXX)
     target_compile_options(
       php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fsanitize=address>
     )
 
     target_link_options(
       php_config
-      INTERFACE
-        $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=address>
+      INTERFACE $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=address>
     )
 
     target_compile_definitions(
       php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C,CXX>:ZEND_TRACK_ARENA_ALLOC>
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:ZEND_TRACK_ARENA_ALLOC>
     )
 
     message(CHECK_PASS "Success")
@@ -309,20 +316,16 @@ if(PHP_UNDEFINED_SANITIZER)
   message(CHECK_START "Checking undefined sanitizer compiler options")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=undefined")
+  set(CMAKE_REQUIRED_LINK_OPTIONS "-fsanitize=undefined")
 
+  php_check_compiler_flag(C -fsanitize=undefined PHP_HAS_UNDEFINED_SANITIZER_C)
+  if(CXX IN_LIST languages)
     php_check_compiler_flag(
-      C
+      CXX
       -fsanitize=undefined
-      PHP_HAS_UNDEFINED_SANITIZER_C
+      PHP_HAS_UNDEFINED_SANITIZER_CXX
     )
-    if(CXX IN_LIST languages)
-      php_check_compiler_flag(
-        CXX
-        -fsanitize=undefined
-        PHP_HAS_UNDEFINED_SANITIZER_CXX
-      )
-    endif()
+  endif()
   cmake_pop_check_state()
 
   if(PHP_HAS_UNDEFINED_SANITIZER_C OR PHP_HAS_UNDEFINED_SANITIZER_CXX)
@@ -341,33 +344,31 @@ if(PHP_UNDEFINED_SANITIZER)
     # Disable object-size sanitizer, because it is incompatible with the
     # zend_function union, and this can't be easily fixed.
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LINK_OPTIONS "-fno-sanitize=object-size")
+    set(CMAKE_REQUIRED_LINK_OPTIONS "-fno-sanitize=object-size")
 
+    php_check_compiler_flag(
+      C
+      -fno-sanitize=object-size
+      PHP_HAS_OBJECT_SIZE_SANITIZER_C
+    )
+    if(CXX IN_LIST languages)
       php_check_compiler_flag(
-        C
+        CXX
         -fno-sanitize=object-size
-        PHP_HAS_OBJECT_SIZE_SANITIZER_C
+        PHP_HAS_OBJECT_SIZE_SANITIZER_CXX
       )
-      if(CXX IN_LIST languages)
-        php_check_compiler_flag(
-          CXX
-          -fno-sanitize=object-size
-          PHP_HAS_OBJECT_SIZE_SANITIZER_CXX
-        )
-      endif()
+    endif()
     cmake_pop_check_state()
 
     if(PHP_HAS_OBJECT_SIZE_SANITIZER_C OR PHP_HAS_OBJECT_SIZE_SANITIZER_CXX)
       target_compile_options(
         php_config
-        INTERFACE
-          $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>
+        INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:-fno-sanitize=object-size>
       )
 
       target_link_options(
         php_config
-        INTERFACE
-          $<$<LINK_LANGUAGE:C,CXX>:-fno-sanitize=object-size>
+        INTERFACE $<$<LINK_LANGUAGE:C,CXX>:-fno-sanitize=object-size>
       )
     endif()
 
@@ -386,11 +387,13 @@ if(PHP_UNDEFINED_SANITIZER)
     endif()
 
     cmake_push_check_state(RESET)
-      set(
-        CMAKE_REQUIRED_FLAGS
-        "-fsanitize=undefined -fno-sanitize-recover=undefined"
-      )
-      check_source_runs(C [[
+    set(
+      CMAKE_REQUIRED_FLAGS
+      "-fsanitize=undefined -fno-sanitize-recover=undefined"
+    )
+    check_source_runs(
+      C
+      [[
         void foo(char *string) { (void)string; }
         int main(void)
         {
@@ -398,7 +401,9 @@ if(PHP_UNDEFINED_SANITIZER)
           f("foo");
           return 0;
         }
-      ]] PHP_HAS_UBSAN)
+      ]]
+      PHP_HAS_UBSAN
+    )
     cmake_pop_check_state()
 
     if(NOT PHP_HAS_UBSAN)
@@ -418,16 +423,14 @@ if(PHP_UNDEFINED_SANITIZER)
       if(PHP_HAS_FNO_SANITIZE_FUNCTION_C)
         target_compile_options(
           php_config
-          INTERFACE
-            $<$<COMPILE_LANGUAGE:ASM,C>:-fno-sanitize=function>
+          INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-sanitize=function>
         )
       endif()
 
       if(PHP_HAS_FNO_SANITIZE_FUNCTION_CXX)
         target_compile_options(
           php_config
-          INTERFACE
-            $<$<COMPILE_LANGUAGE:CXX>:-fno-sanitize=function>
+          INTERFACE $<$<COMPILE_LANGUAGE:CXX>:-fno-sanitize=function>
         )
       endif()
     endif()
@@ -456,16 +459,14 @@ if(PHP_MEMORY_SANITIZER OR PHP_ADDRESS_SANITIZER OR PHP_UNDEFINED_SANITIZER)
   if(PHP_HAS_FNO_OMIT_FRAME_POINTER_C)
     target_compile_options(
       php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:ASM,C>:-fno-omit-frame-pointer>
+      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C>:-fno-omit-frame-pointer>
     )
   endif()
 
   if(PHP_HAS_FNO_OMIT_FRAME_POINTER_CXX)
     target_compile_options(
       php_config
-      INTERFACE
-        $<$<COMPILE_LANGUAGE:CXX>:-fno-omit-frame-pointer>
+      INTERFACE $<$<COMPILE_LANGUAGE:CXX>:-fno-omit-frame-pointer>
     )
   endif()
 endif()

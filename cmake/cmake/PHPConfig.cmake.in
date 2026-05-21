@@ -122,9 +122,7 @@ include(FeatureSummary)
 
 set_package_properties(
   PHP
-  PROPERTIES
-    URL "@PHP_HOMEPAGE_URL@"
-    DESCRIPTION "@PHP_DESCRIPTION@"
+  PROPERTIES URL "@PHP_HOMEPAGE_URL@" DESCRIPTION "@PHP_DESCRIPTION@"
 )
 
 ################################################################################
@@ -133,8 +131,7 @@ set_package_properties(
 
 if(CMAKE_VERSION VERSION_LESS @CMAKE_MINIMUM_REQUIRED_VERSION@)
   string(
-    CONCAT
-    ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
+    CONCAT ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
     "${CMAKE_FIND_PACKAGE_NAME} ${${CMAKE_FIND_PACKAGE_NAME}_VERSION} requires "
     "CMake @CMAKE_MINIMUM_REQUIRED_VERSION@ or higher.\n"
     "You are running CMake version ${CMAKE_VERSION}"
@@ -173,8 +170,7 @@ foreach(component IN LISTS ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)
 
     if(${CMAKE_FIND_PACKAGE_NAME}_FIND_REQUIRED_${component})
       string(
-        APPEND
-        ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
+        APPEND ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
         " ${component}"
       )
     endif()
@@ -197,8 +193,7 @@ endforeach()
 
 if(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE)
   string(
-    PREPEND
-    ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
+    PREPEND ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
     "PHP: Missing required components: "
   )
 endif()
@@ -221,8 +216,14 @@ set(PHP_API_VERSION "@PHP_API_VERSION@")
 set(PHP_PROGRAM_PREFIX "@PHP_PROGRAM_PREFIX@")
 set(PHP_PROGRAM_SUFFIX "@PHP_PROGRAM_SUFFIX@")
 set(PHP_THREAD_SAFETY "@PHP_THREAD_SAFETY@")
-set(PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>")
-set(PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>")
+set(
+  PHP_ZEND_EXTENSION_API_NO
+  "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>"
+)
+set(
+  PHP_ZEND_MODULE_API_NO
+  "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>"
+)
 set(PHP_ZEND_VERSION "$<TARGET_PROPERTY:PHP::Zend,VERSION>")
 
 ################################################################################

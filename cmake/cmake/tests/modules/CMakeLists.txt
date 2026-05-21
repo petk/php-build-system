@@ -1,12 +1,5 @@
 function(php_add_test)
-  cmake_parse_arguments(
-    PARSE_ARGV
-    0
-    parsed
-    ""
-    "NAME;DIR"
-    ""
-  )
+  cmake_parse_arguments(PARSE_ARGV 0 parsed "" "NAME;DIR" "")
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
@@ -26,11 +19,13 @@ function(php_add_test)
 
   add_test(
     NAME ${parsed_NAME}
+    # gersemi: off
     COMMAND
       ${CMAKE_COMMAND}
       -DCMAKE_MODULE_PATH=${CMAKE_CURRENT_FUNCTION_LIST_DIR}/../../modules
       -B ${CMAKE_CURRENT_BINARY_DIR}/${parsed_DIR}
       -S ${CMAKE_CURRENT_SOURCE_DIR}/${parsed_DIR}
+    # gersemi: on
   )
 endfunction()
 
@@ -54,7 +49,8 @@ set_tests_properties(
   PhpCMakeModuleInternalSummaryConflictingExtensions
   PROPERTIES
     WILL_FAIL TRUE
-    FAIL_REGULAR_EXPRESSION "Please reconfigure PHP extensions, aborting CMake run."
+    FAIL_REGULAR_EXPRESSION
+      "Please reconfigure PHP extensions, aborting CMake run."
 )
 
 php_add_test(
@@ -65,7 +61,8 @@ set_tests_properties(
   PhpCMakeModuleInternalSummaryRequiredExtensions
   PROPERTIES
     WILL_FAIL TRUE
-    FAIL_REGULAR_EXPRESSION "Please reconfigure PHP extensions, aborting CMake run."
+    FAIL_REGULAR_EXPRESSION
+      "Please reconfigure PHP extensions, aborting CMake run."
 )
 
 php_add_test(NAME PhpCMakeModuleSearchLibraries DIR SearchLibraries)

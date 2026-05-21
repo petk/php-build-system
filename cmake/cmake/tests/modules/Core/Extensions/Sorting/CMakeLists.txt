@@ -20,25 +20,13 @@ foreach(extension IN LISTS extensions)
   add_library(PHP::ext::${extension} ALIAS php_ext_${extension})
 endforeach()
 
-set_target_properties(
-  php_ext_pdo_sqlite
-  PROPERTIES PHP_REQUIRED_EXTENSIONS pdo
-)
+set_target_properties(php_ext_pdo_sqlite PROPERTIES PHP_REQUIRED_EXTENSIONS pdo)
 
-set_target_properties(
-  php_ext_dom
-  PROPERTIES PHP_REQUIRED_EXTENSIONS libxml
-)
+set_target_properties(php_ext_dom PROPERTIES PHP_REQUIRED_EXTENSIONS libxml)
 
-set_target_properties(
-  php_ext_exif
-  PROPERTIES PHP_OPTIONAL_EXTENSIONS mbstring
-)
+set_target_properties(php_ext_exif PROPERTIES PHP_OPTIONAL_EXTENSIONS mbstring)
 
-set_target_properties(
-  php_ext_exif
-  PROPERTIES PHP_RECOMMENDED_EXTENSIONS foo
-)
+set_target_properties(php_ext_exif PROPERTIES PHP_RECOMMENDED_EXTENSIONS foo)
 
 php_extensions_sort(extensions)
 
