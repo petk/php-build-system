@@ -20,8 +20,10 @@ if(NOT DEFINED PHP_ZEND_HAVE_ASM_GOTO)
   message(CHECK_START "Checking for the inline assembly __asm__ goto support")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(
+    C
+    [[
       int main(void)
       {
         #if defined(__x86_64__) || defined(__i386__)
@@ -32,7 +34,9 @@ if(NOT DEFINED PHP_ZEND_HAVE_ASM_GOTO)
         end:
           return 0;
       }
-    ]] PHP_ZEND_HAVE_ASM_GOTO)
+    ]]
+    PHP_ZEND_HAVE_ASM_GOTO
+  )
   cmake_pop_check_state()
 
   if(PHP_ZEND_HAVE_ASM_GOTO)

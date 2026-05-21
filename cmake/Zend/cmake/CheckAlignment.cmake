@@ -41,42 +41,44 @@ block(
   try_run(
     PHP_ZEND_MM_EXITCODE
     PHP_ZEND_MM_COMPILED
-    SOURCE_FROM_CONTENT src.c [[
-      #include <stdio.h>
-      #include <stdlib.h>
+    SOURCE_FROM_CONTENT
+      src.c
+      [[
+        #include <stdio.h>
+        #include <stdlib.h>
 
-      typedef union _mm_align_test {
-        void *ptr;
-        double dbl;
-        long lng;
-      } mm_align_test;
+        typedef union _mm_align_test {
+          void *ptr;
+          double dbl;
+          long lng;
+        } mm_align_test;
 
-      #if (defined (__GNUC__) && __GNUC__ >= 2)
-      # define ZEND_MM_ALIGNMENT (__alignof__ (mm_align_test))
-      #else
-      # define ZEND_MM_ALIGNMENT (sizeof(mm_align_test))
-      #endif
+        #if (defined (__GNUC__) && __GNUC__ >= 2)
+        # define ZEND_MM_ALIGNMENT (__alignof__ (mm_align_test))
+        #else
+        # define ZEND_MM_ALIGNMENT (sizeof(mm_align_test))
+        #endif
 
-      int main(void)
-      {
-        size_t i = ZEND_MM_ALIGNMENT;
-        int zeros = 0;
+        int main(void)
+        {
+          size_t i = ZEND_MM_ALIGNMENT;
+          int zeros = 0;
 
-        while (i & ~0x1) {
-          zeros++;
-          i = i >> 1;
+          while (i & ~0x1) {
+            zeros++;
+            i = i >> 1;
+          }
+
+          printf(
+            "(size_t)%zu (size_t)%d %d\n",
+            ZEND_MM_ALIGNMENT,
+            zeros,
+            ZEND_MM_ALIGNMENT < 4
+          );
+
+          return 0;
         }
-
-        printf(
-          "(size_t)%zu (size_t)%d %d\n",
-          ZEND_MM_ALIGNMENT,
-          zeros,
-          ZEND_MM_ALIGNMENT < 4
-        );
-
-        return 0;
-      }
-    ]]
+      ]]
     RUN_OUTPUT_VARIABLE PHP_ZEND_MM_OUTPUT
   )
 
@@ -95,9 +97,7 @@ block(
     list(GET PHP_ZEND_MM_OUTPUT 2 ZEND_MM_NEED_EIGHT_BYTE_REALIGNMENT)
   else()
     message(CHECK_FAIL "failed")
-    message(
-      FATAL_ERROR
-      "ZEND_MM alignment values couldn't be determined.")
+    message(FATAL_ERROR "ZEND_MM alignment values couldn't be determined.")
   endif()
 endblock()
 
