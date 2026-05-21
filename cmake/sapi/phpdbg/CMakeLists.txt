@@ -54,11 +54,7 @@ include(FeatureSummary)
 ################################################################################
 
 option(PHP_SAPI_PHPDBG "Enable the phpdbg SAPI module" ON)
-add_feature_info(
-  "sapi/phpdbg"
-  PHP_SAPI_PHPDBG
-  "interactive PHP debugger"
-)
+add_feature_info("sapi/phpdbg" PHP_SAPI_PHPDBG "interactive PHP debugger")
 
 cmake_dependent_option(
   PHP_SAPI_PHPDBG_SHARED
@@ -154,9 +150,7 @@ foreach(target IN ITEMS php_sapi_phpdbg php_sapi_phpdbg_shared)
 
   target_link_libraries(
     ${target}
-    PRIVATE
-      $<BUILD_INTERFACE:PHP::sapi>
-      $<$<PLATFORM_ID:Windows>:ws2_32;user32>
+    PRIVATE $<BUILD_INTERFACE:PHP::sapi> $<$<PLATFORM_ID:Windows>:ws2_32;user32>
   )
 
   set_target_properties(
@@ -181,9 +175,7 @@ set_target_properties(
 if(TARGET php_sapi_phpdbg_shared)
   set_target_properties(
     php_sapi_phpdbg_shared
-    PROPERTIES
-      EXPORT_NAME phpdbg_lib
-      PREFIX lib
+    PROPERTIES EXPORT_NAME phpdbg_lib PREFIX lib
   )
 endif()
 
@@ -269,9 +261,7 @@ endif()
 install(
   TARGETS php_sapi_phpdbg
   EXPORT php_sapi_phpdbg_export
-  RUNTIME
-    DESTINATION ${PHP_INSTALL_BINDIR}
-    COMPONENT php-sapi-phpdbg
+  RUNTIME DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php-sapi-phpdbg
 )
 
 install(
@@ -305,22 +295,30 @@ if(TARGET php_sapi_phpdbg_shared)
     VARIABLES
       prefix "$<INSTALL_PREFIX>"
       exec_prefix "$<INSTALL_PREFIX>"
-      includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
-      libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
+      includedir
+        "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
+      libdir
+        "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
       PHP_INSTALL_INCLUDEDIR_SUFFIX "${PHP_INSTALL_INCLUDEDIR_SUFFIX}"
       PHP_VERSION "${PHP_VERSION}"
       PHP_VERSION_ID "${PHP_VERSION_ID}"
       PHP_HOMEPAGE_URL "${PHP_HOMEPAGE_URL}"
       PHP_SPDX_LICENSE "${PHP_SPDX_LICENSE}"
-      PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
-      PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
-      PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
+      PHP_EXTENSION_DIR
+        "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
+      PHP_CONFIG_FILE_SCAN_DIR
+        "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+      PHP_CONFIG_FILE_PATH
+        "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
       PHP_DEBUG "$<IF:$<CONFIG:Debug,PhpRelWithDebInfo>,yes,no>"
       PHP_THREAD_SAFETY "$<IF:$<BOOL:${PHP_THREAD_SAFETY}>,yes,no>"
-      PHP_PHPDBG_SAPI_NAME "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_phpdbg_shared,OUTPUT_NAME>>"
+      PHP_PHPDBG_SAPI_NAME
+        "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_phpdbg_shared,OUTPUT_NAME>>"
       PHP_API_VERSION "${PHP_API_VERSION}"
-      PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>"
-      PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>"
+      PHP_ZEND_EXTENSION_API_NO
+        "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>"
+      PHP_ZEND_MODULE_API_NO
+        "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>"
   )
 
   install(
@@ -333,12 +331,8 @@ if(TARGET php_sapi_phpdbg_shared)
   install(
     TARGETS php_sapi_phpdbg_shared
     EXPORT php_sapi_phpdbg_lib_export
-    LIBRARY
-      DESTINATION ${CMAKE_INSTALL_LIBDIR}
-      COMPONENT php-sapi-phpdbg
-    RUNTIME
-      DESTINATION ${CMAKE_INSTALL_LIBDIR}
-      COMPONENT php-sapi-phpdbg
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT php-sapi-phpdbg
+    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT php-sapi-phpdbg
   )
 
   install(

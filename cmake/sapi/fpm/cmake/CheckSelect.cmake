@@ -14,9 +14,11 @@ if(NOT DEFINED PHP_SAPI_FPM_HAVE_SELECT)
   message(CHECK_START "Checking for select")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  check_source_compiles(
+    C
+    [[
       /* According to POSIX.1-2001 */
       #include <sys/select.h>
 
@@ -38,7 +40,9 @@ if(NOT DEFINED PHP_SAPI_FPM_HAVE_SELECT)
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAVE_SELECT)
+    ]]
+    PHP_SAPI_FPM_HAVE_SELECT
+  )
   cmake_pop_check_state()
 
   if(PHP_SAPI_FPM_HAVE_SELECT)

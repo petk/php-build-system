@@ -35,8 +35,10 @@ if(
   endif()
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_runs(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_runs(
+    C
+    [[
       #include <mach/mach.h>
       #include <mach/clock.h>
       #include <mach/mach_error.h>
@@ -59,7 +61,9 @@ if(
 
         return 0;
       }
-    ]] PHP_SAPI_FPM_HAVE_CLOCK_GET_TIME)
+    ]]
+    PHP_SAPI_FPM_HAVE_CLOCK_GET_TIME
+  )
   cmake_pop_check_state()
 
   if(PHP_SAPI_FPM_HAVE_CLOCK_GET_TIME)
