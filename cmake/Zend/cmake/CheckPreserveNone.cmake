@@ -22,9 +22,11 @@ if(NOT DEFINED PHP_ZEND_HAVE_PRESERVE_NONE)
   message(CHECK_START "Checking for preserve_none calling convention")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_runs(C [[
+  check_source_runs(
+    C
+    [[
       #if defined __has_attribute
       # if !__has_attribute(preserve_none)
       #  error "Compiler does not support preserve_none attribute."
@@ -121,7 +123,9 @@ if(NOT DEFINED PHP_ZEND_HAVE_PRESERVE_NONE)
 
         return 0;
       }
-    ]] PHP_ZEND_HAVE_PRESERVE_NONE)
+    ]]
+    PHP_ZEND_HAVE_PRESERVE_NONE
+  )
   cmake_pop_check_state()
 
   if(PHP_ZEND_HAVE_PRESERVE_NONE)

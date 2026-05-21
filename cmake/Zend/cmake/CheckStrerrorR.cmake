@@ -31,10 +31,12 @@ if(NOT DEFINED PHP_ZEND_STRERROR_R_CHAR_P)
   message(CHECK_START "Checking strerror_r() return type")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  check_source_compiles(
+    C
+    [[
       #include <string.h>
 
       int main(void)
@@ -44,7 +46,9 @@ if(NOT DEFINED PHP_ZEND_STRERROR_R_CHAR_P)
         char *p = strerror_r (0, buf, sizeof buf);
         return !p || x;
       }
-    ]] PHP_ZEND_STRERROR_R_CHAR_P)
+    ]]
+    PHP_ZEND_STRERROR_R_CHAR_P
+  )
   cmake_pop_check_state()
 
   if(PHP_ZEND_STRERROR_R_CHAR_P)

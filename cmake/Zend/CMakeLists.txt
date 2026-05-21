@@ -335,17 +335,13 @@ target_link_libraries(php_zend PRIVATE PHP::config)
 
 target_include_directories(
   php_zend
-  INTERFACE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
+  INTERFACE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_compile_definitions(
   php_zend
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-  PUBLIC
-    $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PUBLIC $<$<PLATFORM_ID:Windows>:LIBZEND_EXPORTS>
 )
 
 set_target_properties(
@@ -424,9 +420,9 @@ check_symbol_exists(getpid unistd.h PHP_ZEND_HAVE_GETPID)
 set(HAVE_GETPID ${PHP_ZEND_HAVE_GETPID})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(gettid unistd.h PHP_ZEND_HAVE_GETTID)
-  set(HAVE_GETTID ${PHP_ZEND_HAVE_GETTID})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(gettid unistd.h PHP_ZEND_HAVE_GETTID)
+set(HAVE_GETTID ${PHP_ZEND_HAVE_GETTID})
 cmake_pop_check_state()
 
 check_symbol_exists(kill signal.h PHP_ZEND_HAVE_KILL)
@@ -436,9 +432,9 @@ check_symbol_exists(mempcpy string.h PHP_ZEND_HAVE_MEMPCPY)
 set(HAVE_MEMPCPY ${PHP_ZEND_HAVE_MEMPCPY})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(mremap sys/mman.h PHP_ZEND_HAVE_MREMAP)
-  set(HAVE_MREMAP ${PHP_ZEND_HAVE_MREMAP})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(mremap sys/mman.h PHP_ZEND_HAVE_MREMAP)
+set(HAVE_MREMAP ${PHP_ZEND_HAVE_MREMAP})
 cmake_pop_check_state()
 
 block(PROPAGATE HAVE_PTHREAD_ATTR_GET_NP)
@@ -473,13 +469,13 @@ check_symbol_exists(
 set(HAVE_PTHREAD_GET_STACKADDR_NP ${PHP_ZEND_HAVE_PTHREAD_GET_STACKADDR_NP})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(
-    pthread_getattr_np
-    pthread.h
-    PHP_ZEND_HAVE_PTHREAD_GETATTR_NP
-  )
-  set(HAVE_PTHREAD_GETATTR_NP ${PHP_ZEND_HAVE_PTHREAD_GETATTR_NP})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(
+  pthread_getattr_np
+  pthread.h
+  PHP_ZEND_HAVE_PTHREAD_GETATTR_NP
+)
+set(HAVE_PTHREAD_GETATTR_NP ${PHP_ZEND_HAVE_PTHREAD_GETATTR_NP})
 cmake_pop_check_state()
 
 check_symbol_exists(
@@ -546,8 +542,7 @@ if(NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
   php_add_command(
     php_zend_generate_vm
     AS_TARGET
-    ARGS
-      ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
+    ARGS ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_gen.php
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_execute.h
       ${CMAKE_CURRENT_SOURCE_DIR}/zend_vm_handlers.h
@@ -567,17 +562,12 @@ configure_file(cmake/zend_config.h.in CMakeFiles/zend_config.h)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   cmake_path(
-    RELATIVE_PATH
-    CMAKE_CURRENT_BINARY_DIR
+    RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relative_dir
   )
   message(STATUS "Creating ${relative_dir}/zend_config.h")
-  file(
-    CONFIGURE
-    OUTPUT zend_config.h
-    CONTENT "#include <php_config.h>\n"
-  )
+  file(CONFIGURE OUTPUT zend_config.h CONTENT "#include <php_config.h>\n")
 endif()
 
 install(

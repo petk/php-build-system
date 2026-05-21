@@ -14,8 +14,7 @@ include_guard(GLOBAL)
 # Set Zend Engine version variables.
 block(PROPAGATE PHP_ZEND_VERSION PHP_ZEND_VERSION_LABEL)
   file(
-    STRINGS
-    zend.h
+    STRINGS zend.h
     _
     REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_VERSION[ \t]+\"([0-9.]+)([^\"]*)"
   )
@@ -35,8 +34,7 @@ function(_php_zend_version_post_project)
 
   # Get extensions API number.
   file(
-    STRINGS
-    zend_extensions.h
+    STRINGS zend_extensions.h
     _
     REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)"
   )
@@ -44,8 +42,7 @@ function(_php_zend_version_post_project)
 
   # Get modules API number.
   file(
-    STRINGS
-    zend_modules.h
+    STRINGS zend_modules.h
     _
     REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)"
   )
