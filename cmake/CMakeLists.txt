@@ -55,9 +55,7 @@ add_library(php_config INTERFACE)
 add_library(PHP::config ALIAS php_config)
 target_include_directories(
   php_config
-  INTERFACE
-    ${PHP_BINARY_DIR}
-    ${PHP_SOURCE_DIR}
+  INTERFACE ${PHP_BINARY_DIR} ${PHP_SOURCE_DIR}
 )
 
 # Interface library that ties objects and configuration together for PHP SAPIs.
@@ -80,8 +78,8 @@ target_include_directories(
 target_compile_definitions(
   php_extension
   INTERFACE
-  $<INSTALL_INTERFACE:HAVE_CONFIG_H;ZEND_COMPILE_DL_EXT>
-  $<BUILD_INTERFACE:$<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:ZEND_COMPILE_DL_EXT>>
+    $<INSTALL_INTERFACE:HAVE_CONFIG_H;ZEND_COMPILE_DL_EXT>
+    $<BUILD_INTERFACE:$<$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>:ZEND_COMPILE_DL_EXT>>
 )
 
 ################################################################################
@@ -89,28 +87,32 @@ target_compile_definitions(
 ################################################################################
 
 # Warn about the '--prefix' option at the 'cmake --install' phase.
-string(CONFIGURE [[
-  cmake_minimum_required(VERSION 4.3...4.4)
+string(
+  CONFIGURE
+    [[
+      cmake_minimum_required(VERSION 4.3...4.4)
 
-  if(NOT "@CMAKE_INSTALL_PREFIX@" PATH_EQUAL "$<INSTALL_PREFIX>")
-    message(
-      WARNING
-      "\n"
-      "************************************************************************"
-      "\nWARNING:\n"
-      "The installation prefix (CMAKE_INSTALL_PREFIX) configured at the "
-      "configure phase '@CMAKE_INSTALL_PREFIX@' differs from the prefix set at "
-      "the install phase '$<INSTALL_PREFIX>'.\n"
-      "PHP is not relocatable software as it has absolute paths hardcoded in "
-      "the <main/build-defs.h> header and cannot utilize relative paths yet. "
-      "For now, please configure the installation prefix only at the configure "
-      "phase. The '--prefix' option at the install phase "
-      "'cmake --install <build-dir>', won't be properly utilized."
-      "\n"
-      "************************************************************************"
-    )
-  endif()
-]] code)
+      if(NOT "@CMAKE_INSTALL_PREFIX@" PATH_EQUAL "$<INSTALL_PREFIX>")
+        message(
+          WARNING
+          "\n"
+          "********************************************************************"
+          "\nWARNING:\n"
+          "The installation prefix (CMAKE_INSTALL_PREFIX) configured at the "
+          "configure phase '@CMAKE_INSTALL_PREFIX@' differs from the prefix "
+          "set at the install phase '$<INSTALL_PREFIX>'.\n"
+          "PHP is not relocatable software as it has absolute paths hardcoded "
+          "in the <main/build-defs.h> header and cannot utilize relative paths "
+          "yet. For now, please configure the installation prefix only at the "
+          "configure phase. The '--prefix' option at the install phase "
+          "'cmake --install <build-dir>', won't be properly utilized."
+          "\n"
+          "********************************************************************"
+        )
+      endif()
+    ]]
+  code
+)
 install(CODE "${code}" ALL_COMPONENTS)
 
 define_property(
@@ -241,9 +243,7 @@ include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
   PHPConfigVersion.cmake
-  # gersemi: off
-  VERSION "${PHP_VERSION}" # Set explicitly so also PHP_VERSION_LABEL is added.
-  # gersemi: on
+  VERSION "${PHP_VERSION}" # Explicitly set so also PHP_VERSION_LABEL is added.
   COMPATIBILITY AnyNewerVersion
 )
 
@@ -261,8 +261,7 @@ configure_package_config_file(
 
 # Evaluate hardcoded generator expressions inside variable values.
 file(
-  GENERATE
-  OUTPUT PHPConfig.cmake
+  GENERATE OUTPUT PHPConfig.cmake
   INPUT ${CMAKE_CURRENT_BINARY_DIR}/PHPConfig.cmake
 )
 
@@ -275,10 +274,7 @@ target_include_directories(
     $<INSTALL_INTERFACE:${PHP_INSTALL_INCLUDEDIR}/Zend>
 )
 
-install(
-  TARGETS php_extension
-  EXPORT php_development_export
-)
+install(TARGETS php_extension EXPORT php_development_export)
 
 install(
   EXPORT php_development_export
@@ -320,11 +316,7 @@ install(
 
 # Ensure empty extension directory is created even when no shared extensions are
 # installed.
-install(
-  DIRECTORY
-  DESTINATION ${PHP_EXTENSION_DIR}
-  COMPONENT php-development
-)
+install(DIRECTORY DESTINATION ${PHP_EXTENSION_DIR} COMPONENT php-development)
 
 # Ensure empty sysconf directory is created even when no configuration files are
 # installed.
@@ -348,7 +340,8 @@ if(PHP_ENABLE_CMAKE_EXPERIMENTAL_FEATURES)
   set(CMAKE_EXPERIMENTAL_GENERATE_SBOM "ca494ed3-b261-4205-a01f-603c95e4cae0")
 
   install(
-    SBOM PHP
+    SBOM
+    PHP
     EXPORT php_development_export
     DESTINATION ${PHP_INSTALL_SBOM_DIR}
     COMPONENT php-development
