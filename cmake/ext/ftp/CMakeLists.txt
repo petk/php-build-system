@@ -22,21 +22,14 @@ Explicitly enables or disables FTP over SSL support.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_FTP
-  LANGUAGES C
-)
+project(PHP_EXT_FTP LANGUAGES C)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_FTP "Enable the ftp extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/ftp"
-  PHP_EXT_FTP
-  "File Transfer Protocol (FTP) support"
-)
+add_feature_info("ext/ftp" PHP_EXT_FTP "File Transfer Protocol (FTP) support")
 
 cmake_dependent_option(
   PHP_EXT_FTP_SSL
@@ -61,13 +54,7 @@ else()
   add_library(php_ext_ftp OBJECT)
 endif()
 
-target_sources(
-  php_ext_ftp
-  PRIVATE
-    ftp.c
-    ftp.stub.php
-    php_ftp.c
-)
+target_sources(php_ext_ftp PRIVATE ftp.c ftp.stub.php php_ftp.c)
 
 target_include_directories(php_ext_ftp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -76,9 +63,7 @@ if(PHP_EXT_FTP_SSL)
   find_package(OpenSSL ${PHP_PACKAGE_OPENSSL_MIN_VERSION} COMPONENTS SSL)
   set_package_properties(
     OpenSSL
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the ftp extension."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the ftp extension."
   )
 
   target_link_libraries(php_ext_ftp PRIVATE OpenSSL::SSL)
@@ -86,11 +71,7 @@ if(PHP_EXT_FTP_SSL)
   set(HAVE_FTP_SSL TRUE)
 endif()
 
-add_feature_info(
-  "ext/ftp SSL"
-  HAVE_FTP_SSL
-  "FTP over SSL"
-)
+add_feature_info("ext/ftp SSL" HAVE_FTP_SSL "FTP over SSL")
 
 set(HAVE_FTP TRUE)
 

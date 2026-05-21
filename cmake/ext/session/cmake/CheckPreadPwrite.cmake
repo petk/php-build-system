@@ -50,35 +50,38 @@ function(_php_ext_session_check_pread result)
     return(PROPAGATE ${result})
   endif()
 
-  set(code [[
-    #define xstr(s) str(s)
-    #define str(s) #s
+  set(
+    code
+    [[
+      #define xstr(s) str(s)
+      #define str(s) #s
 
-    #include <sys/types.h>
-    #include <sys/stat.h>
-    #include <fcntl.h>
-    #include <unistd.h>
-    #include <errno.h>
-    #include <stdlib.h>
+      #include <sys/types.h>
+      #include <sys/stat.h>
+      #include <fcntl.h>
+      #include <unistd.h>
+      #include <errno.h>
+      #include <stdlib.h>
 
-    /* Provide a missing declaration. */
-    #ifdef PHP_PREAD_64
-    ssize_t pread(int, void *, size_t, off64_t);
-    #endif
+      /* Provide a missing declaration. */
+      #ifdef PHP_PREAD_64
+      ssize_t pread(int, void *, size_t, off64_t);
+      #endif
 
-    int main(void)
-    {
-      char buf[3];
-      int fd = open(xstr(TMP_FILE), O_RDONLY);
+      int main(void)
+      {
+        char buf[3];
+        int fd = open(xstr(TMP_FILE), O_RDONLY);
 
-      if (fd < 0) return 1;
-      if (pread(fd, buf, 2, 0) != 2) return 1;
-      /* Linux glibc breakage until 2.2.5 */
-      if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
+        if (fd < 0) return 1;
+        if (pread(fd, buf, 2, 0) != 2) return 1;
+        /* Linux glibc breakage until 2.2.5 */
+        if (pread(fd, buf, 2, -1) != -1 || errno != EINVAL) return 1;
 
-      return 0;
-    }
-  ]])
+        return 0;
+      }
+    ]]
+  )
 
   check_symbol_exists(pread unistd.h PHP_EXT_SESSION_HAVE_PREAD_SYMBOL)
 
@@ -90,12 +93,14 @@ function(_php_ext_session_check_pread result)
   # argument of type 'off64_t'.
   if(NOT PHP_EXT_SESSION_HAVE_PREAD_SYMBOL)
     cmake_push_check_state(RESET)
-      # Needs '_GNU_SOURCE' to enable 64-bit variant.
-      set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-      set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${file} -DPHP_PREAD_64)
+    # Needs '_GNU_SOURCE' to enable 64-bit variant.
+    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-      check_source_compiles(C "${code}" PHP_PREAD_64)
+    set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${file} -DPHP_PREAD_64)
+
+    check_source_compiles(C "${code}" PHP_PREAD_64)
+
     cmake_pop_check_state()
 
     if(NOT PHP_PREAD_64)
@@ -106,17 +111,19 @@ function(_php_ext_session_check_pread result)
   message(CHECK_START "Checking whether pread() works")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    # Needs '_GNU_SOURCE' to enable 64-bit variant.
-    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${file})
-    if(PHP_PREAD_64)
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PREAD_64)
-    endif()
+  # Needs '_GNU_SOURCE' to enable 64-bit variant.
+  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-    check_source_runs(C "${code}" PHP_EXT_SESSION_HAVE_PREAD)
+  set(CMAKE_REQUIRED_DEFINITIONS -DTMP_FILE=${file})
+  if(PHP_PREAD_64)
+    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PREAD_64)
+  endif()
+
+  check_source_runs(C "${code}" PHP_EXT_SESSION_HAVE_PREAD)
+
   cmake_pop_check_state()
 
   if(PHP_EXT_SESSION_HAVE_PREAD)
@@ -144,34 +151,37 @@ function(_php_ext_session_check_pwrite result)
     return(PROPAGATE ${result})
   endif()
 
-  set(code [[
-    #define xstr(s) str(s)
-    #define str(s) #s
+  set(
+    code
+    [[
+      #define xstr(s) str(s)
+      #define str(s) #s
 
-    #include <sys/types.h>
-    #include <sys/stat.h>
-    #include <fcntl.h>
-    #include <unistd.h>
-    #include <errno.h>
-    #include <stdlib.h>
+      #include <sys/types.h>
+      #include <sys/stat.h>
+      #include <fcntl.h>
+      #include <unistd.h>
+      #include <errno.h>
+      #include <stdlib.h>
 
-    /* Provide a missing declaration. */
-    #ifdef PHP_PWRITE_64
-    ssize_t pwrite(int, void *, size_t, off64_t);
-    #endif
+      /* Provide a missing declaration. */
+      #ifdef PHP_PWRITE_64
+      ssize_t pwrite(int, void *, size_t, off64_t);
+      #endif
 
-    int main(void)
-    {
-      int fd = open(xstr(TMP_FILE), O_WRONLY|O_CREAT, 0600);
+      int main(void)
+      {
+        int fd = open(xstr(TMP_FILE), O_WRONLY|O_CREAT, 0600);
 
-      if (fd < 0) return 1;
-      if (pwrite(fd, "text", 4, 0) != 4) return 1;
-      /* Linux glibc breakage until 2.2.5 */
-      if (pwrite(fd, "text", 4, -1) != -1 || errno != EINVAL) return 1;
+        if (fd < 0) return 1;
+        if (pwrite(fd, "text", 4, 0) != 4) return 1;
+        /* Linux glibc breakage until 2.2.5 */
+        if (pwrite(fd, "text", 4, -1) != -1 || errno != EINVAL) return 1;
 
-      return 0;
-    }
-  ]])
+        return 0;
+      }
+    ]]
+  )
 
   check_symbol_exists(pwrite unistd.h PHP_EXT_SESSION_HAVE_PWRITE_SYMBOL)
 
@@ -181,16 +191,18 @@ function(_php_ext_session_check_pwrite result)
   # of pwrite() should have the type 'const void*', otherwise compilation fails.
   if(NOT PHP_EXT_SESSION_HAVE_PWRITE_SYMBOL)
     cmake_push_check_state(RESET)
-      # Needs '_GNU_SOURCE' to enable 64-bit variant.
-      set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-      set(
-        CMAKE_REQUIRED_DEFINITIONS
-        -DTMP_FILE=${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite64.tmp
-        -DPHP_PWRITE_64
-      )
+    # Needs '_GNU_SOURCE' to enable 64-bit variant.
+    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-      check_source_compiles(C "${code}" PHP_PWRITE_64)
+    set(
+      CMAKE_REQUIRED_DEFINITIONS
+      -DTMP_FILE=${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite64.tmp
+      -DPHP_PWRITE_64
+    )
+
+    check_source_compiles(C "${code}" PHP_PWRITE_64)
+
     cmake_pop_check_state()
 
     if(NOT PHP_PWRITE_64)
@@ -201,20 +213,22 @@ function(_php_ext_session_check_pwrite result)
   message(CHECK_START "Checking whether pwrite() works")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    # Needs '_GNU_SOURCE' to enable 64-bit variant.
-    set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    set(
-      CMAKE_REQUIRED_DEFINITIONS
-      -DTMP_FILE=${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite.tmp
-    )
-    if(PHP_PWRITE_64)
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PWRITE_64)
-    endif()
+  # Needs '_GNU_SOURCE' to enable 64-bit variant.
+  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-    check_source_runs(C "${code}" PHP_EXT_SESSION_HAVE_PWRITE)
+  set(
+    CMAKE_REQUIRED_DEFINITIONS
+    -DTMP_FILE=${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pwrite.tmp
+  )
+  if(PHP_PWRITE_64)
+    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DPHP_PWRITE_64)
+  endif()
+
+  check_source_runs(C "${code}" PHP_EXT_SESSION_HAVE_PWRITE)
+
   cmake_pop_check_state()
 
   if(PHP_EXT_SESSION_HAVE_PWRITE)

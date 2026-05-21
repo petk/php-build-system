@@ -32,9 +32,12 @@ function(_php_ext_opcache_check_shm_ipc result)
   message(CHECK_START "Checking for SysV IPC SHM (shared memory) support")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_runs(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_runs(
+    C
+    [[
       #include <sys/types.h>
       #include <sys/wait.h>
       #include <sys/ipc.h>
@@ -99,7 +102,10 @@ function(_php_ext_opcache_check_shm_ipc result)
         }
         return 0;
       }
-    ]] PHP_EXT_OPCACHE_${result})
+    ]]
+    PHP_EXT_OPCACHE_${result}
+  )
+
   cmake_pop_check_state()
 
   if(PHP_EXT_OPCACHE_${result})
@@ -135,9 +141,12 @@ function(_php_ext_opcache_check_shm_mmap_anon result)
   endif()
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_runs(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_runs(
+    C
+    [[
       #include <sys/types.h>
       #include <sys/wait.h>
       #include <sys/mman.h>
@@ -184,7 +193,10 @@ function(_php_ext_opcache_check_shm_mmap_anon result)
         }
         return 0;
       }
-    ]] PHP_EXT_OPCACHE_${result})
+    ]]
+    PHP_EXT_OPCACHE_${result}
+  )
+
   cmake_pop_check_state()
 
   if(PHP_EXT_OPCACHE_${result})
@@ -208,74 +220,74 @@ endfunction()
 
 function(_php_ext_opcache_check_shm_open result)
   php_search_libraries(
-    SOURCE_RUNS [[
-      #include <sys/types.h>
-      #include <sys/wait.h>
-      #include <sys/mman.h>
-      #include <sys/stat.h>
-      #include <fcntl.h>
-      #include <unistd.h>
-      #include <string.h>
-      #include <stdlib.h>
-      #include <stdio.h>
+    SOURCE_RUNS
+      [[
+        #include <sys/types.h>
+        #include <sys/wait.h>
+        #include <sys/mman.h>
+        #include <sys/stat.h>
+        #include <fcntl.h>
+        #include <unistd.h>
+        #include <string.h>
+        #include <stdlib.h>
+        #include <stdio.h>
 
-      #ifndef MAP_FAILED
-      # define MAP_FAILED ((void*)-1)
-      #endif
+        #ifndef MAP_FAILED
+        # define MAP_FAILED ((void*)-1)
+        #endif
 
-      int main(void)
-      {
-        pid_t pid;
-        int status;
-        int fd;
-        char *shm;
-        char tmpname[4096];
+        int main(void)
+        {
+          pid_t pid;
+          int status;
+          int fd;
+          char *shm;
+          char tmpname[4096];
 
-        sprintf(tmpname,"/opcache.test.shm.%dXXXXXX", getpid());
-        if (mktemp(tmpname) == NULL) {
-          return 1;
-        }
-        fd = shm_open(tmpname, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-        if (fd == -1) {
-          return 2;
-        }
-        if (ftruncate(fd, 4096) < 0) {
-          close(fd);
+          sprintf(tmpname,"/opcache.test.shm.%dXXXXXX", getpid());
+          if (mktemp(tmpname) == NULL) {
+            return 1;
+          }
+          fd = shm_open(tmpname, O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+          if (fd == -1) {
+            return 2;
+          }
+          if (ftruncate(fd, 4096) < 0) {
+            close(fd);
+            shm_unlink(tmpname);
+            return 3;
+          }
+
+          shm = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+          if (shm == MAP_FAILED) {
+            return 4;
+          }
           shm_unlink(tmpname);
-          return 3;
-        }
+          close(fd);
 
-        shm = mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-        if (shm == MAP_FAILED) {
-          return 4;
-        }
-        shm_unlink(tmpname);
-        close(fd);
+          strcpy(shm, "hello");
 
-        strcpy(shm, "hello");
-
-        pid = fork();
-        if (pid < 0) {
-          return 5;
-        } else if (pid == 0) {
-          strcpy(shm, "bye");
-          return 6;
+          pid = fork();
+          if (pid < 0) {
+            return 5;
+          } else if (pid == 0) {
+            strcpy(shm, "bye");
+            return 6;
+          }
+          if (wait(&status) != pid) {
+            return 7;
+          }
+          if (!WIFEXITED(status) || WEXITSTATUS(status) != 6) {
+            return 8;
+          }
+          if (strcmp(shm, "bye") != 0) {
+            return 9;
+          }
+          return 0;
         }
-        if (wait(&status) != pid) {
-          return 7;
-        }
-        if (!WIFEXITED(status) || WEXITSTATUS(status) != 6) {
-          return 8;
-        }
-        if (strcmp(shm, "bye") != 0) {
-          return 9;
-        }
-        return 0;
-      }
-    ]]
+      ]]
     HEADERS sys/mman.h
-    LIBRARIES
-      rt # Solaris <= 10, older Linux
+    LIBRARIES rt # Solaris <= 10, older Linux
     RESULT_VARIABLE PHP_EXT_OPCACHE_${result}
     LIBRARY_VARIABLE PHP_EXT_OPCACHE_${result}_LIBRARY
     TARGET php_ext_opcache PRIVATE

@@ -15,14 +15,15 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_ZEND_TEST
-  LANGUAGES C
-)
+project(PHP_EXT_ZEND_TEST LANGUAGES C)
 
 include(FeatureSummary)
 
-option(PHP_EXT_ZEND_TEST "Enable the zend_test extension" ${PROJECT_IS_TOP_LEVEL})
+option(
+  PHP_EXT_ZEND_TEST
+  "Enable the zend_test extension"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/zend_test"
@@ -61,12 +62,14 @@ target_sources(
     zend_mm_custom_handlers.c
 )
 
-target_include_directories(php_ext_zend_test PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(
+  php_ext_zend_test
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 target_compile_definitions(
   php_ext_zend_test
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 # Run at the end of the configuration. If libxml extension is enabled, link

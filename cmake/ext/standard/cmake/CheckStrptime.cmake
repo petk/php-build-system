@@ -31,8 +31,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(strptime time.h PHP_HAVE_STRPTIME)
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(strptime time.h PHP_HAVE_STRPTIME)
 cmake_pop_check_state()
 
 if(PHP_HAVE_STRPTIME)

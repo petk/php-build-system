@@ -40,10 +40,7 @@ dependency, otherwise the recommended setting is `ON`.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_MYSQLND
-  LANGUAGES C
-)
+project(PHP_EXT_MYSQLND LANGUAGES C)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -158,11 +155,7 @@ target_compile_definitions(
   PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-target_link_libraries(
-  php_ext_mysqlnd
-  PRIVATE
-    $<$<PLATFORM_ID:Windows>:ws2_32>
-)
+target_link_libraries(php_ext_mysqlnd PRIVATE $<$<PLATFORM_ID:Windows>:ws2_32>)
 
 if(PHP_EXT_MYSQLND_COMPRESSION)
   include(PHP/Package/ZLIB)

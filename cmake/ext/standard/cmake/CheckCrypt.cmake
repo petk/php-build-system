@@ -31,26 +31,28 @@ function(_php_ext_standard_check_crypt)
   message(CHECK_START "Checking basic crypt functionality")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_include_files(unistd.h PHP_HAVE_UNISTD_H)
+  set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_include_files(crypt.h PHP_HAVE_CRYPT_H)
-    set(HAVE_CRYPT_H ${PHP_HAVE_CRYPT_H})
+  check_include_files(unistd.h PHP_HAVE_UNISTD_H)
 
-    if(PHP_HAVE_UNISTD_H)
-      list(APPEND headers "unistd.h")
-    endif()
-    if(PHP_HAVE_CRYPT_H)
-      list(APPEND headers "crypt.h")
-    endif()
+  check_include_files(crypt.h PHP_HAVE_CRYPT_H)
+  set(HAVE_CRYPT_H ${PHP_HAVE_CRYPT_H})
 
-    check_symbol_exists(crypt "${headers}" PHP_HAVE_CRYPT)
-    set(HAVE_CRYPT ${PHP_HAVE_CRYPT})
+  if(PHP_HAVE_UNISTD_H)
+    list(APPEND headers "unistd.h")
+  endif()
+  if(PHP_HAVE_CRYPT_H)
+    list(APPEND headers "crypt.h")
+  endif()
 
-    check_symbol_exists(crypt_r "${headers}" PHP_HAVE_CRYPT_R)
-    set(HAVE_CRYPT_R ${PHP_HAVE_CRYPT_R})
+  check_symbol_exists(crypt "${headers}" PHP_HAVE_CRYPT)
+  set(HAVE_CRYPT ${PHP_HAVE_CRYPT})
+
+  check_symbol_exists(crypt_r "${headers}" PHP_HAVE_CRYPT_R)
+  set(HAVE_CRYPT_R ${PHP_HAVE_CRYPT_R})
+
   cmake_pop_check_state()
 
   if(NOT PHP_HAVE_CRYPT)
@@ -90,9 +92,12 @@ function(_php_ext_standard_check_crypt_r)
   message(CHECK_START "Checking crypt_r() data struct")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
 
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
+
+  check_source_compiles(
+    C
+    [[
       #define _REENTRANT 1
       #include <crypt.h>
 
@@ -103,35 +108,45 @@ function(_php_ext_standard_check_crypt_r)
 
         return 0;
       }
-    ]] PHP_CRYPT_R_CRYPTD)
-    set(CRYPT_R_CRYPTD ${PHP_CRYPT_R_CRYPTD} PARENT_SCOPE)
+    ]]
+    PHP_CRYPT_R_CRYPTD
+  )
+  set(CRYPT_R_CRYPTD ${PHP_CRYPT_R_CRYPTD} PARENT_SCOPE)
 
-    if(PHP_CRYPT_R_CRYPTD)
-      message(CHECK_PASS "cryptd")
-      cmake_pop_check_state()
-      return()
-    endif()
-
-    cmake_push_check_state()
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-      check_source_compiles(C [[
-        #define _REENTRANT 1
-        #include <crypt.h>
-
-        int main(void)
-        {
-          struct crypt_data buffer;
-          crypt_r("passwd", "hash", &buffer);
-
-          return 0;
-        }
-      ]] PHP_CRYPT_R_STRUCT_CRYPT_DATA)
+  if(PHP_CRYPT_R_CRYPTD)
+    message(CHECK_PASS "cryptd")
     cmake_pop_check_state()
+    return()
+  endif()
 
-    if(NOT PHP_CRYPT_R_STRUCT_CRYPT_DATA)
-      unset(CACHE{PHP_CRYPT_R_STRUCT_CRYPT_DATA})
+  cmake_push_check_state()
 
-      check_source_compiles(C [[
+  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+  check_source_compiles(
+    C
+    [[
+      #define _REENTRANT 1
+      #include <crypt.h>
+
+      int main(void)
+      {
+        struct crypt_data buffer;
+        crypt_r("passwd", "hash", &buffer);
+
+        return 0;
+      }
+    ]]
+    PHP_CRYPT_R_STRUCT_CRYPT_DATA
+  )
+
+  cmake_pop_check_state()
+
+  if(NOT PHP_CRYPT_R_STRUCT_CRYPT_DATA)
+    unset(CACHE{PHP_CRYPT_R_STRUCT_CRYPT_DATA})
+
+    check_source_compiles(
+      C
+      [[
         #include <stdlib.h>
         #include <unistd.h>
 
@@ -142,8 +157,11 @@ function(_php_ext_standard_check_crypt_r)
 
           return 0;
         }
-      ]] PHP_CRYPT_R_STRUCT_CRYPT_DATA)
-    endif()
+      ]]
+      PHP_CRYPT_R_STRUCT_CRYPT_DATA
+    )
+  endif()
+
   cmake_pop_check_state()
 
   set(CRYPT_R_STRUCT_CRYPT_DATA ${PHP_CRYPT_R_STRUCT_CRYPT_DATA} PARENT_SCOPE)
@@ -176,24 +194,27 @@ function(_php_ext_standard_check_crypt_is_usable)
   endif()
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    if(PHP_HAVE_UNISTD_H)
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
-    endif()
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    if(PHP_HAVE_CRYPT_H)
-      list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_CRYPT_H)
-    endif()
+  if(PHP_HAVE_UNISTD_H)
+    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
+  endif()
 
-    set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
+  if(PHP_HAVE_CRYPT_H)
+    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_CRYPT_H)
+  endif()
 
-    message(CHECK_START "Checking for standard DES algo")
-    if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
-      message(CHECK_PASS "yes (cross-compiling)")
-      set(PHP_HAVE_CRYPT_DES_EXITCODE 0)
-    endif()
-    check_source_runs(C [[
+  set(CMAKE_REQUIRED_LIBRARIES Crypt::Crypt)
+
+  message(CHECK_START "Checking for standard DES algo")
+  if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
+    message(CHECK_PASS "yes (cross-compiling)")
+    set(PHP_HAVE_CRYPT_DES_EXITCODE 0)
+  endif()
+  check_source_runs(
+    C
+    [[
       #include <string.h>
 
       #ifdef HAVE_UNISTD_H
@@ -212,19 +233,23 @@ function(_php_ext_standard_check_crypt_is_usable)
         char *encrypted = crypt("rasmuslerdorf", "rl");
         return !encrypted || strcmp(encrypted, "rl.3StKT.4T8M");
       }
-    ]] PHP_HAVE_CRYPT_DES)
-    if(PHP_HAVE_CRYPT_DES)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-      message(
-        FATAL_ERROR
-        "Cannot use external crypt library as DES algo is missing."
-      )
-    endif()
+    ]]
+    PHP_HAVE_CRYPT_DES
+  )
+  if(PHP_HAVE_CRYPT_DES)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+    message(
+      FATAL_ERROR
+      "Cannot use external crypt library as DES algo is missing."
+    )
+  endif()
 
-    message(CHECK_START "Checking for extended DES algo")
-    check_source_runs(C [[
+  message(CHECK_START "Checking for extended DES algo")
+  check_source_runs(
+    C
+    [[
       #ifdef HAVE_UNISTD_H
       # include <unistd.h>
       #endif
@@ -241,19 +266,23 @@ function(_php_ext_standard_check_crypt_is_usable)
         char *encrypted = crypt("rasmuslerdorf", "_J9..rasm");
         return !encrypted || strcmp(encrypted, "_J9..rasmBYk8r9AiWNc");
       }
-    ]] PHP_HAVE_CRYPT_EXT_DES)
-    if(PHP_HAVE_CRYPT_EXT_DES)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-      message(
-        FATAL_ERROR
-        "Cannot use external crypt library as extended DES algo is missing."
-      )
-    endif()
+    ]]
+    PHP_HAVE_CRYPT_EXT_DES
+  )
+  if(PHP_HAVE_CRYPT_EXT_DES)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+    message(
+      FATAL_ERROR
+      "Cannot use external crypt library as extended DES algo is missing."
+    )
+  endif()
 
-    message(CHECK_START "Checking for MD5 algo")
-    check_source_runs(C [[
+  message(CHECK_START "Checking for MD5 algo")
+  check_source_runs(
+    C
+    [[
       #ifdef HAVE_UNISTD_H
       # include <unistd.h>
       #endif
@@ -280,19 +309,23 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAVE_CRYPT_MD5)
-    if(PHP_HAVE_CRYPT_MD5)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-      message(
-        FATAL_ERROR
-        "Cannot use external crypt library as MD5 algo is missing."
-      )
-    endif()
+    ]]
+    PHP_HAVE_CRYPT_MD5
+  )
+  if(PHP_HAVE_CRYPT_MD5)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+    message(
+      FATAL_ERROR
+      "Cannot use external crypt library as MD5 algo is missing."
+    )
+  endif()
 
-    message(CHECK_START "Checking for Blowfish algo")
-    check_source_runs(C [[
+  message(CHECK_START "Checking for Blowfish algo")
+  check_source_runs(
+    C
+    [[
       #ifdef HAVE_UNISTD_H
       # include <unistd.h>
       #endif
@@ -317,19 +350,23 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAVE_CRYPT_BLOWFISH)
-    if(PHP_HAVE_CRYPT_BLOWFISH)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-      message(
-        FATAL_ERROR
-        "Cannot use external crypt library as Blowfish algo is missing."
-      )
-    endif()
+    ]]
+    PHP_HAVE_CRYPT_BLOWFISH
+  )
+  if(PHP_HAVE_CRYPT_BLOWFISH)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+    message(
+      FATAL_ERROR
+      "Cannot use external crypt library as Blowfish algo is missing."
+    )
+  endif()
 
-    message(CHECK_START "Checking for SHA-256 algo")
-    check_source_runs(C [[
+  message(CHECK_START "Checking for SHA-256 algo")
+  check_source_runs(
+    C
+    [[
       #ifdef HAVE_UNISTD_H
       # include <unistd.h>
       #endif
@@ -352,19 +389,23 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAVE_CRYPT_SHA256)
-    if(PHP_HAVE_CRYPT_SHA256)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-      message(
-        FATAL_ERROR
-        "Cannot use external crypt library as SHA-256 algo is missing."
-      )
-    endif()
+    ]]
+    PHP_HAVE_CRYPT_SHA256
+  )
+  if(PHP_HAVE_CRYPT_SHA256)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+    message(
+      FATAL_ERROR
+      "Cannot use external crypt library as SHA-256 algo is missing."
+    )
+  endif()
 
-    message(CHECK_START "Checking for SHA512 algo")
-    check_source_runs(C [[
+  message(CHECK_START "Checking for SHA512 algo")
+  check_source_runs(
+    C
+    [[
       #ifdef HAVE_UNISTD_H
       # include <unistd.h>
       #endif
@@ -387,17 +428,20 @@ function(_php_ext_standard_check_crypt_is_usable)
         encrypted = crypt("rasmuslerdorf", salt);
         return !encrypted || strcmp(encrypted, answer);
       }
-    ]] PHP_HAVE_CRYPT_SHA512)
+    ]]
+    PHP_HAVE_CRYPT_SHA512
+  )
 
-    if(PHP_HAVE_CRYPT_SHA512)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-      message(
-        FATAL_ERROR
-        "Cannot use external crypt library as SHA512 algo is missing."
-      )
-    endif()
+  if(PHP_HAVE_CRYPT_SHA512)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+    message(
+      FATAL_ERROR
+      "Cannot use external crypt library as SHA512 algo is missing."
+    )
+  endif()
+
   cmake_pop_check_state()
 endfunction()
 
