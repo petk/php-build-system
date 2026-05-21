@@ -37,17 +37,10 @@ add_executable(PHP::sapi::litespeed ALIAS php_sapi_litespeed)
 
 target_sources(
   php_sapi_litespeed
-  PRIVATE
-    lsapi_main.c
-    lsapi_main.stub.php
-    lsapilib.c
+  PRIVATE lsapi_main.c lsapi_main.stub.php lsapilib.c
 )
 
-target_link_libraries(
-  php_sapi_litespeed
-  PRIVATE
-    $<BUILD_INTERFACE:PHP::sapi>
-)
+target_link_libraries(php_sapi_litespeed PRIVATE $<BUILD_INTERFACE:PHP::sapi>)
 
 set_target_properties(
   php_sapi_litespeed
@@ -59,9 +52,7 @@ set_target_properties(
 install(
   TARGETS php_sapi_litespeed
   EXPORT php_sapi_litespeed_export
-  RUNTIME
-    DESTINATION ${PHP_INSTALL_BINDIR}
-    COMPONENT php-sapi-litespeed
+  RUNTIME DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php-sapi-litespeed
 )
 
 install(

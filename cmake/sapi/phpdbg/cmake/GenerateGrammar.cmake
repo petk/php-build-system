@@ -29,10 +29,6 @@ php_re2c(
   phpdbg_lexer.l
   OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/phpdbg_lexer.c
   ADD_DEFAULT_OPTIONS
-  OPTIONS
-    --bit-vectors
-    --conditions
-    --debug-output
-    --flex-syntax
+  OPTIONS --bit-vectors --conditions --debug-output --flex-syntax
   CODEGEN
 )

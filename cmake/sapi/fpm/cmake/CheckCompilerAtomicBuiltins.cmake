@@ -14,15 +14,19 @@ if(NOT DEFINED PHP_SAPI_FPM_HAVE_BUILTIN_ATOMIC)
   message(CHECK_START "Checking if compiler has __sync_bool_compare_and_swap")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(
+    C
+    [[
       int main(void)
       {
         int variable = 1;
         return (__sync_bool_compare_and_swap(&variable, 1, 2)
               && __sync_add_and_fetch(&variable, 1)) ? 1 : 0;
       }
-    ]] PHP_SAPI_FPM_HAVE_BUILTIN_ATOMIC)
+    ]]
+    PHP_SAPI_FPM_HAVE_BUILTIN_ATOMIC
+  )
   cmake_pop_check_state()
 
   if(PHP_SAPI_FPM_HAVE_BUILTIN_ATOMIC)

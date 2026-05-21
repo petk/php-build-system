@@ -2,15 +2,10 @@ add_executable(php_sapi_embed_shared_test_basic basic.c)
 
 target_link_libraries(
   php_sapi_embed_shared_test_basic
-  PRIVATE
-    PHP::sapi::embed_shared
-    PHP::config
+  PRIVATE PHP::sapi::embed_shared PHP::config
 )
 
-add_test(
-  NAME PhpSapiEmbedSharedBasic
-  COMMAND php_sapi_embed_shared_test_basic
-)
+add_test(NAME PhpSapiEmbedSharedBasic COMMAND php_sapi_embed_shared_test_basic)
 
 set_property(
   TEST PhpSapiEmbedSharedBasic
@@ -21,18 +16,13 @@ add_executable(php_sapi_embed_static_test_basic basic.c)
 
 target_link_libraries(
   php_sapi_embed_static_test_basic
-  PRIVATE
-    PHP::sapi::embed
-    PHP::config
+  PRIVATE PHP::sapi::embed PHP::config
 )
 
 # TODO: Fix this.
 set_target_properties(php_sapi_embed_static_test_basic PROPERTIES PHP_CLI TRUE)
 
-add_test(
-  NAME PhpSapiEmbedStaticBasic
-  COMMAND php_sapi_embed_static_test_basic
-)
+add_test(NAME PhpSapiEmbedStaticBasic COMMAND php_sapi_embed_static_test_basic)
 
 set_property(
   TEST PhpSapiEmbedStaticBasic

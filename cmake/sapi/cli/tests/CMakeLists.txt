@@ -13,7 +13,6 @@ if(PHP_CONFIGURE_COMMAND)
 else()
   set_tests_properties(
     PhpSapiCliConfigureCommand
-    PROPERTIES
-      FAIL_REGULAR_EXPRESSION "Configure Command =>"
+    PROPERTIES FAIL_REGULAR_EXPRESSION "Configure Command =>"
   )
 endif()
