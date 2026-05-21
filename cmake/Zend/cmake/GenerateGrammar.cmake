@@ -38,29 +38,29 @@ php_bison(
 block()
   string(
     CONFIGURE
-    [[
-      foreach(
-        file IN ITEMS
-          zend_language_parser.h
-          zend_language_parser.c
-      )
-        file(READ "@CMAKE_CURRENT_SOURCE_DIR@/${file}" content)
-        string(
-          REPLACE
-          "int zendparse"
-          "ZEND_API int zendparse"
-          patched_content
-          "${content}"
+      [[
+        foreach(
+          file IN ITEMS
+            zend_language_parser.h
+            zend_language_parser.c
         )
-        if(
-          NOT content MATCHES "ZEND_API int zendparse"
-          AND NOT content STREQUAL "${patched_content}"
-        )
-          message(STATUS "[Zend] Patching ${file}")
-          file(WRITE "@CMAKE_CURRENT_SOURCE_DIR@/${file}" "${patched_content}")
-        endif()
-      endforeach()
-    ]]
+          file(READ "@CMAKE_CURRENT_SOURCE_DIR@/${file}" content)
+          string(
+            REPLACE
+            "int zendparse"
+            "ZEND_API int zendparse"
+            patched_content
+            "${content}"
+          )
+          if(
+            NOT content MATCHES "ZEND_API int zendparse"
+            AND NOT content STREQUAL "${patched_content}"
+          )
+            message(STATUS "[Zend] Patching ${file}")
+            file(WRITE "@CMAKE_CURRENT_SOURCE_DIR@/${file}" "${patched_content}")
+          endif()
+        endforeach()
+      ]]
     patch
     @ONLY
   )
@@ -70,8 +70,7 @@ block()
     cmake_language(EVAL CODE "${patch}")
   else()
     file(
-      GENERATE
-      OUTPUT CMakeFiles/Zend/PatchLanguageParser.cmake
+      GENERATE OUTPUT CMakeFiles/Zend/PatchLanguageParser.cmake
       CONTENT "${patch}"
     )
     add_custom_target(

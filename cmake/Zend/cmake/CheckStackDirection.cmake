@@ -19,9 +19,11 @@ if(NOT DEFINED PHP_ZEND_CHECK_STACK_LIMIT)
   message(CHECK_START "Checking whether the stack grows downwards")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_runs(C [[
+  check_source_runs(
+    C
+    [[
       #include <stdint.h>
 
       #ifdef __has_builtin
@@ -56,7 +58,9 @@ if(NOT DEFINED PHP_ZEND_CHECK_STACK_LIMIT)
         f = stack_grows_downwards;
         return f(addr) ? 0 : 1;
       }
-    ]] PHP_ZEND_CHECK_STACK_LIMIT)
+    ]]
+    PHP_ZEND_CHECK_STACK_LIMIT
+  )
   cmake_pop_check_state()
 
   if(PHP_ZEND_CHECK_STACK_LIMIT)

@@ -26,9 +26,11 @@ if(NOT DEFINED PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
   message(CHECK_START "Checking for global register variables support")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  check_source_compiles(
+    C
+    [[
       #if defined(__GNUC__)
       # define ZEND_GCC_VERSION (__GNUC__ * 1000 + __GNUC_MINOR__)
       #else
@@ -75,7 +77,9 @@ if(NOT DEFINED PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
       {
         return 0;
       }
-    ]] PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
+    ]]
+    PHP_ZEND_HAVE_GCC_GLOBAL_REGS
+  )
   cmake_pop_check_state()
 
   if(PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
