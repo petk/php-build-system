@@ -22,21 +22,14 @@ Builds xml extension with the Expat library support instead of the libxml2.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_XML
-  LANGUAGES C
-)
+project(PHP_EXT_XML LANGUAGES C)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_XML "Enable the xml extension" ON)
 
-add_feature_info(
-  "ext/xml"
-  PHP_EXT_XML
-  "support for parsing XML"
-)
+add_feature_info("ext/xml" PHP_EXT_XML "support for parsing XML")
 
 cmake_dependent_option(
   PHP_EXT_XML_EXPAT
@@ -69,14 +62,8 @@ endif()
 
 target_sources(
   php_ext_xml
-  PRIVATE
-    xml.c
-    xml.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        expat_compat.h
-        php_xml.h
+  PRIVATE xml.c xml.stub.php
+  PUBLIC FILE_SET HEADERS FILES expat_compat.h php_xml.h
 )
 
 target_include_directories(php_ext_xml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -97,9 +84,7 @@ if(NOT PHP_EXT_XML_EXPAT)
 
   set_package_properties(
     LibXml2
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the xml extension."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the xml extension."
   )
 
   target_link_libraries(php_ext_xml PRIVATE LibXml2::LibXml2)
@@ -114,9 +99,7 @@ else()
   find_package(EXPAT)
   set_package_properties(
     EXPAT
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the xml extension."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the xml extension."
   )
 
   target_link_libraries(php_ext_xml PRIVATE EXPAT::EXPAT)
@@ -160,9 +143,14 @@ function(php_ext_xml_validate)
     return()
   endif()
 
-  cmake_language(DEFER CALL message FATAL_ERROR [[
+  cmake_language(
+    DEFER
+    CALL message
+    FATAL_ERROR
+    [[
     The PHP xml extension requires either the PHP libxml extension or the
     Expat library. Please, enable the libxml extension, or set
     'PHP_EXT_XML_EXPAT' to 'ON'.
-  ]])
+    ]]
+  )
 endfunction()

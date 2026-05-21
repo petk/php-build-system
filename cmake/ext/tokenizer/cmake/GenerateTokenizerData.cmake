@@ -17,8 +17,7 @@ endif()
 set(regex "^%token [^T]*(T_[^ \n]+)")
 
 file(
-  STRINGS
-  "${php_source_dir}/Zend/zend_language_parser.y"
+  STRINGS "${php_source_dir}/Zend/zend_language_parser.y"
   lines
   REGEX "${regex}"
 )
@@ -45,8 +44,7 @@ endforeach()
 set(content "")
 foreach(token IN LISTS tokens)
   string(
-    APPEND
-    content
+    APPEND content
     "/**\n * @var int\n * @cvalue ${token}\n */\n"
     "const ${token} = UNKNOWN;\n"
   )
@@ -56,7 +54,8 @@ string(STRIP "${content}" content)
 file(
   CONFIGURE
   OUTPUT "${php_source_dir}/ext/tokenizer/tokenizer_data.stub.php"
-  CONTENT [[
+  CONTENT
+    [[
 <?php
 
 /** @generate-class-entries */
@@ -67,14 +66,15 @@ file(
  * @cvalue T_PAAMAYIM_NEKUDOTAYIM
  */
 const T_DOUBLE_COLON = UNKNOWN;
-]] @ONLY)
+]]
+  @ONLY
+)
 
 set(content "")
 foreach(token IN LISTS tokens)
   if(token STREQUAL "T_PAAMAYIM_NEKUDOTAYIM")
     string(
-      APPEND
-      content
+      APPEND content
       "\t\tcase T_PAAMAYIM_NEKUDOTAYIM: return \"T_DOUBLE_COLON\";\n"
     )
   else()
@@ -87,7 +87,8 @@ set(tab "\t")
 file(
   CONFIGURE
   OUTPUT "${php_source_dir}/ext/tokenizer/tokenizer_data.c"
-  CONTENT [[
+  CONTENT
+    [[
 /*
    +----------------------------------------------------------------------+
    | Copyright (c) The PHP Group                                          |
@@ -122,4 +123,6 @@ char *get_token_type_name(int token_type)
 @tab@return NULL;
 }
 
-]] @ONLY)
+]]
+  @ONLY
+)

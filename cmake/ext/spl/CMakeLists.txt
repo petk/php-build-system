@@ -6,10 +6,7 @@ This extension includes Standard PHP Library (SPL) and is always enabled.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SPL
-  LANGUAGES C
-)
+project(PHP_EXT_SPL LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -21,11 +18,7 @@ endif()
 
 include(FeatureSummary)
 
-add_feature_info(
-  "ext/spl"
-  TRUE
-  "Standard PHP library (SPL)"
-)
+add_feature_info("ext/spl" TRUE "Standard PHP library (SPL)")
 
 include(PHP/Extension)
 php_extension(spl)

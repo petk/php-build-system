@@ -15,20 +15,13 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SYSVSHM
-  LANGUAGES C
-)
+project(PHP_EXT_SYSVSHM LANGUAGES C)
 
 include(FeatureSummary)
 
 option(PHP_EXT_SYSVSHM "Enable the sysvshm extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/sysvshm"
-  PHP_EXT_SYSVSHM
-  "System V shared memory support"
-)
+add_feature_info("ext/sysvshm" PHP_EXT_SYSVSHM "System V shared memory support")
 
 if(NOT PHP_EXT_SYSVSHM)
   return()
@@ -45,12 +38,7 @@ else()
   add_library(php_ext_sysvshm OBJECT)
 endif()
 
-target_sources(
-  php_ext_sysvshm
-  PRIVATE
-    sysvshm.c
-    sysvshm.stub.php
-)
+target_sources(php_ext_sysvshm PRIVATE sysvshm.c sysvshm.stub.php)
 
 target_include_directories(php_ext_sysvshm PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 

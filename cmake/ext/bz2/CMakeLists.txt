@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_BZ2
-  LANGUAGES C
-)
+project(PHP_EXT_BZ2 LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -48,13 +45,7 @@ else()
   add_library(php_ext_bz2 OBJECT)
 endif()
 
-target_sources(
-  php_ext_bz2
-  PRIVATE
-    bz2_filter.c
-    bz2.c
-    bz2.stub.php
-)
+target_sources(php_ext_bz2 PRIVATE bz2_filter.c bz2.c bz2.stub.php)
 
 target_compile_definitions(
   php_ext_bz2
@@ -62,42 +53,39 @@ target_compile_definitions(
     $<$<AND:$<PLATFORM_ID:Windows>,$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>:PHP_BZ2_EXPORTS>
 )
 
-target_include_directories(
-  php_ext_bz2
-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
-)
+target_include_directories(php_ext_bz2 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 include(PHP/Package/BZip2)
 find_package(BZip2 1.0.0)
 set_package_properties(
   BZip2
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the bz2 extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the bz2 extension."
 )
 
 # Minimum version sanity check.
 if(TARGET BZip2::BZip2)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES BZip2::BZip2)
 
-    # Versions before 1.0.2 required <stdio.h> to be included before bzlib.h for
-    # the FILE definition. BZ2_bzerror() is available as of 1.0.0.
-    block()
-      set(headers "bzlib.h")
-      if(BZip2_VERSION VERSION_LESS 1.0.2)
-        list(PREPEND headers "stdio.h")
-      endif()
-      check_symbol_exists(BZ2_bzerror "${headers}" PHP_EXT_BZ2_SANITY_CHECK)
-    endblock()
+  set(CMAKE_REQUIRED_LIBRARIES BZip2::BZip2)
 
-    if(NOT PHP_EXT_BZ2_SANITY_CHECK)
-      message(
-        FATAL_ERROR
-        "ext/bz2 sanity check failed: BZ2_bzerror() could not be found. "
-        "BZip2 library (libbzip2) version 1.0.0 or later is required."
-      )
+  # Versions before 1.0.2 required <stdio.h> to be included before bzlib.h for
+  # the FILE definition. BZ2_bzerror() is available as of 1.0.0.
+  block()
+    set(headers "bzlib.h")
+    if(BZip2_VERSION VERSION_LESS 1.0.2)
+      list(PREPEND headers "stdio.h")
     endif()
+    check_symbol_exists(BZ2_bzerror "${headers}" PHP_EXT_BZ2_SANITY_CHECK)
+  endblock()
+
+  if(NOT PHP_EXT_BZ2_SANITY_CHECK)
+    message(
+      FATAL_ERROR
+      "ext/bz2 sanity check failed: BZ2_bzerror() could not be found. "
+      "BZip2 library (libbzip2) version 1.0.0 or later is required."
+    )
+  endif()
+
   cmake_pop_check_state()
 endif()
 
