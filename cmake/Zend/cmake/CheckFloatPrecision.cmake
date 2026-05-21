@@ -27,9 +27,11 @@ function(_php_zend_check_fpu_setcw result)
     message(CHECK_START "Checking for usable _FPU_SETCW")
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_compiles(C [[
+    check_source_compiles(
+      C
+      [[
         #include <fpu_control.h>
 
         int main(void)
@@ -48,7 +50,9 @@ function(_php_zend_check_fpu_setcw result)
 
           return 0;
         }
-      ]] PHP_ZEND_${result})
+      ]]
+      PHP_ZEND_${result}
+    )
     cmake_pop_check_state()
 
     if(PHP_ZEND_${result})
@@ -69,9 +73,11 @@ function(_php_zend_check_fpsetprec result)
     message(CHECK_START "Checking for usable fpsetprec")
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_compiles(C [[
+    check_source_compiles(
+      C
+      [[
         #include <machine/ieeefp.h>
 
         int main(void)
@@ -89,7 +95,9 @@ function(_php_zend_check_fpsetprec result)
 
           return 0;
         }
-      ]] PHP_ZEND_${result})
+      ]]
+      PHP_ZEND_${result}
+    )
     cmake_pop_check_state()
 
     if(PHP_ZEND_${result})
@@ -110,9 +118,11 @@ function(_php_zend_check_controlfp result)
     message(CHECK_START "Checking for usable _controlfp")
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_compiles(C [[
+    check_source_compiles(
+      C
+      [[
         #include <float.h>
 
         int main(void)
@@ -130,7 +140,9 @@ function(_php_zend_check_controlfp result)
 
           return 0;
         }
-      ]] PHP_ZEND_${result})
+      ]]
+      PHP_ZEND_${result}
+    )
     cmake_pop_check_state()
 
     if(PHP_ZEND_${result})
@@ -151,9 +163,11 @@ function(_php_zend_check_controlfp_s result)
     message(CHECK_START "Checking for usable _controlfp_s")
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_compiles(C [[
+    check_source_compiles(
+      C
+      [[
         #include <float.h>
 
         int main(void)
@@ -172,7 +186,9 @@ function(_php_zend_check_controlfp_s result)
 
           return 0;
         }
-      ]] PHP_ZEND_${result})
+      ]]
+      PHP_ZEND_${result}
+    )
     cmake_pop_check_state()
 
     if(PHP_ZEND_${result})
@@ -196,9 +212,11 @@ function(_php_zend_check_fpu_inline_asm_x86 result)
     )
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_compiles(C [[
+    check_source_compiles(
+      C
+      [[
         int main(void)
         {
           unsigned int oldcw, cw;
@@ -215,7 +233,9 @@ function(_php_zend_check_fpu_inline_asm_x86 result)
 
           return 0;
         }
-      ]] PHP_ZEND_${result})
+      ]]
+      PHP_ZEND_${result}
+    )
     cmake_pop_check_state()
 
     if(PHP_ZEND_${result})

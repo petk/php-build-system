@@ -28,8 +28,4 @@ else()
   set(ZEND_SIGNALS FALSE)
 endif()
 
-add_feature_info(
-  "Zend signals"
-  ZEND_SIGNALS
-  "signal handling for performance"
-)
+add_feature_info("Zend signals" ZEND_SIGNALS "signal handling for performance")

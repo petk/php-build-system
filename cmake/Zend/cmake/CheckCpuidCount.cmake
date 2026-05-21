@@ -19,8 +19,10 @@ if(NOT DEFINED PHP_ZEND_HAVE_CPUID_COUNT)
   message(CHECK_START "Checking whether __cpuid_count is available")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(
+    C
+    [[
       #include <cpuid.h>
       int main(void)
       {
@@ -28,7 +30,9 @@ if(NOT DEFINED PHP_ZEND_HAVE_CPUID_COUNT)
         __cpuid_count(0, 0, eax, ebx, ecx, edx);
         return 0;
       }
-    ]] PHP_ZEND_HAVE_CPUID_COUNT)
+    ]]
+    PHP_ZEND_HAVE_CPUID_COUNT
+  )
   cmake_pop_check_state()
 
   if(PHP_ZEND_HAVE_CPUID_COUNT)

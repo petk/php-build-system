@@ -30,9 +30,11 @@ function(_php_zend_fibers_shadow_stack_syscall)
   if(NOT DEFINED PHP_ZEND_SHADOW_STACK_SYSCALL)
     message(CHECK_START "Whether syscall to create shadow stack exists")
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_runs(C [[
+    check_source_runs(
+      C
+      [[
         #include <unistd.h>
         #include <sys/mman.h>
         int main(void)
@@ -44,7 +46,9 @@ function(_php_zend_fibers_shadow_stack_syscall)
           }
           return 1;
         }
-      ]] PHP_ZEND_SHADOW_STACK_SYSCALL)
+      ]]
+      PHP_ZEND_SHADOW_STACK_SYSCALL
+    )
     cmake_pop_check_state()
 
     if(PHP_ZEND_SHADOW_STACK_SYSCALL)
@@ -120,7 +124,10 @@ block()
       set(compile_options /nologo -machine ARM64)
     endif()
 
-    if(asm_file AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM64|aarch64)")
+    if(
+      asm_file
+      AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM64|aarch64)"
+    )
       set(compile_options /nologo)
 
       set(compile_definitions "BOOST_CONTEXT_EXPORT=EXPORT")
@@ -139,16 +146,14 @@ block()
     if(compile_options)
       set_source_files_properties(
         ${asm_sources}
-        PROPERTIES
-          COMPILE_OPTIONS ${compile_options}
+        PROPERTIES COMPILE_OPTIONS ${compile_options}
       )
     endif()
 
     if(compile_definitions)
       set_source_files_properties(
         ${asm_sources}
-        PROPERTIES
-          COMPILE_DEFINITIONS ${compile_definitions}
+        PROPERTIES COMPILE_DEFINITIONS ${compile_definitions}
       )
     endif()
   endif()
@@ -163,25 +168,24 @@ block()
     _php_zend_fibers_shadow_stack_syscall()
   else()
     cmake_push_check_state(RESET)
-      # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any
-      # value. POSIX marked ucontext functions as obsolete and on macOS the
-      # ucontext.h functions are deprecated. At the time of writing no solution is
-      # on the horizon yet. Here, the _XOPEN_SOURCE is defined to empty value to
-      # enable proper X/Open symbols yet still to not enable some of the Single
-      # Unix specification definitions (values 500 or greater where the PHP
-      # thread-safe build would fail).
-      if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-        set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
+    # To use ucontext.h on macOS, the _XOPEN_SOURCE needs to be defined to any
+    # value. POSIX marked ucontext functions as obsolete and on macOS the
+    # ucontext.h functions are deprecated. At the time of writing no solution is
+    # on the horizon yet. Here, the _XOPEN_SOURCE is defined to empty value to
+    # enable proper X/Open symbols yet still to not enable some of the Single
+    # Unix specification definitions (values 500 or greater where the PHP
+    # thread-safe build would fail).
+    if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+      set(CMAKE_REQUIRED_DEFINITIONS -D_XOPEN_SOURCE)
 
-        set_property(
-          SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/zend_fibers.c
-          APPEND
-          PROPERTY
-            COMPILE_DEFINITIONS _XOPEN_SOURCE
-        )
-      endif()
+      set_property(
+        SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/zend_fibers.c
+        APPEND
+        PROPERTY COMPILE_DEFINITIONS _XOPEN_SOURCE
+      )
+    endif()
 
-      check_include_files(ucontext.h PHP_ZEND_FIBER_UCONTEXT)
+    check_include_files(ucontext.h PHP_ZEND_FIBER_UCONTEXT)
     cmake_pop_check_state()
 
     if(NOT PHP_ZEND_FIBER_UCONTEXT)
