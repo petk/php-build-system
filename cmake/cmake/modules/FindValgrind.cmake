@@ -85,7 +85,11 @@ block(PROPAGATE Valgrind_VERSION)
   if(EXISTS ${Valgrind_INCLUDE_DIR}/valgrind/config.h)
     set(regex "^[ \t]*#[ \t]*define[ \t]+VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$")
 
-    file(STRINGS ${Valgrind_INCLUDE_DIR}/valgrind/config.h result REGEX "${regex}")
+    file(
+      STRINGS ${Valgrind_INCLUDE_DIR}/valgrind/config.h
+      result
+      REGEX "${regex}"
+    )
 
     if(result MATCHES "${regex}")
       set(Valgrind_VERSION "${CMAKE_MATCH_1}")
@@ -105,8 +109,7 @@ mark_as_advanced(Valgrind_INCLUDE_DIR)
 
 find_package_handle_standard_args(
   Valgrind
-  REQUIRED_VARS
-    Valgrind_INCLUDE_DIR
+  REQUIRED_VARS Valgrind_INCLUDE_DIR
   VERSION_VAR Valgrind_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
@@ -123,8 +126,9 @@ if(NOT TARGET Valgrind::Valgrind)
 
   set_property(
     TARGET Valgrind::Valgrind
-    PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-      ${Valgrind_INCLUDE_DIR}
-      ${Valgrind_INCLUDE_DIR}/valgrind # See above note about the parent includedir.
+    PROPERTY
+      INTERFACE_INCLUDE_DIRECTORIES
+        ${Valgrind_INCLUDE_DIR}
+        ${Valgrind_INCLUDE_DIR}/valgrind # See above note about the parent includedir.
   )
 endif()

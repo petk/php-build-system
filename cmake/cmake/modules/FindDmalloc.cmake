@@ -44,9 +44,7 @@ include(FindPackageHandleStandardArgs)
 
 set_package_properties(
   Dmalloc
-  PROPERTIES
-    URL "https://dmalloc.com/"
-    DESCRIPTION "Debug Malloc Library"
+  PROPERTIES URL "https://dmalloc.com/" DESCRIPTION "Debug Malloc Library"
 )
 
 set(_reason "")
@@ -76,18 +74,21 @@ endif()
 block(PROPAGATE Dmalloc_VERSION)
   if(Dmalloc_INCLUDE_DIR)
     file(
-      STRINGS
-      ${Dmalloc_INCLUDE_DIR}/dmalloc.h
+      STRINGS ${Dmalloc_INCLUDE_DIR}/dmalloc.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+DMALLOC_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*[^\n]*$"
+        "^#[ \t]*define[ \t]+DMALLOC_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*[^\n]*$"
     )
 
     unset(Dmalloc_VERSION)
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+DMALLOC_VERSION_${item}[ \t]+([0-9]+)[ \t]*[^\n]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+DMALLOC_VERSION_${item}[ \t]+([0-9]+)[ \t]*[^\n]*$"
+        )
           if(DEFINED Dmalloc_VERSION)
             string(APPEND Dmalloc_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -101,9 +102,7 @@ endblock()
 
 find_package_handle_standard_args(
   Dmalloc
-  REQUIRED_VARS
-    Dmalloc_LIBRARY
-    Dmalloc_INCLUDE_DIR
+  REQUIRED_VARS Dmalloc_LIBRARY Dmalloc_INCLUDE_DIR
   VERSION_VAR Dmalloc_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

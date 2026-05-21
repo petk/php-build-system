@@ -97,11 +97,7 @@ target_link_libraries(php_example PRIVATE Coverage::Coverage)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(
-  Coverage
-  PROPERTIES
-    DESCRIPTION "Code coverage"
-)
+set_package_properties(Coverage PROPERTIES DESCRIPTION "Code coverage")
 
 if(CMAKE_C_COMPILER_LAUNCHER MATCHES "ccache")
   message(
@@ -127,8 +123,7 @@ block(PROPAGATE Coverage_FOUND)
     string(APPEND compiler_info " (${CMAKE_C_COMPILER})")
 
     string(
-      APPEND
-      reason
+      APPEND reason
       "C compiler ${compiler_info} is not supported to enable code coverage, "
       "please use GNU or Clang compiler instead. "
     )
@@ -177,8 +172,10 @@ block(PROPAGATE Coverage_FOUND)
       set_target_properties(
         Coverage::Coverage
         PROPERTIES
-          INTERFACE_COMPILE_OPTIONS "$<$<COMPILE_LANGUAGE:C,CXX>:-fprofile-instr-generate=${CMAKE_CURRENT_BINARY_DIR}/coverage/$<TARGET_PROPERTY:NAME>_%p.profraw;-fcoverage-mapping>"
-          INTERFACE_LINK_OPTIONS "$<$<LINK_LANGUAGE:C,CXX>:-fprofile-instr-generate=${CMAKE_CURRENT_BINARY_DIR}/coverage/$<TARGET_PROPERTY:NAME>_%p.profraw>"
+          INTERFACE_COMPILE_OPTIONS
+            "$<$<COMPILE_LANGUAGE:C,CXX>:-fprofile-instr-generate=${CMAKE_CURRENT_BINARY_DIR}/coverage/$<TARGET_PROPERTY:NAME>_%p.profraw;-fcoverage-mapping>"
+          INTERFACE_LINK_OPTIONS
+            "$<$<LINK_LANGUAGE:C,CXX>:-fprofile-instr-generate=${CMAKE_CURRENT_BINARY_DIR}/coverage/$<TARGET_PROPERTY:NAME>_%p.profraw>"
       )
     else()
       set_target_properties(

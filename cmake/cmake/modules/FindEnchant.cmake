@@ -92,9 +92,7 @@ endif()
 
 find_package_handle_standard_args(
   Enchant
-  REQUIRED_VARS
-    Enchant_LIBRARY
-    Enchant_INCLUDE_DIR
+  REQUIRED_VARS Enchant_LIBRARY Enchant_INCLUDE_DIR
   VERSION_VAR Enchant_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

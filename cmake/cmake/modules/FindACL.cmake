@@ -70,20 +70,23 @@ set_package_properties(
 
 function(_acl_check result)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    if(ACL_INCLUDE_DIR)
-      set(CMAKE_REQUIRED_INCLUDES ${ACL_INCLUDE_DIR})
-    endif()
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    if(ACL_LIBRARY)
-      set(CMAKE_REQUIRED_LIBRARIES ${ACL_LIBRARY})
-    endif()
+  if(ACL_INCLUDE_DIR)
+    set(CMAKE_REQUIRED_INCLUDES ${ACL_INCLUDE_DIR})
+  endif()
 
-    if(NOT ACL_USE_USER_GROUP)
-      check_symbol_exists(acl_free sys/acl.h ${result})
-    else()
-      check_source_compiles(C [[
+  if(ACL_LIBRARY)
+    set(CMAKE_REQUIRED_LIBRARIES ${ACL_LIBRARY})
+  endif()
+
+  if(NOT ACL_USE_USER_GROUP)
+    check_symbol_exists(acl_free sys/acl.h ${result})
+  else()
+    check_source_compiles(
+      C
+      [[
         #include <sys/acl.h>
 
         int main(void)
@@ -98,8 +101,11 @@ function(_acl_check result)
           acl_free(acl);
           return 0;
         }
-      ]] ${result})
-    endif()
+      ]]
+      ${result}
+    )
+  endif()
+
   cmake_pop_check_state()
 endfunction()
 
@@ -112,11 +118,7 @@ if(
   NOT DEFINED ACL_IS_BUILT_IN
   AND NOT DEFINED ACL_INCLUDE_DIR
   AND NOT DEFINED ACL_LIBRARY
-  AND (
-    CMAKE_PREFIX_PATH
-    OR ACL_ROOT
-    OR DEFINED ENV{ACL_ROOT}
-  )
+  AND (CMAKE_PREFIX_PATH OR ACL_ROOT OR DEFINED ENV{ACL_ROOT})
 )
   find_path(
     ACL_INCLUDE_DIR
@@ -237,16 +239,14 @@ if(NOT TARGET ACL::ACL)
   if(ACL_INCLUDE_DIR)
     set_target_properties(
       ACL::ACL
-      PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${ACL_INCLUDE_DIR}"
+      PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${ACL_INCLUDE_DIR}"
     )
   endif()
 
   if(ACL_LIBRARY)
     set_target_properties(
       ACL::ACL
-      PROPERTIES
-        IMPORTED_LOCATION "${ACL_LIBRARY}"
+      PROPERTIES IMPORTED_LOCATION "${ACL_LIBRARY}"
     )
   endif()
 endif()

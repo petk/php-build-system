@@ -173,7 +173,8 @@ block(PROPAGATE LDAP_FOUND LDAP_VERSION)
       LDAP_LBER_LIBRARY
       NAMES lber
       HINTS ${PC_LDAP_LBER_LIBRARY_DIRS}
-      DOC "The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library"
+      DOC
+        "The path to the OpenLDAP LBER Lightweight Basic Encoding Rules library"
     )
     mark_as_advanced(LDAP_LBER_LIBRARY)
 
@@ -202,18 +203,21 @@ block(PROPAGATE LDAP_FOUND LDAP_VERSION)
 
   if(include_dir)
     file(
-      STRINGS
-      ${include_dir}/ldap_features.h
+      STRINGS ${include_dir}/ldap_features.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"
     )
 
     set(LDAP_VERSION "")
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+LDAP_VENDOR_VERSION_${item}[ \t]+([0-9]+)[ \t]*$"
+        )
           if(LDAP_VERSION)
             string(APPEND LDAP_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -260,15 +264,13 @@ block(PROPAGATE LDAP_FOUND LDAP_VERSION)
       add_library(LDAP::LBER INTERFACE IMPORTED)
       set_target_properties(
         LDAP::LBER
-        PROPERTIES
-          IMPORTED_LIBNAME "${LDAP_LBER_LIBRARY}"
+        PROPERTIES IMPORTED_LIBNAME "${LDAP_LBER_LIBRARY}"
       )
     endif()
 
     set_target_properties(
       LDAP::LBER
-      PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${LDAP_LBER_INCLUDE_DIR}"
+      PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${LDAP_LBER_INCLUDE_DIR}"
     )
   endif()
 
@@ -289,8 +291,7 @@ block(PROPAGATE LDAP_FOUND LDAP_VERSION)
       add_library(LDAP::LDAP INTERFACE IMPORTED)
       set_target_properties(
         LDAP::LDAP
-        PROPERTIES
-          IMPORTED_LIBNAME "${LDAP_LIBRARY}"
+        PROPERTIES IMPORTED_LIBNAME "${LDAP_LIBRARY}"
       )
     endif()
 
@@ -304,8 +305,7 @@ block(PROPAGATE LDAP_FOUND LDAP_VERSION)
     if(TARGET LDAP::LBER)
       set_target_properties(
         LDAP::LDAP
-        PROPERTIES
-          INTERFACE_LINK_LIBRARIES LDAP::LBER
+        PROPERTIES INTERFACE_LINK_LIBRARIES LDAP::LBER
       )
     endif()
   endif()

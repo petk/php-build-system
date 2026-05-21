@@ -73,8 +73,7 @@ endblock()
 
 find_package_handle_standard_args(
   Ccache
-  REQUIRED_VARS
-    Ccache_EXECUTABLE
+  REQUIRED_VARS Ccache_EXECUTABLE
   VERSION_VAR Ccache_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

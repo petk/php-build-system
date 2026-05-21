@@ -82,9 +82,7 @@ block()
 
   find_library(
     MPIR_LIBRARY
-    NAMES
-      mpir
-      mpir_a # Winlibs builds it as libmpir_a.lib
+    NAMES mpir mpir_a # Winlibs builds it as libmpir_a.lib
     DOC "The path to the MPIR library"
   )
   mark_as_advanced(MPIR_LIBRARY)
@@ -98,18 +96,19 @@ endif()
 block(PROPAGATE MPIR_VERSION)
   if(EXISTS ${MPIR_INCLUDE_DIR}/gmp.h)
     file(
-      STRINGS
-      ${MPIR_INCLUDE_DIR}/gmp.h
+      STRINGS ${MPIR_INCLUDE_DIR}/gmp.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+__MPIR_VERSION(_MINOR|_PATCHLEVEL)?[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+__MPIR_VERSION(_MINOR|_PATCHLEVEL)?[ \t]+[0-9]+[ \t]*$"
     )
 
     set(MPIR_VERSION "")
 
     foreach(item VERSION VERSION_MINOR VERSION_PATCHLEVEL)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+__MPIR_${item}[ \t]+([0-9]+)[ \t]*$")
+        if(
+          line MATCHES "^#[ \t]*define[ \t]+__MPIR_${item}[ \t]+([0-9]+)[ \t]*$"
+        )
           if(MPIR_VERSION)
             string(APPEND MPIR_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -123,9 +122,7 @@ endblock()
 
 find_package_handle_standard_args(
   MPIR
-  REQUIRED_VARS
-    MPIR_LIBRARY
-    MPIR_INCLUDE_DIR
+  REQUIRED_VARS MPIR_LIBRARY MPIR_INCLUDE_DIR
   VERSION_VAR MPIR_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

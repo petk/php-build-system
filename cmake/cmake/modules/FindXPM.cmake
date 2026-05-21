@@ -89,9 +89,7 @@ block()
 
   find_library(
     XPM_LIBRARY
-    NAMES
-      Xpm
-      Xpm_a # Winlibs builds it as libXpm_a.lib
+    NAMES Xpm Xpm_a # Winlibs builds it as libXpm_a.lib
     NAMES_PER_DIR
     HINTS ${PC_XPM_LIBRARY_DIRS}
     DOC "The path to the XPM library"
@@ -110,9 +108,7 @@ endif()
 
 find_package_handle_standard_args(
   XPM
-  REQUIRED_VARS
-    XPM_LIBRARY
-    XPM_INCLUDE_DIR
+  REQUIRED_VARS XPM_LIBRARY XPM_INCLUDE_DIR
   VERSION_VAR XPM_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
@@ -141,8 +137,7 @@ if(NOT TARGET XPM::XPM)
     if(TARGET X11::X11)
       set_target_properties(
         XPM::XPM
-        PROPERTIES
-          INTERFACE_LINK_LIBRARIES X11::X11
+        PROPERTIES INTERFACE_LINK_LIBRARIES X11::X11
       )
     endif()
   endif()

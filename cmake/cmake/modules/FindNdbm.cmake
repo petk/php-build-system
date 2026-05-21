@@ -68,8 +68,8 @@ endif()
 
 if(NOT DEFINED Ndbm_IS_BUILT_IN)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(dbm_open ndbm.h Ndbm_IS_BUILT_IN)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(dbm_open ndbm.h Ndbm_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 
@@ -94,9 +94,7 @@ else()
 
   find_library(
     Ndbm_LIBRARY
-    NAMES
-      ndbm
-      db1
+    NAMES ndbm db1
     NAMES_PER_DIR
     DOC "The path to the ndbm library"
   )
@@ -134,16 +132,14 @@ if(NOT TARGET Ndbm::Ndbm)
   if(Ndbm_INCLUDE_DIR)
     set_target_properties(
       Ndbm::Ndbm
-      PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIR}"
+      PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${Ndbm_INCLUDE_DIR}"
     )
   endif()
 
   if(Ndbm_LIBRARY)
     set_target_properties(
       Ndbm::Ndbm
-      PROPERTIES
-        IMPORTED_LOCATION "${Ndbm_LIBRARY}"
+      PROPERTIES IMPORTED_LOCATION "${Ndbm_LIBRARY}"
     )
   endif()
 endif()

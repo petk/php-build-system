@@ -46,7 +46,8 @@ set_package_properties(
   FreeTDS
   PROPERTIES
     URL "https://www.freetds.org/"
-    DESCRIPTION "TDS (Tabular DataStream) protocol library for Sybase and MS SQL"
+    DESCRIPTION
+      "TDS (Tabular DataStream) protocol library for Sybase and MS SQL"
 )
 
 set(_reason "")
@@ -63,11 +64,7 @@ if(NOT FreeTDS_INCLUDE_DIR)
   string(APPEND _reason "sybdb.h not found. ")
 endif()
 
-find_library(
-  FreeTDS_LIBRARY
-  NAMES sybdb
-  DOC "The path to the FreeTDS library"
-)
+find_library(FreeTDS_LIBRARY NAMES sybdb DOC "The path to the FreeTDS library")
 mark_as_advanced(FreeTDS_LIBRARY)
 
 if(NOT FreeTDS_LIBRARY)
@@ -77,11 +74,13 @@ endif()
 # Sanity check.
 if(FreeTDS_INCLUDE_DIR AND FreeTDS_LIBRARY)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${FreeTDS_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${FreeTDS_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(dbsqlexec sybdb.h FreeTDS_SANITY_CHECK)
+  set(CMAKE_REQUIRED_INCLUDES ${FreeTDS_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_LIBRARIES ${FreeTDS_LIBRARY})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_symbol_exists(dbsqlexec sybdb.h FreeTDS_SANITY_CHECK)
+
   cmake_pop_check_state()
 
   if(NOT FreeTDS_SANITY_CHECK)
@@ -91,10 +90,7 @@ endif()
 
 find_package_handle_standard_args(
   FreeTDS
-  REQUIRED_VARS
-    FreeTDS_LIBRARY
-    FreeTDS_INCLUDE_DIR
-    FreeTDS_SANITY_CHECK
+  REQUIRED_VARS FreeTDS_LIBRARY FreeTDS_INCLUDE_DIR FreeTDS_SANITY_CHECK
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

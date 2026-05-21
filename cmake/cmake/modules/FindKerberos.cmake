@@ -158,9 +158,7 @@ endif()
 
 find_package_handle_standard_args(
   Kerberos
-  REQUIRED_VARS
-    Kerberos_LIBRARY
-    Kerberos_INCLUDE_DIR
+  REQUIRED_VARS Kerberos_LIBRARY Kerberos_INCLUDE_DIR
   VERSION_VAR Kerberos_VERSION
   HANDLE_VERSION_RANGE
   HANDLE_COMPONENTS

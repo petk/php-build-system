@@ -89,7 +89,9 @@ include(FindPackageHandleStandardArgs)
 # Helpers.
 ################################################################################
 
-set(Cclient_DEFINITIONS [[
+set(
+  Cclient_DEFINITIONS
+  [[
 #if defined(__GNUC__) && __GNUC__ >= 4
 # define IMAP_CCLIENT_EXPORT __attribute__ ((visibility("default")))
 #else
@@ -112,26 +114,30 @@ IMAP_CCLIENT_EXPORT void mm_nocritical(MAILSTREAM *stream){}
 IMAP_CCLIENT_EXPORT void mm_notify(MAILSTREAM *stream, char *str, long errflg){}
 IMAP_CCLIENT_EXPORT void mm_searched(MAILSTREAM *stream, unsigned long number){}
 IMAP_CCLIENT_EXPORT void mm_status(MAILSTREAM *stream, char *mailbox, MAILSTATUS *status){}
-]])
+]]
+)
 
 function(cclient_check_function_exists function result)
   message(CHECK_START "Looking for ${function}")
 
   cmake_push_check_state()
-    if(TARGET Cclient::Cclient)
-      list(APPEND CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
-    else()
-      if(Cclient_INCLUDE_DIR)
-        list(APPEND CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
-      endif()
 
-      if(Cclient_LIBRARY)
-        list(APPEND CMAKE_REQUIRED_LIBRARIES ${Cclient_LIBRARY})
-      endif()
+  if(TARGET Cclient::Cclient)
+    list(APPEND CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
+  else()
+    if(Cclient_INCLUDE_DIR)
+      list(APPEND CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
     endif()
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C "
+    if(Cclient_LIBRARY)
+      list(APPEND CMAKE_REQUIRED_LIBRARIES ${Cclient_LIBRARY})
+    endif()
+  endif()
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_compiles(
+    C
+    "
       #if defined(__GNUC__) && __GNUC__ >= 4
       # define IMAP_CCLIENT_EXPORT __attribute__ ((visibility(\"default\")))
       #else
@@ -164,7 +170,10 @@ function(cclient_check_function_exists function result)
         }
         return 0;
       }
-    " ${result})
+    "
+    ${result}
+  )
+
   cmake_pop_check_state()
 
   if(${result})
@@ -178,29 +187,32 @@ function(cclient_check_symbol_exists symbol header result)
   message(CHECK_START "Looking for ${symbol}")
 
   cmake_push_check_state()
-    if(TARGET Cclient::Cclient)
-      list(APPEND CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
-    else()
-      if(Cclient_INCLUDE_DIR)
-        list(APPEND CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
-      endif()
 
-      if(Cclient_LIBRARY)
-        list(APPEND CMAKE_REQUIRED_LIBRARIES ${Cclient_LIBRARY})
-      endif()
+  if(TARGET Cclient::Cclient)
+    list(APPEND CMAKE_REQUIRED_LIBRARIES Cclient::Cclient)
+  else()
+    if(Cclient_INCLUDE_DIR)
+      list(APPEND CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
     endif()
 
-    # The c-client/c-client.h includes headers that define deprecated
-    # _BSD_SOURCE, which emits a warning when including system's features.h.
-    # When building with Clang, such warning results in an error. This can be
-    # bypassed with defining the _DEFAULT_SOURCE to indicate that the source is
-    # being transitioned to use the new macro, or in this case imap extension
-    # being unbunbled in the PHP-8.4.
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_DEFAULT_SOURCE)
+    if(Cclient_LIBRARY)
+      list(APPEND CMAKE_REQUIRED_LIBRARIES ${Cclient_LIBRARY})
+    endif()
+  endif()
 
-    set(CMAKE_REQUIRED_QUIET TRUE)
+  # The c-client/c-client.h includes headers that define deprecated
+  # _BSD_SOURCE, which emits a warning when including system's features.h.
+  # When building with Clang, such warning results in an error. This can be
+  # bypassed with defining the _DEFAULT_SOURCE to indicate that the source is
+  # being transitioned to use the new macro, or in this case imap extension
+  # being unbunbled in the PHP-8.4.
+  list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_DEFAULT_SOURCE)
 
-    check_source_compiles(C "
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_compiles(
+    C
+    "
       #include <${header}>
 
       ${Cclient_DEFINITIONS}
@@ -215,7 +227,10 @@ function(cclient_check_symbol_exists symbol header result)
           return 0;
         #endif
       }
-    " ${result})
+    "
+    ${result}
+  )
+
   cmake_pop_check_state()
 
   if(${result})
@@ -278,15 +293,18 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
   cclient_check_function_exists(mail_newbody Cclient_SANITY_CHECK_1)
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${Cclient_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    # See explanation above.
-    set(CMAKE_REQUIRED_DEFINITIONS -D_DEFAULT_SOURCE)
+  set(CMAKE_REQUIRED_INCLUDES ${Cclient_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_LIBRARIES ${Cclient_LIBRARY})
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    message(CHECK_START "Checking for new utf8_mime2text signature")
-    check_source_compiles(C "
+  # See explanation above.
+  set(CMAKE_REQUIRED_DEFINITIONS -D_DEFAULT_SOURCE)
+
+  message(CHECK_START "Checking for new utf8_mime2text signature")
+  check_source_compiles(
+    C
+    "
       #include <c-client.h>
       ${Cclient_DEFINITIONS}
       int main(void)
@@ -296,32 +314,33 @@ if(Cclient_INCLUDE_DIR AND Cclient_LIBRARY)
         utf8_mime2text(src, dst, flags);
         return 0;
       }
-    " Cclient_HAVE_NEW_MIME2TEXT)
-    set(HAVE_NEW_MIME2TEXT ${Cclient_HAVE_NEW_MIME2TEXT})
-    if(Cclient_HAVE_NEW_MIME2TEXT)
-      message(CHECK_PASS "yes")
-    else()
-      message(CHECK_FAIL "no")
-    endif()
+    "
+    Cclient_HAVE_NEW_MIME2TEXT
+  )
+  set(HAVE_NEW_MIME2TEXT ${Cclient_HAVE_NEW_MIME2TEXT})
+  if(Cclient_HAVE_NEW_MIME2TEXT)
+    message(CHECK_PASS "yes")
+  else()
+    message(CHECK_FAIL "no")
+  endif()
 
-    cclient_check_symbol_exists(
-      U8T_DECOMPOSE
-      c-client.h
-      Cclient_HAVE_U8T_DECOMPOSE
-    )
+  cclient_check_symbol_exists(
+    U8T_DECOMPOSE
+    c-client.h
+    Cclient_HAVE_U8T_DECOMPOSE
+  )
+
   cmake_pop_check_state()
 
   if(Cclient_HAVE_NEW_MIME2TEXT AND NOT Cclient_HAVE_U8T_DECOMPOSE)
     string(
-      APPEND
-      _reason
+      APPEND _reason
       "Sanity check failed: 'utf8_mime2text()' has new signature, but "
       "'U8T_CANONICAL' is missing. This should not happen. "
     )
   elseif(NOT Cclient_HAVE_NEW_MIME2TEXT AND Cclient_HAVE_U8T_DECOMPOSE)
     string(
-      APPEND
-      _reason
+      APPEND _reason
       "Sanity check failed: 'utf8_mime2text()' has old signature, but "
       "'U8T_CANONICAL' is present. This should not happen. "
     )
@@ -375,11 +394,9 @@ block(PROPAGATE HAVE_IMAP2001)
 
   if(EXISTS ${Cclient_INCLUDE_DIR}/imap4r1.h)
     file(
-      STRINGS
-      ${Cclient_INCLUDE_DIR}/imap4r1.h
+      STRINGS ${Cclient_INCLUDE_DIR}/imap4r1.h
       imapsslport_results
-      REGEX
-      "^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\\(.+\\)"
+      REGEX "^[ \t]*#[ \t]*define[ \t]*IMAPSSLPORT[ \t]*\\(.+\\)"
     )
   endif()
 
