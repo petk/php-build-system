@@ -15,8 +15,7 @@ info.
 
 if(CMAKE_VERSION VERSION_LESS 4.3)
   string(
-    CONCAT
-    ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
+    CONCAT ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE
     "${CMAKE_FIND_PACKAGE_NAME} ${${CMAKE_FIND_PACKAGE_NAME}_VERSION} requires "
     "CMake 4.3 or higher.\n"
     "You are running CMake version ${CMAKE_VERSION}"
