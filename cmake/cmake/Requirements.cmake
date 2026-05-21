@@ -59,10 +59,14 @@ if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
 endif()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_runs(C [[
+set(CMAKE_REQUIRED_QUIET TRUE)
+check_source_runs(
+  C
+  [[
     int main(void) { return (unsigned char)'A' != (unsigned char)0xC1; }
-  ]] PHP_EBCDIC)
+  ]]
+  PHP_EBCDIC
+)
 cmake_pop_check_state()
 
 if(PHP_EBCDIC)

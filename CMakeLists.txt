@@ -88,7 +88,9 @@ block(PROPAGATE php_url)
       "Unsupported PHP version format given: ${PHP_VERSION_DOWNLOAD}\n"
       "Expected PHP version format is <major>.<minor>[.<patch>][<extra>]"
     )
-  elseif(NOT PHP_VERSION_DOWNLOAD MATCHES "^${PROJECT_VERSION}(\\.[0-9]+|-dev|$)")
+  elseif(
+    NOT PHP_VERSION_DOWNLOAD MATCHES "^${PROJECT_VERSION}(\\.[0-9]+|-dev|$)"
+  )
     string(REGEX MATCH [[^([0-9]+\.[0-9]+)]] _ "${PHP_VERSION_DOWNLOAD}")
     message(
       FATAL_ERROR
@@ -119,7 +121,7 @@ block(PROPAGATE php_url)
     set(file "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-${timestamp}.json")
     file(
       DOWNLOAD
-      "https://www.php.net/releases/?json&version=${PHP_VERSION_DOWNLOAD}"
+        "https://www.php.net/releases/?json&version=${PHP_VERSION_DOWNLOAD}"
       "${file}"
     )
     file(READ "${file}" json)
@@ -186,7 +188,8 @@ FetchContent_Declare(
 file(
   CONFIGURE
   OUTPUT CMakeFiles/PhpBuildSystem/patch.cmake
-  CONTENT [=[
+  CONTENT
+    [=[
     message(STATUS "Adding CMake files to PHP sources")
     file(
       COPY
@@ -275,8 +278,7 @@ file(
 )
 
 cmake_path(
-  RELATIVE_PATH
-  CMAKE_CURRENT_BINARY_DIR
+  RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
   OUTPUT_VARIABLE relative_dir
 )

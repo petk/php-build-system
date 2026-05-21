@@ -17,10 +17,7 @@ set(
   enchant
 )
 
-set(
-  disabled_extensions
-  enchant
-)
+set(disabled_extensions enchant)
 
 foreach(extension IN LISTS extensions)
   if(extension IN_LIST disabled_extensions)
@@ -35,10 +32,7 @@ endforeach()
 
 set_property(GLOBAL PROPERTY PHP_ALL_EXTENSIONS ${extensions})
 
-set_target_properties(
-  php_ext_bcmath
-  PROPERTIES PHP_REQUIRED_EXTENSIONS enchant
-)
+set_target_properties(php_ext_bcmath PROPERTIES PHP_REQUIRED_EXTENSIONS enchant)
 
 include(PHP/Internal/Summary)
 php_summary_print()
