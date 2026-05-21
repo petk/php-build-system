@@ -126,8 +126,6 @@ endif()
 # Generate ext/phar/stub.h.
 ################################################################################
 
-include(PHP/AddCommand)
-
 php_add_command(
   php_ext_phar_generate_stub_h
   AS_TARGET
