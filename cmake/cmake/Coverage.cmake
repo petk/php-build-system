@@ -77,6 +77,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
     php_coverage_gcovr_html
     ${depends_argument}
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html
+    # gersemi: off
     COMMAND
       CoverageGcovr::gcovr
         ${CoverageGcovr_OPTIONS}
@@ -87,6 +88,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
         --html
         --html-details
         --html-title "PHP code coverage"
+    # gersemi: on
     COMMENT "[gcovr] Generating HTML ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html"
     VERBATIM
   )
@@ -94,6 +96,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
   add_custom_target(
     php_coverage_gcovr_xml
     ${depends_argument}
+    # gersemi: off
     COMMAND
       CoverageGcovr::gcovr
         ${CoverageGcovr_OPTIONS}
@@ -102,6 +105,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
         --output ${CMAKE_CURRENT_BINARY_DIR}/gcovr.xml
         --config ${CMAKE_CURRENT_BINARY_DIR}/gcovr.cfg
         --xml
+    # gersemi: on
     COMMENT "[gcovr] Generating XML ${CMAKE_CURRENT_BINARY_DIR}/gcovr.xml"
     VERBATIM
   )
@@ -122,6 +126,7 @@ set_package_properties(
 if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/php_lcov.info
+    # gersemi: off
     COMMAND
       CoverageLcov::lcov
         ${CoverageLcov_lcov_OPTIONS}
@@ -131,6 +136,7 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
         --base-directory ${CMAKE_CURRENT_SOURCE_DIR}
         --output-file ${CMAKE_CURRENT_BINARY_DIR}/php_lcov.info
         --ignore-errors source
+    # gersemi: on
     COMMENT "[lcov] Capturing coverage data for php_lcov.info"
     VERBATIM
   )
@@ -156,6 +162,7 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
   add_custom_command(
     OUTPUT php_coverage_lcov_strip
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/php_lcov.info
+    # gersemi: off
     COMMAND
       CoverageLcov::lcov
         ${CoverageLcov_lcov_OPTIONS}
@@ -172,6 +179,7 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
           ${CMAKE_CURRENT_SOURCE_DIR}/ext/opcache/jit/ir/*
           ${CMAKE_CURRENT_SOURCE_DIR}/ext/uri/uriparser/*
       --ignore-errors unused
+    # gersemi: on
     COMMENT "[lcov] Stripping bundled libraries from php_lcov.info"
     VERBATIM
   )
@@ -186,12 +194,14 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
   add_custom_target(
     php_coverage_lcov_html
     DEPENDS ${php_sapis} php_coverage_lcov_info
+    # gersemi: off
     COMMAND
       CoverageLcov::genhtml
         --legend
         --output-directory ${CMAKE_CURRENT_BINARY_DIR}/lcov_html
         --title "PHP code coverage"
         ${CMAKE_CURRENT_BINARY_DIR}/php_lcov.info
+    # gersemi: on
     VERBATIM
   )
 endif()

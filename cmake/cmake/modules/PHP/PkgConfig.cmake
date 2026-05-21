@@ -130,6 +130,7 @@ function(_php_pkgconfig_parse_variables variables)
 endfunction()
 
 function(php_pkgconfig_generate_pc)
+  # gersemi: hints { VARIABLES: pairs }
   cmake_parse_arguments(
     PARSE_ARGV
     2
