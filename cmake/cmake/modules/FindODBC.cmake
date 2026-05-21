@@ -113,10 +113,12 @@ else()
   set(_odbc_config_names odbc_config iodbc-config)
 endif()
 
-find_program(ODBC_CONFIG
+find_program(
+  ODBC_CONFIG
   NAMES ${_odbc_config_names}
   NAMES_PER_DIR
-  DOC "Path to unixODBC or iODBC config program")
+  DOC "Path to unixODBC or iODBC config program"
+)
 mark_as_advanced(ODBC_CONFIG)
 
 ### Try pkg-config. ###########################################################
@@ -134,7 +136,11 @@ if(NOT ODBC_CONFIG)
 endif()
 
 ### Try Windows ###############################################################
-if(NOT ODBC_CONFIG AND NOT PC_ODBC_FOUND AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(
+  NOT ODBC_CONFIG
+  AND NOT PC_ODBC_FOUND
+  AND CMAKE_SYSTEM_NAME STREQUAL "Windows"
+)
   # List names of ODBC libraries on Windows
   if(NOT MINGW)
     set(_odbc_lib_names odbc32.lib)
@@ -153,10 +159,16 @@ endif()
 
 if(ODBC_CONFIG)
   # unixODBC and iODBC accept unified command line options
-  execute_process(COMMAND ${ODBC_CONFIG} --cflags
-    OUTPUT_VARIABLE _cflags OUTPUT_STRIP_TRAILING_WHITESPACE)
-  execute_process(COMMAND ${ODBC_CONFIG} --libs
-    OUTPUT_VARIABLE _libs OUTPUT_STRIP_TRAILING_WHITESPACE)
+  execute_process(
+    COMMAND ${ODBC_CONFIG} --cflags
+    OUTPUT_VARIABLE _cflags
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  execute_process(
+    COMMAND ${ODBC_CONFIG} --libs
+    OUTPUT_VARIABLE _libs
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
 
   # Collect paths of include directories from CFLAGS
   separate_arguments(_cflags NATIVE_COMMAND "${_cflags}")
@@ -202,9 +214,7 @@ endif()
 find_path(
   ODBC_INCLUDE_DIR
   NAMES sql.h
-  HINTS
-    ${_odbc_include_paths}
-    ${PC_ODBC_INCLUDE_DIRS}
+  HINTS ${_odbc_include_paths} ${PC_ODBC_INCLUDE_DIRS}
 )
 
 if(NOT ODBC_INCLUDE_DIR AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -213,18 +223,22 @@ endif()
 
 ### Find libraries ############################################################
 if(NOT ODBC_LIBRARY)
-  find_library(ODBC_LIBRARY
+  find_library(
+    ODBC_LIBRARY
     NAMES ${_odbc_lib_names}
     NAMES_PER_DIR
     HINTS ${_odbc_lib_paths}
     PATH_SUFFIXES odbc
-    HINTS ${PC_ODBC_LIBRARY_DIRS})
+    HINTS ${PC_ODBC_LIBRARY_DIRS}
+  )
 
   foreach(_lib IN LISTS _odbc_required_libs_names)
-    find_library(_lib_path
+    find_library(
+      _lib_path
       NAMES ${_lib}
       HINTS ${_odbc_lib_paths} # system paths or collected from ODBC_CONFIG
-      PATH_SUFFIXES odbc)
+      PATH_SUFFIXES odbc
+    )
     if(_lib_path)
       list(APPEND _odbc_required_libs_paths ${_lib_path})
     endif()
@@ -258,10 +272,10 @@ if(PC_ODBC_VERSION AND ODBC_INCLUDE_DIR IN_LIST PC_ODBC_INCLUDE_DIRS)
 elseif(ODBC_CONFIG)
   execute_process(
     COMMAND ${ODBC_CONFIG} --version
-      OUTPUT_VARIABLE ODBC_VERSION
-      OUTPUT_STRIP_TRAILING_WHITESPACE
-      RESULT_VARIABLE result
-      ERROR_QUIET
+    OUTPUT_VARIABLE ODBC_VERSION
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    RESULT_VARIABLE result
+    ERROR_QUIET
   )
 
   if(NOT result EQUAL 0 OR NOT ODBC_VERSION MATCHES [[[0-9]+\.[0-9.]+]])
@@ -308,13 +322,18 @@ if(ODBC_FOUND)
   if(NOT TARGET ODBC::ODBC)
     if(IS_ABSOLUTE "${ODBC_LIBRARY}")
       add_library(ODBC::ODBC UNKNOWN IMPORTED)
-      set_target_properties(ODBC::ODBC PROPERTIES
-        IMPORTED_LINK_INTERFACE_LANGUAGES "C"
-        IMPORTED_LOCATION "${ODBC_LIBRARY}")
+      set_target_properties(
+        ODBC::ODBC
+        PROPERTIES
+          IMPORTED_LINK_INTERFACE_LANGUAGES "C"
+          IMPORTED_LOCATION "${ODBC_LIBRARY}"
+      )
     else()
       add_library(ODBC::ODBC INTERFACE IMPORTED)
-      set_target_properties(ODBC::ODBC PROPERTIES
-        IMPORTED_LIBNAME "${ODBC_LIBRARY}")
+      set_target_properties(
+        ODBC::ODBC
+        PROPERTIES IMPORTED_LIBNAME "${ODBC_LIBRARY}"
+      )
 
       if(EXISTS "${ODBC_LIBRARY_DIR}")
         target_link_directories(ODBC::ODBC INTERFACE "${ODBC_LIBRARY_DIR}")
@@ -322,17 +341,22 @@ if(ODBC_FOUND)
     endif()
     set_target_properties(
       ODBC::ODBC
-      PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${ODBC_INCLUDE_DIRS}"
+      PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${ODBC_INCLUDE_DIRS}"
     )
 
     if(_odbc_required_libs_paths)
-      set_property(TARGET ODBC::ODBC APPEND PROPERTY
-        INTERFACE_LINK_LIBRARIES "${_odbc_required_libs_paths}")
+      set_property(
+        TARGET ODBC::ODBC
+        APPEND
+        PROPERTY INTERFACE_LINK_LIBRARIES "${_odbc_required_libs_paths}"
+      )
     endif()
 
     if(ODBC_COMPILE_DEFINITIONS)
-      target_compile_definitions(ODBC::ODBC INTERFACE ${ODBC_COMPILE_DEFINITIONS})
+      target_compile_definitions(
+        ODBC::ODBC
+        INTERFACE ${ODBC_COMPILE_DEFINITIONS}
+      )
     endif()
 
     if(ODBC_COMPILE_OPTIONS)
@@ -348,10 +372,10 @@ if(ODBC_FOUND)
     if(ODBC_CONFIG)
       execute_process(
         COMMAND ${ODBC_CONFIG}
-          OUTPUT_VARIABLE _output
-          ERROR_VARIABLE _output
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-          ERROR_QUIET
+        OUTPUT_VARIABLE _output
+        ERROR_VARIABLE _output
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
       )
       if(_output MATCHES "^iODBC")
         set(ODBC_DRIVER "iODBC")
@@ -396,9 +420,7 @@ else()
 endif()
 set_package_properties(
   ODBC
-  PROPERTIES
-    URL "${_odbc_url}"
-    DESCRIPTION "${_odbc_description}"
+  PROPERTIES URL "${_odbc_url}" DESCRIPTION "${_odbc_description}"
 )
 unset(_odbc_url)
 unset(_odbc_description)

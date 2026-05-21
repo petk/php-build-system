@@ -90,9 +90,7 @@ endif()
 
 find_package_handle_standard_args(
   AppArmor
-  REQUIRED_VARS
-    AppArmor_LIBRARY
-    AppArmor_INCLUDE_DIR
+  REQUIRED_VARS AppArmor_LIBRARY AppArmor_INCLUDE_DIR
   VERSION_VAR AppArmor_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
@@ -117,14 +115,12 @@ if(NOT TARGET AppArmor::AppArmor)
     add_library(AppArmor::AppArmor INTERFACE IMPORTED)
     set_target_properties(
       AppArmor::AppArmor
-      PROPERTIES
-        IMPORTED_LIBNAME "${AppArmor_LIBRARY}"
+      PROPERTIES IMPORTED_LIBNAME "${AppArmor_LIBRARY}"
     )
   endif()
 
   set_target_properties(
     AppArmor::AppArmor
-    PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${AppArmor_INCLUDE_DIR}"
+    PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${AppArmor_INCLUDE_DIR}"
   )
 endif()

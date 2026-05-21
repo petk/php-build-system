@@ -86,11 +86,7 @@ target_link_libraries(php_foo PRIVATE MySQL::MySQL)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(
-  MySQL
-  PROPERTIES
-    DESCRIPTION "MySQL-compatible database"
-)
+set_package_properties(MySQL PROPERTIES DESCRIPTION "MySQL-compatible database")
 
 set(_reason "")
 
@@ -133,9 +129,7 @@ if("Client" IN_LIST MySQL_FIND_COMPONENTS)
   find_path(
     MySQL_INCLUDE_DIR
     NAMES mysql.h
-    HINTS
-      ${_mysql_include_dir}
-      ${PC_MySQL_INCLUDE_DIRS}
+    HINTS ${_mysql_include_dir} ${PC_MySQL_INCLUDE_DIRS}
     PATH_SUFFIXES mysql
     DOC "Directory containing MySQL library headers"
   )
@@ -145,9 +139,7 @@ if("Client" IN_LIST MySQL_FIND_COMPONENTS)
     MySQL_LIBRARY
     NAMES mysqlclient mysql
     NAMES_PER_DIR
-    HINTS
-      ${_mysql_library_dir}
-      ${PC_MySQL_LIBRARY_DIRS}
+    HINTS ${_mysql_library_dir} ${PC_MySQL_LIBRARY_DIRS}
     DOC "The path to the MySQL library"
   )
   mark_as_advanced(MySQL_LIBRARY)
@@ -179,7 +171,8 @@ if("Server" IN_LIST MySQL_FIND_COMPONENTS)
   if(NOT MySQL_SOCKET_PATH)
     foreach(
       socket
-      IN ITEMS
+      IN
+      ITEMS
         /var/run/mysqld/mysqld.sock
         /var/tmp/mysql.sock
         /var/run/mysql/mysql.sock
@@ -200,7 +193,10 @@ if("Server" IN_LIST MySQL_FIND_COMPONENTS)
   if(NOT MySQL_SOCKET_PATH)
     string(APPEND _reason "MySQL Unix Socket pointer not found. ")
   elseif(NOT EXISTS ${MySQL_SOCKET_PATH})
-    string(APPEND _reason "MySQL Unix Socket pointer not found (using default value ${MySQL_SOCKET_PATH}). ")
+    string(
+      APPEND _reason
+      "MySQL Unix Socket pointer not found (using default value ${MySQL_SOCKET_PATH}). "
+    )
   else()
     set(MySQL_Server_FOUND TRUE)
   endif()

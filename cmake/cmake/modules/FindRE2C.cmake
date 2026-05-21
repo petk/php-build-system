@@ -41,9 +41,7 @@ block(PROPAGATE RE2C_FOUND RE2C_VERSION)
 
   set_package_properties(
     RE2C
-    PROPERTIES
-      URL "https://re2c.org/"
-      DESCRIPTION "Lexer generator"
+    PROPERTIES URL "https://re2c.org/" DESCRIPTION "Lexer generator"
   )
 
   set(required_vars RE2C_EXECUTABLE)
@@ -53,11 +51,7 @@ block(PROPAGATE RE2C_FOUND RE2C_VERSION)
   # Find the executable.
   ##############################################################################
 
-  find_program(
-    RE2C_EXECUTABLE
-    NAMES re2c
-    DOC "The path to the re2c executable"
-  )
+  find_program(RE2C_EXECUTABLE NAMES re2c DOC "The path to the re2c executable")
   mark_as_advanced(RE2C_EXECUTABLE)
 
   if(NOT RE2C_EXECUTABLE)

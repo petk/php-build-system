@@ -83,18 +83,21 @@ endif()
 block(PROPAGATE Oniguruma_VERSION)
   if(Oniguruma_INCLUDE_DIR)
     file(
-      STRINGS
-      ${Oniguruma_INCLUDE_DIR}/oniguruma.h
+      STRINGS ${Oniguruma_INCLUDE_DIR}/oniguruma.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_(MAJOR|MINOR|TEENY)[ \t]+[0-9]+[ \t]*$"
     )
 
     unset(Oniguruma_VERSION)
 
     foreach(item MAJOR MINOR TEENY)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+ONIGURUMA_VERSION_${item}[ \t]+([0-9]+)[ \t]*$"
+        )
           if(DEFINED Oniguruma_VERSION)
             string(APPEND Oniguruma_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -108,9 +111,7 @@ endblock()
 
 find_package_handle_standard_args(
   Oniguruma
-  REQUIRED_VARS
-    Oniguruma_LIBRARY
-    Oniguruma_INCLUDE_DIR
+  REQUIRED_VARS Oniguruma_LIBRARY Oniguruma_INCLUDE_DIR
   VERSION_VAR Oniguruma_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

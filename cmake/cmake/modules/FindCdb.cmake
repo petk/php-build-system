@@ -85,11 +85,13 @@ endif()
 # Sanity check.
 if(Cdb_INCLUDE_DIR AND Cdb_LIBRARY)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Cdb_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${Cdb_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(cdb_read cdb.h Cdb_SANITY_CHECK)
+  set(CMAKE_REQUIRED_INCLUDES ${Cdb_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_LIBRARIES ${Cdb_LIBRARY})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_symbol_exists(cdb_read cdb.h Cdb_SANITY_CHECK)
+
   cmake_pop_check_state()
 
   if(NOT Cdb_SANITY_CHECK)
@@ -112,10 +114,7 @@ endblock()
 
 find_package_handle_standard_args(
   Cdb
-  REQUIRED_VARS
-    Cdb_LIBRARY
-    Cdb_INCLUDE_DIR
-    Cdb_SANITY_CHECK
+  REQUIRED_VARS Cdb_LIBRARY Cdb_INCLUDE_DIR Cdb_SANITY_CHECK
   VERSION_VAR Cdb_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

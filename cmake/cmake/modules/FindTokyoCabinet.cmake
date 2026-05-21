@@ -85,11 +85,13 @@ endif()
 # Sanity check.
 if(TokyoCabinet_INCLUDE_DIR AND TokyoCabinet_LIBRARY)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${TokyoCabinet_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${TokyoCabinet_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(tcadbopen tcadb.h TokyoCabinet_SANITY_CHECK)
+  set(CMAKE_REQUIRED_INCLUDES ${TokyoCabinet_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_LIBRARIES ${TokyoCabinet_LIBRARY})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_symbol_exists(tcadbopen tcadb.h TokyoCabinet_SANITY_CHECK)
+
   cmake_pop_check_state()
 
   if(NOT TokyoCabinet_SANITY_CHECK)
@@ -100,7 +102,10 @@ endif()
 # Get version.
 block(PROPAGATE TokyoCabinet_VERSION)
   if(EXISTS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h)
-    set(regex "^[ \t]*#[ \t]*define[ \t]+_TC_VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$")
+    set(
+      regex
+      "^[ \t]*#[ \t]*define[ \t]+_TC_VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$"
+    )
 
     file(STRINGS ${TokyoCabinet_INCLUDE_DIR}/tcutil.h result REGEX "${regex}")
 

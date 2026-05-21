@@ -85,11 +85,13 @@ endif()
 # Sanity check.
 if(Editline_INCLUDE_DIR AND Editline_LIBRARY)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Editline_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${Editline_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(readline editline/readline.h Editline_SANITY_CHECK)
+  set(CMAKE_REQUIRED_INCLUDES ${Editline_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_LIBRARIES ${Editline_LIBRARY})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_symbol_exists(readline editline/readline.h Editline_SANITY_CHECK)
+
   cmake_pop_check_state()
 
   if(NOT Editline_SANITY_CHECK)
@@ -107,10 +109,7 @@ endif()
 
 find_package_handle_standard_args(
   Editline
-  REQUIRED_VARS
-    Editline_LIBRARY
-    Editline_INCLUDE_DIR
-    Editline_SANITY_CHECK
+  REQUIRED_VARS Editline_LIBRARY Editline_INCLUDE_DIR Editline_SANITY_CHECK
   VERSION_VAR Editline_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

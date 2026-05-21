@@ -93,19 +93,26 @@ if(BerkeleyDB_USE_DB1)
   mark_as_advanced(BerkeleyDB_DB1_INCLUDE_DIR)
 
   message(CHECK_START "Checking for Berkeley DB 1.x support/emulation")
-  cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARY})
-    set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_DB1_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  cmake_push_check_state(RESET)
+
+  set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARY})
+  set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_DB1_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_compiles(
+    C
+    [[
       #include <db_185.h>
       int main(void)
       {
         DB * dbp = dbopen("", 0, 0, DB_HASH, 0);
         return 0;
       }
-    ]] _berkeleydb_db1_sanity_check)
+    ]]
+    _berkeleydb_db1_sanity_check
+  )
+
   cmake_pop_check_state()
 
   if(NOT _berkeleydb_db1_sanity_check)
@@ -119,11 +126,14 @@ endif()
 # Sanity check.
 if(BerkeleyDB_LIBRARY)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARY})
-    set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_LIBRARIES ${BerkeleyDB_LIBRARY})
+  set(CMAKE_REQUIRED_INCLUDES ${BerkeleyDB_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_compiles(
+    C
+    [[
       #include <db.h>
 
       int main(void)
@@ -131,7 +141,10 @@ if(BerkeleyDB_LIBRARY)
         (void)db_create((DB**)0, (DB_ENV*)0, 0);
         return 0;
       }
-    ]] BerkeleyDB_SANITY_CHECK)
+    ]]
+    BerkeleyDB_SANITY_CHECK
+  )
+
   cmake_pop_check_state()
 
   if(NOT BerkeleyDB_SANITY_CHECK)
@@ -143,17 +156,21 @@ endif()
 block(PROPAGATE BerkeleyDB_VERSION)
   if(BerkeleyDB_INCLUDE_DIR)
     file(
-      STRINGS
-      ${BerkeleyDB_INCLUDE_DIR}/db.h
+      STRINGS ${BerkeleyDB_INCLUDE_DIR}/db.h
       results
-      REGEX "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\n]*$"
+      REGEX
+        "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\n]*$"
     )
 
     unset(BerkeleyDB_VERSION)
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_${item}[ \t]+([0-9]+)[^\n]*$")
+        if(
+          line
+            MATCHES
+            "^[ \t]*#[ \t]*define[ \t]+DB_VERSION_${item}[ \t]+([0-9]+)[^\n]*$"
+        )
           if(DEFINED BerkeleyDB_VERSION)
             string(APPEND BerkeleyDB_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -195,15 +212,15 @@ if(NOT TARGET BerkeleyDB::BerkeleyDB)
     add_library(BerkeleyDB::BerkeleyDB INTERFACE IMPORTED)
     set_target_properties(
       BerkeleyDB::BerkeleyDB
-      PROPERTIES
-        IMPORTED_LIBNAME "${BerkeleyDB_LIBRARY}"
+      PROPERTIES IMPORTED_LIBNAME "${BerkeleyDB_LIBRARY}"
     )
   endif()
 
   set_property(
     TARGET BerkeleyDB::BerkeleyDB
-    PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-      ${BerkeleyDB_INCLUDE_DIR}
-      ${BerkeleyDB_DB1_INCLUDE_DIR}
+    PROPERTY
+      INTERFACE_INCLUDE_DIRECTORIES
+        ${BerkeleyDB_INCLUDE_DIR}
+        ${BerkeleyDB_DB1_INCLUDE_DIR}
   )
 endif()

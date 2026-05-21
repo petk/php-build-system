@@ -12,24 +12,21 @@ See: https://cmake.org/cmake/help/latest/module/FindIntl.html
 
 include(FeatureSummary)
 
-set_package_properties(
-  Intl
-  PROPERTIES
-    DESCRIPTION "The Gettext libintl"
-)
+set_package_properties(Intl PROPERTIES DESCRIPTION "The Gettext libintl")
 
 # Disable searching for built-in intl when overriding search paths.
 if(
   NOT DEFINED Intl_IS_BUILT_IN
   AND NOT DEFINED Intl_INCLUDE_DIR
   AND NOT DEFINED Intl_LIBRARY
-  AND (
-    CMAKE_PREFIX_PATH
-    OR Intl_ROOT
-    OR INTL_ROOT
-    OR DEFINED ENV{Intl_ROOT}
-    OR DEFINED ENV{INTL_ROOT}
-  )
+  AND
+    (
+      CMAKE_PREFIX_PATH
+      OR Intl_ROOT
+      OR INTL_ROOT
+      OR DEFINED ENV{Intl_ROOT}
+      OR DEFINED ENV{INTL_ROOT}
+    )
 )
   find_path(
     Intl_INCLUDE_DIR

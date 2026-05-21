@@ -63,11 +63,7 @@ set_package_properties(
     DESCRIPTION "Library for handling ZIP archives"
 )
 
-block(
-  PROPAGATE
-    libzip_FOUND
-    libzip_VERSION
-)
+block(PROPAGATE libzip_FOUND libzip_VERSION)
   set(reason "")
 
   find_package(PkgConfig QUIET)
@@ -119,11 +115,10 @@ block(
 
   if(EXISTS ${libzip_INCLUDE_DIR}/zipconf.h)
     file(
-      STRINGS
-      ${libzip_INCLUDE_DIR}/zipconf.h
+      STRINGS ${libzip_INCLUDE_DIR}/zipconf.h
       _
       REGEX
-      "^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$"
+        "^[ \t]*#[ \t]*define[ \t]+LIBZIP_VERSION[ \t]+\"?([^\"]+)\"?[ \t]*$"
     )
     set(libzip_VERSION "${CMAKE_MATCH_1}")
   endif()
@@ -138,9 +133,7 @@ block(
 
   find_package_handle_standard_args(
     libzip
-    REQUIRED_VARS
-      libzip_LIBRARY
-      libzip_INCLUDE_DIR
+    REQUIRED_VARS libzip_LIBRARY libzip_INCLUDE_DIR
     VERSION_VAR libzip_VERSION
     HANDLE_VERSION_RANGE
     REASON_FAILURE_MESSAGE "${reason}"
@@ -170,8 +163,7 @@ block(
     )
       set_target_properties(
         libzip::zip
-        PROPERTIES
-          INTERFACE_COMPILE_DEFINITIONS "ZIP_STATIC"
+        PROPERTIES INTERFACE_COMPILE_DEFINITIONS "ZIP_STATIC"
       )
     endif()
 

@@ -73,8 +73,8 @@ endif()
 
 if(NOT DEFINED Dbm_IS_BUILT_IN)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(dbminit dbm.h Dbm_IS_BUILT_IN)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(dbminit dbm.h Dbm_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 
@@ -95,11 +95,7 @@ else()
     string(APPEND _reason "dbm.h not found. ")
   endif()
 
-  find_library(
-    Dbm_LIBRARY
-    NAMES dbm
-    DOC "The path to the dbm library"
-  )
+  find_library(Dbm_LIBRARY NAMES dbm DOC "The path to the dbm library")
 
   if(NOT Dbm_LIBRARY)
     string(APPEND _reason "dbm library not found. ")
@@ -135,16 +131,14 @@ if(NOT TARGET Dbm::Dbm)
   if(Dbm_INCLUDE_DIR)
     set_target_properties(
       Dbm::Dbm
-      PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIR}"
+      PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${Dbm_INCLUDE_DIR}"
     )
   endif()
 
   if(Dbm_LIBRARY)
     set_target_properties(
       Dbm::Dbm
-      PROPERTIES
-        IMPORTED_LOCATION "${Dbm_LIBRARY}"
+      PROPERTIES IMPORTED_LOCATION "${Dbm_LIBRARY}"
     )
   endif()
 endif()

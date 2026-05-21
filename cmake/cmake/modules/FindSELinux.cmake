@@ -87,9 +87,7 @@ endif()
 
 find_package_handle_standard_args(
   SELinux
-  REQUIRED_VARS
-    SELinux_LIBRARY
-    SELinux_INCLUDE_DIR
+  REQUIRED_VARS SELinux_LIBRARY SELinux_INCLUDE_DIR
   VERSION_VAR SELinux_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

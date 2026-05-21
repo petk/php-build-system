@@ -85,18 +85,21 @@ endif()
 block(PROPAGATE libavif_VERSION)
   if(libavif_INCLUDE_DIR)
     file(
-      STRINGS
-      ${libavif_INCLUDE_DIR}/avif/avif.h
+      STRINGS ${libavif_INCLUDE_DIR}/avif/avif.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+AVIF_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\n]*$"
+        "^#[ \t]*define[ \t]+AVIF_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[^\n]*$"
     )
 
     unset(libavif_VERSION)
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+AVIF_VERSION_${item}[ \t]+([0-9]+)[^\n]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+AVIF_VERSION_${item}[ \t]+([0-9]+)[^\n]*$"
+        )
           if(DEFINED libavif_VERSION)
             string(APPEND libavif_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -110,9 +113,7 @@ endblock()
 
 find_package_handle_standard_args(
   libavif
-  REQUIRED_VARS
-    libavif_LIBRARY
-    libavif_INCLUDE_DIR
+  REQUIRED_VARS libavif_LIBRARY libavif_INCLUDE_DIR
   VERSION_VAR libavif_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

@@ -129,17 +129,14 @@ block(PROPAGATE DTrace_FOUND)
 
   if(NOT DTrace_EXECUTABLE)
     string(
-      APPEND
-      reason
+      APPEND reason
       "DTrace command-line generation tool not found. Please install DTrace. "
     )
   endif()
 
   find_package_handle_standard_args(
     DTrace
-    REQUIRED_VARS
-      DTrace_EXECUTABLE
-      DTrace_INCLUDE_DIR
+    REQUIRED_VARS DTrace_EXECUTABLE DTrace_INCLUDE_DIR
     REASON_FAILURE_MESSAGE "${reason}"
   )
 endblock()
@@ -152,15 +149,13 @@ if(NOT TARGET DTrace::DTrace)
   add_library(DTrace::DTrace INTERFACE IMPORTED)
   set_target_properties(
     DTrace::DTrace
-    PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${DTrace_INCLUDE_DIR}
+    PROPERTIES INTERFACE_INCLUDE_DIRECTORIES ${DTrace_INCLUDE_DIR}
   )
 endif()
 
 function(dtrace_target)
   cmake_parse_arguments(
-    PARSE_ARGV
-    1
+    PARSE_ARGV 1
     parsed
     ""
     "INPUT;HEADER"
@@ -192,15 +187,13 @@ function(dtrace_target)
   endif()
 
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_INPUT
+    ABSOLUTE_PATH parsed_INPUT
     BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     NORMALIZE
   )
 
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_HEADER
+    ABSOLUTE_PATH parsed_HEADER
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -208,8 +201,7 @@ function(dtrace_target)
   set(sources "")
   foreach(source IN LISTS parsed_SOURCES)
     cmake_path(
-      ABSOLUTE_PATH
-      source
+      ABSOLUTE_PATH source
       BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       NORMALIZE
     )
@@ -221,25 +213,25 @@ function(dtrace_target)
   file(
     CONFIGURE
     OUTPUT CMakeFiles/GenerateDTraceHeader.cmake
-    CONTENT [[
-      execute_process(
-        COMMAND
-          "@DTrace_EXECUTABLE@"
-          -s "@parsed_INPUT@"  # Input file.
-          -h                   # Generate a SystemTap header file.
-          -C                   # Run the C preprocessor (cpp) on the input file.
-          -o "@parsed_HEADER@" # Output file.
-      )
-      # Patch DTrace header.
-      file(READ "@parsed_HEADER@" content)
-      string(REPLACE "PHP_" "DTRACE_" content "${content}")
-      file(WRITE "@parsed_HEADER@" "${content}")
-    ]]
+    CONTENT
+      [[
+        execute_process(
+          COMMAND
+            "@DTrace_EXECUTABLE@"
+            -s "@parsed_INPUT@"  # Input file.
+            -h                   # Generate a SystemTap header file.
+            -C                   # Run the C preprocessor (cpp) on the input file.
+            -o "@parsed_HEADER@" # Output file.
+        )
+        # Patch DTrace header.
+        file(READ "@parsed_HEADER@" content)
+        string(REPLACE "PHP_" "DTRACE_" content "${content}")
+        file(WRITE "@parsed_HEADER@" "${content}")
+      ]]
     @ONLY
   )
   cmake_path(
-    RELATIVE_PATH
-    parsed_HEADER
+    RELATIVE_PATH parsed_HEADER
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     OUTPUT_VARIABLE header
   )

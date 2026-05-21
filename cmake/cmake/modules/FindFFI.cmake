@@ -93,9 +93,7 @@ block()
 
   find_library(
     FFI_LIBRARY
-    NAMES
-      ${names}
-      ffi
+    NAMES ${names} ffi
     NAMES_PER_DIR
     HINTS ${PC_FFI_LIBRARY_DIRS}
     DOC "The path to the FFI library"
@@ -128,9 +126,7 @@ endblock()
 
 find_package_handle_standard_args(
   FFI
-  REQUIRED_VARS
-    FFI_LIBRARY
-    FFI_INCLUDE_DIR
+  REQUIRED_VARS FFI_LIBRARY FFI_INCLUDE_DIR
   VERSION_VAR FFI_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

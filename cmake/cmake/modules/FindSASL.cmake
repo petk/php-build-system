@@ -88,18 +88,21 @@ block(PROPAGATE SASL_FOUND SASL_VERSION)
 
   if(EXISTS ${SASL_INCLUDE_DIR}/sasl/sasl.h)
     file(
-      STRINGS
-      ${SASL_INCLUDE_DIR}/sasl/sasl.h
+      STRINGS ${SASL_INCLUDE_DIR}/sasl/sasl.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+SASL_VERSION_(MAJOR|MINOR|STEP)[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+SASL_VERSION_(MAJOR|MINOR|STEP)[ \t]+[0-9]+[ \t]*$"
     )
 
     unset(SASL_VERSION)
 
     foreach(item MAJOR MINOR STEP)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+SASL_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+SASL_VERSION_${item}[ \t]+([0-9]+)[ \t]*$"
+        )
           if(DEFINED SASL_VERSION)
             string(APPEND SASL_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -114,9 +117,7 @@ block(PROPAGATE SASL_FOUND SASL_VERSION)
 
   find_package_handle_standard_args(
     SASL
-    REQUIRED_VARS
-      SASL_LIBRARY
-      SASL_INCLUDE_DIR
+    REQUIRED_VARS SASL_LIBRARY SASL_INCLUDE_DIR
     VERSION_VAR SASL_VERSION
     HANDLE_VERSION_RANGE
     REASON_FAILURE_MESSAGE "${reason}"

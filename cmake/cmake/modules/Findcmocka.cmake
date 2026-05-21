@@ -110,18 +110,21 @@ endif()
 block(PROPAGATE cmocka_VERSION)
   if(cmocka_INCLUDE_DIR AND EXISTS ${cmocka_INCLUDE_DIR}/cmocka_version.h)
     file(
-      STRINGS
-      ${cmocka_INCLUDE_DIR}/cmocka_version.h
+      STRINGS ${cmocka_INCLUDE_DIR}/cmocka_version.h
       results
       REGEX
-      "^[ \t]*#[ \t]*define[ \t]+CMOCKA_VERSION_(MAJOR|MINOR|MICRO)[ \t]+[0-9]+[ \t]*$"
+        "^[ \t]*#[ \t]*define[ \t]+CMOCKA_VERSION_(MAJOR|MINOR|MICRO)[ \t]+[0-9]+[ \t]*$"
     )
 
     set(cmocka_VERSION "")
 
     foreach(item MAJOR MINOR MICRO)
       foreach(line ${results})
-        if(line MATCHES "^[ \t]*#[ \t]*define[ \t]+CMOCKA_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
+        if(
+          line
+            MATCHES
+            "^[ \t]*#[ \t]*define[ \t]+CMOCKA_VERSION_${item}[ \t]+([0-9]+)[ \t]*$"
+        )
           if(cmocka_VERSION)
             string(APPEND cmocka_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -143,9 +146,7 @@ endblock()
 
 find_package_handle_standard_args(
   cmocka
-  REQUIRED_VARS
-    cmocka_LIBRARY
-    cmocka_INCLUDE_DIR
+  REQUIRED_VARS cmocka_LIBRARY cmocka_INCLUDE_DIR
   VERSION_VAR cmocka_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

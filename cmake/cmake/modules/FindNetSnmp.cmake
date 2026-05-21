@@ -59,11 +59,7 @@ set_package_properties(
     DESCRIPTION "Simple network management protocol library"
 )
 
-block(
-  PROPAGATE
-    NetSnmp_FOUND
-    NetSnmp_VERSION
-)
+block(PROPAGATE NetSnmp_FOUND NetSnmp_VERSION)
   set(reason "")
 
   find_package(PkgConfig QUIET)
@@ -76,8 +72,7 @@ block(
     )
       set(saved "${CMAKE_PREFIX_PATH}")
       list(
-        PREPEND
-        CMAKE_PREFIX_PATH
+        PREPEND CMAKE_PREFIX_PATH
         ${NetSnmp_ROOT}
         ${NETSNMP_ROOT}
         $ENV{NetSnmp_ROOT}
@@ -120,8 +115,7 @@ block(
 
     if(netsnmp_config_libdir)
       string(
-        REGEX REPLACE
-        "^-L"
+        REGEX REPLACE "^-L"
         ""
         netsnmp_config_libdir
         ${netsnmp_config_libdir}
@@ -132,9 +126,7 @@ block(
   find_path(
     NetSnmp_INCLUDE_DIR
     NAMES net-snmp/net-snmp-config.h
-    HINTS
-      ${PC_NetSnmp_INCLUDE_DIRS}
-      ${netsnmp_config_include_dir}
+    HINTS ${PC_NetSnmp_INCLUDE_DIRS} ${netsnmp_config_include_dir}
     DOC "Directory containing Net-SNMP library headers"
   )
   mark_as_advanced(NetSnmp_INCLUDE_DIR)
@@ -155,9 +147,7 @@ block(
   find_library(
     NetSnmp_LIBRARY
     NAMES netsnmp
-    HINTS
-      ${PC_NetSnmp_LIBRARY_DIRS}
-      ${netsnmp_config_libdir}
+    HINTS ${PC_NetSnmp_LIBRARY_DIRS} ${netsnmp_config_libdir}
     DOC "The path to the Net-SNMP library"
   )
   mark_as_advanced(NetSnmp_LIBRARY)
@@ -188,11 +178,9 @@ block(
     )
 
     file(
-      STRINGS
-      ${NetSnmp_INCLUDE_DIR}/net-snmp/net-snmp-config.h
+      STRINGS ${NetSnmp_INCLUDE_DIR}/net-snmp/net-snmp-config.h
       result
-      REGEX
-      "${regex}"
+      REGEX "${regex}"
     )
 
     if(result MATCHES "${regex}")
@@ -222,9 +210,7 @@ block(
 
   find_package_handle_standard_args(
     NetSnmp
-    REQUIRED_VARS
-      NetSnmp_LIBRARY
-      NetSnmp_INCLUDE_DIR
+    REQUIRED_VARS NetSnmp_LIBRARY NetSnmp_INCLUDE_DIR
     VERSION_VAR NetSnmp_VERSION
     HANDLE_VERSION_RANGE
     REASON_FAILURE_MESSAGE "${reason}"
@@ -273,8 +259,8 @@ block(
       if(netsnmp_external_libraries)
         set_target_properties(
           NetSnmp::NetSnmp
-          PROPERTIES
-            INTERFACE_LINK_LIBRARIES "${netsnmp_external_libraries}")
+          PROPERTIES INTERFACE_LINK_LIBRARIES "${netsnmp_external_libraries}"
+        )
       endif()
     endif()
   endif()
