@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_ICONV
-  LANGUAGES C
-)
+project(PHP_EXT_ICONV LANGUAGES C)
 
 include(CheckPrototypeDefinition)
 include(CheckSourceRuns)
@@ -52,13 +49,8 @@ endif()
 
 target_sources(
   php_ext_iconv
-  PRIVATE
-    iconv.c
-    iconv.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_iconv.h
+  PRIVATE iconv.c iconv.stub.php
+  PUBLIC FILE_SET HEADERS FILES php_iconv.h
 )
 
 target_include_directories(php_ext_iconv PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -82,9 +74,7 @@ target_compile_definitions(
 find_package(Iconv)
 set_package_properties(
   Iconv
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the iconv extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the iconv extension."
 )
 
 target_link_libraries(php_ext_iconv PRIVATE Iconv::Iconv)
@@ -102,16 +92,14 @@ if(TARGET Iconv::Iconv)
     endif()
   else()
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-
-      check_symbol_exists(libiconv iconv.h PHP_EXT_ICONV_HAVE_LIBICONV)
-      set(HAVE_LIBICONV ${PHP_EXT_ICONV_HAVE_LIBICONV})
-
-      if(PHP_EXT_ICONV_HAVE_LIBICONV)
-        set(ICONV_ALIASED_LIBICONV TRUE)
-      else()
-        check_symbol_exists(iconv iconv.h PHP_EXT_ICONV_HAVE_ICONV)
-      endif()
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+    check_symbol_exists(libiconv iconv.h PHP_EXT_ICONV_HAVE_LIBICONV)
+    set(HAVE_LIBICONV ${PHP_EXT_ICONV_HAVE_LIBICONV})
+    if(PHP_EXT_ICONV_HAVE_LIBICONV)
+      set(ICONV_ALIASED_LIBICONV TRUE)
+    else()
+      check_symbol_exists(iconv iconv.h PHP_EXT_ICONV_HAVE_ICONV)
+    endif()
     cmake_pop_check_state()
   endif()
 
@@ -127,13 +115,9 @@ if(TARGET Iconv::Iconv)
 
   # Check for GNU libiconv implementation.
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(
-      _libiconv_version
-      iconv.h
-      PHP_EXT_ICONV_IMPL_GNU_LIBICONV
-    )
+  set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(_libiconv_version iconv.h PHP_EXT_ICONV_IMPL_GNU_LIBICONV)
   cmake_pop_check_state()
   if(PHP_EXT_ICONV_IMPL_GNU_LIBICONV)
     message(CHECK_PASS "GNU libiconv")
@@ -144,13 +128,13 @@ if(TARGET Iconv::Iconv)
   # Check for glibc implementation.
   if(NOT PHP_EXT_ICONV_IMPL_GNU_LIBICONV)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      check_symbol_exists(
-        gnu_get_libc_version
-        gnu/libc-version.h
-        PHP_EXT_ICONV_IMPL_GLIBC
-      )
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_symbol_exists(
+      gnu_get_libc_version
+      gnu/libc-version.h
+      PHP_EXT_ICONV_IMPL_GLIBC
+    )
     cmake_pop_check_state()
   endif()
   if(PHP_EXT_ICONV_IMPL_GLIBC)
@@ -162,9 +146,9 @@ if(TARGET Iconv::Iconv)
   # Check for Konstantin Chuguev's iconv implementation.
   if(NOT PHP_EXT_ICONV_IMPL_GNU_LIBICONV AND NOT PHP_EXT_ICONV_IMPL_GLIBC)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      check_symbol_exists(iconv_ccs_init iconv.h PHP_EXT_ICONV_IMPL_BSD)
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_symbol_exists(iconv_ccs_init iconv.h PHP_EXT_ICONV_IMPL_BSD)
     cmake_pop_check_state()
   endif()
   if(PHP_EXT_ICONV_IMPL_BSD)
@@ -179,9 +163,9 @@ if(TARGET Iconv::Iconv)
     AND NOT PHP_EXT_ICONV_IMPL_BSD
   )
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      check_symbol_exists(cstoccsid iconv.h PHP_EXT_ICONV_IMPL_IBM)
+    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_symbol_exists(cstoccsid iconv.h PHP_EXT_ICONV_IMPL_IBM)
     cmake_pop_check_state()
   endif()
   if(PHP_EXT_ICONV_IMPL_IBM)
@@ -200,10 +184,11 @@ if(TARGET Iconv::Iconv)
   # Sanity check. Check if iconv supports errno.
   message(CHECK_START "Checking if iconv supports errno")
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_source_runs(C [[
+  set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_runs(
+    C
+    [[
       #include <iconv.h>
       #include <errno.h>
 
@@ -221,7 +206,9 @@ if(TARGET Iconv::Iconv)
         iconv_close(cd);
         return 2;
       }
-    ]] PHP_EXT_ICONV_HAVE_ERRNO)
+    ]]
+    PHP_EXT_ICONV_HAVE_ERRNO
+  )
   cmake_pop_check_state()
   if(PHP_EXT_ICONV_HAVE_ERRNO)
     message(CHECK_PASS "yes")
@@ -234,10 +221,11 @@ if(TARGET Iconv::Iconv)
   # https://bugs.php.net/48147
   message(CHECK_START "Checking if iconv has usable //IGNORE")
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_source_runs(C [[
+  set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_runs(
+    C
+    [[
       #include <iconv.h>
       #include <stdlib.h>
 
@@ -263,8 +251,10 @@ if(TARGET Iconv::Iconv)
         }
         return 1;
       }
-    ]] PHP_EXT_ICONV_BROKEN_IGNORE)
-    set(ICONV_BROKEN_IGNORE ${PHP_EXT_ICONV_BROKEN_IGNORE})
+    ]]
+    PHP_EXT_ICONV_BROKEN_IGNORE
+  )
+  set(ICONV_BROKEN_IGNORE ${PHP_EXT_ICONV_BROKEN_IGNORE})
   cmake_pop_check_state()
   if(PHP_EXT_ICONV_BROKEN_IGNORE)
     message(CHECK_FAIL "no")
@@ -277,16 +267,16 @@ if(TARGET Iconv::Iconv)
   # Solaris < 11.4, illumos, may have a non-standard iconv declaration. libiconv
   # may imitate this on those platforms.
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
+  set(CMAKE_REQUIRED_LIBRARIES Iconv::Iconv)
 
-    check_prototype_definition(
-      iconv
-      "size_t iconv(iconv_t cd, const char **src, size_t *srcleft, char **dst, \
+  check_prototype_definition(
+    iconv
+    "size_t iconv(iconv_t cd, const char **src, size_t *srcleft, char **dst, \
         size_t *dstleft)"
-      "0"
-      "iconv.h"
-      PHP_EXT_ICONV_CONST
-    )
+    "0"
+    "iconv.h"
+    PHP_EXT_ICONV_CONST
+  )
   cmake_pop_check_state()
 
   if(PHP_EXT_ICONV_CONST)
