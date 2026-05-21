@@ -9,8 +9,7 @@ include(PHP/SearchLibraries)
 php_search_libraries(
   SYMBOL clock_gettime
   HEADERS time.h
-  LIBRARIES
-    rt # Solaris 10
+  LIBRARIES rt # Solaris 10
   RESULT_VARIABLE PHP_SAPI_FPM_HAVE_CLOCK_GETTIME
   TARGET php_sapi_fpm PRIVATE
 )
