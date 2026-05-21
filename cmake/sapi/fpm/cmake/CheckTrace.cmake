@@ -20,8 +20,10 @@ message(CHECK_START "Checking FPM trace implementation")
 message(CHECK_START "Checking whether ptrace works")
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-  check_source_runs(C [[
+set(CMAKE_REQUIRED_QUIET TRUE)
+check_source_runs(
+  C
+  [[
     #include <unistd.h>
     #include <signal.h>
     #include <sys/wait.h>
@@ -88,7 +90,9 @@ cmake_push_check_state(RESET)
         return 0;
       }
     }
-  ]] PHP_SAPI_FPM_HAVE_PTRACE)
+  ]]
+  PHP_SAPI_FPM_HAVE_PTRACE
+)
 cmake_pop_check_state()
 
 if(PHP_SAPI_FPM_HAVE_PTRACE)
@@ -118,9 +122,11 @@ if(NOT PHP_SAPI_FPM_HAVE_PTRACE AND NOT PHP_SAPI_FPM_HAVE_MACH_VM_READ)
 
     if(PHP_SAPI_FPM_PROC_MEM_FILE)
       cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-        set(CMAKE_REQUIRED_QUIET TRUE)
-        check_source_runs(C "
+      set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+      set(CMAKE_REQUIRED_QUIET TRUE)
+      check_source_runs(
+        C
+        "
           #define _FILE_OFFSET_BITS 64
           #include <stdint.h>
           #include <unistd.h>
@@ -146,7 +152,9 @@ if(NOT PHP_SAPI_FPM_HAVE_PTRACE AND NOT PHP_SAPI_FPM_HAVE_MACH_VM_READ)
             close(fd);
             return v1 != v2;
           }
-        " PHP_SAPI_FPM_HAVE_PROC_MEM_FILE)
+        "
+        PHP_SAPI_FPM_HAVE_PROC_MEM_FILE
+      )
       cmake_pop_check_state()
 
       if(NOT PHP_SAPI_FPM_HAVE_PROC_MEM_FILE)

@@ -42,13 +42,7 @@ add_library(PHP::sapi::embed ALIAS php_sapi_embed)
 add_library(php_sapi_embed_shared SHARED)
 add_library(PHP::sapi::embed_shared ALIAS php_sapi_embed_shared)
 
-target_sources(
-  php_sapi_embed
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_embed.h
-)
+target_sources(php_sapi_embed PUBLIC FILE_SET HEADERS FILES php_embed.h)
 
 foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
   target_sources(${target} PRIVATE php_embed.c)
@@ -73,24 +67,12 @@ foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
     )
   endif()
 
-  set_target_properties(
-    ${target}
-    PROPERTIES
-      PHP_CLI TRUE
-  )
+  set_target_properties(${target} PROPERTIES PHP_CLI TRUE)
 endforeach()
 
-set_target_properties(
-  php_sapi_embed
-  PROPERTIES
-    EXPORT_NAME EmbedStatic
-)
+set_target_properties(php_sapi_embed PROPERTIES EXPORT_NAME EmbedStatic)
 
-set_target_properties(
-  php_sapi_embed_shared
-  PROPERTIES
-    EXPORT_NAME EmbedShared
-)
+set_target_properties(php_sapi_embed_shared PROPERTIES EXPORT_NAME EmbedShared)
 
 # Configure pkg-config php-embed.pc metadata file.
 include(PHP/PkgConfig)
@@ -101,36 +83,37 @@ php_pkgconfig_generate_pc(
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
-    includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
-    libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
+    includedir
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
+    libdir
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
     PHP_INSTALL_INCLUDEDIR_SUFFIX "${PHP_INSTALL_INCLUDEDIR_SUFFIX}"
     PHP_VERSION "${PHP_VERSION}"
     PHP_VERSION_ID "${PHP_VERSION_ID}"
     PHP_HOMEPAGE_URL "${PHP_HOMEPAGE_URL}"
     PHP_SPDX_LICENSE "${PHP_SPDX_LICENSE}"
-    PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
-    PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
-    PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
+    PHP_EXTENSION_DIR
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_SCAN_DIR
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_PATH
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
     PHP_DEBUG "$<IF:$<CONFIG:Debug,PhpRelWithDebInfo>,yes,no>"
     PHP_THREAD_SAFETY "$<IF:$<BOOL:${PHP_THREAD_SAFETY}>,yes,no>"
-    PHP_EMBED_SAPI_NAME "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_embed_shared,OUTPUT_NAME>>"
+    PHP_EMBED_SAPI_NAME
+      "$<GENEX_EVAL:$<TARGET_PROPERTY:php_sapi_embed_shared,OUTPUT_NAME>>"
     PHP_API_VERSION "${PHP_API_VERSION}"
-    PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>"
+    PHP_ZEND_EXTENSION_API_NO
+      "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>"
     PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>"
 )
 
 install(
   TARGETS php_sapi_embed php_sapi_embed_shared
   EXPORT php_sapi_embed_export
-  ARCHIVE
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT php-sapi-embed
-  RUNTIME
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT php-sapi-embed
-  LIBRARY
-    DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    COMPONENT php-sapi-embed
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT php-sapi-embed
+  RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT php-sapi-embed
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT php-sapi-embed
   FILE_SET HEADERS
     DESTINATION ${PHP_INSTALL_INCLUDEDIR}/sapi/embed
     COMPONENT php-development
