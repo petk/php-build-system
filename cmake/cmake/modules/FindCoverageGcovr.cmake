@@ -68,12 +68,7 @@ set_package_properties(
     DESCRIPTION "Code coverage reporting tool (gcovr)"
 )
 
-block(
-  PROPAGATE
-    CoverageGcovr_FOUND
-    CoverageGcovr_OPTIONS
-    CoverageGcovr_VERSION
-)
+block(PROPAGATE CoverageGcovr_FOUND CoverageGcovr_OPTIONS CoverageGcovr_VERSION)
   set(reason "")
   set(required_vars "")
 
@@ -134,11 +129,7 @@ block(
   endif()
 
   if(CMAKE_C_COMPILER_ID STREQUAL "GNU" AND Coverage_GCOV_EXECUTABLE)
-    set(
-      CoverageGcovr_OPTIONS
-      --gcov-executable
-      "${Coverage_GCOV_EXECUTABLE}"
-    )
+    set(CoverageGcovr_OPTIONS --gcov-executable "${Coverage_GCOV_EXECUTABLE}")
   elseif(
     CMAKE_C_COMPILER_ID MATCHES ".*Clang$"
     AND Coverage_LLVM_COV_EXECUTABLE
@@ -169,8 +160,7 @@ block(
 
     set_target_properties(
       CoverageGcovr::gcovr
-      PROPERTIES
-        IMPORTED_LOCATION "${CoverageGcovr_EXECUTABLE}"
+      PROPERTIES IMPORTED_LOCATION "${CoverageGcovr_EXECUTABLE}"
     )
   endif()
 endblock()

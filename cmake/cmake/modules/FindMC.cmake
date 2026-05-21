@@ -69,7 +69,8 @@ include(FindPackageHandleStandardArgs)
 set_package_properties(
   MC
   PROPERTIES
-    URL "https://learn.microsoft.com/windows/win32/wes/message-compiler--mc-exe-"
+    URL
+      "https://learn.microsoft.com/windows/win32/wes/message-compiler--mc-exe-"
     DESCRIPTION "Compiler for instrumentation manifests and message text files"
 )
 
@@ -168,8 +169,7 @@ unset(_reason)
 
 function(mc_target)
   cmake_parse_arguments(
-    PARSE_ARGV
-    0
+    PARSE_ARGV 0
     parsed
     ""
     "NAME;INPUT;HEADER_DIR;RC_DIR;XDBG_DIR"
@@ -201,8 +201,7 @@ function(mc_target)
   endif()
 
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_INPUT
+    ABSOLUTE_PATH parsed_INPUT
     BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     NORMALIZE
   )
@@ -243,8 +242,7 @@ function(mc_target)
   )
 
   cmake_path(
-    RELATIVE_PATH
-    output
+    RELATIVE_PATH output
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relative_path
   )

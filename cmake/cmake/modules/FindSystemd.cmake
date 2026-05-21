@@ -117,9 +117,7 @@ endif()
 
 find_package_handle_standard_args(
   Systemd
-  REQUIRED_VARS
-    Systemd_LIBRARY
-    Systemd_INCLUDE_DIR
+  REQUIRED_VARS Systemd_LIBRARY Systemd_INCLUDE_DIR
   VERSION_VAR Systemd_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

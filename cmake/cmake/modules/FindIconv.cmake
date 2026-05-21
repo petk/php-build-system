@@ -14,8 +14,7 @@ include(FeatureSummary)
 
 set_package_properties(
   Iconv
-  PROPERTIES
-    DESCRIPTION "Internationalization conversion library"
+  PROPERTIES DESCRIPTION "Internationalization conversion library"
 )
 
 # Disable searching for built-in iconv when overriding search paths.
@@ -23,13 +22,14 @@ if(
   NOT DEFINED Iconv_IS_BUILT_IN
   AND NOT DEFINED Iconv_INCLUDE_DIR
   AND NOT DEFINED Iconv_LIBRARY
-  AND (
-    CMAKE_PREFIX_PATH
-    OR Iconv_ROOT
-    OR ICONV_ROOT
-    OR DEFINED ENV{Iconv_ROOT}
-    OR DEFINED ENV{ICONV_ROOT}
-  )
+  AND
+    (
+      CMAKE_PREFIX_PATH
+      OR Iconv_ROOT
+      OR ICONV_ROOT
+      OR DEFINED ENV{Iconv_ROOT}
+      OR DEFINED ENV{ICONV_ROOT}
+    )
 )
   find_path(
     Iconv_INCLUDE_DIR

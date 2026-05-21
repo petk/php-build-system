@@ -53,9 +53,7 @@ include(FindPackageHandleStandardArgs)
 
 set_package_properties(
   Sodium
-  PROPERTIES
-    URL "https://libsodium.org/"
-    DESCRIPTION "Crypto library"
+  PROPERTIES URL "https://libsodium.org/" DESCRIPTION "Crypto library"
 )
 
 set(_reason "")
@@ -103,7 +101,10 @@ endif()
 # Get version.
 block(PROPAGATE Sodium_VERSION)
   if(EXISTS ${Sodium_INCLUDE_DIR}/sodium/version.h)
-    set(regex "^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+\"([0-9.]+)\"[ \t]*$")
+    set(
+      regex
+      "^#[ \t]*define[ \t]+SODIUM_VERSION_STRING[ \t]+\"([0-9.]+)\"[ \t]*$"
+    )
 
     file(STRINGS ${Sodium_INCLUDE_DIR}/sodium/version.h result REGEX "${regex}")
 
@@ -115,9 +116,7 @@ endblock()
 
 find_package_handle_standard_args(
   Sodium
-  REQUIRED_VARS
-    Sodium_LIBRARY
-    Sodium_INCLUDE_DIR
+  REQUIRED_VARS Sodium_LIBRARY Sodium_INCLUDE_DIR
   VERSION_VAR Sodium_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

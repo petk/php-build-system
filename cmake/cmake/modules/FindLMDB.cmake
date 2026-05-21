@@ -85,11 +85,13 @@ endif()
 # Sanity check.
 if(LMDB_INCLUDE_DIR AND LMDB_LIBRARY)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${LMDB_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${LMDB_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(mdb_env_open lmdb.h LMDB_SANITY_CHECK)
+  set(CMAKE_REQUIRED_INCLUDES ${LMDB_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_LIBRARIES ${LMDB_LIBRARY})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_symbol_exists(mdb_env_open lmdb.h LMDB_SANITY_CHECK)
+
   cmake_pop_check_state()
 
   if(NOT LMDB_SANITY_CHECK)
@@ -101,18 +103,21 @@ endif()
 block(PROPAGATE LMDB_VERSION)
   if(LMDB_INCLUDE_DIR)
     file(
-      STRINGS
-      ${LMDB_INCLUDE_DIR}/lmdb.h
+      STRINGS ${LMDB_INCLUDE_DIR}/lmdb.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+MDB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+MDB_VERSION_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+[ \t]*$"
     )
 
     unset(LMDB_VERSION)
 
     foreach(item MAJOR MINOR PATCH)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+MDB_VERSION_${item}[ \t]+([0-9]+)[ \t]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+MDB_VERSION_${item}[ \t]+([0-9]+)[ \t]*$"
+        )
           if(DEFINED LMDB_VERSION)
             string(APPEND LMDB_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -126,10 +131,7 @@ endblock()
 
 find_package_handle_standard_args(
   LMDB
-  REQUIRED_VARS
-    LMDB_LIBRARY
-    LMDB_INCLUDE_DIR
-    LMDB_SANITY_CHECK
+  REQUIRED_VARS LMDB_LIBRARY LMDB_INCLUDE_DIR LMDB_SANITY_CHECK
   VERSION_VAR LMDB_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

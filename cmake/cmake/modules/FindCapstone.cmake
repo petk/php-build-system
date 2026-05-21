@@ -83,11 +83,10 @@ endif()
 block(PROPAGATE Capstone_VERSION)
   if(Capstone_INCLUDE_DIR)
     file(
-      STRINGS
-      "${Capstone_INCLUDE_DIR}/capstone/capstone.h"
+      STRINGS "${Capstone_INCLUDE_DIR}/capstone/capstone.h"
       results
       REGEX
-      "^#[ \t]*define[ \t]+CS_(API_MAJOR|API_MINOR|VERSION_EXTRA)[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+CS_(API_MAJOR|API_MINOR|VERSION_EXTRA)[ \t]+[0-9]+[ \t]*$"
     )
 
     set(Capstone_VERSION "")
@@ -116,9 +115,7 @@ endblock()
 
 find_package_handle_standard_args(
   Capstone
-  REQUIRED_VARS
-    Capstone_LIBRARY
-    Capstone_INCLUDE_DIR
+  REQUIRED_VARS Capstone_LIBRARY Capstone_INCLUDE_DIR
   VERSION_VAR Capstone_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
@@ -143,20 +140,20 @@ if(NOT TARGET Capstone::Capstone)
     add_library(Capstone::Capstone INTERFACE IMPORTED)
     set_target_properties(
       Capstone::Capstone
-      PROPERTIES
-        IMPORTED_LIBNAME "${Capstone_LIBRARY}"
+      PROPERTIES IMPORTED_LIBNAME "${Capstone_LIBRARY}"
     )
   endif()
 
   set_property(
     TARGET Capstone::Capstone
-    PROPERTY INTERFACE_INCLUDE_DIRECTORIES
-      ${Capstone_INCLUDE_DIR}
-      # Capstone might be included with <capstone.h> instead of the recommended
-      # <capstone/capstone.h>. Here both include directories are added so the
-      # code can work with both includes. The following "subdir" can be removed
-      # and simplified in the future.
-      # See: https://github.com/capstone-engine/capstone/issues/1982
-      ${Capstone_INCLUDE_DIR}/capstone
+    PROPERTY
+      INTERFACE_INCLUDE_DIRECTORIES
+        ${Capstone_INCLUDE_DIR}
+        # Capstone might be included with <capstone.h> instead of the recommended
+        # <capstone/capstone.h>. Here both include directories are added so the
+        # code can work with both includes. The following "subdir" can be removed
+        # and simplified in the future.
+        # See: https://github.com/capstone-engine/capstone/issues/1982
+        ${Capstone_INCLUDE_DIR}/capstone
   )
 endif()

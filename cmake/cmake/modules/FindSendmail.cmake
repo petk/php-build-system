@@ -42,9 +42,7 @@ include(FindPackageHandleStandardArgs)
 
 set_package_properties(
   Sendmail
-  PROPERTIES
-    URL "https://sendmail.org"
-    DESCRIPTION "Mail Transport Agent"
+  PROPERTIES URL "https://sendmail.org" DESCRIPTION "Mail Transport Agent"
 )
 
 set(_reason "")

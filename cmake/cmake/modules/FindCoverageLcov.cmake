@@ -105,10 +105,7 @@ set_package_properties(
 )
 
 block(
-  PROPAGATE
-    CoverageLcov_FOUND
-    CoverageLcov_lcov_OPTIONS
-    CoverageLcov_VERSION
+  PROPAGATE CoverageLcov_FOUND CoverageLcov_lcov_OPTIONS CoverageLcov_VERSION
 )
   set(reason "")
   set(required_vars "")
@@ -161,11 +158,7 @@ block(
     endif()
 
     if(CMAKE_C_COMPILER_ID STREQUAL "GNU" AND Coverage_GCOV_EXECUTABLE)
-      set(
-        CoverageLcov_lcov_OPTIONS
-        --gcov-tool
-        ${Coverage_GCOV_EXECUTABLE}
-      )
+      set(CoverageLcov_lcov_OPTIONS --gcov-tool ${Coverage_GCOV_EXECUTABLE})
     elseif(
       CMAKE_C_COMPILER_ID MATCHES ".*Clang$"
       AND Coverage_LLVM_COV_EXECUTABLE
@@ -274,8 +267,7 @@ block(
 
     set_target_properties(
       CoverageLcov::lcov
-      PROPERTIES
-        IMPORTED_LOCATION "${CoverageLcov_EXECUTABLE}"
+      PROPERTIES IMPORTED_LOCATION "${CoverageLcov_EXECUTABLE}"
     )
   endif()
 
@@ -288,8 +280,7 @@ block(
 
     set_target_properties(
       CoverageLcov::genhtml
-      PROPERTIES
-        IMPORTED_LOCATION "${CoverageLcov_GENHTML_EXECUTABLE}"
+      PROPERTIES IMPORTED_LOCATION "${CoverageLcov_GENHTML_EXECUTABLE}"
     )
   endif()
 endblock()

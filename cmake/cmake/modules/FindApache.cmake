@@ -108,8 +108,7 @@ else()
     list(FILTER Apache_APXS_DEFINITIONS INCLUDE REGEX "^-D")
   else()
     string(
-      APPEND
-      _reason
+      APPEND _reason
       "The apxs sanity check failed. Check if Perl is installed and Apache is "
       "built using the --enable-so option."
     )
@@ -310,16 +309,19 @@ endif()
 block(PROPAGATE Apache_VERSION)
   if(EXISTS ${Apache_INCLUDE_DIR}/ap_release.h)
     file(
-      STRINGS
-      ${Apache_INCLUDE_DIR}/ap_release.h
+      STRINGS ${Apache_INCLUDE_DIR}/ap_release.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+AP_SERVER_(MAJORVERSION_NUMBER|MINORVERSION_NUMBER|PATCHLEVEL_NUMBER|_DEVBUILD_BOOLEAN)?[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+AP_SERVER_(MAJORVERSION_NUMBER|MINORVERSION_NUMBER|PATCHLEVEL_NUMBER|_DEVBUILD_BOOLEAN)?[ \t]+[0-9]+[ \t]*$"
     )
 
     foreach(line ${results})
       foreach(item MAJORVERSION_NUMBER MINORVERSION_NUMBER PATCHLEVEL_NUMBER)
-        if(line MATCHES "^#[ \t]*define[ \t]+AP_SERVER_${item}?[ \t]+([0-9])+[ \t]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+AP_SERVER_${item}?[ \t]+([0-9])+[ \t]*$"
+        )
           if(DEFINED Apache_VERSION)
             string(APPEND Apache_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -329,8 +331,16 @@ block(PROPAGATE Apache_VERSION)
       endforeach()
 
       # Append -dev if development release is found.
-      if(line MATCHES "^#[ \t]*define[ \t]+AP_SERVER_DEVBUILD_BOOLEAN[ \t]+([0-9]+)[ \t]*$")
-        if(DEFINED Apache_VERSION AND DEFINED CMAKE_MATCH_1 AND NOT CMAKE_MATCH_1 STREQUAL "0")
+      if(
+        line
+          MATCHES
+          "^#[ \t]*define[ \t]+AP_SERVER_DEVBUILD_BOOLEAN[ \t]+([0-9]+)[ \t]*$"
+      )
+        if(
+          DEFINED Apache_VERSION
+          AND DEFINED CMAKE_MATCH_1
+          AND NOT CMAKE_MATCH_1 STREQUAL "0"
+        )
           string(APPEND Apache_VERSION "-dev")
         endif()
       endif()
@@ -410,13 +420,12 @@ if(NOT TARGET Apache::Apache)
     Apache::Apache
     PROPERTIES
       INTERFACE_LINK_LIBRARIES "${Apache_APR_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES "${Apache_INCLUDE_DIR};${Apache_APR_INCLUDE_DIR}"
+      INTERFACE_INCLUDE_DIRECTORIES
+        "${Apache_INCLUDE_DIR};${Apache_APR_INCLUDE_DIR}"
   )
 
   target_compile_definitions(
     Apache::Apache
-    INTERFACE
-      ${Apache_APR_CPPFLAGS}
-      ${Apache_APXS_DEFINITIONS}
+    INTERFACE ${Apache_APR_CPPFLAGS} ${Apache_APXS_DEFINITIONS}
   )
 endif()

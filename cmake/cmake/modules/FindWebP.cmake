@@ -87,9 +87,7 @@ endif()
 
 find_package_handle_standard_args(
   WebP
-  REQUIRED_VARS
-    WebP_LIBRARY
-    WebP_INCLUDE_DIR
+  REQUIRED_VARS WebP_LIBRARY WebP_INCLUDE_DIR
   VERSION_VAR WebP_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

@@ -60,11 +60,7 @@ if(NOT MM_INCLUDE_DIR)
   string(APPEND _reason "mm.h not found. ")
 endif()
 
-find_library(
-  MM_LIBRARY
-  NAMES mm
-  DOC "The path to the mm library"
-)
+find_library(MM_LIBRARY NAMES mm DOC "The path to the mm library")
 mark_as_advanced(MM_LIBRARY)
 
 if(NOT MM_LIBRARY)
@@ -73,9 +69,7 @@ endif()
 
 find_package_handle_standard_args(
   MM
-  REQUIRED_VARS
-    MM_INCLUDE_DIR
-    MM_LIBRARY
+  REQUIRED_VARS MM_INCLUDE_DIR MM_LIBRARY
   REASON_FAILURE_MESSAGE "${_reason}"
 )
 

@@ -35,28 +35,31 @@ include(CMakePushCheckState)
 include(FindPackageHandleStandardArgs)
 
 block()
-  set(test [[
-    #include <stdatomic.h>
+  set(
+    test
+    [[
+      #include <stdatomic.h>
 
-    int main(void)
-    {
-      atomic_flag n8_flag = ATOMIC_FLAG_INIT;
-      atomic_ullong n64 = ATOMIC_VAR_INIT(0);
+      int main(void)
+      {
+        atomic_flag n8_flag = ATOMIC_FLAG_INIT;
+        atomic_ullong n64 = ATOMIC_VAR_INIT(0);
 
-      atomic_flag_test_and_set(&n8_flag);
-      atomic_fetch_add(&n64, 1);
+        atomic_flag_test_and_set(&n8_flag);
+        atomic_fetch_add(&n64, 1);
 
-      return 0;
-    }
-  ]])
+        return 0;
+      }
+    ]]
+  )
 
   check_source_compiles(C "${test}" _atomic_found)
 
   if(NOT _atomic_found)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES atomic)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      check_source_compiles(C "${test}" _atomic_found_in_library)
+    set(CMAKE_REQUIRED_LIBRARIES atomic)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_compiles(C "${test}" _atomic_found_in_library)
     cmake_pop_check_state()
   endif()
 endblock()
@@ -85,7 +88,6 @@ if(NOT TARGET Atomic::Atomic)
 
   set_target_properties(
     Atomic::Atomic
-    PROPERTIES
-      INTERFACE_LINK_LIBRARIES "${Atomic_LIBRARY}"
+    PROPERTIES INTERFACE_LINK_LIBRARIES "${Atomic_LIBRARY}"
   )
 endif()

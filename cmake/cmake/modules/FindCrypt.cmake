@@ -51,24 +51,21 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(FindPackageHandleStandardArgs)
 
-set_package_properties(
-  Crypt
-  PROPERTIES
-    DESCRIPTION "Crypt library"
-)
+set_package_properties(Crypt PROPERTIES DESCRIPTION "Crypt library")
 
 # Disable searching for built-in crypt when overriding search paths.
 if(
   NOT DEFINED Crypt_IS_BUILT_IN
   AND NOT DEFINED Crypt_INCLUDE_DIR
   AND NOT DEFINED Crypt_LIBRARY
-  AND (
-    CMAKE_PREFIX_PATH
-    OR Crypt_ROOT
-    OR CRYPT_ROOT
-    OR DEFINED ENV{Crypt_ROOT}
-    OR DEFINED ENV{CRYPT_ROOT}
-  )
+  AND
+    (
+      CMAKE_PREFIX_PATH
+      OR Crypt_ROOT
+      OR CRYPT_ROOT
+      OR DEFINED ENV{Crypt_ROOT}
+      OR DEFINED ENV{CRYPT_ROOT}
+    )
 )
   find_path(
     Crypt_INCLUDE_DIR
@@ -108,8 +105,8 @@ endif()
 
 if(NOT DEFINED Crypt_IS_BUILT_IN)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(crypt unistd.h Crypt_IS_BUILT_IN)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_symbol_exists(crypt unistd.h Crypt_IS_BUILT_IN)
   cmake_pop_check_state()
 endif()
 
@@ -148,10 +145,13 @@ else()
 
   # Sanity check
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_INCLUDES ${Crypt_INCLUDE_DIR})
-    set(CMAKE_REQUIRED_LIBRARIES ${Crypt_LIBRARY})
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_symbol_exists(crypt unistd.h Crypt_SANITY_CHECK)
+
+  set(CMAKE_REQUIRED_INCLUDES ${Crypt_INCLUDE_DIR})
+  set(CMAKE_REQUIRED_LIBRARIES ${Crypt_LIBRARY})
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_symbol_exists(crypt unistd.h Crypt_SANITY_CHECK)
+
   cmake_pop_check_state()
 
   mark_as_advanced(Crypt_INCLUDE_DIR Crypt_LIBRARY)
@@ -160,7 +160,10 @@ endif()
 # Get version.
 block(PROPAGATE Crypt_VERSION)
   if(EXISTS ${Crypt_INCLUDE_DIR}/crypt.h)
-    set(regex "^[ \t]*#[ \t]*define[ \t]+XCRYPT_VERSION_STR[ \t]+\"?([^\"]+)\"?[ \t]*$")
+    set(
+      regex
+      "^[ \t]*#[ \t]*define[ \t]+XCRYPT_VERSION_STR[ \t]+\"?([^\"]+)\"?[ \t]*$"
+    )
 
     file(STRINGS ${Crypt_INCLUDE_DIR}/crypt.h result REGEX "${regex}")
 
@@ -200,16 +203,14 @@ if(NOT TARGET Crypt::Crypt)
   if(Crypt_INCLUDE_DIR)
     set_target_properties(
       Crypt::Crypt
-      PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${Crypt_INCLUDE_DIR}"
+      PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${Crypt_INCLUDE_DIR}"
     )
   endif()
 
   if(Crypt_LIBRARY)
     set_target_properties(
       Crypt::Crypt
-      PROPERTIES
-        IMPORTED_LOCATION "${Crypt_LIBRARY}"
+      PROPERTIES IMPORTED_LOCATION "${Crypt_LIBRARY}"
     )
   endif()
 endif()

@@ -84,18 +84,21 @@ endif()
 block(PROPAGATE GD_VERSION)
   if(GD_INCLUDE_DIR)
     file(
-      STRINGS
-      ${GD_INCLUDE_DIR}/gd.h
+      STRINGS ${GD_INCLUDE_DIR}/gd.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+GD_(MAJOR|MINOR|RELEASE)_VERSION[ \t]+[0-9]+[ \t]*[^\n]*$"
+        "^#[ \t]*define[ \t]+GD_(MAJOR|MINOR|RELEASE)_VERSION[ \t]+[0-9]+[ \t]*[^\n]*$"
     )
 
     unset(GD_VERSION)
 
     foreach(item MAJOR MINOR RELEASE)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+GD_${item}_VERSION[ \t]+([0-9]+)[ \t]*[^\n]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+GD_${item}_VERSION[ \t]+([0-9]+)[ \t]*[^\n]*$"
+        )
           if(DEFINED GD_VERSION)
             string(APPEND GD_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -109,9 +112,7 @@ endblock()
 
 find_package_handle_standard_args(
   GD
-  REQUIRED_VARS
-    GD_LIBRARY
-    GD_INCLUDE_DIR
+  REQUIRED_VARS GD_LIBRARY GD_INCLUDE_DIR
   VERSION_VAR GD_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
