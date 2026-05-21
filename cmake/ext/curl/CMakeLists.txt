@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_CURL
-  LANGUAGES C
-)
+project(PHP_EXT_CURL LANGUAGES C)
 
 include(CheckIncludeFiles)
 include(CheckSourceRuns)
@@ -27,11 +24,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_CURL "Enable the curl extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/curl"
-  PHP_EXT_CURL
-  "CURL (Client URL Library) support"
-)
+add_feature_info("ext/curl" PHP_EXT_CURL "CURL (Client URL Library) support")
 
 if(NOT PHP_EXT_CURL)
   return()
@@ -57,10 +50,7 @@ target_sources(
     multi.c
     share.c
     curl.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_curl.h
+  PUBLIC FILE_SET HEADERS FILES php_curl.h
 )
 
 target_include_directories(php_ext_curl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -69,15 +59,12 @@ include(PHP/Package/CURL)
 find_package(CURL 7.29.0 OPTIONAL_COMPONENTS SSL)
 set_package_properties(
   CURL
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the curl extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the curl extension."
 )
 
 target_compile_options(
   php_ext_curl
-  PRIVATE
-    $<$<PLATFORM_ID:Windows>:PHP_CURL_EXPORTS>
+  PRIVATE $<$<PLATFORM_ID:Windows>:PHP_CURL_EXPORTS>
 )
 
 target_link_libraries(php_ext_curl PRIVATE CURL::CURL)
@@ -88,18 +75,22 @@ target_link_libraries(php_ext_curl PRIVATE CURL::CURL)
 if(
   PHP_THREAD_SAFETY
   AND CURL_SSL_FOUND
-  AND (
-    NOT CMAKE_CROSSCOMPILING
-    OR (CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  )
+  AND
+    (
+      NOT CMAKE_CROSSCOMPILING
+      OR (CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
+    )
 )
   message(CHECK_START "Checking if libcurl is linked against old OpenSSL < 1.1")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES CURL::CURL)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_runs(C [[
+  set(CMAKE_REQUIRED_LIBRARIES CURL::CURL)
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_runs(
+    C
+    [[
       #include <stdio.h>
       #include <string.h>
       #include <curl/curl.h>
@@ -142,9 +133,12 @@ if(
         /* No SSL support */
         return 1;
       }
-    ]] PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL)
-  cmake_pop_check_state()
+    ]]
+    PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL
+  )
   set(HAVE_CURL_OLD_OPENSSL ${PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL})
+
+  cmake_pop_check_state()
 
   if(NOT PHP_EXT_CURL_HAVE_CURL_OLD_OPENSSL)
     message(CHECK_FAIL "no")
@@ -164,9 +158,9 @@ if(
 
     if(TARGET OpenSSL::Crypto)
       cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES OpenSSL::Crypto)
-        check_include_files(openssl/crypto.h PHP_EXT_CURL_HAVE_OPENSSL_CRYPTO_H)
-        set(HAVE_OPENSSL_CRYPTO_H ${PHP_EXT_CURL_HAVE_OPENSSL_CRYPTO_H})
+      set(CMAKE_REQUIRED_LIBRARIES OpenSSL::Crypto)
+      check_include_files(openssl/crypto.h PHP_EXT_CURL_HAVE_OPENSSL_CRYPTO_H)
+      set(HAVE_OPENSSL_CRYPTO_H ${PHP_EXT_CURL_HAVE_OPENSSL_CRYPTO_H})
       cmake_pop_check_state()
     endif()
   endif()
