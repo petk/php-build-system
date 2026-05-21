@@ -88,51 +88,55 @@ if(PC_Argon2_VERSION AND Argon2_INCLUDE_DIR IN_LIST PC_Argon2_INCLUDE_DIRS)
   set(Argon2_VERSION ${PC_Argon2_VERSION})
 elseif(Argon2_LIBRARY AND Argon2_INCLUDE_DIR)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES "${Argon2_LIBRARY}")
-    set(CMAKE_REQUIRED_INCLUDES "${Argon2_INCLUDE_DIR}")
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_symbol_exists(error_message argon2.h _Argon2_HAVE_ERROR_MESSAGE)
+  set(CMAKE_REQUIRED_LIBRARIES "${Argon2_LIBRARY}")
+  set(CMAKE_REQUIRED_INCLUDES "${Argon2_INCLUDE_DIR}")
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    if(_Argon2_HAVE_ERROR_MESSAGE)
-      set(Argon2_VERSION 20151206)
-    else()
-      check_symbol_exists(
-        ARGON2_FLAG_CLEAR_MEMORY
-        argon2.h
-        _Argon2_HAVE_ARGON2_FLAG_CLEAR_MEMORY
-      )
+  check_symbol_exists(error_message argon2.h _Argon2_HAVE_ERROR_MESSAGE)
+
+  if(_Argon2_HAVE_ERROR_MESSAGE)
+    set(Argon2_VERSION 20151206)
+  else()
+    check_symbol_exists(
+      ARGON2_FLAG_CLEAR_MEMORY
+      argon2.h
+      _Argon2_HAVE_ARGON2_FLAG_CLEAR_MEMORY
+    )
+  endif()
+
+  if(_Argon2_HAVE_ARGON2_FLAG_CLEAR_MEMORY)
+    set(Argon2_VERSION 20160406)
+  else()
+    check_symbol_exists(
+      argon2id_hash_raw
+      argon2.h
+      _Argon2_HAVE_ARGON2ID_HASH_RAW
+    )
+  endif()
+
+  if(_Argon2_HAVE_ARGON2ID_HASH_RAW)
+    set(Argon2_VERSION 20161029)
+  endif()
+
+  check_symbol_exists(ARGON2_LOCAL argon2.h _Argon2_HAVE_ARGON2_LOCAL)
+  if(_Argon2_HAVE_ARGON2_LOCAL)
+    set(Argon2_VERSION 20171227)
+
+    file(STRINGS ${Argon2_INCLUDE_DIR}/argon2.h content REGEX " deafults ")
+
+    if(NOT content)
+      set(Argon2_VERSION 20190702)
     endif()
+    unset(content)
+  endif()
 
-    if(_Argon2_HAVE_ARGON2_FLAG_CLEAR_MEMORY)
-      set(Argon2_VERSION 20160406)
-    else()
-      check_symbol_exists(argon2id_hash_raw argon2.h _Argon2_HAVE_ARGON2ID_HASH_RAW)
-    endif()
-
-    if(_Argon2_HAVE_ARGON2ID_HASH_RAW)
-      set(Argon2_VERSION 20161029)
-    endif()
-
-    check_symbol_exists(ARGON2_LOCAL argon2.h _Argon2_HAVE_ARGON2_LOCAL)
-    if(_Argon2_HAVE_ARGON2_LOCAL)
-      set(Argon2_VERSION 20171227)
-
-      file(STRINGS ${Argon2_INCLUDE_DIR}/argon2.h content REGEX " deafults ")
-
-      if(NOT content)
-        set(Argon2_VERSION 20190702)
-      endif()
-      unset(content)
-    endif()
   cmake_pop_check_state()
 endif()
 
 find_package_handle_standard_args(
   Argon2
-  REQUIRED_VARS
-    Argon2_LIBRARY
-    Argon2_INCLUDE_DIR
+  REQUIRED_VARS Argon2_LIBRARY Argon2_INCLUDE_DIR
   VERSION_VAR Argon2_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
@@ -157,14 +161,12 @@ if(NOT TARGET Argon2::Argon2)
     add_library(Argon2::Argon2 INTERFACE IMPORTED)
     set_target_properties(
       Argon2::Argon2
-      PROPERTIES
-        IMPORTED_LIBNAME "${Argon2_LIBRARY}"
+      PROPERTIES IMPORTED_LIBNAME "${Argon2_LIBRARY}"
     )
   endif()
 
   set_target_properties(
     Argon2::Argon2
-    PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${Argon2_INCLUDE_DIR}"
+    PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${Argon2_INCLUDE_DIR}"
   )
 endif()

@@ -120,8 +120,7 @@ endif()
 block(PROPAGATE PCRE2_VERSION)
   if(PCRE2_INCLUDE_DIR)
     file(
-      STRINGS
-      ${PCRE2_INCLUDE_DIR}/pcre2.h
+      STRINGS ${PCRE2_INCLUDE_DIR}/pcre2.h
       results
       REGEX "^#[ \t]*define[ \t]+PCRE2_(MAJOR|MINOR)[ \t]+[0-9]+[^\n]*$"
     )
@@ -130,7 +129,9 @@ block(PROPAGATE PCRE2_VERSION)
 
     foreach(item MAJOR MINOR)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+PCRE2_${item}[ \t]+([0-9]+)[^\n]*$")
+        if(
+          line MATCHES "^#[ \t]*define[ \t]+PCRE2_${item}[ \t]+([0-9]+)[^\n]*$"
+        )
           if(DEFINED PCRE2_VERSION)
             string(APPEND PCRE2_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -144,9 +145,7 @@ endblock()
 
 find_package_handle_standard_args(
   PCRE2
-  REQUIRED_VARS
-    PCRE2_LIBRARY
-    PCRE2_INCLUDE_DIR
+  REQUIRED_VARS PCRE2_LIBRARY PCRE2_INCLUDE_DIR
   VERSION_VAR PCRE2_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

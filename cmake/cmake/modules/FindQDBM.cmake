@@ -93,7 +93,10 @@ endif()
 
 block(PROPAGATE QDBM_VERSION)
   if(QDBM_INCLUDE_DIR)
-    set(regex "^[ \t]*#[ \t]*define[ \t]+_QDBM_VERSION[ \t]+\"?([0-9.]+)\"?[ \t]*$")
+    set(
+      regex
+      "^[ \t]*#[ \t]*define[ \t]+_QDBM_VERSION[ \t]+\"?([0-9.]+)\"?[ \t]*$"
+    )
 
     file(STRINGS ${QDBM_INCLUDE_DIR}/depot.h result REGEX "${regex}")
 
@@ -105,10 +108,7 @@ endblock()
 
 find_package_handle_standard_args(
   QDBM
-  REQUIRED_VARS
-    QDBM_LIBRARY
-    QDBM_INCLUDE_DIR
-    QDBM_SANITY_CHECK
+  REQUIRED_VARS QDBM_LIBRARY QDBM_INCLUDE_DIR QDBM_SANITY_CHECK
   VERSION_VAR QDBM_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

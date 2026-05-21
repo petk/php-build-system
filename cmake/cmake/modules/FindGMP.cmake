@@ -103,18 +103,21 @@ endif()
 block(PROPAGATE GMP_VERSION)
   if(EXISTS ${GMP_INCLUDE_DIR}/gmp.h)
     file(
-      STRINGS
-      ${GMP_INCLUDE_DIR}/gmp.h
+      STRINGS ${GMP_INCLUDE_DIR}/gmp.h
       results
       REGEX
-      "^#[ \t]*define[ \t]+__GNU_MP_VERSION(_MINOR|_PATCHLEVEL)?[ \t]+[0-9]+[ \t]*$"
+        "^#[ \t]*define[ \t]+__GNU_MP_VERSION(_MINOR|_PATCHLEVEL)?[ \t]+[0-9]+[ \t]*$"
     )
 
     set(GMP_VERSION "")
 
     foreach(item VERSION VERSION_MINOR VERSION_PATCHLEVEL)
       foreach(line ${results})
-        if(line MATCHES "^#[ \t]*define[ \t]+__GNU_MP_${item}[ \t]+([0-9]+)[ \t]*$")
+        if(
+          line
+            MATCHES
+            "^#[ \t]*define[ \t]+__GNU_MP_${item}[ \t]+([0-9]+)[ \t]*$"
+        )
           if(GMP_VERSION)
             string(APPEND GMP_VERSION ".${CMAKE_MATCH_1}")
           else()
@@ -128,9 +131,7 @@ endblock()
 
 find_package_handle_standard_args(
   GMP
-  REQUIRED_VARS
-    GMP_LIBRARY
-    GMP_INCLUDE_DIR
+  REQUIRED_VARS GMP_LIBRARY GMP_INCLUDE_DIR
   VERSION_VAR GMP_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"

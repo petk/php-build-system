@@ -136,17 +136,13 @@ endif()
 function(_php_find_php_get_bin_dir)
   if(IS_EXECUTABLE ${PHP${_php_prefix}_EXECUTABLE})
     cmake_path(
-      GET
-      PHP${_php_prefix}_EXECUTABLE
-      PARENT_PATH
-      PHP${_php_prefix}_INSTALL_BINDIR
+      GET PHP${_php_prefix}_EXECUTABLE
+      PARENT_PATH PHP${_php_prefix}_INSTALL_BINDIR
     )
   elseif(IS_EXECUTABLE "${PHP${_php_prefix}_CONFIG_EXECUTABLE}")
     cmake_path(
-      GET
-      PHP${_php_prefix}_CONFIG_EXECUTABLE
-      PARENT_PATH
-      PHP${_php_prefix}_INSTALL_BINDIR
+      GET PHP${_php_prefix}_CONFIG_EXECUTABLE
+      PARENT_PATH PHP${_php_prefix}_INSTALL_BINDIR
     )
   endif()
 
@@ -170,8 +166,7 @@ function(_php_find_php_get_lib_dir)
   endif()
 
   file(
-    STRINGS
-    ${PHP${_php_prefix}_PHPIZE_EXECUTABLE}
+    STRINGS ${PHP${_php_prefix}_PHPIZE_EXECUTABLE}
     _
     REGEX "^phpdir=\\\"([^\"]+)\\\""
     LIMIT_COUNT 1
@@ -180,32 +175,28 @@ function(_php_find_php_get_lib_dir)
   set(PHP${_php_prefix}_INSTALL_LIBDIR "${CMAKE_MATCH_1}")
 
   string(
-    REPLACE
-    "`"
+    REPLACE "`"
     ""
     PHP${_php_prefix}_INSTALL_LIBDIR
     "${PHP${_php_prefix}_INSTALL_LIBDIR}"
   )
 
   string(
-    REGEX REPLACE
-    "^[ ]*eval[ ]+echo[ ]+"
+    REGEX REPLACE "^[ ]*eval[ ]+echo[ ]+"
     ""
     PHP${_php_prefix}_INSTALL_LIBDIR
     "${PHP${_php_prefix}_INSTALL_LIBDIR}"
   )
 
   string(
-    REGEX REPLACE
-    "build$"
+    REGEX REPLACE "build$"
     ""
     PHP${_php_prefix}_INSTALL_LIBDIR
     "${PHP${_php_prefix}_INSTALL_LIBDIR}"
   )
 
   string(
-    REGEX REPLACE
-    "\\\${?(exec_)?prefix}?"
+    REGEX REPLACE "\\\${?(exec_)?prefix}?"
     "${php_install_prefix}"
     PHP${_php_prefix}_INSTALL_LIBDIR
     "${PHP${_php_prefix}_INSTALL_LIBDIR}"
@@ -219,8 +210,7 @@ function(_php_find_php_get_man_dir)
   if(IS_EXECUTABLE ${PHP${_php_prefix}_EXECUTABLE})
     execute_process(
       COMMAND
-        ${PHP${_php_prefix}_EXECUTABLE}
-        -r
+        ${PHP${_php_prefix}_EXECUTABLE} -r
         "if (defined('PHP_MANDIR')) echo(PHP_MANDIR);"
       OUTPUT_VARIABLE PHP${_php_prefix}_INSTALL_MANDIR
       RESULT_VARIABLE result
@@ -268,8 +258,7 @@ function(_php_find_php_get_prefix_suffix)
 
   if(EXISTS "${PHP${_php_prefix}_CONFIG_EXECUTABLE}")
     file(
-      STRINGS
-      ${PHP${_php_prefix}_CONFIG_EXECUTABLE}
+      STRINGS ${PHP${_php_prefix}_CONFIG_EXECUTABLE}
       _
       REGEX "^program_prefix=\\\"([^\"]*)\\\""
       LIMIT_COUNT 1
@@ -278,8 +267,7 @@ function(_php_find_php_get_prefix_suffix)
     set(PHP${_php_prefix}_PROGRAM_PREFIX "${CMAKE_MATCH_1}")
 
     file(
-      STRINGS
-      ${PHP${_php_prefix}_CONFIG_EXECUTABLE}
+      STRINGS ${PHP${_php_prefix}_CONFIG_EXECUTABLE}
       _
       REGEX "^program_suffix=\\\"([^\"]*)\\\""
       LIMIT_COUNT 1
@@ -296,8 +284,7 @@ function(_php_find_php_get_prefix_suffix)
     cmake_path(GET PHP${_php_prefix}_EXECUTABLE FILENAME filename)
 
     string(
-      REGEX REPLACE
-      "${CMAKE_EXECUTABLE_SUFFIX}$"
+      REGEX REPLACE "${CMAKE_EXECUTABLE_SUFFIX}$"
       ""
       filename
       "${filename}"
@@ -313,9 +300,7 @@ function(_php_find_php_get_prefix_suffix)
   endif()
 
   return(
-    PROPAGATE
-      PHP${_php_prefix}_PROGRAM_PREFIX
-      PHP${_php_prefix}_PROGRAM_SUFFIX
+    PROPAGATE PHP${_php_prefix}_PROGRAM_PREFIX PHP${_php_prefix}_PROGRAM_SUFFIX
   )
 endfunction()
 
@@ -345,16 +330,18 @@ function(_php_find_php_get_thread_safety)
     include(CMakePushCheckState)
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_INCLUDES "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}")
-      set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_symbol_exists(ZTS main/php_config.h PHP${_php_prefix}_HAS_ZTS)
+    set(CMAKE_REQUIRED_INCLUDES "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}")
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      if(PHP${_php_prefix}_HAS_ZTS)
-        set(PHP${_php_prefix}_THREAD_SAFETY TRUE)
-      else()
-        set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
-      endif()
+    check_symbol_exists(ZTS main/php_config.h PHP${_php_prefix}_HAS_ZTS)
+
+    if(PHP${_php_prefix}_HAS_ZTS)
+      set(PHP${_php_prefix}_THREAD_SAFETY TRUE)
+    else()
+      set(PHP${_php_prefix}_THREAD_SAFETY FALSE)
+    endif()
+
     cmake_pop_check_state()
   endif()
 
@@ -415,12 +402,7 @@ block(
     # Compute a path with symbolic links resolved and leading tildes expanded.
     if(IS_EXECUTABLE "${PHP${_php_prefix}_EXECUTABLE}")
       block()
-        file(
-          REAL_PATH
-          "${PHP${_php_prefix}_EXECUTABLE}"
-          result
-          EXPAND_TILDE
-        )
+        file(REAL_PATH "${PHP${_php_prefix}_EXECUTABLE}" result EXPAND_TILDE)
 
         if(NOT result STREQUAL PHP${_php_prefix}_EXECUTABLE)
           set_property(
@@ -464,8 +446,7 @@ block(
 
       if(NOT result EQUAL 0)
         string(
-          APPEND
-          reason
+          APPEND reason
           "Command '${PHP${_php_prefix}_CONFIG_EXECUTABLE}' failed. "
         )
 
@@ -482,8 +463,7 @@ block(
 
       if(NOT result EQUAL 0)
         string(
-          APPEND
-          reason
+          APPEND reason
           "Command '${PHP${_php_prefix}_CONFIG_EXECUTABLE}' failed. "
         )
 
@@ -524,8 +504,7 @@ block(
 
     if(NOT result EQUAL 0)
       string(
-        APPEND
-        reason
+        APPEND reason
         "Command '${PHP${_php_prefix}_EXECUTABLE} --version' failed. "
       )
     elseif(version MATCHES "PHP ([^ ]+) ")
@@ -535,11 +514,9 @@ block(
     endif()
   elseif(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php_version.h")
     file(
-      STRINGS
-      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php_version.h
+      STRINGS ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php_version.h
       _
-      REGEX
-      "^[ \t]*#[ \t]*define[ \t]+PHP_VERSION[ \t]+\\\"([^\"]+)\\\"[ \t]*$"
+      REGEX "^[ \t]*#[ \t]*define[ \t]+PHP_VERSION[ \t]+\\\"([^\"]+)\\\"[ \t]*$"
       LIMIT_COUNT 1
     )
 
@@ -548,11 +525,9 @@ block(
 
   if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php.h")
     file(
-      STRINGS
-      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php.h
+      STRINGS ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/main/php.h
       _
-      REGEX
-      "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)[ \t]*$"
+      REGEX "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)[ \t]*$"
       LIMIT_COUNT 1
     )
 
@@ -561,11 +536,9 @@ block(
 
   if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend.h")
     file(
-      STRINGS
-      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend.h
+      STRINGS ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend.h
       _
-      REGEX
-      "^[ \t]*#[ \t]*define[ \t]+ZEND_VERSION[ \t]+([0-9]+)[ \t]*$"
+      REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_VERSION[ \t]+([0-9]+)[ \t]*$"
       LIMIT_COUNT 1
     )
 
@@ -574,11 +547,9 @@ block(
 
   if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_modules.h")
     file(
-      STRINGS
-      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_modules.h
+      STRINGS ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_modules.h
       _
-      REGEX
-      "^[ \t]*#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)[ \t]*$"
+      REGEX "^[ \t]*#[ \t]*define[ \t]+ZEND_MODULE_API_NO[ \t]+([0-9]+)[ \t]*$"
       LIMIT_COUNT 1
     )
 
@@ -587,11 +558,10 @@ block(
 
   if(EXISTS "${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_extensions.h")
     file(
-      STRINGS
-      ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_extensions.h
+      STRINGS ${PHP${_php_prefix}_INSTALL_INCLUDEDIR}/Zend/zend_extensions.h
       _
       REGEX
-      "^[ \t]*#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)[ \t]*$"
+        "^[ \t]*#[ \t]*define[ \t]+ZEND_EXTENSION_API_NO[ \t]+([0-9]+)[ \t]*$"
       LIMIT_COUNT 1
     )
 
@@ -629,8 +599,7 @@ block(
     add_executable(PHP${_php_prefix}::Interpreter IMPORTED)
     set_target_properties(
       PHP${_php_prefix}::Interpreter
-      PROPERTIES
-        IMPORTED_LOCATION "${PHP${_php_prefix}_EXECUTABLE}"
+      PROPERTIES IMPORTED_LOCATION "${PHP${_php_prefix}_EXECUTABLE}"
     )
   endif()
 

@@ -53,9 +53,7 @@ include(FindPackageHandleStandardArgs)
 
 set_package_properties(
   Tidy
-  PROPERTIES
-    URL "https://www.html-tidy.org/"
-    DESCRIPTION "HTML syntax checker"
+  PROPERTIES URL "https://www.html-tidy.org/" DESCRIPTION "HTML syntax checker"
 )
 
 set(_reason "")
@@ -68,15 +66,15 @@ endif()
 if(Tidy_USE_STATIC_LIBS)
   set(
     _Tidy_NAMES
-      tidys  # Some Unix-like systems.
-      tidy_a # Windows.
+    tidys # Some Unix-like systems.
+    tidy_a # Windows.
   )
 else()
   set(
     _Tidy_NAMES
-      tidy
-      tidy5 # tidy-html5 on FreeBSD
-      tidyp # Tidy library fork (obsolete)
+    tidy
+    tidy5 # tidy-html5 on FreeBSD
+    tidyp # Tidy library fork (obsolete)
   )
 endif()
 
@@ -105,9 +103,7 @@ find_path(
   Tidy_INCLUDE_DIR
   NAMES ${Tidy_HEADER}
   HINTS ${PC_Tidy_INCLUDE_DIRS}
-  PATH_SUFFIXES
-    tidy
-    tidyp # Tidy library fork (obsolete).
+  PATH_SUFFIXES tidy tidyp # Tidy library fork (obsolete).
   DOC "Directory containing Tidy library headers"
 )
 mark_as_advanced(Tidy_INCLUDE_DIR)
@@ -123,9 +119,7 @@ endif()
 
 find_package_handle_standard_args(
   Tidy
-  REQUIRED_VARS
-    Tidy_LIBRARY
-    Tidy_INCLUDE_DIR
+  REQUIRED_VARS Tidy_LIBRARY Tidy_INCLUDE_DIR
   VERSION_VAR Tidy_VERSION
   HANDLE_VERSION_RANGE
   REASON_FAILURE_MESSAGE "${_reason}"
@@ -151,8 +145,7 @@ if(NOT TARGET Tidy::Tidy)
   if(Tidy_USE_STATIC_LIBS AND CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set_target_properties(
       Tidy::Tidy
-      PROPERTIES
-        INTERFACE_COMPILE_DEFINITIONS "TIDY_STATIC"
+      PROPERTIES INTERFACE_COMPILE_DEFINITIONS "TIDY_STATIC"
     )
   endif()
 endif()
