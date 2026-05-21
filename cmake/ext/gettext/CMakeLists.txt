@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_GETTEXT
-  LANGUAGES C
-)
+project(PHP_EXT_GETTEXT LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -48,24 +45,14 @@ else()
   add_library(php_ext_gettext OBJECT)
 endif()
 
-target_sources(
-  php_ext_gettext
-  PRIVATE
-    gettext.c
-    gettext.stub.php
-)
+target_sources(php_ext_gettext PRIVATE gettext.c gettext.stub.php)
 
-target_include_directories(
-  php_ext_gettext
-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
-)
+target_include_directories(php_ext_gettext PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 find_package(Intl)
 set_package_properties(
   Intl
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the gettext extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the gettext extension."
 )
 
 target_link_libraries(php_ext_gettext PRIVATE Intl::Intl)
@@ -74,48 +61,38 @@ if(TARGET Intl::Intl)
   set(HAVE_LIBINTL TRUE)
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Intl::Intl)
 
-    # Sanity check.
-    check_symbol_exists(bindtextdomain libintl.h PHP_EXT_GETTEXT_SANITY_CHECK)
-    if(NOT PHP_EXT_GETTEXT_SANITY_CHECK)
-      message(
-        FATAL_ERROR
-        "The ext/gettext sanity check for intl library failed: The "
-        "bindtextdomain() could not be found."
-      )
-    endif()
+  set(CMAKE_REQUIRED_LIBRARIES Intl::Intl)
 
-    check_symbol_exists(
-      bind_textdomain_codeset
-      libintl.h
-      PHP_EXT_GETTEXT_HAVE_BIND_TEXTDOMAIN_CODESET
+  # Sanity check.
+  check_symbol_exists(bindtextdomain libintl.h PHP_EXT_GETTEXT_SANITY_CHECK)
+  if(NOT PHP_EXT_GETTEXT_SANITY_CHECK)
+    message(
+      FATAL_ERROR
+      "The ext/gettext sanity check for intl library failed: The "
+      "bindtextdomain() could not be found."
     )
-    set(
-      HAVE_BIND_TEXTDOMAIN_CODESET
-      ${PHP_EXT_GETTEXT_HAVE_BIND_TEXTDOMAIN_CODESET}
-    )
+  endif()
 
-    check_symbol_exists(
-      dcngettext
-      libintl.h
-      PHP_EXT_GETTEXT_HAVE_DCNGETTEXT
-    )
-    set(HAVE_DCNGETTEXT ${PHP_EXT_GETTEXT_HAVE_DCNGETTEXT})
+  check_symbol_exists(
+    bind_textdomain_codeset
+    libintl.h
+    PHP_EXT_GETTEXT_HAVE_BIND_TEXTDOMAIN_CODESET
+  )
+  set(
+    HAVE_BIND_TEXTDOMAIN_CODESET
+    ${PHP_EXT_GETTEXT_HAVE_BIND_TEXTDOMAIN_CODESET}
+  )
 
-    check_symbol_exists(
-      dngettext
-      libintl.h
-      PHP_EXT_GETTEXT_HAVE_DNGETTEXT
-    )
-    set(HAVE_DNGETTEXT ${PHP_EXT_GETTEXT_HAVE_DNGETTEXT})
+  check_symbol_exists(dcngettext libintl.h PHP_EXT_GETTEXT_HAVE_DCNGETTEXT)
+  set(HAVE_DCNGETTEXT ${PHP_EXT_GETTEXT_HAVE_DCNGETTEXT})
 
-    check_symbol_exists(
-      ngettext
-      libintl.h
-      PHP_EXT_GETTEXT_HAVE_NGETTEXT
-    )
-    set(HAVE_NGETTEXT ${PHP_EXT_GETTEXT_HAVE_NGETTEXT})
+  check_symbol_exists(dngettext libintl.h PHP_EXT_GETTEXT_HAVE_DNGETTEXT)
+  set(HAVE_DNGETTEXT ${PHP_EXT_GETTEXT_HAVE_DNGETTEXT})
+
+  check_symbol_exists(ngettext libintl.h PHP_EXT_GETTEXT_HAVE_NGETTEXT)
+  set(HAVE_NGETTEXT ${PHP_EXT_GETTEXT_HAVE_NGETTEXT})
+
   cmake_pop_check_state()
 
   # Create a symbolic link when intl is built into musl C library. The gettext
@@ -130,30 +107,23 @@ if(TARGET Intl::Intl)
     add_test(
       NAME PhpExtGettextAddSymlink
       COMMAND
-        ${CMAKE_COMMAND}
-        -E
-        create_symlink
-        en_US.UTF-8
+        ${CMAKE_COMMAND} -E create_symlink en_US.UTF-8
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
     )
     set_tests_properties(
       PhpExtGettextAddSymlink
-      PROPERTIES
-        FIXTURES_SETUP PhpExtGettextFixtures
+      PROPERTIES FIXTURES_SETUP PhpExtGettextFixtures
     )
 
     add_test(
       NAME PhpExtGettextRemoveSymlink
       COMMAND
-        ${CMAKE_COMMAND}
-        -E
-        remove
+        ${CMAKE_COMMAND} -E remove
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/locale/en_US
     )
     set_tests_properties(
       PhpExtGettextRemoveSymlink
-      PROPERTIES
-        FIXTURES_CLEANUP PhpExtGettextFixtures
+      PROPERTIES FIXTURES_CLEANUP PhpExtGettextFixtures
     )
 
     if(DEFINED PHP_IS_TOP_LEVEL)
@@ -166,8 +136,7 @@ if(TARGET Intl::Intl)
       TEST PhpRunTests
       DIRECTORY ${dir}
       APPEND
-      PROPERTY
-      FIXTURES_REQUIRED PhpExtGettextFixtures
+      PROPERTY FIXTURES_REQUIRED PhpExtGettextFixtures
     )
   endif()
 endif()

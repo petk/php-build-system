@@ -141,11 +141,7 @@ cmake \
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_GD
-  SPDX_LICENSE "BSD-3-Clause AND GD"
-  LANGUAGES C
-)
+project(PHP_EXT_GD SPDX_LICENSE "BSD-3-Clause AND GD" LANGUAGES C)
 
 include(CheckSourceRuns)
 include(CheckSymbolExists)
@@ -155,11 +151,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_GD "Enable the gd extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/gd"
-  PHP_EXT_GD
-  "image processing and graphics draw (GD)"
-)
+add_feature_info("ext/gd" PHP_EXT_GD "image processing and graphics draw (GD)")
 
 cmake_dependent_option(
   PHP_EXT_GD_EXTERNAL
@@ -183,11 +175,7 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info(
-  "ext/gd AVIF"
-  PHP_EXT_GD_AVIF
-  "AV1 Image File Format support"
-)
+add_feature_info("ext/gd AVIF" PHP_EXT_GD_AVIF "AV1 Image File Format support")
 
 cmake_dependent_option(
   PHP_EXT_GD_WEBP
@@ -197,11 +185,7 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info(
-  "ext/gd WebP"
-  PHP_EXT_GD_WEBP
-  "WebP support"
-)
+add_feature_info("ext/gd WebP" PHP_EXT_GD_WEBP "WebP support")
 
 cmake_dependent_option(
   PHP_EXT_GD_JPEG
@@ -211,11 +195,7 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info(
-  "ext/gd JPEG"
-  PHP_EXT_GD_JPEG
-  "JPEG support"
-)
+add_feature_info("ext/gd JPEG" PHP_EXT_GD_JPEG "JPEG support")
 
 cmake_dependent_option(
   PHP_EXT_GD_XPM
@@ -225,11 +205,7 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info(
-  "ext/gd XPM"
-  PHP_EXT_GD_XPM
-  "X PixMap support"
-)
+add_feature_info("ext/gd XPM" PHP_EXT_GD_XPM "X PixMap support")
 
 cmake_dependent_option(
   PHP_EXT_GD_FREETYPE
@@ -253,11 +229,7 @@ cmake_dependent_option(
   OFF
 )
 
-add_feature_info(
-  "ext/gd JIS"
-  PHP_EXT_GD_JIS
-  "JIS-mapped Japanese font support"
-)
+add_feature_info("ext/gd JIS" PHP_EXT_GD_JIS "JIS-mapped Japanese font support")
 
 if(NOT PHP_EXT_GD)
   return()
@@ -276,20 +248,16 @@ endif()
 
 target_sources(
   php_ext_gd
-  PRIVATE
-    gd.c
-    gd.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_gd.h
+  PRIVATE gd.c gd.stub.php
+  PUBLIC FILE_SET HEADERS FILES php_gd.h
 )
 
 target_include_directories(php_ext_gd PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_gd
-  PRIVATE $<$<AND:$<PLATFORM_ID:Windows>,$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>:PHP_GD_EXPORTS>
+  PRIVATE
+    $<$<AND:$<PLATFORM_ID:Windows>,$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>:PHP_GD_EXPORTS>
 )
 
 if(NOT PHP_EXT_GD_EXTERNAL)
@@ -367,17 +335,23 @@ if(NOT PHP_EXT_GD_EXTERNAL)
     TARGET php_ext_gd PRIVATE
   )
 
-  target_include_directories(php_ext_gd PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd)
+  target_include_directories(
+    php_ext_gd
+    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libgd
+  )
 
   include(PHP/CheckCompilerFlag)
 
   # Add -Wno-strict-prototypes C flag: https://github.com/php/php-src/pull/10803
-  php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)
+  php_check_compiler_flag(
+    C
+    -Wno-strict-prototypes
+    PHP_HAS_WNO_STRICT_PROTOTYPES
+  )
   if(PHP_HAS_WNO_STRICT_PROTOTYPES)
     target_compile_options(
       php_ext_gd
-      PRIVATE
-        $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
+      PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
     )
   endif()
 
@@ -385,9 +359,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   find_package(ZLIB ${PHP_PACKAGE_ZLIB_MIN_VERSION})
   set_package_properties(
     ZLIB
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the gd extension."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the gd extension."
   )
 
   target_link_libraries(php_ext_gd PRIVATE ZLIB::ZLIB)
@@ -395,9 +367,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   find_package(PNG)
   set_package_properties(
     PNG
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the gd extension."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the gd extension."
   )
 
   target_link_libraries(php_ext_gd PRIVATE PNG::PNG)
@@ -410,9 +380,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   find_package(Iconv)
   set_package_properties(
     Iconv
-    PROPERTIES
-      TYPE RECOMMENDED
-      PURPOSE "Enables iconv support in GD library."
+    PROPERTIES TYPE RECOMMENDED PURPOSE "Enables iconv support in GD library."
   )
   if(Iconv_FOUND)
     target_link_libraries(php_ext_gd PRIVATE Iconv::Iconv)
@@ -529,16 +497,19 @@ else()
     # insufficient.
     function(php_ext_gd_check_format format result)
       cmake_push_check_state(RESET)
-        set(CMAKE_REQUIRED_LIBRARIES GD::GD)
 
-        # gdImageCreateFromXpm() expects 'char *' type.
-        if(format STREQUAL "Xpm")
-          set(definition [[char* f = "test.xpm"]])
-        else()
-          set(definition "FILE* f = NULL")
-        endif()
+      set(CMAKE_REQUIRED_LIBRARIES GD::GD)
 
-        check_source_runs(C "
+      # gdImageCreateFromXpm() expects 'char *' type.
+      if(format STREQUAL "Xpm")
+        set(definition [[char* f = "test.xpm"]])
+      else()
+        set(definition "FILE* f = NULL")
+      endif()
+
+      check_source_runs(
+        C
+        "
           #include <stdio.h>
           #include <unistd.h>
           #include <gd.h>
@@ -564,10 +535,14 @@ else()
             (void)p;
 
             return 0;
-          }" PHP_EXT_GD_${result})
+          }"
+        PHP_EXT_GD_${result}
+      )
+
       cmake_pop_check_state()
 
       set(${result} ${PHP_EXT_GD_${result}})
+
       return(PROPAGATE ${result})
     endfunction()
 
@@ -578,20 +553,22 @@ else()
     php_ext_gd_check_format(Xpm HAVE_GD_XPM)
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES GD::GD)
 
-      check_symbol_exists(gdFontCacheShutdown gd.h PHP_EXT_GD_HAVE_GD_FREETYPE)
-      set(HAVE_GD_FREETYPE ${PHP_EXT_GD_HAVE_GD_FREETYPE})
+    set(CMAKE_REQUIRED_LIBRARIES GD::GD)
 
-      check_symbol_exists(gdVersionString gd.h PHP_EXT_GD_HAVE_GD_LIBVERSION)
-      set(HAVE_GD_LIBVERSION ${PHP_EXT_GD_HAVE_GD_LIBVERSION})
+    check_symbol_exists(gdFontCacheShutdown gd.h PHP_EXT_GD_HAVE_GD_FREETYPE)
+    set(HAVE_GD_FREETYPE ${PHP_EXT_GD_HAVE_GD_FREETYPE})
 
-      check_symbol_exists(
-        gdImageGetInterpolationMethod
-        gd.h
-        PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION
-      )
-      set(HAVE_GD_GET_INTERPOLATION ${PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION})
+    check_symbol_exists(gdVersionString gd.h PHP_EXT_GD_HAVE_GD_LIBVERSION)
+    set(HAVE_GD_LIBVERSION ${PHP_EXT_GD_HAVE_GD_LIBVERSION})
+
+    check_symbol_exists(
+      gdImageGetInterpolationMethod
+      gd.h
+      PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION
+    )
+    set(HAVE_GD_GET_INTERPOLATION ${PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION})
+
     cmake_pop_check_state()
   endif()
 endif()
