@@ -71,8 +71,7 @@ if(PROJECT_IS_TOP_LEVEL)
 
   foreach(lang IN LISTS languages)
     string(
-      REGEX REPLACE
-      "(-DNDEBUG|/DNDEBUG)"
+      REGEX REPLACE "(-DNDEBUG|/DNDEBUG)"
       ""
       CMAKE_${lang}_FLAGS_PHPRELWITHDEBINFO
       "${CMAKE_${lang}_FLAGS_RELWITHDEBINFO}"

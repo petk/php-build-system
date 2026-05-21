@@ -25,9 +25,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   endif()
 else()
   if(PHP_TESTS_HAS_SIN_LIBRARY STREQUAL "")
-    message(
-      FATAL_ERROR
-      "Math library on ${CMAKE_SYSTEM_NAME} should be 'm'."
-    )
+    message(FATAL_ERROR "Math library on ${CMAKE_SYSTEM_NAME} should be 'm'.")
   endif()
 endif()
