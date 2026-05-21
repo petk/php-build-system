@@ -59,10 +59,7 @@ and targeting some other with different MySQL socket pointer location.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_MYSQLI
-  LANGUAGES C
-)
+project(PHP_EXT_MYSQLI LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -136,11 +133,7 @@ target_sources(
     mysqli_warning.c
     mysqli.c
     mysqli.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        mysqli_mysqlnd.h
-        php_mysqli_structs.h
+  PUBLIC FILE_SET HEADERS FILES mysqli_mysqlnd.h php_mysqli_structs.h
 )
 
 target_include_directories(php_ext_mysqli PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -151,7 +144,10 @@ set_property(
   PROPERTY PHP_REQUIRED_EXTENSIONS mysqlnd spl
 )
 
-target_compile_definitions(php_ext_mysqli PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_mysqli
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 if(PHP_EXT_MYSQLI_SOCKET_PATH)
   set(MySQL_SOCKET_PATH "${PHP_EXT_MYSQLI_SOCKET_PATH}")
@@ -159,8 +155,7 @@ elseif(PHP_EXT_MYSQLI_SOCKET)
   find_package(MySQL OPTIONAL_COMPONENTS Server)
   set_package_properties(
     MySQL
-    PROPERTIES
-      PURPOSE "Necessary to set the MySQL socket in mysqli extension."
+    PROPERTIES PURPOSE "Necessary to set the MySQL socket in mysqli extension."
   )
 else()
   set(MySQL_SOCKET_PATH "")

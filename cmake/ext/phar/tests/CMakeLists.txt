@@ -31,25 +31,26 @@ function(php_ext_phar_add_tests)
     get_target_property(type PHP::ext::${extension} TYPE)
     if(type STREQUAL "MODULE_LIBRARY")
       list(
-        APPEND
-        php_options
-        -d extension=${PROJECT_BINARY_DIR}/modules/$<CONFIG>/${extension}${CMAKE_SHARED_MODULE_SUFFIX}
+        APPEND php_options
+        -d
+        extension=${PROJECT_BINARY_DIR}/modules/$<CONFIG>/${extension}${CMAKE_SHARED_MODULE_SUFFIX}
       )
     endif()
   endforeach()
 
   add_test(
     NAME PhpExtPharVersion
+    # gersemi: off
     COMMAND
       ${php_executable}
       ${php_options}
       ${PHP_EXT_PHAR_BINARY_DIR}/phar.phar
       version
+    # gersemi: on
   )
 
   set_tests_properties(
     PhpExtPharVersion
-    PROPERTIES
-      PASS_REGULAR_EXPRESSION "PHP Version:[ ]+${PHP_VERSION}"
+    PROPERTIES PASS_REGULAR_EXPRESSION "PHP Version:[ ]+${PHP_VERSION}"
   )
 endfunction()

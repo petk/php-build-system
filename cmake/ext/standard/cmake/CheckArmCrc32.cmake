@@ -34,9 +34,12 @@ function(_php_ext_standard_check_arm_crc32 result)
   endif()
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+
+  check_source_compiles(
+    C
+    [[
       #include <arm_acle.h>
       #ifdef __GNUC__
       # ifndef __clang__
@@ -53,7 +56,10 @@ function(_php_ext_standard_check_arm_crc32 result)
         __crc32d(0, 0);
         return 0;
       }
-    ]] PHP_${result})
+    ]]
+    PHP_${result}
+  )
+
   cmake_pop_check_state()
 
   if(PHP_${result})

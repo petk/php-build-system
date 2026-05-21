@@ -13,9 +13,7 @@ include(FeatureSummary)
 find_package(Coverage)
 set_package_properties(
   Coverage
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable code coverage."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable code coverage."
 )
 
 if(NOT TARGET Coverage::Coverage)
@@ -37,7 +35,11 @@ set_package_properties(
 )
 
 if(TARGET CoverageGcovr::gcovr)
-  file(CONFIGURE OUTPUT gcovr.cfg CONTENT [[
+  file(
+    CONFIGURE
+    OUTPUT gcovr.cfg
+    CONTENT
+      [[
 print-summary = yes
 gcov-parallel = yes
 
@@ -48,12 +50,16 @@ exclude-lines-by-pattern = .*\b(ZEND_PARSE_PARAMETERS_(START|END|NONE)|Z_PARAM_)
 exclude-lines-by-pattern = \s*(default:\s*)?ZEND_UNREACHABLE\(\);\s*
 exclude-lines-by-pattern = \s*if \(ctx->debug_level & ZEND_DUMP_\w+\) \{\s*
 exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
-]] @ONLY)
+]]
+    @ONLY
+  )
 
   add_custom_target(
     ${php_target_name}_coverage_gcovr_html
     DEPENDS ${php_target_name}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html
+    COMMAND
+      ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html
+    # gersemi: off
     COMMAND
       CoverageGcovr::gcovr
         ${CoverageGcovr_OPTIONS}
@@ -64,6 +70,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
         --html
         --html-details
         --html-title "PHP extension ${php_target_name} code coverage"
+    # gersemi: off
     COMMENT "[gcovr] Generating HTML ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html"
     VERBATIM
   )
@@ -71,6 +78,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
   add_custom_target(
     ${php_target_name}_coverage_gcovr_xml
     DEPENDS ${php_target_name}
+    # gersemi: off
     COMMAND
       CoverageGcovr::gcovr
         ${CoverageGcovr_OPTIONS}
@@ -80,6 +88,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
         --output ${CMAKE_CURRENT_BINARY_DIR}/gcovr.xml
         --config ${CMAKE_CURRENT_BINARY_DIR}/gcovr.cfg
         --xml
+    # gersemi: on
     COMMENT "[gcovr] Generating XML ${CMAKE_CURRENT_BINARY_DIR}/gcovr.xml"
     VERBATIM
   )
@@ -101,6 +110,7 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${php_target_name}_lcov.info
     DEPENDS ${php_target_name}
+    # gersemi: off
     COMMAND
       CoverageLcov::lcov
         ${CoverageLcov_lcov_OPTIONS}
@@ -110,6 +120,7 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
         --base-directory ${CMAKE_CURRENT_SOURCE_DIR}
         --output-file ${CMAKE_CURRENT_BINARY_DIR}/${php_target_name}_lcov.info
         --ignore-errors source
+    # gersemi: on
     COMMENT "[lcov] Capturing coverage data for ${php_target_name}_lcov.info"
     VERBATIM
   )
@@ -117,18 +128,21 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
   add_custom_target(
     ${php_target_name}_coverage_lcov_info
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${php_target_name}_lcov.info
-    COMMENT "[lcov] Generated ${CMAKE_CURRENT_BINARY_DIR}/${php_target_name}_lcov.info"
+    COMMENT
+      "[lcov] Generated ${CMAKE_CURRENT_BINARY_DIR}/${php_target_name}_lcov.info"
   )
 
   add_custom_target(
     ${php_target_name}_coverage_lcov_html
     DEPENDS ${php_target_name}_coverage_lcov_info
+    # gersemi: off
     COMMAND
       CoverageLcov::genhtml
         --legend
         --output-directory ${CMAKE_CURRENT_BINARY_DIR}/lcov_html
         --title "PHP extension ${php_target_name} code coverage"
         ${CMAKE_CURRENT_BINARY_DIR}/${php_target_name}_lcov.info
+    # gersemi: on
     VERBATIM
   )
 endif()

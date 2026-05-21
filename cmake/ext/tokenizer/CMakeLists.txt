@@ -16,20 +16,13 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_TOKENIZER
-  LANGUAGES C
-)
+project(PHP_EXT_TOKENIZER LANGUAGES C)
 
 include(FeatureSummary)
 
 option(PHP_EXT_TOKENIZER "Enable the tokenizer extension" ON)
 
-add_feature_info(
-  "ext/tokenizer"
-  PHP_EXT_TOKENIZER
-  "PHP tokenizer interface"
-)
+add_feature_info("ext/tokenizer" PHP_EXT_TOKENIZER "PHP tokenizer interface")
 
 if(NOT PHP_EXT_TOKENIZER)
   return()
@@ -55,7 +48,10 @@ target_sources(
     tokenizer.stub.php
 )
 
-target_include_directories(php_ext_tokenizer PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(
+  php_ext_tokenizer
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 # Generate tokenizer data source files.
 if(EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
@@ -66,11 +62,10 @@ if(EXISTS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y)
     OUTPUT
       ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.stub.php
       ${CMAKE_CURRENT_SOURCE_DIR}/tokenizer_data.c
-    DEPENDS
-      ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
+    DEPENDS ${PHP_SOURCE_DIR}/Zend/zend_language_parser.y
     COMMAND
-      ${CMAKE_COMMAND}
-      -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/GenerateTokenizerData.cmake
+      ${CMAKE_COMMAND} -P
+      ${CMAKE_CURRENT_SOURCE_DIR}/cmake/GenerateTokenizerData.cmake
     COMMENT
       "[ext/tokenizer] Regenerating tokenizer_data.c and tokenizer_data.stub.php"
     VERBATIM

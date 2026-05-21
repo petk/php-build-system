@@ -7,10 +7,7 @@ always enabled.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_REFLECTION
-  LANGUAGES C
-)
+project(PHP_EXT_REFLECTION LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -22,11 +19,7 @@ endif()
 
 include(FeatureSummary)
 
-add_feature_info(
-  "ext/reflection"
-  TRUE
-  "PHP code introspection API"
-)
+add_feature_info("ext/reflection" TRUE "PHP code introspection API")
 
 include(PHP/Extension)
 php_extension(reflection)
@@ -34,15 +27,12 @@ php_extension(reflection)
 add_library(php_ext_reflection OBJECT)
 target_sources(
   php_ext_reflection
-  PRIVATE
-    php_reflection.c
-    php_reflection.stub.php
+  PRIVATE php_reflection.c php_reflection.stub.php
 )
 
 target_compile_definitions(
   php_ext_reflection
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 set_property(

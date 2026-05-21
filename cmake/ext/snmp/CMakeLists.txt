@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SNMP
-  LANGUAGES C
-)
+project(PHP_EXT_SNMP LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -47,55 +44,46 @@ else()
   add_library(php_ext_snmp OBJECT)
 endif()
 
-target_sources(
-  php_ext_snmp
-  PRIVATE
-    snmp.c
-    snmp.stub.php
-)
+target_sources(php_ext_snmp PRIVATE snmp.c snmp.stub.php)
 
 target_include_directories(php_ext_snmp PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-set_property(
-  TARGET php_ext_snmp
-  APPEND
-  PROPERTY PHP_REQUIRED_EXTENSIONS spl
-)
+set_property(TARGET php_ext_snmp APPEND PROPERTY PHP_REQUIRED_EXTENSIONS spl)
 
 find_package(NetSnmp 5.3)
 set_package_properties(
   NetSnmp
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the snmp extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the snmp extension."
 )
 
 target_link_libraries(php_ext_snmp PRIVATE NetSnmp::NetSnmp)
 
 if(TARGET NetSnmp::NetSnmp)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES NetSnmp::NetSnmp)
 
-    check_symbol_exists(
-      shutdown_snmp_logging
-      "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
-      PHP_EXT_SNMP_HAVE_SHUTDOWN_SNMP_LOGGING
-    )
-    set(HAVE_SHUTDOWN_SNMP_LOGGING ${PHP_EXT_SNMP_HAVE_SHUTDOWN_SNMP_LOGGING})
+  set(CMAKE_REQUIRED_LIBRARIES NetSnmp::NetSnmp)
 
-    check_symbol_exists(
-      usmHMAC192SHA256AuthProtocol
-      "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
-      PHP_EXT_SNMP_HAVE_SNMP_SHA256
-    )
-    set(HAVE_SNMP_SHA256 ${PHP_EXT_SNMP_HAVE_SNMP_SHA256})
+  check_symbol_exists(
+    shutdown_snmp_logging
+    "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+    PHP_EXT_SNMP_HAVE_SHUTDOWN_SNMP_LOGGING
+  )
+  set(HAVE_SHUTDOWN_SNMP_LOGGING ${PHP_EXT_SNMP_HAVE_SHUTDOWN_SNMP_LOGGING})
 
-    check_symbol_exists(
-      usmHMAC384SHA512AuthProtocol
-      "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
-      PHP_EXT_SNMP_HAVE_SNMP_SHA512
-    )
-    set(HAVE_SNMP_SHA512 ${PHP_EXT_SNMP_HAVE_SNMP_SHA512})
+  check_symbol_exists(
+    usmHMAC192SHA256AuthProtocol
+    "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+    PHP_EXT_SNMP_HAVE_SNMP_SHA256
+  )
+  set(HAVE_SNMP_SHA256 ${PHP_EXT_SNMP_HAVE_SNMP_SHA256})
+
+  check_symbol_exists(
+    usmHMAC384SHA512AuthProtocol
+    "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+    PHP_EXT_SNMP_HAVE_SNMP_SHA512
+  )
+  set(HAVE_SNMP_SHA512 ${PHP_EXT_SNMP_HAVE_SNMP_SHA512})
+
   cmake_pop_check_state()
 endif()
 

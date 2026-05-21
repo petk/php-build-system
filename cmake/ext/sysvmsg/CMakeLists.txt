@@ -19,10 +19,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SYSVMSG
-  LANGUAGES C
-)
+project(PHP_EXT_SYSVMSG LANGUAGES C)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -64,12 +61,7 @@ else()
   add_library(php_ext_sysvmsg OBJECT)
 endif()
 
-target_sources(
-  php_ext_sysvmsg
-  PRIVATE
-    sysvmsg.c
-    sysvmsg.stub.php
-)
+target_sources(php_ext_sysvmsg PRIVATE sysvmsg.c sysvmsg.stub.php)
 
 target_include_directories(php_ext_sysvmsg PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 

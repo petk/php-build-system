@@ -46,10 +46,7 @@ cmake \
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_ZLIB
-  LANGUAGES C
-)
+project(PHP_EXT_ZLIB LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -78,11 +75,7 @@ endif()
 
 target_sources(
   php_ext_zlib
-  PRIVATE
-    zlib_filter.c
-    zlib_fopen_wrapper.c
-    zlib.c
-    zlib.stub.php
+  PRIVATE zlib_filter.c zlib_fopen_wrapper.c zlib.c zlib.stub.php
 )
 
 target_include_directories(php_ext_zlib PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -102,9 +95,7 @@ include(PHP/Package/ZLIB)
 find_package(ZLIB ${PHP_PACKAGE_ZLIB_MIN_VERSION})
 set_package_properties(
   ZLIB
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the zlib extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the zlib extension."
 )
 
 # Link publicly for internal_functions files.

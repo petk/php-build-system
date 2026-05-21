@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_XMLWRITER
-  LANGUAGES C
-)
+project(PHP_EXT_XMLWRITER LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -45,14 +42,12 @@ else()
   add_library(php_ext_xmlwriter OBJECT)
 endif()
 
-target_sources(
-  php_ext_xmlwriter
-  PRIVATE
-    php_xmlwriter.c
-    php_xmlwriter.stub.php
-)
+target_sources(php_ext_xmlwriter PRIVATE php_xmlwriter.c php_xmlwriter.stub.php)
 
-target_include_directories(php_ext_xmlwriter PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(
+  php_ext_xmlwriter
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 target_compile_definitions(
   php_ext_xmlwriter

@@ -13,20 +13,13 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_XMLREADER
-  LANGUAGES C
-)
+project(PHP_EXT_XMLREADER LANGUAGES C)
 
 include(FeatureSummary)
 
 option(PHP_EXT_XMLREADER "Enable the xmlreader extension" ON)
 
-add_feature_info(
-  "ext/xmlreader"
-  PHP_EXT_XMLREADER
-  "XML pull parser support"
-)
+add_feature_info("ext/xmlreader" PHP_EXT_XMLREADER "XML pull parser support")
 
 if(NOT PHP_EXT_XMLREADER)
   return()
@@ -43,14 +36,12 @@ else()
   add_library(php_ext_xmlreader OBJECT)
 endif()
 
-target_sources(
-  php_ext_xmlreader
-  PRIVATE
-    php_xmlreader.c
-    php_xmlreader.stub.php
-)
+target_sources(php_ext_xmlreader PRIVATE php_xmlreader.c php_xmlreader.stub.php)
 
-target_include_directories(php_ext_xmlreader PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(
+  php_ext_xmlreader
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 target_compile_definitions(
   php_ext_xmlreader
