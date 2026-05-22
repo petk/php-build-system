@@ -96,11 +96,12 @@ endif()
 message(CHECK_START "Checking type of reentrant time-related functions")
 
 cmake_push_check_state(RESET)
-  # To get the POSIX standard conforming *_r functions declarations:
-  # - _POSIX_PTHREAD_SEMANTICS is needed on Solaris <= 11.3 and illumos
-  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
-
-  check_source_runs(C [[
+# To get the POSIX standard conforming *_r functions declarations:
+# - _POSIX_PTHREAD_SEMANTICS is needed on Solaris <= 11.3 and illumos
+set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+check_source_runs(
+  C
+  [[
     #include <time.h>
 
     int main(void)
@@ -117,7 +118,9 @@ cmake_push_check_state(RESET)
 
       return 1;
     }
-  ]] PHP_IRIX_TIME_R)
+  ]]
+  PHP_IRIX_TIME_R
+)
 cmake_pop_check_state()
 
 if(PHP_IRIX_TIME_R)
