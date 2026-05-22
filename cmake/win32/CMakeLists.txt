@@ -60,8 +60,7 @@ target_sources(
     FILE_SET generated
       TYPE HEADERS
       BASE_DIRS ${PHP_BINARY_DIR}
-      FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
+      FILES ${CMAKE_CURRENT_BINARY_DIR}/wsyslog.h
 )
 
 target_include_directories(php_windows PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -76,24 +75,19 @@ target_compile_definitions(
   INTERFACE
     # Marks that target system is Windows. For PHP code.
     PHP_WIN32
-
     # This preprocessor macro is also defined by all compilers when targeting
     # Windows. It is left here to match the native PHP Windows build system.
     _WIN32
-
     # This preprocessor macro is also defined by Windows SDK and some compilers
     # (GCC and Clang) when targeting Windows. Left here for BC for possible PECL
     # extensions not being updated yet. In new code it is being replaced with
     # _WIN32.
     WIN32
-
     # For Zend Engine, same as PHP_WIN32.
     ZEND_WIN32
-
     _MBCS
     _USE_MATH_DEFINES
     PHP_EXPORTS
-
     # The time_t defaults to 64-bit. Force 32-bit time_t on 32-bit architecture.
     # This was historically added to PHP as Visual Studio 2005 set 64-bit time_t
     # by default and it would break 3rdParty libs that were built with older
@@ -154,9 +148,7 @@ target_compile_definitions(
 find_package(MC)
 set_package_properties(
   MC
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to generate win32/wsyslog.h."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to generate win32/wsyslog.h."
 )
 
 mc_target(
@@ -185,8 +177,7 @@ target_sources(php_windows PRIVATE cp_enc_map.c)
 
 set_source_files_properties(
   ${CMAKE_CURRENT_SOURCE_DIR}/cp_enc_map.c
-  PROPERTIES
-    HEADER_FILE_ONLY ON
+  PROPERTIES HEADER_FILE_ONLY ON
 )
 
 ################################################################################
@@ -197,10 +188,7 @@ set_source_files_properties(
 
 add_executable(php_windows_deplister build/deplister.c)
 
-set_target_properties(
-  php_windows_deplister
-  PROPERTIES OUTPUT_NAME deplister
-)
+set_target_properties(php_windows_deplister PROPERTIES OUTPUT_NAME deplister)
 
 target_link_libraries(php_windows_deplister PRIVATE imagehlp)
 
@@ -222,13 +210,21 @@ block(PROPAGATE PHP_LINKER_MAJOR PHP_LINKER_MINOR)
     )
   endif()
 
-  string(REGEX MATCH "^[^0-9]*([0-9]+)\\.?" _ "${CMAKE_C_COMPILER_LINKER_VERSION}")
+  string(
+    REGEX MATCH "^[^0-9]*([0-9]+)\\.?"
+    _
+    "${CMAKE_C_COMPILER_LINKER_VERSION}"
+  )
   set(PHP_LINKER_MAJOR "${CMAKE_MATCH_1}")
   if(NOT PHP_LINKER_MAJOR)
     set(PHP_LINKER_MAJOR 0)
   endif()
 
-  string(REGEX MATCH "^[^0-9]*[0-9]+\\.([0-9]+)\\.?" _ "${CMAKE_C_COMPILER_LINKER_VERSION}")
+  string(
+    REGEX MATCH "^[^0-9]*[0-9]+\\.([0-9]+)\\.?"
+    _
+    "${CMAKE_C_COMPILER_LINKER_VERSION}"
+  )
   set(PHP_LINKER_MINOR "${CMAKE_MATCH_1}")
   if(NOT PHP_LINKER_MINOR)
     set(PHP_LINKER_MINOR 0)
