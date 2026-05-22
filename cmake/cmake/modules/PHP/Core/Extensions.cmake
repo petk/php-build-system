@@ -33,14 +33,7 @@ include_guard(GLOBAL)
 
 # Sorts extensions by their dependencies.
 function(php_extensions_sort)
-  cmake_parse_arguments(
-    PARSE_ARGV
-    1
-    parsed
-    ""
-    ""
-    ""
-  )
+  cmake_parse_arguments(PARSE_ARGV 1 parsed "" "" "")
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
@@ -150,8 +143,5 @@ function(php_extensions_post_configure extension)
     VALUE "${value}"
   )
 
-  set_property(
-    CACHE PHP_EXT_${extension_upper}
-    PROPERTY STRINGS ON OFF shared
-  )
+  set_property(CACHE PHP_EXT_${extension_upper} PROPERTY STRINGS ON OFF shared)
 endfunction()

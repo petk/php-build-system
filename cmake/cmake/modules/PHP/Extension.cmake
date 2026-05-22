@@ -49,7 +49,7 @@ macro(php_extension)
 
   cmake_language(
     EVAL CODE
-    "cmake_language(DEFER CALL _php_extension_post_configure \"${ARGV0}\")"
+      "cmake_language(DEFER CALL _php_extension_post_configure \"${ARGV0}\")"
   )
 
   if(NOT DEFINED PHP_IS_TOP_LEVEL AND PHP_CCACHE)
@@ -130,8 +130,7 @@ function(_php_extension_post_configure)
 
   # Prepare config.h template.
   string(
-    JOIN
-    ""
+    JOIN ""
     template
     "/* Define to 1 if the PHP extension '@extension@' is built as a dynamic "
     "module. */\n"
@@ -168,11 +167,7 @@ function(_php_extension_post_configure)
     php_optimization(result)
 
     if(result)
-      get_target_property(
-        ipo
-        php_ext_${extension}
-        INTERPROCEDURAL_OPTIMIZATION
-      )
+      get_target_property(ipo php_ext_${extension} INTERPROCEDURAL_OPTIMIZATION)
 
       if(ipo MATCHES "-NOTFOUND$")
         set_target_properties(
@@ -191,13 +186,13 @@ function(_php_extension_post_configure)
   set(file_sets "")
   foreach(set IN LISTS sets)
     list(
-      APPEND
-      file_sets
+      APPEND file_sets
       FILE_SET
       ${set}
       DESTINATION
       ${PHP_INSTALL_INCLUDEDIR}/ext/${extension}
-      COMPONENT php-development
+      COMPONENT
+      php-development
     )
   endforeach()
 
@@ -205,9 +200,7 @@ function(_php_extension_post_configure)
   install(
     TARGETS php_ext_${extension}
     ARCHIVE EXCLUDE_FROM_ALL
-    LIBRARY
-      DESTINATION ${PHP_EXTENSION_DIR}
-      COMPONENT php
+    LIBRARY DESTINATION ${PHP_EXTENSION_DIR} COMPONENT php
     ${file_sets}
   )
 

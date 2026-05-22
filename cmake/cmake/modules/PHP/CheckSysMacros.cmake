@@ -87,7 +87,9 @@ int main(void)
 #]=============================================================================]
 
 foreach(
-  var IN ITEMS
+  var
+  IN
+  ITEMS
     HAVE_SYS_TYPES_H
     HAVE_SYS_MKDEV_H
     HAVE_SYS_SYSMACROS_H

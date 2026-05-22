@@ -278,8 +278,7 @@ endmacro()
 
 function(php_re2c name input)
   cmake_parse_arguments(
-    PARSE_ARGV
-    2
+    PARSE_ARGV 2
     parsed
     "ADD_DEFAULT_OPTIONS;CODEGEN;ABSOLUTE_PATHS"
     "OUTPUT;HEADER;WORKING_DIRECTORY;COMPUTED_GOTOS"
@@ -299,15 +298,13 @@ function(php_re2c name input)
   endif()
 
   cmake_path(
-    ABSOLUTE_PATH
-    input
+    ABSOLUTE_PATH input
     BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     NORMALIZE
   )
 
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_OUTPUT
+    ABSOLUTE_PATH parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -316,8 +313,7 @@ function(php_re2c name input)
 
   if(parsed_HEADER)
     cmake_path(
-      ABSOLUTE_PATH
-      parsed_HEADER
+      ABSOLUTE_PATH parsed_HEADER
       BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       NORMALIZE
     )
@@ -370,8 +366,7 @@ function(php_re2c name input)
     endif()
   endif()
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_WORKING_DIRECTORY
+    ABSOLUTE_PATH parsed_WORKING_DIRECTORY
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -381,10 +376,7 @@ function(php_re2c name input)
 
   # Generate name for the symbolic file for the custom command below.
   string(MAKE_C_IDENTIFIER "${name}_${input}" id)
-  set(
-    timestamp
-    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Re2c/${id}.timestamp
-  )
+  set(timestamp ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Re2c/${id}.timestamp)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Re2c)
 
   if(role STREQUAL "PROJECT")
@@ -401,8 +393,7 @@ function(php_re2c name input)
 
   # Assemble status message.
   cmake_path(
-    RELATIVE_PATH
-    parsed_OUTPUT
+    RELATIVE_PATH parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relative_path
   )
@@ -424,12 +415,11 @@ function(php_re2c name input)
   # libraries/targets.
   add_custom_command(
     OUTPUT ${timestamp}
+    # gersemi: off
     COMMAND ${CMAKE_COMMAND} -E touch ${timestamp}
     ${commands}
-    DEPENDS
-      ${input}
-      ${parsed_DEPENDS}
-      $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
+    # gersemi: on
+    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:RE2C::RE2C>
     COMMENT "${message}"
     VERBATIM
     COMMAND_EXPAND_LISTS
@@ -456,8 +446,7 @@ function(_php_re2c_set_package_properties)
 
   # Set package PURPOSE property.
   cmake_path(
-    RELATIVE_PATH
-    parsed_OUTPUT
+    RELATIVE_PATH parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
     OUTPUT_VARIABLE relative_path
   )
@@ -513,8 +502,7 @@ function(_php_re2c_process_header_option)
     set(header_argument "${parsed_HEADER}")
   else()
     cmake_path(
-      RELATIVE_PATH
-      parsed_HEADER
+      RELATIVE_PATH parsed_HEADER
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
       OUTPUT_VARIABLE header_argument
     )
@@ -556,8 +544,10 @@ function(_php_re2c_check_computed_gotos result)
 
   message(CHECK_START "Checking for re2c --computed-gotos (-g) option support")
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    check_source_compiles(C [[
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(
+    C
+    [[
       int main(void)
       {
       label1:
@@ -568,7 +558,9 @@ function(_php_re2c_check_computed_gotos result)
         goto *adr[0];
         return 0;
       }
-    ]] _PHP_RE2C_HAVE_COMPUTED_GOTOS)
+    ]]
+    _PHP_RE2C_HAVE_COMPUTED_GOTOS
+  )
   cmake_pop_check_state()
   if(_PHP_RE2C_HAVE_COMPUTED_GOTOS)
     message(CHECK_PASS "yes")
@@ -590,14 +582,12 @@ function(_php_re2c_get_commands result)
     set(output_argument "${parsed_OUTPUT}")
   else()
     cmake_path(
-      RELATIVE_PATH
-      input
+      RELATIVE_PATH input
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
       OUTPUT_VARIABLE input_argument
     )
     cmake_path(
-      RELATIVE_PATH
-      parsed_OUTPUT
+      RELATIVE_PATH parsed_OUTPUT
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
       OUTPUT_VARIABLE output_argument
     )
@@ -615,19 +605,22 @@ function(_php_re2c_get_commands result)
   if(directories)
     list(REMOVE_DUPLICATES directories)
     list(
-      APPEND
-      ${result}
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${directories}
+      APPEND ${result}
+      COMMAND
+      ${CMAKE_COMMAND}
+      -E
+      make_directory
+      ${directories}
     )
   endif()
 
   list(
-    APPEND
-    ${result}
+    APPEND ${result}
     COMMAND
     ${RE2C_EXECUTABLE}
     ${options}
-    --output ${output_argument}
+    --output
+    ${output_argument}
     ${input_argument}
   )
 
@@ -665,8 +658,10 @@ function(_php_re2c_download)
 
   FetchContent_Declare(
     RE2C
-    URL https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
-    SOURCE_SUBDIR non-existing
+    URL
+      https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
+      SOURCE_SUBDIR
+      non-existing
     OVERRIDE_FIND_PACKAGE
   )
 
@@ -677,24 +672,22 @@ function(_php_re2c_download)
 
   if(RE2C_VERSION VERSION_GREATER_EQUAL 4)
     list(
-      APPEND
-      options
-        -DRE2C_BUILD_RE2D=OFF
-        -DRE2C_BUILD_RE2HS=OFF
-        -DRE2C_BUILD_RE2JAVA=OFF
-        -DRE2C_BUILD_RE2JS=OFF
-        -DRE2C_BUILD_RE2OCAML=OFF
-        -DRE2C_BUILD_RE2PY=OFF
-        -DRE2C_BUILD_RE2V=OFF
-        -DRE2C_BUILD_RE2ZIG=OFF
-        -DRE2C_BUILD_TESTS=OFF
+      APPEND options
+      -DRE2C_BUILD_RE2D=OFF
+      -DRE2C_BUILD_RE2HS=OFF
+      -DRE2C_BUILD_RE2JAVA=OFF
+      -DRE2C_BUILD_RE2JS=OFF
+      -DRE2C_BUILD_RE2OCAML=OFF
+      -DRE2C_BUILD_RE2PY=OFF
+      -DRE2C_BUILD_RE2V=OFF
+      -DRE2C_BUILD_RE2ZIG=OFF
+      -DRE2C_BUILD_TESTS=OFF
     )
   else()
     list(
-      APPEND
-      options
-        -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
-        -DPython3_VERSION=3.7
+      APPEND options
+      -DCMAKE_DISABLE_FIND_PACKAGE_Python3=TRUE
+      -DPython3_VERSION=3.7
     )
   endif()
 

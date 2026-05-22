@@ -111,8 +111,7 @@ function(_php_pkgconfig_parse_variables variables)
     # possible 'cmake --install --prefix ...' override.
     if(value MATCHES [[.*\$<INSTALL_PREFIX>.*]])
       string(
-        REPLACE
-        "$<INSTALL_PREFIX>"
+        REPLACE "$<INSTALL_PREFIX>"
         "${CMAKE_INSTALL_PREFIX}"
         value
         "${value}"
@@ -131,14 +130,7 @@ endfunction()
 
 function(php_pkgconfig_generate_pc)
   # gersemi: hints { VARIABLES: pairs }
-  cmake_parse_arguments(
-    PARSE_ARGV
-    2
-    parsed
-    ""
-    "TARGET"
-    "VARIABLES"
-  )
+  cmake_parse_arguments(PARSE_ARGV 2 parsed "" "TARGET" "VARIABLES")
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
@@ -164,16 +156,14 @@ function(php_pkgconfig_generate_pc)
 
   set(template "${ARGV0}")
   cmake_path(
-    ABSOLUTE_PATH
-    template
+    ABSOLUTE_PATH template
     BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     NORMALIZE
   )
 
   set(output "${ARGV1}")
   cmake_path(
-    ABSOLUTE_PATH
-    output
+    ABSOLUTE_PATH output
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -196,38 +186,43 @@ function(php_pkgconfig_generate_pc)
     endif()
   endif()
 
-  string(CONFIGURE [[
-    block()
-      file(
-        GET_RUNTIME_DEPENDENCIES
-        RESOLVED_DEPENDENCIES_VAR dependencies
-        UNRESOLVED_DEPENDENCIES_VAR unresolved_dependencies
-        PRE_EXCLUDE_REGEXES
-          libc\\.
-          libroot\\.
-          ld-linux
-          libgcc
-          libstdc\\+\\+
-        POST_INCLUDE_REGEXES lib[^/]+$
-        @file_option@
-      )
-      set(libraries "")
-      foreach(dependency IN LISTS dependencies)
-        cmake_path(GET dependency STEM library)
-        list(APPEND libraries "${library}")
-      endforeach()
-      list(TRANSFORM libraries REPLACE "^lib" "-l")
-      list(JOIN libraries " " PHP_LIBS_PRIVATE)
+  string(
+    CONFIGURE
+      [[
+        block()
+          file(
+            GET_RUNTIME_DEPENDENCIES
+            RESOLVED_DEPENDENCIES_VAR dependencies
+            UNRESOLVED_DEPENDENCIES_VAR unresolved_dependencies
+            PRE_EXCLUDE_REGEXES
+              libc\\.
+              libroot\\.
+              ld-linux
+              libgcc
+              libstdc\\+\\+
+            POST_INCLUDE_REGEXES lib[^/]+$
+            @file_option@
+          )
+          set(libraries "")
+          foreach(dependency IN LISTS dependencies)
+            cmake_path(GET dependency STEM library)
+            list(APPEND libraries "${library}")
+          endforeach()
+          list(TRANSFORM libraries REPLACE "^lib" "-l")
+          list(JOIN libraries " " PHP_LIBS_PRIVATE)
 
-      set(result_variables @result_variables@)
-      set(result_values "@result_values@")
+          set(result_variables @result_variables@)
+          set(result_values "@result_values@")
 
-      foreach(var value IN ZIP_LISTS result_variables result_values)
-        set(${var} "${value}")
-      endforeach()
+          foreach(var value IN ZIP_LISTS result_variables result_values)
+            set(${var} "${value}")
+          endforeach()
 
-      configure_file("@template@" "@output@" @ONLY)
-    endblock()
-  ]] code @ONLY)
+          configure_file("@template@" "@output@" @ONLY)
+        endblock()
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-development)
 endfunction()
