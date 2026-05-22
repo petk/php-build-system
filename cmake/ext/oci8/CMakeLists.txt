@@ -36,21 +36,14 @@ Enables OCI8 support using Oracle Database 19 Instant Client.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_OCI8
-  LANGUAGES C
-)
+project(PHP_EXT_OCI8 LANGUAGES C)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_OCI8 "Enable the oci8 extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/oci8"
-  PHP_EXT_OCI8
-  "Oracle database support"
-)
+add_feature_info("ext/oci8" PHP_EXT_OCI8 "Oracle database support")
 
 cmake_dependent_option(
   PHP_EXT_OCI8_11G
@@ -118,7 +111,11 @@ if(NOT PHP_OCI8_INSTANT_CLIENT AND NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   cmake_language(DEFER DIRECTORY ${dir} CALL php_ext_oci8_notice)
 endif()
 function(php_ext_oci8_notice)
-  cmake_language(DEFER CALL message NOTICE [[
+  cmake_language(
+    DEFER
+    CALL message
+    NOTICE
+    [[
 
     The oci8 extension notice:
 
@@ -128,7 +125,8 @@ function(php_ext_oci8_notice)
     'BEQUEATH_DETACH' to 'YES' before starting Apache. If the problem
     still occurs, then recompile PHP and specify 'PHP_SIGCHILD'
     configuration variable.
-  ]])
+  ]]
+  )
 endfunction()
 
 set(HAVE_OCI8 TRUE)

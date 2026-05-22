@@ -50,11 +50,7 @@ option(
   "Install PEAR, PHP Extension and Application Repository package manager"
 )
 
-add_feature_info(
-  "PEAR"
-  PHP_PEAR
-  "PHP Extension and Application Repository"
-)
+add_feature_info("PEAR" PHP_PEAR "PHP Extension and Application Repository")
 
 set(
   CACHE{PHP_PEAR_INSTALL_DIR}
@@ -121,8 +117,10 @@ block(PROPAGATE php_pear_options)
 
   foreach(
     extension
+    IN
+    ITEMS
       openssl # For pecl command to download packages over https
-      xml     # For installer, pear and pecl commands to work
+      xml # For installer, pear and pecl commands to work
   )
     string(TOUPPER ${extension} extension_upper)
     if(NOT TARGET PHP::ext::${extension})
@@ -145,23 +143,31 @@ set(php_executable "")
 if(NOT CMAKE_CROSSCOMPILING)
   set(php_executable "$<TARGET_FILE:PHP::sapi::cli>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
-  set(php_executable "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>")
+  set(
+    php_executable
+    "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:PHP::sapi::cli>"
+  )
 endif()
 
-string(CONFIGURE [[
-  set(php_pear_install_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_INSTALL_DIR_VALUE@,${CMAKE_INSTALL_PREFIX}>")
-  set(php_pear_install_bin_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
-  set(php_pear_current_source_dir "@CMAKE_CURRENT_SOURCE_DIR@")
-  set(php_pear_current_binary_dir "@CMAKE_CURRENT_BINARY_DIR@")
-  set(php_pear_php_executable "@php_executable@")
-  set(php_pear_extension_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
-  set(php_pear_options "@php_pear_options@")
-  set(CMAKE_SYSTEM_NAME "@CMAKE_SYSTEM_NAME@")
-  set(PHP_PEAR_TEMP_DIR "@PHP_PEAR_TEMP_DIR@")
-  set(php_pear_installed_php_bin "${php_pear_install_bin_dir}/$<TARGET_FILE_NAME:PHP::sapi::cli>")
-  set(php_pear_php_program_prefix "@PHP_PROGRAM_PREFIX@")
-  set(php_pear_php_program_suffix "@PHP_PROGRAM_SUFFIX@")
-  set(php_pear_install_sysconf_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@/pear,${CMAKE_INSTALL_PREFIX}>")
-]] code @ONLY)
+string(
+  CONFIGURE
+    [[
+      set(php_pear_install_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_PEAR_INSTALL_DIR_VALUE@,${CMAKE_INSTALL_PREFIX}>")
+      set(php_pear_install_bin_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
+      set(php_pear_current_source_dir "@CMAKE_CURRENT_SOURCE_DIR@")
+      set(php_pear_current_binary_dir "@CMAKE_CURRENT_BINARY_DIR@")
+      set(php_pear_php_executable "@php_executable@")
+      set(php_pear_extension_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
+      set(php_pear_options "@php_pear_options@")
+      set(CMAKE_SYSTEM_NAME "@CMAKE_SYSTEM_NAME@")
+      set(PHP_PEAR_TEMP_DIR "@PHP_PEAR_TEMP_DIR@")
+      set(php_pear_installed_php_bin "${php_pear_install_bin_dir}/$<TARGET_FILE_NAME:PHP::sapi::cli>")
+      set(php_pear_php_program_prefix "@PHP_PROGRAM_PREFIX@")
+      set(php_pear_php_program_suffix "@PHP_PROGRAM_SUFFIX@")
+      set(php_pear_install_sysconf_dir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_SYSCONFDIR@/pear,${CMAKE_INSTALL_PREFIX}>")
+    ]]
+  code
+  @ONLY
+)
 install(CODE "${code}" COMPONENT php-pear)
 install(SCRIPT cmake/InstallPear.cmake COMPONENT php-pear)

@@ -30,21 +30,14 @@ built with SSL support, this option will be automatically enabled.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_IMAP
-  LANGUAGES C
-)
+project(PHP_EXT_IMAP LANGUAGES C)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_IMAP "Enable the imap extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/imap"
-  PHP_EXT_IMAP
-  "IMAP protocol support"
-)
+add_feature_info("ext/imap" PHP_EXT_IMAP "IMAP protocol support")
 
 cmake_dependent_option(
   PHP_EXT_IMAP_KERBEROS
@@ -77,12 +70,7 @@ else()
   add_library(php_ext_imap OBJECT)
 endif()
 
-target_sources(
-  php_ext_imap
-  PRIVATE
-    php_imap.c
-    php_imap.stub.php
-)
+target_sources(php_ext_imap PRIVATE php_imap.c php_imap.stub.php)
 
 target_include_directories(php_ext_imap PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -91,18 +79,14 @@ target_compile_definitions(php_ext_imap PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 find_package(Cclient)
 set_package_properties(
   Cclient
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the imap extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the imap extension."
 )
 
 target_link_libraries(
   php_ext_imap
-  PRIVATE
-    $<$<PLATFORM_ID:Windows>:ws2_32;secur32;crypt32;winmm>
+  PRIVATE $<$<PLATFORM_ID:Windows>:ws2_32;secur32;crypt32;winmm>
   # Link publicly for internal_functions files.
-  PUBLIC
-    Cclient::Cclient
+  PUBLIC Cclient::Cclient
 )
 
 if(TARGET Cclient::Cclient)
@@ -110,11 +94,9 @@ if(TARGET Cclient::Cclient)
     message(CHECK_START "Checking for Kerberos support in imap extension")
 
     file(
-      STRINGS
-      ${Cclient_INCLUDE_DIR}/linkage.h
+      STRINGS ${Cclient_INCLUDE_DIR}/linkage.h
       auth_gss_results
-      REGEX
-      [[auth_gss;$]]
+      REGEX [[auth_gss;$]]
     )
 
     if(
@@ -129,7 +111,10 @@ if(TARGET Cclient::Cclient)
           PURPOSE "Necessary for Kerberos support in the imap extension."
       )
 
-      target_link_libraries(php_ext_imap PRIVATE Kerberos::Krb5 Kerberos::GSSAPI)
+      target_link_libraries(
+        php_ext_imap
+        PRIVATE Kerberos::Krb5 Kerberos::GSSAPI
+      )
 
       if(Kerberos_FOUND)
         set(HAVE_IMAP_KRB TRUE)
@@ -154,11 +139,9 @@ if(TARGET Cclient::Cclient)
     message(CHECK_START "Checking for SSL support in imap extension")
 
     file(
-      STRINGS
-      ${Cclient_INCLUDE_DIR}/linkage.c
+      STRINGS ${Cclient_INCLUDE_DIR}/linkage.c
       ssl_onceonlyinit_results
-      REGEX
-      "ssl_onceonlyinit[ \t]*\\(\\);$"
+      REGEX "ssl_onceonlyinit[ \t]*\\(\\);$"
     )
 
     if((NOT PHP_EXT_IMAP_SSL AND ssl_onceonlyinit_results) OR PHP_EXT_IMAP_SSL)

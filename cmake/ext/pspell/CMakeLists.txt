@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PSPELL
-  LANGUAGES C
-)
+project(PHP_EXT_PSPELL LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -26,11 +23,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_PSPELL "Enable the pspell extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/pspell"
-  PHP_EXT_PSPELL
-  "spellchecking support"
-)
+add_feature_info("ext/pspell" PHP_EXT_PSPELL "spellchecking support")
 
 if(NOT PHP_EXT_PSPELL)
   return()
@@ -49,12 +42,7 @@ else()
   add_library(php_ext_pspell OBJECT)
 endif()
 
-target_sources(
-  php_ext_pspell
-  PRIVATE
-    pspell.c
-    pspell.stub.php
-)
+target_sources(php_ext_pspell PRIVATE pspell.c pspell.stub.php)
 
 target_include_directories(php_ext_pspell PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -63,8 +51,7 @@ php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)
 if(PHP_HAS_WNO_STRICT_PROTOTYPES)
   target_compile_options(
     php_ext_pspell
-    PRIVATE
-      $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
+    PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
   )
 endif()
 
@@ -81,8 +68,8 @@ set_package_properties(
 # Sanity check for Aspell minimum version.
 if(TARGET ASPELL::ASPELL)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ASPELL::ASPELL)
-    check_symbol_exists(new_aspell_config aspell.h PHP_EXT_PSPELL_SANITY_CHECK)
+  set(CMAKE_REQUIRED_LIBRARIES ASPELL::ASPELL)
+  check_symbol_exists(new_aspell_config aspell.h PHP_EXT_PSPELL_SANITY_CHECK)
   cmake_pop_check_state()
 
   if(NOT PHP_EXT_PSPELL_SANITY_CHECK)

@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_CTYPE
-  LANGUAGES C
-)
+project(PHP_EXT_CTYPE LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -46,12 +43,7 @@ else()
   add_library(php_ext_ctype OBJECT)
 endif()
 
-target_sources(
-  php_ext_ctype
-  PRIVATE
-    ctype.c
-    ctype.stub.php
-)
+target_sources(php_ext_ctype PRIVATE ctype.c ctype.stub.php)
 
 target_include_directories(php_ext_ctype PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 

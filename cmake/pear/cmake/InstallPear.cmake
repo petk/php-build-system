@@ -17,14 +17,7 @@ set(php_pear_installer_url "https://pear.php.net/install-pear-nozlib.phar")
 #   <result-variable-name>
 # )
 function(php_pear_path_with_destdir)
-  cmake_parse_arguments(
-    PARSE_ARGV
-    2
-    parsed
-    ""
-    ""
-    ""
-  )
+  cmake_parse_arguments(PARSE_ARGV 2 parsed "" "" "")
 
   if(
     CMAKE_SYSTEM_NAME STREQUAL "Windows"
@@ -49,11 +42,12 @@ message(STATUS "Installing PEAR to ${php_pear_install_stage_dir}")
 # If PEAR installer is packaged in the PHP release archive.
 if(
   EXISTS ${php_pear_current_source_dir}/install-pear-nozlib.phar
-  AND NOT "${php_pear_current_source_dir}" STREQUAL "${php_pear_current_binary_dir}"
+  AND
+    NOT
+      "${php_pear_current_source_dir}" STREQUAL "${php_pear_current_binary_dir}"
 )
   file(
-    COPY_FILE
-    "${php_pear_current_source_dir}/install-pear-nozlib.phar"
+    COPY_FILE "${php_pear_current_source_dir}/install-pear-nozlib.phar"
     "${php_pear_current_binary_dir}/install-pear-nozlib.phar"
   )
 endif()
@@ -61,8 +55,7 @@ endif()
 # Download PEAR installer.
 if(NOT EXISTS ${php_pear_current_binary_dir}/install-pear-nozlib.phar)
   file(
-    DOWNLOAD
-    ${php_pear_installer_url}
+    DOWNLOAD ${php_pear_installer_url}
     ${php_pear_current_binary_dir}/install-pear-nozlib.phar
     SHOW_PROGRESS
     STATUS download_status
@@ -72,11 +65,8 @@ if(NOT EXISTS ${php_pear_current_binary_dir}/install-pear-nozlib.phar)
     # Download using fetch.php.
     execute_process(
       COMMAND
-        ${php_pear_php_executable}
-        -n
-        ${php_pear_options}
-        ${php_pear_current_source_dir}/fetch.php
-        ${php_pear_installer_url}
+        ${php_pear_php_executable} -n ${php_pear_options}
+        ${php_pear_current_source_dir}/fetch.php ${php_pear_installer_url}
         ${php_pear_current_binary_dir}/install-pear-nozlib.phar
     )
   endif()
@@ -142,6 +132,7 @@ file(
 
 # Run the PEAR installer.
 execute_process(
+  # gersemi: off
   COMMAND
     ${php_pear_php_executable}
     -n
@@ -161,6 +152,7 @@ execute_process(
       --php ${php_pear_installed_php_bin}
       -dp a${php_pear_php_program_prefix}
       -ds a${php_pear_php_program_suffix}
+  # gersemi: on
   OUTPUT_VARIABLE output
   ERROR_VARIABLE output
   RESULT_VARIABLE result
@@ -192,8 +184,7 @@ message(STATUS "Patching ${pear_conf}")
 file(READ "${pear_conf}" content)
 string(LENGTH "${php_pear_temp_dir}/temp" length)
 string(
-  REGEX REPLACE
-  "s:8:\"temp_dir\";s:[0-9]+:\"${php_pear_stage_temp_dir}\""
+  REGEX REPLACE "s:8:\"temp_dir\";s:[0-9]+:\"${php_pear_stage_temp_dir}\""
   "s:8:\"temp_dir\";s:${length}:\"${php_pear_temp_dir}/temp\""
   content
   "${content}"
