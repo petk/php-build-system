@@ -25,12 +25,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-
-  # On some systems, additional library is needed for the in6addr_any variable
-  # (from <netinet/in.h>).
-  php_search_libraries(
-    SOURCE_COMPILES [[
+set(CMAKE_REQUIRED_QUIET TRUE)
+# On some systems, additional library is needed for the in6addr_any variable
+# (from <netinet/in.h>).
+php_search_libraries(
+  SOURCE_COMPILES
+    [[
       #include <sys/types.h>
       #include <sys/socket.h>
       #include <netinet/in.h>
@@ -48,13 +48,13 @@ cmake_push_check_state(RESET)
         return 0;
       }
     ]]
-    LIBRARIES
-      socket  # Solaris <= 11.3, illumos
-      network # Haiku
-    RESULT_VARIABLE PHP_HAVE_IPV6
-    LIBRARY_VARIABLE PHP_HAVE_IPV6_LIBRARY
-    TARGET php_config INTERFACE
-  )
+  LIBRARIES
+    socket # Solaris <= 11.3, illumos
+    network # Haiku
+  RESULT_VARIABLE PHP_HAVE_IPV6
+  LIBRARY_VARIABLE PHP_HAVE_IPV6_LIBRARY
+  TARGET php_config INTERFACE
+)
 cmake_pop_check_state()
 set(HAVE_IPV6 ${PHP_HAVE_IPV6})
 

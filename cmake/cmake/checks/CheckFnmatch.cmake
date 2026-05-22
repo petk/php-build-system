@@ -33,17 +33,20 @@ include(CMakePushCheckState)
 message(CHECK_START "Checking for a working POSIX fnmatch() function")
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(
-    CMAKE_CROSSCOMPILING
-    AND NOT CMAKE_CROSSCOMPILING_EMULATOR
-    AND NOT DEFINED PHP_HAVE_FNMATCH_EXITCODE
-  )
-    check_symbol_exists(fnmatch fnmatch.h PHP_HAVE_FNMATCH)
-  endif()
+set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_source_runs(C [[
+if(
+  CMAKE_CROSSCOMPILING
+  AND NOT CMAKE_CROSSCOMPILING_EMULATOR
+  AND NOT DEFINED PHP_HAVE_FNMATCH_EXITCODE
+)
+  check_symbol_exists(fnmatch fnmatch.h PHP_HAVE_FNMATCH)
+endif()
+
+check_source_runs(
+  C
+  [[
     #include <fnmatch.h>
     #define y(a, b, c) (fnmatch (a, b, c) == 0)
     #define n(a, b, c) (fnmatch (a, b, c) == FNM_NOMATCH)
@@ -59,7 +62,10 @@ cmake_push_check_state(RESET)
           && n ("*x", ".x", FNM_PERIOD)
           && 1));
     }
-  ]] PHP_HAVE_FNMATCH)
+  ]]
+  PHP_HAVE_FNMATCH
+)
+
 cmake_pop_check_state()
 
 if(PHP_HAVE_FNMATCH)

@@ -40,8 +40,7 @@ function(_php_check_gethostbyname_r)
   php_search_libraries(
     SYMBOL gethostbyname_r
     HEADERS netdb.h
-    LIBRARIES
-      nsl # Solaris <= 11.3, illumos
+    LIBRARIES nsl # Solaris <= 11.3, illumos
     RESULT_VARIABLE PHP_HAVE_GETHOSTBYNAME_R
     LIBRARY_VARIABLE PHP_HAVE_GETHOSTBYNAME_R_LIBRARY
   )
@@ -58,52 +57,54 @@ function(_php_check_gethostbyname_r)
   message(CHECK_START "Checking number of gethostbyname_r() arguments")
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
 
-    # Check for 6 arguments signature.
-    check_prototype_definition(
-      gethostbyname_r
-      "int gethostbyname_r(const char *name, struct hostent *ret, char *buf, \
-        size_t buflen, struct hostent **result, int *h_errnop)"
-      "0"
-      netdb.h
-      PHP_HAVE_FUNC_GETHOSTBYNAME_R_6
-    )
-    if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_6)
-      cmake_pop_check_state()
-      message(CHECK_PASS "six")
-      return()
-    endif()
+  set(CMAKE_REQUIRED_QUIET TRUE)
 
-    # Check for 5 arguments signature.
-    check_prototype_definition(
-      gethostbyname_r
-      "struct hostent *gethostbyname_r(const char *name, struct hostent *result, \
-        char *buffer, int buflen, int *h_errnop)"
-      "0"
-      netdb.h
-      PHP_HAVE_FUNC_GETHOSTBYNAME_R_5
-    )
-    if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_5)
-      cmake_pop_check_state()
-      message(CHECK_PASS "five")
-      return()
-    endif()
+  # Check for 6 arguments signature.
+  check_prototype_definition(
+    gethostbyname_r
+    "int gethostbyname_r(const char *name, struct hostent *ret, char *buf, \
+      size_t buflen, struct hostent **result, int *h_errnop)"
+    "0"
+    netdb.h
+    PHP_HAVE_FUNC_GETHOSTBYNAME_R_6
+  )
+  if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_6)
+    cmake_pop_check_state()
+    message(CHECK_PASS "six")
+    return()
+  endif()
 
-    # Check for 3 arguments signature.
-    check_prototype_definition(
-      gethostbyname_r
-      "int gethostbyname_r(const char *name, struct hostent *htent, \
-        struct hostent_data *data)"
-      "0"
-      netdb.h
-      PHP_HAVE_FUNC_GETHOSTBYNAME_R_3
-    )
-    if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_3)
-      cmake_pop_check_state()
-      message(CHECK_PASS "three")
-      return()
-    endif()
+  # Check for 5 arguments signature.
+  check_prototype_definition(
+    gethostbyname_r
+    "struct hostent *gethostbyname_r(const char *name, struct hostent *result, \
+      char *buffer, int buflen, int *h_errnop)"
+    "0"
+    netdb.h
+    PHP_HAVE_FUNC_GETHOSTBYNAME_R_5
+  )
+  if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_5)
+    cmake_pop_check_state()
+    message(CHECK_PASS "five")
+    return()
+  endif()
+
+  # Check for 3 arguments signature.
+  check_prototype_definition(
+    gethostbyname_r
+    "int gethostbyname_r(const char *name, struct hostent *htent, \
+      struct hostent_data *data)"
+    "0"
+    netdb.h
+    PHP_HAVE_FUNC_GETHOSTBYNAME_R_3
+  )
+  if(PHP_HAVE_FUNC_GETHOSTBYNAME_R_3)
+    cmake_pop_check_state()
+    message(CHECK_PASS "three")
+    return()
+  endif()
+
   cmake_pop_check_state()
 
   message(CHECK_FAIL "unknown")
