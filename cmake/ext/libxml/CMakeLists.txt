@@ -17,10 +17,7 @@ This extension cannot be built as shared.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_LIBXML
-  LANGUAGES C
-)
+project(PHP_EXT_LIBXML LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -58,14 +55,8 @@ add_library(php_ext_libxml OBJECT)
 
 target_sources(
   php_ext_libxml
-  PRIVATE
-    libxml.c
-    libxml.stub.php
-    mime_sniff.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_libxml.h
+  PRIVATE libxml.c libxml.stub.php mime_sniff.c
+  PUBLIC FILE_SET HEADERS FILES php_libxml.h
 )
 
 target_include_directories(php_ext_libxml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -85,17 +76,14 @@ include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the libxml extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the libxml extension."
 )
 
 # HAVE_WIN32_THREADS is not needed on newer libxml2 versions anymore.
 if(LibXml2_VERSION VERSION_LESS 2.10)
   target_compile_definitions(
     php_ext_libxml
-    PRIVATE
-      $<$<PLATFORM_ID:Windows>:HAVE_WIN32_THREADS>
+    PRIVATE $<$<PLATFORM_ID:Windows>:HAVE_WIN32_THREADS>
   )
 endif()
 

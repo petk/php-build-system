@@ -62,10 +62,7 @@ Where to find Kerberos installation on the system, can be customized with the
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_OPENSSL
-  LANGUAGES C
-)
+project(PHP_EXT_OPENSSL LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakeDependentOption)
@@ -104,11 +101,7 @@ cmake_dependent_option(
 )
 mark_as_advanced(PHP_EXT_OPENSSL_ARGON2)
 
-add_feature_info(
-  "ext/openssl Argon2"
-  PHP_EXT_OPENSSL_ARGON2
-  "password hashing"
-)
+add_feature_info("ext/openssl Argon2" PHP_EXT_OPENSSL_ARGON2 "password hashing")
 
 cmake_dependent_option(
   PHP_EXT_OPENSSL_LEGACY_PROVIDER
@@ -156,9 +149,7 @@ include(PHP/Package/OpenSSL)
 find_package(OpenSSL ${PHP_PACKAGE_OPENSSL_MIN_VERSION} COMPONENTS SSL)
 set_package_properties(
   OpenSSL
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the openssl extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the openssl extension."
 )
 
 # Link publicly for internal_functions files.
@@ -166,9 +157,9 @@ target_link_libraries(php_ext_openssl PUBLIC OpenSSL::SSL)
 
 if(TARGET OpenSSL::SSL)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
-    check_symbol_exists(RAND_egd openssl/rand.h PHP_EXT_OPENSSL_HAVE_RAND_EGD)
-    set(HAVE_RAND_EGD ${PHP_EXT_OPENSSL_HAVE_RAND_EGD})
+  set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
+  check_symbol_exists(RAND_egd openssl/rand.h PHP_EXT_OPENSSL_HAVE_RAND_EGD)
+  set(HAVE_RAND_EGD ${PHP_EXT_OPENSSL_HAVE_RAND_EGD})
   cmake_pop_check_state()
 
   if(OpenSSL_VERSION VERSION_LESS 3 AND PHP_EXT_OPENSSL_LEGACY_PROVIDER)
@@ -200,13 +191,13 @@ if(TARGET OpenSSL::SSL)
     endif()
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
-      check_symbol_exists(
-        OSSL_set_max_threads
-        openssl/thread.h
-        PHP_EXT_OPENSSL_HAVE_OPENSSL_ARGON2
-      )
-      set(HAVE_OPENSSL_ARGON2 ${PHP_EXT_OPENSSL_HAVE_OPENSSL_ARGON2})
+    set(CMAKE_REQUIRED_LIBRARIES OpenSSL::SSL)
+    check_symbol_exists(
+      OSSL_set_max_threads
+      openssl/thread.h
+      PHP_EXT_OPENSSL_HAVE_OPENSSL_ARGON2
+    )
+    set(HAVE_OPENSSL_ARGON2 ${PHP_EXT_OPENSSL_HAVE_OPENSSL_ARGON2})
     cmake_pop_check_state()
 
     if(

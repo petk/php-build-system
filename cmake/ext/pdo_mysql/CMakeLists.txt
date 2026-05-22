@@ -167,14 +167,12 @@ set_property(
 
 target_compile_definitions(
   php_ext_pdo_mysql
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_include_directories(
   php_ext_pdo_mysql
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 if(PHP_EXT_PDO_MYSQL_SOCKET_PATH)

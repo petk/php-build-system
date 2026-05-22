@@ -80,9 +80,9 @@ include(PHP/CheckSysMacros)
 
 # The strcasestr is missing on Windows and Solaris <= 10 (Solaris 11 has it).
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(strcasestr string.h PHP_EXT_FILEINFO_HAVE_STRCASESTR)
-  set(HAVE_STRCASESTR ${PHP_EXT_FILEINFO_HAVE_STRCASESTR})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(strcasestr string.h PHP_EXT_FILEINFO_HAVE_STRCASESTR)
+set(HAVE_STRCASESTR ${PHP_EXT_FILEINFO_HAVE_STRCASESTR})
 cmake_pop_check_state()
 if(NOT PHP_EXT_FILEINFO_HAVE_STRCASESTR)
   message(STATUS "Using libmagic strcasestr implementation")
@@ -117,16 +117,13 @@ target_compile_definitions(
 
 target_include_directories(
   php_ext_fileinfo
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 set_property(
   SOURCE libmagic/apprentice.c
   APPEND
-  PROPERTY
-    OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
+  PROPERTY OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
 )
 
 set_property(

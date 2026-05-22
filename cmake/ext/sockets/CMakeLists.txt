@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SOCKETS
-  LANGUAGES C
-)
+project(PHP_EXT_SOCKETS LANGUAGES C)
 
 include(CheckIncludeFiles)
 include(CheckStructHasMember)
@@ -78,24 +75,23 @@ target_compile_definitions(
 
 target_link_libraries(
   php_ext_sockets
-  PRIVATE
-    $<$<PLATFORM_ID:Windows>:ws2_32;iphlpapi>
+  PRIVATE $<$<PLATFORM_ID:Windows>:ws2_32;iphlpapi>
 )
 
 include(PHP/SearchLibraries)
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  php_search_libraries(
-    SYMBOL hstrerror
-    HEADERS netdb.h
-    LIBRARIES
-      resolv  # Solaris/illumos
-      network # Haiku
-    RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_HSTRERROR
-    TARGET php_ext_sockets PRIVATE
-  )
-  set(HAVE_HSTRERROR ${PHP_EXT_SOCKETS_HAVE_HSTRERROR})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+php_search_libraries(
+  SYMBOL hstrerror
+  HEADERS netdb.h
+  LIBRARIES
+    resolv # Solaris/illumos
+    network # Haiku
+  RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_HSTRERROR
+  TARGET php_ext_sockets PRIVATE
+)
+set(HAVE_HSTRERROR ${PHP_EXT_SOCKETS_HAVE_HSTRERROR})
 cmake_pop_check_state()
 
 check_symbol_exists(if_nametoindex net/if.h PHP_EXT_SOCKETS_HAVE_IF_NAMETOINDEX)
@@ -127,24 +123,24 @@ set(
 
 # Check for struct ucred. Checking the header is not enough. E.g. DragonFlyBSD.
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size(
-    "struct ucred"
-    PHP_EXT_SOCKETS_SIZEOF_STRUCT_UCRED
-    RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_STRUCT_UCRED
-  )
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+check_type_size(
+  "struct ucred"
+  PHP_EXT_SOCKETS_SIZEOF_STRUCT_UCRED
+  RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_STRUCT_UCRED
+)
 cmake_pop_check_state()
 set(HAVE_STRUCT_UCRED ${PHP_EXT_SOCKETS_HAVE_STRUCT_UCRED})
 
 # Check for struct cmsgcred.
 cmake_push_check_state(RESET)
-  set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  check_type_size(
-    "struct cmsgcred"
-    PHP_EXT_SOCKETS_SIZEOF_STRUCT_CMSGCRED
-    RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_STRUCT_CMSGCRED
-  )
+set(CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+check_type_size(
+  "struct cmsgcred"
+  PHP_EXT_SOCKETS_SIZEOF_STRUCT_CMSGCRED
+  RESULT_VARIABLE PHP_EXT_SOCKETS_HAVE_STRUCT_CMSGCRED
+)
 cmake_pop_check_state()
 set(HAVE_STRUCT_CMSGCRED ${PHP_EXT_SOCKETS_HAVE_STRUCT_CMSGCRED})
 

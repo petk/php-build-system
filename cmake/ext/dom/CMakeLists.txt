@@ -16,11 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_DOM
-  SPDX_LICENSE "PHP-3.01 AND Apache-2.0"
-  LANGUAGES C
-)
+project(PHP_EXT_DOM SPDX_LICENSE "PHP-3.01 AND Apache-2.0" LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -269,18 +265,12 @@ target_sources(
     xpath.c
   PUBLIC
     FILE_SET HEADERS
-      FILES
-        dom_ce.h
-        namespace_compat.h
-        xml_common.h
-        xpath_callbacks.h
+      FILES dom_ce.h namespace_compat.h xml_common.h xpath_callbacks.h
 )
 
 target_include_directories(
   php_ext_dom
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/lexbor
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lexbor
 )
 
 target_compile_definitions(
@@ -299,9 +289,7 @@ include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the dom extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the dom extension."
 )
 
 target_link_libraries(php_ext_dom PRIVATE LibXml2::LibXml2)

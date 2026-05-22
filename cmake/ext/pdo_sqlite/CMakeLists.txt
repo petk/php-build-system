@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PDO_SQLITE
-  LANGUAGES C
-)
+project(PHP_EXT_PDO_SQLITE LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -82,33 +79,33 @@ target_link_libraries(php_ext_pdo_sqlite PRIVATE SQLite3::SQLite3)
 
 if(TARGET SQLite3::SQLite3)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES SQLite3::SQLite3)
+  set(CMAKE_REQUIRED_LIBRARIES SQLite3::SQLite3)
 
-    check_symbol_exists(
-      sqlite3_close_v2
-      sqlite3.h
-      PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_CLOSE_V2
-    )
-    set(HAVE_SQLITE3_CLOSE_V2 ${PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_CLOSE_V2})
+  check_symbol_exists(
+    sqlite3_close_v2
+    sqlite3.h
+    PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_CLOSE_V2
+  )
+  set(HAVE_SQLITE3_CLOSE_V2 ${PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_CLOSE_V2})
 
-    check_symbol_exists(
-      sqlite3_column_table_name
-      sqlite3.h
-      PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_COLUMN_TABLE_NAME
-    )
-    set(
-      HAVE_SQLITE3_COLUMN_TABLE_NAME
-      ${PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_COLUMN_TABLE_NAME}
-    )
+  check_symbol_exists(
+    sqlite3_column_table_name
+    sqlite3.h
+    PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_COLUMN_TABLE_NAME
+  )
+  set(
+    HAVE_SQLITE3_COLUMN_TABLE_NAME
+    ${PHP_EXT_PDO_SQLITE_HAVE_SQLITE3_COLUMN_TABLE_NAME}
+  )
 
-    check_symbol_exists(
-      sqlite3_load_extension
-      sqlite3.h
-      PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION
-    )
-    if(NOT PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION)
-      set(PDO_SQLITE_OMIT_LOAD_EXTENSION TRUE)
-    endif()
+  check_symbol_exists(
+    sqlite3_load_extension
+    sqlite3.h
+    PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION
+  )
+  if(NOT PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION)
+    set(PDO_SQLITE_OMIT_LOAD_EXTENSION TRUE)
+  endif()
   cmake_pop_check_state()
 endif()
 

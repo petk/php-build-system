@@ -15,16 +15,17 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PDO_PGSQL
-  LANGUAGES C
-)
+project(PHP_EXT_PDO_PGSQL LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
 include(FeatureSummary)
 
-option(PHP_EXT_PDO_PGSQL "Enable the pdo_pgsql extension" ${PROJECT_IS_TOP_LEVEL})
+option(
+  PHP_EXT_PDO_PGSQL
+  "Enable the pdo_pgsql extension"
+  ${PROJECT_IS_TOP_LEVEL}
+)
 
 add_feature_info(
   "ext/pdo_pgsql"
@@ -83,49 +84,45 @@ target_link_libraries(php_ext_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 # Check PostgreSQL library (libpq) features.
 if(TARGET PostgreSQL::PostgreSQL)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
+  set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
-    # PostgreSQL library minimum version sanity check.
-    check_symbol_exists(
-      PQencryptPasswordConn
-      libpq-fe.h
-      PHP_EXT_HAVE_LIBPQ_SANITY_CHECK
+  # PostgreSQL library minimum version sanity check.
+  check_symbol_exists(
+    PQencryptPasswordConn
+    libpq-fe.h
+    PHP_EXT_HAVE_LIBPQ_SANITY_CHECK
+  )
+  if(NOT PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
+    message(
+      FATAL_ERROR
+      "PostgreSQL check failed: libpq ${PHP_PACKAGE_POSTGRESQL_MIN_VERSION} "
+      "or later is required."
     )
-    if(NOT PHP_EXT_HAVE_LIBPQ_SANITY_CHECK)
-      message(
-        FATAL_ERROR
-        "PostgreSQL check failed: libpq ${PHP_PACKAGE_POSTGRESQL_MIN_VERSION} "
-        "or later is required."
-      )
-    endif()
+  endif()
 
-    # Available since PostgreSQL library version 12.
-    if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 12)
-      check_symbol_exists(
-        PQresultMemorySize
-        libpq-fe.h
-        PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE
-      )
-      set(HAVE_PG_RESULT_MEMORY_SIZE ${PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE})
-    endif()
+  # Available since PostgreSQL library version 12.
+  if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 12)
+    check_symbol_exists(
+      PQresultMemorySize
+      libpq-fe.h
+      PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE
+    )
+    set(HAVE_PG_RESULT_MEMORY_SIZE ${PHP_EXT_HAVE_PG_RESULT_MEMORY_SIZE})
+  endif()
 
-    # Available since PostgreSQL library version 17.
-    if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 17)
-      # Indicates the presence of PQclosePrepared, PQclosePortal, etc.
-      check_symbol_exists(
-        LIBPQ_HAS_CLOSE_PREPARED
-        libpq-fe.h
-        PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED
-      )
-      check_symbol_exists(
-        PQclosePrepared
-        libpq-fe.h
-        PHP_EXT_HAVE_PQCLOSEPREPARED
-      )
-      if(PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND PHP_EXT_HAVE_PQCLOSEPREPARED)
-        set(HAVE_PQCLOSEPREPARED TRUE)
-      endif()
+  # Available since PostgreSQL library version 17.
+  if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 17)
+    # Indicates the presence of PQclosePrepared, PQclosePortal, etc.
+    check_symbol_exists(
+      LIBPQ_HAS_CLOSE_PREPARED
+      libpq-fe.h
+      PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED
+    )
+    check_symbol_exists(PQclosePrepared libpq-fe.h PHP_EXT_HAVE_PQCLOSEPREPARED)
+    if(PHP_EXT_HAVE_LIBPQ_HAS_CLOSE_PREPARED AND PHP_EXT_HAVE_PQCLOSEPREPARED)
+      set(HAVE_PQCLOSEPREPARED TRUE)
     endif()
+  endif()
   cmake_pop_check_state()
 endif()
 

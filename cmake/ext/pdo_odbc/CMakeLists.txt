@@ -72,10 +72,7 @@ cmake -S . -B php-build \
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PDO_ODBC
-  LANGUAGES C
-)
+project(PHP_EXT_PDO_ODBC LANGUAGES C)
 
 include(CheckLibraryExists)
 include(FeatureSummary)
@@ -91,17 +88,11 @@ set(
   CACHE{PHP_EXT_PDO_ODBC_TYPE}
   TYPE STRING
   HELP "The ODBC implementation type (library driving the ODBC)"
-
   VALUE "auto"
 )
 set_property(
   CACHE PHP_EXT_PDO_ODBC_TYPE
-  PROPERTY STRINGS
-    "auto"
-    "ibm-db2"
-    "iODBC"
-    "unixODBC"
-    "custom"
+  PROPERTY STRINGS "auto" "ibm-db2" "iODBC" "unixODBC" "custom"
 )
 mark_as_advanced(PHP_EXT_PDO_ODBC_TYPE)
 
@@ -136,11 +127,7 @@ endif()
 
 target_sources(
   php_ext_pdo_odbc
-  PRIVATE
-    odbc_driver.c
-    odbc_stmt.c
-    pdo_odbc.c
-    pdo_odbc.stub.php
+  PRIVATE odbc_driver.c odbc_stmt.c pdo_odbc.c pdo_odbc.stub.php
 )
 
 set_property(
@@ -149,10 +136,7 @@ set_property(
   PROPERTY PHP_REQUIRED_EXTENSIONS pdo
 )
 
-target_include_directories(
-  php_ext_pdo_odbc
-  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
-)
+target_include_directories(php_ext_pdo_odbc PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 if(NOT PHP_EXT_PDO_ODBC_TYPE STREQUAL "auto")
   set(ODBC_USE_DRIVER "${PHP_EXT_PDO_ODBC_TYPE}")
@@ -160,9 +144,7 @@ endif()
 find_package(ODBC)
 set_package_properties(
   ODBC
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the pdo_odbc extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the pdo_odbc extension."
 )
 
 if(ODBC_DRIVER STREQUAL "Windows")
@@ -181,7 +163,8 @@ if(TARGET ODBC::ODBC)
 
     foreach(
       header
-      IN ITEMS
+      IN
+      ITEMS
         cli0cli.h
         cli0core.h
         cli0defs.h
