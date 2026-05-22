@@ -12,22 +12,23 @@ few noted exceptions below. Some systems also need <sys/types.h> header
 include(PHP/SearchLibraries)
 
 php_search_libraries(
-  SOURCE_COMPILES [[
-    #include <sys/types.h>
-    #include <ifaddrs.h>
+  SOURCE_COMPILES
+    [[
+      #include <sys/types.h>
+      #include <ifaddrs.h>
 
-    int main(void)
-    {
-      struct ifaddrs *interfaces;
-      if (!getifaddrs(&interfaces)) {
-        freeifaddrs(interfaces);
+      int main(void)
+      {
+        struct ifaddrs *interfaces;
+        if (!getifaddrs(&interfaces)) {
+          freeifaddrs(interfaces);
+        }
+
+        return 0;
       }
-
-      return 0;
-    }
-  ]]
+    ]]
   LIBRARIES
-    socket  # Solaris 11..11.3, illumos
+    socket # Solaris 11..11.3, illumos
     network # Haiku
   RESULT_VARIABLE PHP_HAVE_GETIFADDRS
   TARGET php_config INTERFACE

@@ -27,15 +27,18 @@ message(
 )
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_include_files(unistd.h PHP_HAVE_UNISTD_H)
+set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(PHP_HAVE_UNISTD_H)
-    set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
-  endif()
+check_include_files(unistd.h PHP_HAVE_UNISTD_H)
 
-  check_source_runs(C [[
+if(PHP_HAVE_UNISTD_H)
+  set(CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
+endif()
+
+check_source_runs(
+  C
+  [[
     #include <stdio.h>
     #include <stdlib.h>
     #ifdef HAVE_UNISTD_H
@@ -93,7 +96,10 @@ cmake_push_check_state(RESET)
 
       return result;
     }
-  ]] PHP_HAVE_FLUSHIO)
+  ]]
+  PHP_HAVE_FLUSHIO
+)
+
 cmake_pop_check_state()
 
 if(PHP_HAVE_FLUSHIO)

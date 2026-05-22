@@ -28,10 +28,11 @@ function(_php_check_inline result)
 
   foreach(keyword "inline" "__inline__" "__inline")
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_DEFINITIONS -Dinline=${keyword})
-      set(CMAKE_REQUIRED_QUIET TRUE)
-
-      check_source_compiles(C [[
+    set(CMAKE_REQUIRED_DEFINITIONS -Dinline=${keyword})
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_source_compiles(
+      C
+      [[
         #ifndef __cplusplus
           typedef int foo_t;
           static inline foo_t static_foo(void) { return 0; }
@@ -39,7 +40,9 @@ function(_php_check_inline result)
         #endif
 
         int main(void) { return 0; }
-      ]] PHP_HAS_${keyword})
+      ]]
+      PHP_HAS_${keyword}
+    )
     cmake_pop_check_state()
 
     if(PHP_HAS_inline)

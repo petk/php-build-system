@@ -27,8 +27,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(fopencookie stdio.h PHP_HAVE_FOPENCOOKIE)
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(fopencookie stdio.h PHP_HAVE_FOPENCOOKIE)
 cmake_pop_check_state()
 
 if(NOT PHP_HAVE_FOPENCOOKIE)
@@ -36,13 +36,13 @@ if(NOT PHP_HAVE_FOPENCOOKIE)
 endif()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  set(CMAKE_EXTRA_INCLUDE_FILES "stdio.h")
-  check_type_size(
-    "cookie_io_functions_t"
-    PHP_SIZEOF_COOKIE_IO_FUNCTIONS_T
-    RESULT_VARIABLE PHP_HAVE_COOKIE_IO_FUNCTIONS_T
-  )
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+set(CMAKE_EXTRA_INCLUDE_FILES "stdio.h")
+check_type_size(
+  "cookie_io_functions_t"
+  PHP_SIZEOF_COOKIE_IO_FUNCTIONS_T
+  RESULT_VARIABLE PHP_HAVE_COOKIE_IO_FUNCTIONS_T
+)
 cmake_pop_check_state()
 
 if(NOT PHP_HAVE_COOKIE_IO_FUNCTIONS_T)
@@ -61,10 +61,11 @@ endif()
 message(CHECK_START "Checking whether fopencookie seeker uses off64_t")
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  set(CMAKE_REQUIRED_QUIET TRUE)
-
-  check_source_compiles(C [[
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+set(CMAKE_REQUIRED_QUIET TRUE)
+check_source_compiles(
+  C
+  [[
     #include <stdio.h>
     #include <stdlib.h>
 
@@ -112,7 +113,9 @@ cmake_push_check_state(RESET)
 
       return 1;
     }
-  ]] PHP_COOKIE_SEEKER_USES_OFF64_T)
+  ]]
+  PHP_COOKIE_SEEKER_USES_OFF64_T
+)
 cmake_pop_check_state()
 
 if(PHP_COOKIE_SEEKER_USES_OFF64_T)

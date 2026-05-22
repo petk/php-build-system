@@ -34,15 +34,18 @@ if(
 endif()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_QUIET TRUE)
 
-  check_include_files(unistd.h PHP_HAVE_UNISTD_H)
+set(CMAKE_REQUIRED_QUIET TRUE)
 
-  if(PHP_HAVE_UNISTD_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
-  endif()
+check_include_files(unistd.h PHP_HAVE_UNISTD_H)
 
-  check_source_runs(C [[
+if(PHP_HAVE_UNISTD_H)
+  list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_UNISTD_H)
+endif()
+
+check_source_runs(
+  C
+  [[
     #ifdef HAVE_UNISTD_H
     # include <unistd.h>
     #endif
@@ -61,7 +64,10 @@ cmake_push_check_state(RESET)
       n = write(1, TEXT, sizeof(TEXT)-1);
       return (!(n == sizeof(TEXT)-1));
     }
-  ]] PHP_WRITE_STDOUT)
+  ]]
+  PHP_WRITE_STDOUT
+)
+
 cmake_pop_check_state()
 
 if(PHP_WRITE_STDOUT)

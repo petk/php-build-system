@@ -26,12 +26,13 @@ endif()
 message(CHECK_START "Checking for AVX-512 extensions support")
 
 cmake_push_check_state(RESET)
-  set(
-    CMAKE_REQUIRED_FLAGS
-    "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw"
-  )
-
-  check_source_compiles(C [[
+set(
+  CMAKE_REQUIRED_FLAGS
+  "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw"
+)
+check_source_compiles(
+  C
+  [[
     #include <immintrin.h>
 
     int main(void)
@@ -42,16 +43,19 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  ]] PHP_HAVE_AVX512_SUPPORTS)
+  ]]
+  PHP_HAVE_AVX512_SUPPORTS
+)
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
-  set(
-    CMAKE_REQUIRED_FLAGS
-    "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw -mavx512vbmi"
-  )
-
-  check_source_compiles(C [[
+set(
+  CMAKE_REQUIRED_FLAGS
+  "-mavx512f -mavx512cd -mavx512vl -mavx512dq -mavx512bw -mavx512vbmi"
+)
+check_source_compiles(
+  C
+  [[
     #include <immintrin.h>
 
     int main(void)
@@ -62,7 +66,9 @@ cmake_push_check_state(RESET)
 
       return 0;
     }
-  ]] PHP_HAVE_AVX512_VBMI_SUPPORTS)
+  ]]
+  PHP_HAVE_AVX512_VBMI_SUPPORTS
+)
 cmake_pop_check_state()
 
 message(CHECK_PASS "done")
