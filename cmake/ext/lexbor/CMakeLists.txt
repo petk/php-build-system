@@ -6,11 +6,7 @@ This extension provides support for Lexbor library.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_LEXBOR
-  SPDX_LICENSE "BSD-3-Clause AND Apache-2.0"
-  LANGUAGES C
-)
+project(PHP_EXT_LEXBOR SPDX_LICENSE "BSD-3-Clause AND Apache-2.0" LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -22,11 +18,7 @@ endif()
 
 include(FeatureSummary)
 
-add_feature_info(
-  "ext/lexbor"
-  TRUE
-  "support for Lexbor library"
-)
+add_feature_info("ext/lexbor" TRUE "support for Lexbor library")
 
 find_package(PHP REQUIRED)
 
@@ -231,11 +223,7 @@ target_sources(
     lexbor/unicode/idna.c
     lexbor/unicode/unicode.c
     lexbor/url/url.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_lexbor.h
-        ${lexbor_headers}
+  PUBLIC FILE_SET HEADERS FILES php_lexbor.h ${lexbor_headers}
 )
 
 target_compile_definitions(
@@ -250,10 +238,7 @@ target_compile_options(
   PRIVATE $<$<AND:$<PLATFORM_ID:Windows>,$<COMPILE_LANGUAGE:C>>:/utf-8>
 )
 
-target_include_directories(
-  php_ext_lexbor
-  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}
-)
+target_include_directories(php_ext_lexbor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(HAVE_LEXBOR TRUE)
 

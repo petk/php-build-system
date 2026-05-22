@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SIMPLEXML
-  LANGUAGES C
-)
+project(PHP_EXT_SIMPLEXML LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -47,17 +44,14 @@ endif()
 
 target_sources(
   php_ext_simplexml
-  PRIVATE
-    simplexml.c
-    simplexml.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_simplexml_exports.h
-        php_simplexml.h
+  PRIVATE simplexml.c simplexml.stub.php
+  PUBLIC FILE_SET HEADERS FILES php_simplexml_exports.h php_simplexml.h
 )
 
-target_include_directories(php_ext_simplexml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(
+  php_ext_simplexml
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+)
 
 target_compile_definitions(
   php_ext_simplexml

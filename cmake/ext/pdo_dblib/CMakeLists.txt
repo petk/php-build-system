@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PDO_DBLIB
-  LANGUAGES C
-)
+project(PHP_EXT_PDO_DBLIB LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -52,11 +49,7 @@ endif()
 
 target_sources(
   php_ext_pdo_dblib
-  PRIVATE
-    dblib_driver.c
-    dblib_stmt.c
-    pdo_dblib.c
-    pdo_dblib.stub.php
+  PRIVATE dblib_driver.c dblib_stmt.c pdo_dblib.c pdo_dblib.stub.php
 )
 
 set_property(
@@ -67,9 +60,7 @@ set_property(
 
 target_compile_definitions(
   php_ext_pdo_dblib
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-    PDO_DBLIB_FLAVOUR="freetds"
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE PDO_DBLIB_FLAVOUR="freetds"
 )
 
 target_include_directories(

@@ -18,11 +18,7 @@ Enables the mhash emulation support.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_HASH
-  SPDX_LICENSE "BSD-3-Clause AND BSD-2-Clause"
-  LANGUAGES C
-)
+project(PHP_EXT_HASH SPDX_LICENSE "BSD-3-Clause AND BSD-2-Clause" LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -34,22 +30,14 @@ endif()
 
 include(FeatureSummary)
 
-add_feature_info(
-  "ext/hash"
-  TRUE
-  "HASH message digest framework"
-)
+add_feature_info("ext/hash" TRUE "HASH message digest framework")
 
 option(
   PHP_EXT_HASH_MHASH
   "Enable the mhash emulation support (deprecated as of PHP 8.1)"
 )
 mark_as_advanced(PHP_EXT_HASH_MHASH)
-add_feature_info(
-  "ext/hash mhash"
-  PHP_EXT_HASH_MHASH
-  "mhash emulation"
-)
+add_feature_info("ext/hash mhash" PHP_EXT_HASH_MHASH "mhash emulation")
 
 message(CHECK_START "Checking whether to enable mhash")
 if(PHP_EXT_HASH_MHASH)
@@ -116,11 +104,7 @@ target_sources(
         xxhash/xxhash.h
 )
 
-target_compile_definitions(
-  php_ext_hash
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
+target_compile_definitions(php_ext_hash PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   set(HAVE_SLOW_HASH3 TRUE)
@@ -146,8 +130,7 @@ else()
         set_property(
           SOURCE ${sha3_dir}/KeccakP-1600-inplace32BI.c
           APPEND
-          PROPERTY
-            COMPILE_OPTIONS -Wno-implicit-fallthrough
+          PROPERTY COMPILE_OPTIONS -Wno-implicit-fallthrough
         )
       endif()
     else()
@@ -157,9 +140,7 @@ else()
 
     target_sources(
       php_ext_hash
-      PRIVATE
-        ${sha3_dir}/KeccakHash.c
-        ${sha3_dir}/KeccakSponge.c
+      PRIVATE ${sha3_dir}/KeccakHash.c ${sha3_dir}/KeccakSponge.c
     )
 
     target_include_directories(
@@ -170,10 +151,7 @@ else()
 
   target_compile_definitions(
     php_ext_hash
-    PRIVATE
-      KeccakP200_excluded
-      KeccakP400_excluded
-      KeccakP800_excluded
+    PRIVATE KeccakP200_excluded KeccakP400_excluded KeccakP800_excluded
   )
 endif()
 

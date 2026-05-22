@@ -86,11 +86,7 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 include(PHP/CheckCompilerFlag)
 
-add_feature_info(
-  "ext/pcre"
-  TRUE
-  "Perl-compatible regular expressions"
-)
+add_feature_info("ext/pcre" TRUE "Perl-compatible regular expressions")
 
 option(
   PHP_EXT_PCRE_EXTERNAL
@@ -120,13 +116,8 @@ add_library(php_ext_pcre OBJECT)
 
 target_sources(
   php_ext_pcre
-  PRIVATE
-    php_pcre.c
-    php_pcre.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_pcre.h
+  PRIVATE php_pcre.c php_pcre.stub.php
+  PUBLIC FILE_SET HEADERS FILES php_pcre.h
 )
 
 target_compile_definitions(php_ext_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
@@ -151,22 +142,26 @@ if(PHP_EXT_PCRE_EXTERNAL)
       NOT DEFINED PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT_EXITCODE
       AND CMAKE_CROSSCOMPILING
       AND NOT CMAKE_CROSSCOMPILING_EMULATOR
-      AND CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES
-        "(arm|i[3456]86|x86_64|mips|ppc|PPC|sparc|X86|x64|ARM|aarch64)"
+      AND
+        CMAKE_C_COMPILER_ARCHITECTURE_ID
+          MATCHES
+          "(arm|i[3456]86|x86_64|mips|ppc|PPC|sparc|X86|x64|ARM|aarch64)"
     )
       set(PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT_EXITCODE 0)
     endif()
 
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES PCRE2::8BIT)
-      # Before including pcre2.h, the PCRE2_CODE_UNIT_WIDTH must be set.
-      set(
-        CMAKE_REQUIRED_DEFINITIONS
-        -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH}
-      )
-      set(CMAKE_REQUIRED_QUIET TRUE)
+    set(CMAKE_REQUIRED_LIBRARIES PCRE2::8BIT)
+    # Before including pcre2.h, the PCRE2_CODE_UNIT_WIDTH must be set.
+    set(
+      CMAKE_REQUIRED_DEFINITIONS
+      -DPCRE2_CODE_UNIT_WIDTH=${PCRE2_CODE_UNIT_WIDTH}
+    )
+    set(CMAKE_REQUIRED_QUIET TRUE)
 
-      check_source_runs(C [[
+    check_source_runs(
+      C
+      [[
         #include <pcre2.h>
         #include <stdlib.h>
 
@@ -177,7 +172,9 @@ if(PHP_EXT_PCRE_EXTERNAL)
 
           return !have_jit;
         }
-      ]] PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT)
+      ]]
+      PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT
+    )
     cmake_pop_check_state()
     set(HAVE_PCRE_JIT_SUPPORT ${PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT})
     if(PHP_EXT_PCRE_HAVE_PCRE_JIT_SUPPORT)
@@ -256,8 +253,7 @@ else()
     set_property(
       SOURCE pcre2lib/pcre2_jit_compile.c
       APPEND
-      PROPERTY
-        COMPILE_OPTIONS -Wno-implicit-fallthrough
+      PROPERTY COMPILE_OPTIONS -Wno-implicit-fallthrough
     )
   endif()
 
@@ -295,8 +291,8 @@ else()
 
     message(CHECK_START "Checking whether Intel CET is enabled")
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
-      check_symbol_exists(__CET__ "" PHP_EXT_PCRE_HAVE_CET)
+    set(CMAKE_REQUIRED_QUIET TRUE)
+    check_symbol_exists(__CET__ "" PHP_EXT_PCRE_HAVE_CET)
     cmake_pop_check_state()
     if(PHP_EXT_PCRE_HAVE_CET)
       message(CHECK_PASS "yes")
@@ -315,8 +311,7 @@ else()
   if(PHP_VALGRIND)
     target_compile_definitions(
       php_ext_pcre
-      PRIVATE
-        $<$<CONFIG:Debug,PhpRelWithDebInfo>:HAVE_PCRE_VALGRIND_SUPPORT>
+      PRIVATE $<$<CONFIG:Debug,PhpRelWithDebInfo>:HAVE_PCRE_VALGRIND_SUPPORT>
     )
   endif()
 endif()

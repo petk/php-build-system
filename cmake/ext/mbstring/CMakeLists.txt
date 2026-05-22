@@ -22,11 +22,7 @@ Enables multibyte regex support (requires Oniguruma).
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_MBSTRING
-  SPDX_LICENSE "BSD-3-Clause AND OLDAP-2.8"
-  LANGUAGES C
-)
+project(PHP_EXT_MBSTRING SPDX_LICENSE "BSD-3-Clause AND OLDAP-2.8" LANGUAGES C)
 
 include(CheckSourceCompiles)
 include(CMakeDependentOption)
@@ -35,11 +31,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_MBSTRING "Enable the mbstring extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/mbstring"
-  PHP_EXT_MBSTRING
-  "multibyte string support"
-)
+add_feature_info("ext/mbstring" PHP_EXT_MBSTRING "multibyte string support")
 
 cmake_dependent_option(
   PHP_EXT_MBSTRING_MBREGEX
@@ -76,15 +68,8 @@ endif()
 
 target_sources(
   php_ext_mbstring
-  PRIVATE
-    mb_gpc.c
-    mbstring.c
-    mbstring.stub.php
-    php_unicode.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        mbstring.h
+  PRIVATE mb_gpc.c mbstring.c mbstring.stub.php php_unicode.c
+  PUBLIC FILE_SET HEADERS FILES mbstring.h
 )
 
 target_compile_definitions(
@@ -118,7 +103,10 @@ set(libmbfl_NAMESPACE "PHP")
 set(libmbfl_TARGET php_ext_mbstring)
 add_subdirectory(libmbfl)
 
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
+file(
+  APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h
+  "\n"
+  [[
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
@@ -128,7 +116,8 @@ file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/libmbfl/config.h "\n" [[
 #else
 # include <php_config.h>
 #endif
-]])
+]]
+)
 
 ################################################################################
 # Multibyte regex.
@@ -154,10 +143,12 @@ if(PHP_EXT_MBSTRING_MBREGEX)
   if(TARGET Oniguruma::Oniguruma)
     message(CHECK_START "Checking for invalid KOI8 encoding entry in Oniguruma")
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-      set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
+    set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+    set(CMAKE_REQUIRED_LIBRARIES Oniguruma::Oniguruma)
 
-      check_source_compiles(C [[
+    check_source_compiles(
+      C
+      [[
         #include <stdint.h>
         #include <oniguruma.h>
 
@@ -165,7 +156,9 @@ if(PHP_EXT_MBSTRING_MBREGEX)
         {
           return (intptr_t)(ONIG_ENCODING_KOI8 + 1);
         }
-      ]] PHP_EXT_MBSTRING_ONIG_KOI8)
+      ]]
+      PHP_EXT_MBSTRING_ONIG_KOI8
+    )
     cmake_pop_check_state()
     if(PHP_EXT_MBSTRING_ONIG_KOI8)
       message(CHECK_PASS "no")
@@ -187,13 +180,8 @@ if(PHP_EXT_MBSTRING_MBREGEX)
 
   target_sources(
     php_ext_mbstring
-    PRIVATE
-      php_mbregex.c
-    PUBLIC
-      FILE_SET HEADERS
-        FILES
-          php_mbregex.h
-          php_onig_compat.h
+    PRIVATE php_mbregex.c
+    PUBLIC FILE_SET HEADERS FILES php_mbregex.h php_onig_compat.h
   )
 
   set(HAVE_MBREGEX TRUE)

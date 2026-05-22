@@ -18,10 +18,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SYSVSEM
-  LANGUAGES C
-)
+project(PHP_EXT_SYSVSEM LANGUAGES C)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -33,11 +30,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_SYSVSEM "Enable the sysvsem extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/sysvsem"
-  PHP_EXT_SYSVSEM
-  "System V semaphore support"
-)
+add_feature_info("ext/sysvsem" PHP_EXT_SYSVSEM "System V semaphore support")
 
 if(NOT PHP_EXT_SYSVSEM)
   return()
@@ -54,23 +47,18 @@ else()
   add_library(php_ext_sysvsem OBJECT)
 endif()
 
-target_sources(
-  php_ext_sysvsem
-  PRIVATE
-    sysvsem.c
-    sysvsem.stub.php
-)
+target_sources(php_ext_sysvsem PRIVATE sysvsem.c sysvsem.stub.php)
 
 target_include_directories(php_ext_sysvsem PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
-  check_type_size(
-    "union semun"
-    PHP_EXT_SYSVSEM_SIZEOF_UNION_SEMUN
-    RESULT_VARIABLE PHP_EXT_SYSVSEM_HAVE_UNION_SEMUN
-  )
-  set(HAVE_UNION_SEMUN ${PHP_EXT_SYSVSEM_HAVE_UNION_SEMUN})
+set(CMAKE_EXTRA_INCLUDE_FILES "sys/types.h;sys/ipc.h;sys/sem.h")
+check_type_size(
+  "union semun"
+  PHP_EXT_SYSVSEM_SIZEOF_UNION_SEMUN
+  RESULT_VARIABLE PHP_EXT_SYSVSEM_HAVE_UNION_SEMUN
+)
+set(HAVE_UNION_SEMUN ${PHP_EXT_SYSVSEM_HAVE_UNION_SEMUN})
 cmake_pop_check_state()
 
 set(HAVE_SYSVSEM TRUE)

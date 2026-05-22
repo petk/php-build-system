@@ -21,10 +21,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PCNTL
-  LANGUAGES C
-)
+project(PHP_EXT_PCNTL LANGUAGES C)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -41,11 +38,7 @@ option(
   ${PROJECT_IS_TOP_LEVEL}
 )
 
-add_feature_info(
-  "ext/pcntl"
-  PHP_EXT_PCNTL
-  "process control support"
-)
+add_feature_info("ext/pcntl" PHP_EXT_PCNTL "process control support")
 
 if(NOT PHP_EXT_PCNTL)
   return()
@@ -67,17 +60,14 @@ endif()
 
 set_target_properties(php_ext_pcntl PROPERTIES PHP_CLI TRUE)
 
-target_sources(
-  php_ext_pcntl
-  PRIVATE
-    pcntl.c
-    pcntl.stub.php
-    php_signal.c
-)
+target_sources(php_ext_pcntl PRIVATE pcntl.c pcntl.stub.php php_signal.c)
 
 target_include_directories(php_ext_pcntl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-target_compile_definitions(php_ext_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_pcntl
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 # Check for required functions.
 block()
@@ -122,13 +112,13 @@ check_symbol_exists(rfork unistd.h PHP_EXT_PCNTL_HAVE_RFORK)
 set(HAVE_RFORK ${PHP_EXT_PCNTL_HAVE_RFORK})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(
-    sched_setaffinity
-    sched.h
-    PHP_EXT_PCNTL_HAVE_SCHED_SETAFFINITY
-  )
-  set(HAVE_SCHED_SETAFFINITY ${PHP_EXT_PCNTL_HAVE_SCHED_SETAFFINITY})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(
+  sched_setaffinity
+  sched.h
+  PHP_EXT_PCNTL_HAVE_SCHED_SETAFFINITY
+)
+set(HAVE_SCHED_SETAFFINITY ${PHP_EXT_PCNTL_HAVE_SCHED_SETAFFINITY})
 cmake_pop_check_state()
 
 check_symbol_exists(setpriority sys/resource.h PHP_EXT_PCNTL_HAVE_SETPRIORITY)
@@ -151,15 +141,15 @@ check_symbol_exists(SYS_waitid sys/syscall.h PHP_EXT_PCNTL_HAVE_DECL_SYS_WAITID)
 set(HAVE_DECL_SYS_WAITID ${PHP_EXT_PCNTL_HAVE_DECL_SYS_WAITID})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(syscall "sys/syscall.h;unistd.h" PHP_EXT_PCNTL_HAVE_SYSCALL)
-  set(HAVE_SYSCALL ${PHP_EXT_PCNTL_HAVE_SYSCALL})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(syscall "sys/syscall.h;unistd.h" PHP_EXT_PCNTL_HAVE_SYSCALL)
+set(HAVE_SYSCALL ${PHP_EXT_PCNTL_HAVE_SYSCALL})
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(unshare sched.h PHP_EXT_PCNTL_HAVE_UNSHARE)
-  set(HAVE_UNSHARE ${PHP_EXT_PCNTL_HAVE_UNSHARE})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(unshare sched.h PHP_EXT_PCNTL_HAVE_UNSHARE)
+set(HAVE_UNSHARE ${PHP_EXT_PCNTL_HAVE_UNSHARE})
 cmake_pop_check_state()
 
 check_symbol_exists(wait6 sys/wait.h PHP_EXT_PCNTL_HAVE_WAIT6)
@@ -190,40 +180,57 @@ check_symbol_exists(WSTOPPED sys/wait.h PHP_EXT_PCNTL_HAVE_DECL_WSTOPPED)
 set(HAVE_DECL_WSTOPPED ${PHP_EXT_PCNTL_HAVE_DECL_WSTOPPED})
 
 cmake_push_check_state(RESET)
-  # Some of these enum values require _GNU_SOURCE.
-  set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
+# Some of these enum values require _GNU_SOURCE.
+set(CMAKE_REQUIRED_LIBRARIES PHP::SystemExtensions)
 
-  check_source_compiles(C [[
+check_source_compiles(
+  C
+  [[
     #include <sys/wait.h>
     int main(void) { idtype_t e = P_ALL; (void)e; return 0; }
-  ]] PHP_EXT_PCNTL_HAVE_DECL_P_ALL)
-  set(HAVE_DECL_P_ALL ${PHP_EXT_PCNTL_HAVE_DECL_P_ALL})
+  ]]
+  PHP_EXT_PCNTL_HAVE_DECL_P_ALL
+)
+set(HAVE_DECL_P_ALL ${PHP_EXT_PCNTL_HAVE_DECL_P_ALL})
 
-  check_source_compiles(C [[
+check_source_compiles(
+  C
+  [[
     #include <sys/wait.h>
     int main(void) { idtype_t e = P_JAILID; (void)e; return 0; }
-  ]] PHP_EXT_PCNTL_HAVE_DECL_P_JAILID)
-  set(HAVE_DECL_P_JAILID ${PHP_EXT_PCNTL_HAVE_DECL_P_JAILID})
+  ]]
+  PHP_EXT_PCNTL_HAVE_DECL_P_JAILID
+)
+set(HAVE_DECL_P_JAILID ${PHP_EXT_PCNTL_HAVE_DECL_P_JAILID})
 
-  check_source_compiles(C [[
+check_source_compiles(
+  C
+  [[
     #include <sys/wait.h>
     int main(void) { idtype_t e = P_PIDFD; (void)e; return 0; }
-  ]] PHP_EXT_PCNTL_HAVE_DECL_P_PIDFD)
-  set(HAVE_DECL_P_PIDFD ${PHP_EXT_PCNTL_HAVE_DECL_P_PIDFD})
+  ]]
+  PHP_EXT_PCNTL_HAVE_DECL_P_PIDFD
+)
+set(HAVE_DECL_P_PIDFD ${PHP_EXT_PCNTL_HAVE_DECL_P_PIDFD})
 
-  check_source_compiles(C [[
+check_source_compiles(
+  C
+  [[
     #include <sys/wait.h>
     int main(void) { idtype_t e = P_UID; (void)e; return 0; }
-  ]] PHP_EXT_PCNTL_HAVE_DECL_P_UID)
-  set(HAVE_DECL_P_UID ${PHP_EXT_PCNTL_HAVE_DECL_P_UID})
+  ]]
+  PHP_EXT_PCNTL_HAVE_DECL_P_UID
+)
+set(HAVE_DECL_P_UID ${PHP_EXT_PCNTL_HAVE_DECL_P_UID})
 cmake_pop_check_state()
 
 # Check if sched_getcpu() is supported. Value -1 means ENOSYS in this context.
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
 
-  php_search_libraries(
-    SOURCE_RUNS [[
+php_search_libraries(
+  SOURCE_RUNS
+    [[
       #include <sched.h>
       int main(void)
       {
@@ -233,15 +240,14 @@ cmake_push_check_state(RESET)
         return 0;
       }
     ]]
-    HEADERS sched.h
-    LIBRARIES
-      gnu # Haiku
-    RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU
-    LIBRARY_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY
-    TARGET php_ext_pcntl PRIVATE
-  )
+  HEADERS sched.h
+  LIBRARIES gnu # Haiku
+  RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU
+  LIBRARY_VARIABLE PHP_EXT_PCNTL_HAVE_SCHED_GETCPU_LIBRARY
+  TARGET php_ext_pcntl PRIVATE
+)
 
-  set(HAVE_SCHED_GETCPU ${PHP_EXT_PCNTL_HAVE_SCHED_GETCPU})
+set(HAVE_SCHED_GETCPU ${PHP_EXT_PCNTL_HAVE_SCHED_GETCPU})
 cmake_pop_check_state()
 
 configure_file(cmake/config.h.in config.h)

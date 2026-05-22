@@ -7,10 +7,7 @@ related to randomness. It is always enabled.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_RANDOM
-  LANGUAGES C
-)
+project(PHP_EXT_RANDOM LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -51,11 +48,7 @@ target_sources(
     zend_utils.c
   PUBLIC
     FILE_SET HEADERS
-      FILES
-        php_random_csprng.h
-        php_random_uint128.h
-        php_random.h
-        random_decl.h
+      FILES php_random_csprng.h php_random_uint128.h php_random.h random_decl.h
 )
 
 target_compile_definitions(
@@ -63,11 +56,7 @@ target_compile_definitions(
   PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
-check_symbol_exists(
-  arc4random_buf
-  stdlib.h
-  PHP_EXT_RANDOM_HAVE_ARC4RANDOM_BUF
-)
+check_symbol_exists(arc4random_buf stdlib.h PHP_EXT_RANDOM_HAVE_ARC4RANDOM_BUF)
 set(HAVE_ARC4RANDOM_BUF ${PHP_EXT_RANDOM_HAVE_ARC4RANDOM_BUF})
 
 check_symbol_exists(getrandom sys/random.h PHP_EXT_RANDOM_HAVE_GETRANDOM)
@@ -77,10 +66,10 @@ set(HAVE_GETRANDOM ${PHP_EXT_RANDOM_HAVE_GETRANDOM})
 block(PROPAGATE HAVE_COMMONCRYPTO_COMMONRANDOM_H)
   set(
     headers
-      sys/types.h
-      Availability.h
-      CommonCrypto/CommonCryptoError.h
-      CommonCrypto/CommonRandom.h
+    sys/types.h
+    Availability.h
+    CommonCrypto/CommonCryptoError.h
+    CommonCrypto/CommonRandom.h
   )
 
   check_include_files(

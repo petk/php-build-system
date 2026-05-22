@@ -169,10 +169,7 @@ the configuration header.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_ODBC
-  LANGUAGES C
-)
+project(PHP_EXT_ODBC LANGUAGES C)
 
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
@@ -194,12 +191,7 @@ set(
 )
 set_property(
   CACHE PHP_EXT_ODBC_TYPE
-  PROPERTY STRINGS
-    "auto"
-    "ibm-db2"
-    "iODBC"
-    "unixODBC"
-    "custom"
+  PROPERTY STRINGS "auto" "ibm-db2" "iODBC" "unixODBC" "custom"
 )
 mark_as_advanced(PHP_EXT_ODBC_TYPE)
 
@@ -232,13 +224,7 @@ else()
   add_library(php_ext_odbc OBJECT)
 endif()
 
-target_sources(
-  php_ext_odbc
-  PRIVATE
-    odbc_utils.c
-    odbc.stub.php
-    php_odbc.c
-)
+target_sources(php_ext_odbc PRIVATE odbc_utils.c odbc.stub.php php_odbc.c)
 
 target_include_directories(php_ext_odbc PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -250,9 +236,7 @@ endif()
 find_package(ODBC)
 set_package_properties(
   ODBC
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the odbc extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the odbc extension."
 )
 
 target_link_libraries(php_ext_odbc PRIVATE ODBC::ODBC)
@@ -260,9 +244,9 @@ target_link_libraries(php_ext_odbc PRIVATE ODBC::ODBC)
 # Sanity checks.
 if(PHP_EXT_ODBC_TYPE STREQUAL "ibm-db2" AND TARGET ODBC::ODBC)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
-    check_include_files(sqlcli1.h PHP_EXT_ODBC_HAVE_SQLCLI1_H)
-    set(HAVE_SQLCLI1_H ${PHP_EXT_ODBC_HAVE_SQLCLI1_H})
+  set(CMAKE_REQUIRED_LIBRARIES ODBC::ODBC)
+  check_include_files(sqlcli1.h PHP_EXT_ODBC_HAVE_SQLCLI1_H)
+  set(HAVE_SQLCLI1_H ${PHP_EXT_ODBC_HAVE_SQLCLI1_H})
   cmake_pop_check_state()
 
   if(NOT PHP_EXT_ODBC_HAVE_SQLCLI1_H)
@@ -349,7 +333,9 @@ if(TARGET ODBC::ODBC AND NOT ODBC_DRIVER STREQUAL "Windows")
     list(JOIN ldflags " " ldflags)
     list(JOIN libs " " libs)
 
-    string(CONFIGURE [[
+    string(
+      CONFIGURE
+        [[
 /* The compile options that PHP odbc extension was built with. */
 #define PHP_ODBC_CFLAGS "@cflags@"
 
@@ -360,7 +346,9 @@ if(TARGET ODBC::ODBC AND NOT ODBC_DRIVER STREQUAL "Windows")
 #define PHP_ODBC_LIBS "@libs@"
 
 /* The ODBC library used in the PHP odbc extension. */
-#define PHP_ODBC_TYPE "@PHP_ODBC_TYPE@"]] PHP_ODBC_BUILD_DEFINITIONS_CODE)
+#define PHP_ODBC_TYPE "@PHP_ODBC_TYPE@"]]
+      PHP_ODBC_BUILD_DEFINITIONS_CODE
+    )
   endblock()
 endif()
 
@@ -393,7 +381,11 @@ if(NOT PROJECT_IS_TOP_LEVEL)
       return()
     endif()
 
-    cmake_language(DEFER CALL message FATAL_ERROR "
+    cmake_language(
+      DEFER
+      CALL message
+      FATAL_ERROR
+      "
       Different ODBC types detected for odbc and pdo_odbc PHP extensions:
 
       PHP_EXT_ODBC_TYPE=${PHP_EXT_ODBC_TYPE}
@@ -403,6 +395,7 @@ if(NOT PROJECT_IS_TOP_LEVEL)
       extensions statically, please link with the same ODBC library, or build
       one of the extensions as shared by setting 'PHP_EXT_ODBC' or
       'PHP_EXT_PDO_ODBC' to 'shared'.
-    ")
+    "
+    )
   endfunction()
 endif()

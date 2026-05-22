@@ -105,16 +105,13 @@ target_compile_definitions(
 
 target_include_directories(
   php_ext_fileinfo
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 set_property(
   SOURCE libmagic/apprentice.c
   APPEND
-  PROPERTY
-    OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
+  PROPERTY OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/data_file.c
 )
 
 set_property(

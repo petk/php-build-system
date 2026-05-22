@@ -16,11 +16,7 @@ that comes with PHP.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_URI
-  SPDX_LICENSE "BSD-3-Clause"
-  LANGUAGES C
-)
+project(PHP_EXT_URI SPDX_LICENSE "BSD-3-Clause" LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -32,11 +28,7 @@ endif()
 
 include(FeatureSummary)
 
-add_feature_info(
-  "ext/uri"
-  TRUE
-  "support for URI handling"
-)
+add_feature_info("ext/uri" TRUE "support for URI handling")
 
 option(
   PHP_EXT_URI_EXTERNAL
@@ -144,10 +136,6 @@ target_include_directories(
 
 target_compile_definitions(php_ext_uri PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
-set_property(
-  TARGET php_ext_uri
-  APPEND
-  PROPERTY PHP_REQUIRED_EXTENSIONS lexbor
-)
+set_property(TARGET php_ext_uri APPEND PROPERTY PHP_REQUIRED_EXTENSIONS lexbor)
 
 configure_file(cmake/config.h.in config.h)

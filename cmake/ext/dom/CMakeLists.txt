@@ -16,11 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_DOM
-  SPDX_LICENSE "BSD-3-Clause"
-  LANGUAGES C
-)
+project(PHP_EXT_DOM SPDX_LICENSE "BSD-3-Clause" LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -90,11 +86,7 @@ target_sources(
     xpath.c
   PUBLIC
     FILE_SET HEADERS
-      FILES
-        dom_ce.h
-        namespace_compat.h
-        xml_common.h
-        xpath_callbacks.h
+      FILES dom_ce.h namespace_compat.h xml_common.h xpath_callbacks.h
 )
 
 target_include_directories(
@@ -114,9 +106,7 @@ include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the dom extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the dom extension."
 )
 
 target_link_libraries(php_ext_dom PRIVATE LibXml2::LibXml2)

@@ -15,20 +15,13 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_ZIP
-  LANGUAGES C
-)
+project(PHP_EXT_ZIP LANGUAGES C)
 
 include(FeatureSummary)
 
 option(PHP_EXT_ZIP "Enable the zip extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/zip"
-  PHP_EXT_ZIP
-  "ZIP (.zip) compressed archives support"
-)
+add_feature_info("ext/zip" PHP_EXT_ZIP "ZIP (.zip) compressed archives support")
 
 if(NOT PHP_EXT_ZIP)
   return()
@@ -47,27 +40,17 @@ endif()
 
 target_sources(
   php_ext_zip
-  PRIVATE
-    php_zip.c
-    php_zip.stub.php
-    zip_source.c
-    zip_stream.c
+  PRIVATE php_zip.c php_zip.stub.php zip_source.c zip_stream.c
 )
 
 target_include_directories(php_ext_zip PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-set_property(
-  TARGET php_ext_zip
-  APPEND
-  PROPERTY PHP_REQUIRED_EXTENSIONS pcre
-)
+set_property(TARGET php_ext_zip APPEND PROPERTY PHP_REQUIRED_EXTENSIONS pcre)
 
 find_package(libzip 1.7.1)
 set_package_properties(
   libzip
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the zip extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the zip extension."
 )
 
 if(NOT libzip_FOUND)
