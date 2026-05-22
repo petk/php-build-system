@@ -21,10 +21,11 @@ function(_php_stubs_get_php_command result)
   # tokenizer extension.
   if(
     NOT PHP_HOST_FOUND
-    AND (
-      NOT TARGET PHP::sapi::cli
-      OR (TARGET PHP::sapi::cli AND NOT TARGET PHP::ext::tokenizer)
-    )
+    AND
+      (
+        NOT TARGET PHP::sapi::cli
+        OR (TARGET PHP::sapi::cli AND NOT TARGET PHP::ext::tokenizer)
+      )
     AND NOT TARGET PHP::Interpreter
   )
     return(PROPAGATE ${result})
@@ -67,10 +68,9 @@ function(_php_stubs_get_php_command result)
   get_target_property(type PHP::ext::tokenizer TYPE)
   if(type STREQUAL "MODULE_LIBRARY")
     list(
-      APPEND
-      command
-      -d extension_dir=${PROJECT_BINARY_DIR}/modules/$<CONFIG>
-      -d extension=tokenizer
+      APPEND command
+      -dextension_dir=${PROJECT_BINARY_DIR}/modules/$<CONFIG>
+      -dextension=tokenizer
     )
   endif()
 
@@ -109,10 +109,11 @@ if(
     TARGET PHP::Interpreter
     AND NOT EXISTS ${PHP_INSTALL_LIBDIR}/build/gen_stub.php
   )
-  OR (
-    NOT TARGET PHP::Interpreter
-    AND NOT EXISTS ${PROJECT_SOURCE_DIR}/build/gen_stub.php
-  )
+  OR
+    (
+      NOT TARGET PHP::Interpreter
+      AND NOT EXISTS ${PROJECT_SOURCE_DIR}/build/gen_stub.php
+    )
 )
   return()
 endif()
@@ -125,8 +126,7 @@ block()
   endif()
 
   file(
-    COPY
-    ${php_gen_stub_script_source}
+    COPY ${php_gen_stub_script_source}
     DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Stubs
   )
 
@@ -141,8 +141,7 @@ block()
   set(stubs "")
   foreach(target ${targets})
     list(
-      APPEND
-      stubs
+      APPEND stubs
       $<PATH:ABSOLUTE_PATH,NORMALIZE,$<LIST:FILTER,$<TARGET_PROPERTY:${target},SOURCES>,INCLUDE,\.stub\.php$>,$<TARGET_PROPERTY:${target},SOURCE_DIR>>
     )
 
@@ -152,140 +151,150 @@ block()
   endforeach()
 
   # Create a script for processing PHP stub sources.
-  string(CONFIGURE [=[
-    cmake_minimum_required(VERSION 4.3...4.4)
+  string(
+    CONFIGURE
+      [=[
+        cmake_minimum_required(VERSION 4.3...4.4)
 
-    if(NOT CMAKE_SCRIPT_MODE_FILE)
-      message(FATAL_ERROR "This is a command-line script.")
-    endif()
+        if(NOT CMAKE_SCRIPT_MODE_FILE)
+          message(FATAL_ERROR "This is a command-line script.")
+        endif()
 
-    if(NOT PHP_COMMAND)
-      message(WARNING "StubsGenerator.cmake: No PHP command given.")
-      return()
-    endif()
+        if(NOT PHP_COMMAND)
+          message(WARNING "StubsGenerator.cmake: No PHP command given.")
+          return()
+        endif()
 
-    set(sources "$<JOIN:$<REMOVE_DUPLICATES:@stubs@>,$<SEMICOLON>>")
+        set(sources "$<JOIN:$<REMOVE_DUPLICATES:@stubs@>,$<SEMICOLON>>")
 
-    # Ensure sources include only *.stub.php files.
-    list(FILTER sources INCLUDE REGEX [[\.stub\.php$]])
+        # Ensure sources include only *.stub.php files.
+        list(FILTER sources INCLUDE REGEX [[\.stub\.php$]])
 
-    # Create a list of sources that must be parsed by the generator.
-    if("@php_gen_stub_script_source@" IS_NEWER_THAN ${CMAKE_CURRENT_LIST_FILE})
-      file(
-        COPY
-        "@php_gen_stub_script_source@"
-        DESTINATION ${CMAKE_CURRENT_LIST_DIR}
-      )
-      set(stubs ${sources})
-      file(TOUCH ${CMAKE_CURRENT_LIST_FILE})
-    else()
-      foreach(stub ${sources})
-        string(
-          REGEX REPLACE
-          [[\.stub\.php$]]
-          [[_arginfo.h]]
-          arginfo_header
-          "${stub}"
-        )
-
-        string(
-          REGEX REPLACE
-          [[\.stub\.php$]]
-          [[_legacy_arginfo.h]]
-          legacy_arginfo_header
-          "${stub}"
-        )
-
-        string(
-          REGEX REPLACE
-          [[\.stub\.php$]]
-          [[_decl.h]]
-          decl_header
-          "${stub}"
-        )
-
+        # Create a list of sources that must be parsed by the generator.
         if(
-          (
+          "@php_gen_stub_script_source@"
+            IS_NEWER_THAN
+              ${CMAKE_CURRENT_LIST_FILE}
+        )
+          file(
+            COPY
+            "@php_gen_stub_script_source@"
+            DESTINATION ${CMAKE_CURRENT_LIST_DIR}
+          )
+          set(stubs ${sources})
+          file(TOUCH ${CMAKE_CURRENT_LIST_FILE})
+        else()
+          foreach(stub ${sources})
+            string(
+              REGEX REPLACE
+              [[\.stub\.php$]]
+              [[_arginfo.h]]
+              arginfo_header
+              "${stub}"
+            )
+
+            string(
+              REGEX REPLACE
+              [[\.stub\.php$]]
+              [[_legacy_arginfo.h]]
+              legacy_arginfo_header
+              "${stub}"
+            )
+
+            string(
+              REGEX REPLACE
+              [[\.stub\.php$]]
+              [[_decl.h]]
+              decl_header
+              "${stub}"
+            )
+
+            if(
+              (
+                EXISTS "${arginfo_header}"
+                AND "${stub}" IS_NEWER_THAN "${arginfo_header}"
+              ) OR (
+                EXISTS "${legacy_arginfo_header}"
+                AND "${stub}" IS_NEWER_THAN "${legacy_arginfo_header}"
+              ) OR (
+                EXISTS "${decl_header}"
+                AND "${stub}" IS_NEWER_THAN "${decl_header}"
+              )
+            )
+              list(APPEND stubs ${stub})
+            endif()
+          endforeach()
+        endif()
+
+        if(NOT stubs)
+          return()
+        endif()
+
+        execute_process(
+          COMMAND
+            ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold
+              "Regenerating *_{arginfo,decl}.h headers from *.stub.php sources"
+          COMMAND
+            ${PHP_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
+        )
+
+        # Ensure that *_{arginfo,decl}.h headers are newer than their
+        # *.stub.php
+        # sources.
+        foreach(stub ${stubs})
+          string(
+            REGEX REPLACE
+            [[\.stub\.php$]]
+            [[_arginfo.h]]
+            arginfo_header
+            "${stub}"
+          )
+
+          string(
+            REGEX REPLACE
+            [[\.stub\.php$]]
+            [[_legacy_arginfo.h]]
+            legacy_arginfo_header
+            "${stub}"
+          )
+
+          string(
+            REGEX REPLACE
+            [[\.stub\.php$]]
+            [[_decl.h]]
+            decl_header
+            "${stub}"
+          )
+
+          if(
             EXISTS "${arginfo_header}"
             AND "${stub}" IS_NEWER_THAN "${arginfo_header}"
-          ) OR (
+          )
+            file(TOUCH "${arginfo_header}")
+          endif()
+
+          if(
             EXISTS "${legacy_arginfo_header}"
             AND "${stub}" IS_NEWER_THAN "${legacy_arginfo_header}"
-          ) OR (
+          )
+            file(TOUCH "${legacy_arginfo_header}")
+          endif()
+
+          if(
             EXISTS "${decl_header}"
             AND "${stub}" IS_NEWER_THAN "${decl_header}"
           )
-        )
-          list(APPEND stubs ${stub})
-        endif()
-      endforeach()
-    endif()
-
-    if(NOT stubs)
-      return()
-    endif()
-
-    execute_process(
-      COMMAND
-        ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold
-          "Regenerating *_{arginfo,decl}.h headers from *.stub.php sources"
-      COMMAND
-        ${PHP_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/gen_stub.php ${stubs}
-    )
-
-    # Ensure that *_{arginfo,decl}.h headers are newer than their *.stub.php
-    # sources.
-    foreach(stub ${stubs})
-      string(
-        REGEX REPLACE
-        [[\.stub\.php$]]
-        [[_arginfo.h]]
-        arginfo_header
-        "${stub}"
-      )
-
-      string(
-        REGEX REPLACE
-        [[\.stub\.php$]]
-        [[_legacy_arginfo.h]]
-        legacy_arginfo_header
-        "${stub}"
-      )
-
-      string(
-        REGEX REPLACE
-        [[\.stub\.php$]]
-        [[_decl.h]]
-        decl_header
-        "${stub}"
-      )
-
-      if(
-        EXISTS "${arginfo_header}"
-        AND "${stub}" IS_NEWER_THAN "${arginfo_header}"
-      )
-        file(TOUCH "${arginfo_header}")
-      endif()
-
-      if(
-        EXISTS "${legacy_arginfo_header}"
-        AND "${stub}" IS_NEWER_THAN "${legacy_arginfo_header}"
-      )
-        file(TOUCH "${legacy_arginfo_header}")
-      endif()
-
-      if(
-        EXISTS "${decl_header}"
-        AND "${stub}" IS_NEWER_THAN "${decl_header}"
-      )
-        file(TOUCH "${decl_header}")
-      endif()
-    endforeach()
-  ]=] content @ONLY)
+            file(TOUCH "${decl_header}")
+          endif()
+        endforeach()
+      ]=]
+    content
+    @ONLY
+  )
 
   file(
-    GENERATE
-    OUTPUT ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
+    GENERATE OUTPUT
+      ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
     CONTENT "${content}"
   )
 
@@ -295,11 +304,11 @@ block()
   endif()
 
   add_custom_target(
-    php_stubs ${target_options}
+    php_stubs
+    ${target_options}
     COMMAND
-      ${CMAKE_COMMAND}
-      -D "PHP_COMMAND=${PHP_COMMAND}"
-      -P ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
+      ${CMAKE_COMMAND} -D "PHP_COMMAND=${PHP_COMMAND}" -P
+      ${PROJECT_BINARY_DIR}/CMakeFiles/PHP/Stubs/StubsGenerator.cmake
     VERBATIM
   )
 endblock()
