@@ -18,26 +18,18 @@ endif()
 find_package(cmocka 1.1.0)
 set_package_properties(
   cmocka
-  PROPERTIES
-    TYPE RECOMMENDED
-    PURPOSE "Necessary to run PHP unit tests."
+  PROPERTIES TYPE RECOMMENDED PURPOSE "Necessary to run PHP unit tests."
 )
 
 if(NOT cmocka_FOUND)
   return()
 endif()
 
-add_executable(
-  php_unit_test_network
-  unit/main/test_network.c
-)
+add_executable(php_unit_test_network unit/main/test_network.c)
 
 target_link_libraries(
   php_unit_test_network
-  PRIVATE
-    PHP::sapi::embed
-    PHP::config
-    cmocka::cmocka
+  PRIVATE PHP::sapi::embed PHP::config cmocka::cmocka
 )
 
 # TODO: Fix this.
@@ -55,7 +47,4 @@ if(PHP_HAS_C_FLAG_WRAP)
   )
 endif()
 
-add_test(
-  NAME PhpUnitTestNetwork
-  COMMAND php_unit_test_network
-)
+add_test(NAME PhpUnitTestNetwork COMMAND php_unit_test_network)

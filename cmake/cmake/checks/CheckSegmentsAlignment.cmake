@@ -52,14 +52,16 @@ endif()
 function(_php_check_segments_alignment lang flags result)
   if(NOT DEFINED ${result})
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_QUIET TRUE)
 
-      if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
-        check_linker_flag(${lang} "${flags}" ${result})
-      else()
-        set(CMAKE_REQUIRED_LINK_OPTIONS ${flags})
-        check_source_runs(${lang} [[int main(void) { return 0; }]] ${result})
-      endif()
+    set(CMAKE_REQUIRED_QUIET TRUE)
+
+    if(CMAKE_CROSSCOMPILING AND NOT CMAKE_CROSSCOMPILING_EMULATOR)
+      check_linker_flag(${lang} "${flags}" ${result})
+    else()
+      set(CMAKE_REQUIRED_LINK_OPTIONS ${flags})
+      check_source_runs(${lang} [[int main(void) { return 0; }]] ${result})
+    endif()
+
     cmake_pop_check_state()
   endif()
 
