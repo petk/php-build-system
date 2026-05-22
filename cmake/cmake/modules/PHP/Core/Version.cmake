@@ -52,8 +52,7 @@ function(_php_version_post_project)
 
   # Get PHP API version.
   file(
-    STRINGS
-    main/php.h
+    STRINGS main/php.h
     _
     REGEX "^[ \t]*#[ \t]*define[ \t]+PHP_API_VERSION[ \t]+([0-9]+)"
   )

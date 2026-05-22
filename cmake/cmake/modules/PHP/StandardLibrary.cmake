@@ -78,8 +78,7 @@ include(CMakePushCheckState)
 
 function(_php_standard_library_get_code result)
   string(
-    CONCAT
-    ${result}
+    CONCAT ${result}
     "/* Define to 1 when using musl libc. */\n"
     "#cmakedefine __MUSL__ 1\n"
   )
@@ -204,8 +203,8 @@ function(_php_standard_library)
 
   message(CHECK_START "Checking C standard library")
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-    _php_standard_library_check()
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  _php_standard_library_check()
   cmake_pop_check_state()
 
   if(PHP_C_STANDARD_LIBRARY STREQUAL "mscrt")

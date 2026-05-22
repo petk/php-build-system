@@ -264,8 +264,7 @@ endfunction()
 
 function(php_search_libraries)
   cmake_parse_arguments(
-    PARSE_ARGV
-    0
+    PARSE_ARGV 0
     parsed
     "RECHECK_HEADERS"
     "SYMBOL;SOURCE_COMPILES;SOURCE_RUNS;RESULT_VARIABLE;LIBRARY_VARIABLE"
@@ -359,14 +358,16 @@ function(php_search_libraries)
     string(TOUPPER "${id}" id)
 
     cmake_push_check_state()
-      cmake_language(GET_MESSAGE_LOG_LEVEL level)
-      if(NOT level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
-        set(CMAKE_REQUIRED_QUIET TRUE)
-      endif()
 
-      # Check multiple headers appended with each iteration. If a header is not
-      # self-contained, it may require including prior additional headers.
-      check_include_files("${headers_found};${header}" ${id})
+    cmake_language(GET_MESSAGE_LOG_LEVEL level)
+    if(NOT level MATCHES "^(VERBOSE|DEBUG|TRACE)$")
+      set(CMAKE_REQUIRED_QUIET TRUE)
+    endif()
+
+    # Check multiple headers appended with each iteration. If a header is not
+    # self-contained, it may require including prior additional headers.
+    check_include_files("${headers_found};${header}" ${id})
+
     cmake_pop_check_state()
 
     if(${id})
@@ -429,36 +430,38 @@ function(php_search_libraries)
     endif()
 
     cmake_push_check_state()
-      # Make check friendlier and skip appending nonexistent IMPORTED or ALIAS
-      # targets (with double-colon) to not result in a FATAL_ERROR (CMP0028).
-      if(
-        (NOT TARGET ${library} AND NOT ${library} MATCHES "::")
-        OR TARGET ${library}
+
+    # Make check friendlier and skip appending nonexistent IMPORTED or ALIAS
+    # targets (with double-colon) to not result in a FATAL_ERROR (CMP0028).
+    if(
+      (NOT TARGET ${library} AND NOT ${library} MATCHES "::")
+      OR TARGET ${library}
+    )
+      list(APPEND CMAKE_REQUIRED_LIBRARIES ${library})
+    endif()
+
+    set(CMAKE_REQUIRED_QUIET TRUE)
+
+    if(DEFINED parsed_SYMBOL)
+      check_symbol_exists(
+        ${parsed_SYMBOL}
+        "${headers_found}"
+        ${parsed_RESULT_VARIABLE}
       )
-        list(APPEND CMAKE_REQUIRED_LIBRARIES ${library})
-      endif()
+    elseif(DEFINED parsed_SOURCE_COMPILES)
+      _php_search_libraries_check_source_compiles(
+        "${parsed_SOURCE_COMPILES}"
+        "${headers_found}"
+        ${parsed_RESULT_VARIABLE}
+      )
+    elseif(DEFINED parsed_SOURCE_RUNS)
+      _php_search_libraries_check_source_runs(
+        "${parsed_SOURCE_RUNS}"
+        "${headers_found}"
+        ${parsed_RESULT_VARIABLE}
+      )
+    endif()
 
-      set(CMAKE_REQUIRED_QUIET TRUE)
-
-      if(DEFINED parsed_SYMBOL)
-        check_symbol_exists(
-          ${parsed_SYMBOL}
-          "${headers_found}"
-          ${parsed_RESULT_VARIABLE}
-        )
-      elseif(DEFINED parsed_SOURCE_COMPILES)
-        _php_search_libraries_check_source_compiles(
-          "${parsed_SOURCE_COMPILES}"
-          "${headers_found}"
-          ${parsed_RESULT_VARIABLE}
-        )
-      elseif(DEFINED parsed_SOURCE_RUNS)
-        _php_search_libraries_check_source_runs(
-          "${parsed_SOURCE_RUNS}"
-          "${headers_found}"
-          ${parsed_RESULT_VARIABLE}
-        )
-      endif()
     cmake_pop_check_state()
 
     if(${parsed_RESULT_VARIABLE})
