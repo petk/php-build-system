@@ -626,7 +626,7 @@ repository uses [`gersemi`](https://github.com/BlankSpruce/gersemi) tool to
 check and fix CMake code style:
 
 ```sh
-gersemi --config cmake/cmake/gersemi/.gersemirc.yaml --diff --check .
+gersemi --indent 2 --definitions . --diff --check .
 ```
 
 ### 11.2. Further resources

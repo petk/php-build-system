@@ -34,14 +34,18 @@ project(PHP C)
 include(CheckSourceRuns)
 
 # Compile and run a test program.
-check_source_runs(C [[
-  #include <stdio.h>
-  int main(void)
-  {
-    printf("Hello world");
-    return 0;
-  }
-]] PHP_HAVE_HELLO_WORLD)
+check_source_runs(
+  C
+  [[
+    #include <stdio.h>
+    int main(void)
+    {
+      printf("Hello world");
+      return 0;
+    }
+  ]]
+  PHP_HAVE_HELLO_WORLD
+)
 ```
 
 Setting target system name puts CMake in the cross-compilation mode:
@@ -83,14 +87,18 @@ automatically set. It can be used to run certain checks conditionally.
 if(CMAKE_CROSSCOMPILING)
   message(STATUS "Cross-compiling: Certain checks may not be applicable.")
 else()
-  check_source_runs(C [[
-    #include <stdio.h>
-    int main(void)
-    {
-      printf("Hello world");
-      return 0;
-    }
-  ]] PHP_HAVE_HELLO_WORLD)
+  check_source_runs(
+    C
+    [[
+      #include <stdio.h>
+      int main(void)
+      {
+        printf("Hello world");
+        return 0;
+      }
+    ]]
+    PHP_HAVE_HELLO_WORLD
+  )
 endif()
 ```
 
@@ -108,14 +116,18 @@ Example, how to use the cross-compiling emulator with the run check:
 
 ```cmake
 if(CMAKE_CROSSCOMPILING_EMULATOR OR NOT CMAKE_CROSSCOMPILING)
-  check_source_runs(C [[
-    #include <stdio.h>
-    int main(void)
-    {
-      printf("Hello world");
-      return 0;
-    }
-  ]] PHP_HAVE_HELLO_WORLD)
+  check_source_runs(
+    C
+    [[
+      #include <stdio.h>
+      int main(void)
+      {
+        printf("Hello world");
+        return 0;
+      }
+    ]]
+    PHP_HAVE_HELLO_WORLD
+  )
 else()
   message(STATUS "Cross-compiling: Certain checks may not be applicable.")
 endif()
