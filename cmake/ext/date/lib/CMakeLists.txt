@@ -38,10 +38,10 @@ endif()
 # The timelib version.
 block(PROPAGATE ${TIMELIB_NAMESPACE}_VERSION)
   file(
-    STRINGS
-    timelib.h
+    STRINGS timelib.h
     _
-    REGEX "^[ \t]*#[ \t]*define[ \t]+TIMELIB_ASCII_VERSION[ \t]+\"([0-9.]+[^\"]*)"
+    REGEX
+      "^[ \t]*#[ \t]*define[ \t]+TIMELIB_ASCII_VERSION[ \t]+\"([0-9.]+[^\"]*)"
   )
 
   set(${TIMELIB_NAMESPACE}_VERSION "${CMAKE_MATCH_1}")
@@ -65,32 +65,27 @@ endif()
 
 set(
   timelib_sources
-    astro.c
-    dow.c
-    interval.c
-    parse_date.c
-    parse_iso_intervals.c
-    parse_posix.c
-    parse_tz.c
-    timelib.c
-    tm2unixtime.c
-    unixtime2tm.c
+  astro.c
+  dow.c
+  interval.c
+  parse_date.c
+  parse_iso_intervals.c
+  parse_posix.c
+  parse_tz.c
+  timelib.c
+  tm2unixtime.c
+  unixtime2tm.c
 )
 
 target_sources(
   ${TIMELIB_TARGET}
-  PRIVATE
-    ${timelib_sources}
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        timelib.h
+  PRIVATE ${timelib_sources}
+  PUBLIC FILE_SET HEADERS FILES timelib.h
   PUBLIC
     FILE_SET generated
       TYPE HEADERS
       BASE_DIRS $<TARGET_PROPERTY:${TIMELIB_TARGET},BINARY_DIR>
-      FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/timelib_config.h
+      FILES ${CMAKE_CURRENT_BINARY_DIR}/timelib_config.h
 )
 
 target_include_directories(${TIMELIB_TARGET} PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
@@ -110,13 +105,17 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 cmake_path(
-  RELATIVE_PATH
-  CMAKE_CURRENT_BINARY_DIR
+  RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_BINARY_DIR}
   OUTPUT_VARIABLE relative_dir
 )
 message(STATUS "Creating ${relative_dir}/timelib_config.h")
-file(CONFIGURE OUTPUT timelib_config.h CONTENT [[
+file(
+  CONFIGURE
+  OUTPUT timelib_config.h
+  CONTENT
+    [[
 /* Define to 1 if you have the <io.h> header file. */
 #cmakedefine HAVE_IO_H 1
-]])
+]]
+)

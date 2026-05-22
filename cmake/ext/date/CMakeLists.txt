@@ -8,10 +8,7 @@ This extension is always enabled.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_DATE
-  LANGUAGES C
-)
+project(PHP_EXT_DATE LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -23,11 +20,7 @@ endif()
 
 include(FeatureSummary)
 
-add_feature_info(
-  "ext/date"
-  TRUE
-  "date and time"
-)
+add_feature_info("ext/date" TRUE "date and time")
 
 include(PHP/Extension)
 php_extension(date)
@@ -38,13 +31,8 @@ set(sources php_date.c)
 
 target_sources(
   php_ext_date
-  PRIVATE
-    ${sources}
-    php_date.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_date.h
+  PRIVATE ${sources} php_date.stub.php
+  PUBLIC FILE_SET HEADERS FILES php_date.h
 )
 
 set_source_files_properties(
@@ -64,7 +52,10 @@ add_subdirectory(lib)
 
 set(HAVE_TIMELIB_CONFIG_H TRUE)
 
-file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h "\n" [[
+file(
+  APPEND ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h
+  "\n"
+  [[
 #ifdef PHP_WIN32
 # include "config.w32.h"
 #else
@@ -81,6 +72,7 @@ file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/lib/timelib_config.h "\n" [[
 #define timelib_strdup  estrdup
 #define timelib_strndup estrndup
 #define timelib_free    efree
-]])
+]]
+)
 
 configure_file(cmake/config.h.in config.h)

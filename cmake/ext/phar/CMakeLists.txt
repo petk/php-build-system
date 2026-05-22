@@ -25,11 +25,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_PHAR "Enable the phar extension" ON)
 
-add_feature_info(
-  "ext/phar"
-  PHP_EXT_PHAR
-  "PHP archives support"
-)
+add_feature_info("ext/phar" PHP_EXT_PHAR "PHP archives support")
 
 if(NOT PHP_EXT_PHAR)
   return()
@@ -66,10 +62,7 @@ target_sources(
     tar.c
     util.c
     zip.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_phar.h
+  PUBLIC FILE_SET HEADERS FILES php_phar.h
 )
 
 target_include_directories(php_ext_phar PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -173,8 +166,7 @@ set(
 )
 
 cmake_path(
-  RELATIVE_PATH
-  CMAKE_CURRENT_BINARY_DIR
+  RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_BINARY_DIR}
   OUTPUT_VARIABLE relative_dir
 )
@@ -216,9 +208,9 @@ endif()
 get_target_property(type php_ext_phar TYPE)
 if(type STREQUAL "MODULE_LIBRARY")
   list(
-    APPEND
-    php_options
-    -d extension=${dir}/modules/$<CONFIG>/phar${CMAKE_SHARED_MODULE_SUFFIX}
+    APPEND php_options
+    -d
+    extension=${dir}/modules/$<CONFIG>/phar${CMAKE_SHARED_MODULE_SUFFIX}
   )
 endif()
 
@@ -228,8 +220,7 @@ endif()
 # upstream build system, but the *.inc retrieval is added for reproducible
 # phar file generation. See https://github.com/php/php-src/issues/19997
 file(
-  GLOB
-  phar_sources_relative
+  GLOB phar_sources_relative
   LIST_DIRECTORIES FALSE
   RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/phar/*.inc
@@ -239,8 +230,7 @@ if(NOT CMAKE_CURRENT_BINARY_DIR PATH_EQUAL CMAKE_CURRENT_SOURCE_DIR)
 
   foreach(file IN LISTS phar_sources_relative)
     file(
-      COPY_FILE
-      ${CMAKE_CURRENT_SOURCE_DIR}/${file}
+      COPY_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${file}
       ${CMAKE_CURRENT_BINARY_DIR}/${file}
     )
   endforeach()
@@ -284,7 +274,8 @@ php_add_command(
 file(
   CONFIGURE
   OUTPUT CMakeFiles/PharPermissions.cmake
-  CONTENT [[
+  CONTENT
+    [[
     if(EXISTS "@CMAKE_CURRENT_BINARY_DIR@/phar.phar")
       file(
         CHMOD
@@ -308,9 +299,7 @@ add_custom_target(
   php_ext_phar_permissions
   ALL
   COMMAND ${CMAKE_COMMAND} -P CMakeFiles/PharPermissions.cmake
-  DEPENDS
-    ${CMAKE_CURRENT_BINARY_DIR}/phar.phar
-    php_ext_phar
+  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/phar.phar php_ext_phar
 )
 
 if(TARGET PHP::sapi::cli)
@@ -325,7 +314,10 @@ elseif(NOT CMAKE_CROSSCOMPILING)
   set(php_executable "$<TARGET_FILE:${php_target}>")
 elseif(CMAKE_CROSSCOMPILING AND CMAKE_CROSSCOMPILING_EMULATOR)
   set(php_target "PHP::sapi::cli")
-  set(php_executable "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:${php_target}>")
+  set(
+    php_executable
+    "${CMAKE_CROSSCOMPILING_EMULATOR};$<TARGET_FILE:${php_target}>"
+  )
 else()
   return()
 endif()

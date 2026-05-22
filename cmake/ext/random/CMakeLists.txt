@@ -7,10 +7,7 @@ related to randomness. It is always enabled.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_RANDOM
-  LANGUAGES C
-)
+project(PHP_EXT_RANDOM LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -49,10 +46,7 @@ target_sources(
     random.c
     random.stub.php
     randomizer.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_random.h
+  PUBLIC FILE_SET HEADERS FILES php_random.h
 )
 
 target_compile_definitions(
@@ -74,10 +68,10 @@ set(HAVE_GETRANDOM ${PHP_EXT_RANDOM_HAVE_GETRANDOM})
 block(PROPAGATE HAVE_COMMONCRYPTO_COMMONRANDOM_H)
   set(
     headers
-      sys/types.h
-      Availability.h
-      CommonCrypto/CommonCryptoError.h
-      CommonCrypto/CommonRandom.h
+    sys/types.h
+    Availability.h
+    CommonCrypto/CommonCryptoError.h
+    CommonCrypto/CommonRandom.h
   )
 
   check_include_files(

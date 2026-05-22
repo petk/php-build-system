@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SQLITE3
-  LANGUAGES C
-)
+project(PHP_EXT_SQLITE3 LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -26,11 +23,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_SQLITE3 "Enable the sqlite3 extension" ON)
 
-add_feature_info(
-  "ext/sqlite3"
-  PHP_EXT_SQLITE3
-  "SQLite database support"
-)
+add_feature_info("ext/sqlite3" PHP_EXT_SQLITE3 "SQLite database support")
 
 if(NOT PHP_EXT_SQLITE3)
   return()
@@ -47,54 +40,50 @@ else()
   add_library(php_ext_sqlite3 OBJECT)
 endif()
 
-target_sources(
-  php_ext_sqlite3
-  PRIVATE
-    sqlite3.c
-    sqlite3.stub.php
-)
+target_sources(php_ext_sqlite3 PRIVATE sqlite3.c sqlite3.stub.php)
 
 target_include_directories(php_ext_sqlite3 PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-target_compile_definitions(php_ext_sqlite3 PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_sqlite3
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 include(PHP/Package/SQLite3)
 find_package(SQLite3 ${PHP_PACKAGE_SQLITE3_MIN_VERSION})
 set_package_properties(
   SQLite3
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the sqlite3 extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the sqlite3 extension."
 )
 
 target_link_libraries(php_ext_sqlite3 PRIVATE SQLite3::SQLite3)
 
 if(TARGET SQLite3::SQLite3)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES SQLite3::SQLite3)
+  set(CMAKE_REQUIRED_LIBRARIES SQLite3::SQLite3)
 
-    check_symbol_exists(
-      sqlite3_errstr
-      sqlite3.h
-      PHP_EXT_SQLITE3_HAVE_SQLITE3_ERRSTR
-    )
-    set(HAVE_SQLITE3_ERRSTR ${PHP_EXT_SQLITE3_HAVE_SQLITE3_ERRSTR})
+  check_symbol_exists(
+    sqlite3_errstr
+    sqlite3.h
+    PHP_EXT_SQLITE3_HAVE_SQLITE3_ERRSTR
+  )
+  set(HAVE_SQLITE3_ERRSTR ${PHP_EXT_SQLITE3_HAVE_SQLITE3_ERRSTR})
 
-    check_symbol_exists(
-      sqlite3_expanded_sql
-      sqlite3.h
-      PHP_EXT_SQLITE3_HAVE_SQLITE3_EXPANDED_SQL
-    )
-    set(HAVE_SQLITE3_EXPANDED_SQL ${PHP_EXT_SQLITE3_HAVE_SQLITE3_EXPANDED_SQL})
+  check_symbol_exists(
+    sqlite3_expanded_sql
+    sqlite3.h
+    PHP_EXT_SQLITE3_HAVE_SQLITE3_EXPANDED_SQL
+  )
+  set(HAVE_SQLITE3_EXPANDED_SQL ${PHP_EXT_SQLITE3_HAVE_SQLITE3_EXPANDED_SQL})
 
-    check_symbol_exists(
-      sqlite3_load_extension
-      sqlite3.h
-      PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION
-    )
-    if(NOT PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION)
-      set(SQLITE_OMIT_LOAD_EXTENSION TRUE)
-    endif()
+  check_symbol_exists(
+    sqlite3_load_extension
+    sqlite3.h
+    PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION
+  )
+  if(NOT PHP_EXT_HAVE_SQLITE3_LOAD_EXTENSION)
+    set(SQLITE_OMIT_LOAD_EXTENSION TRUE)
+  endif()
   cmake_pop_check_state()
 endif()
 

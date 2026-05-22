@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SODIUM
-  LANGUAGES C
-)
+project(PHP_EXT_SODIUM LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -50,14 +47,8 @@ endif()
 
 target_sources(
   php_ext_sodium
-  PRIVATE
-    libsodium.c
-    libsodium.stub.php
-    sodium_pwhash.c
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        php_libsodium.h
+  PRIVATE libsodium.c libsodium.stub.php sodium_pwhash.c
+  PUBLIC FILE_SET HEADERS FILES php_libsodium.h
 )
 
 target_include_directories(php_ext_sodium PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -65,9 +56,7 @@ target_include_directories(php_ext_sodium PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 find_package(Sodium 1.0.8)
 set_package_properties(
   Sodium
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the sodium extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the sodium extension."
 )
 
 target_link_libraries(php_ext_sodium PRIVATE Sodium::Sodium)

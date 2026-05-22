@@ -21,10 +21,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PCNTL
-  LANGUAGES C
-)
+project(PHP_EXT_PCNTL LANGUAGES C)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -41,11 +38,7 @@ option(
   ${PROJECT_IS_TOP_LEVEL}
 )
 
-add_feature_info(
-  "ext/pcntl"
-  PHP_EXT_PCNTL
-  "process control support"
-)
+add_feature_info("ext/pcntl" PHP_EXT_PCNTL "process control support")
 
 if(NOT PHP_EXT_PCNTL)
   return()
@@ -64,17 +57,14 @@ endif()
 
 set_target_properties(php_ext_pcntl PROPERTIES PHP_CLI TRUE)
 
-target_sources(
-  php_ext_pcntl
-  PRIVATE
-    pcntl.c
-    pcntl.stub.php
-    php_signal.c
-)
+target_sources(php_ext_pcntl PRIVATE pcntl.c pcntl.stub.php php_signal.c)
 
 target_include_directories(php_ext_pcntl PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-target_compile_definitions(php_ext_pcntl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_pcntl
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 # Check for required functions.
 block()
@@ -112,9 +102,9 @@ check_symbol_exists(sigwaitinfo signal.h PHP_EXT_PCNTL_HAVE_SIGWAITINFO)
 set(HAVE_SIGWAITINFO ${PHP_EXT_PCNTL_HAVE_SIGWAITINFO})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(unshare sched.h PHP_EXT_PCNTL_HAVE_UNSHARE)
-  set(HAVE_UNSHARE ${PHP_EXT_PCNTL_HAVE_UNSHARE})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(unshare sched.h PHP_EXT_PCNTL_HAVE_UNSHARE)
+set(HAVE_UNSHARE ${PHP_EXT_PCNTL_HAVE_UNSHARE})
 cmake_pop_check_state()
 
 check_symbol_exists(wait3 sys/wait.h PHP_EXT_PCNTL_HAVE_WAIT3)
@@ -124,12 +114,12 @@ check_symbol_exists(wait4 sys/wait.h PHP_EXT_PCNTL_HAVE_WAIT4)
 set(HAVE_WAIT4 ${PHP_EXT_PCNTL_HAVE_WAIT4})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
-  check_type_size(
-    siginfo_t
-    PHP_EXT_PCNTL_SIZEOF_STRUCT_SIGINFO_T
-    RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_STRUCT_SIGINFO_T
-  )
+set(CMAKE_EXTRA_INCLUDE_FILES "signal.h")
+check_type_size(
+  siginfo_t
+  PHP_EXT_PCNTL_SIZEOF_STRUCT_SIGINFO_T
+  RESULT_VARIABLE PHP_EXT_PCNTL_HAVE_STRUCT_SIGINFO_T
+)
 cmake_pop_check_state()
 
 if(PHP_EXT_PCNTL_HAVE_STRUCT_SIGINFO_T)

@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PDO_FIREBIRD
-  LANGUAGES C
-)
+project(PHP_EXT_PDO_FIREBIRD LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -53,10 +50,7 @@ endif()
 
 target_sources(
   php_ext_pdo_firebird
-  PRIVATE
-    firebird_driver.c
-    firebird_statement.c
-    pdo_firebird.c
+  PRIVATE firebird_driver.c firebird_statement.c pdo_firebird.c
 )
 
 set_property(
@@ -67,9 +61,7 @@ set_property(
 
 target_include_directories(
   php_ext_pdo_firebird
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 find_package(Firebird)
@@ -85,12 +77,12 @@ target_link_libraries(php_ext_pdo_firebird PRIVATE Firebird::Firebird)
 # Sanity check.
 if(TARGET Firebird::Firebird)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Firebird::Firebird)
-    check_symbol_exists(
-      isc_detach_database
-      ibase.h
-      PHP_EXT_PDO_FIREBIRD_SANITY_CHECK
-    )
+  set(CMAKE_REQUIRED_LIBRARIES Firebird::Firebird)
+  check_symbol_exists(
+    isc_detach_database
+    ibase.h
+    PHP_EXT_PDO_FIREBIRD_SANITY_CHECK
+  )
   cmake_pop_check_state()
 
   if(NOT PHP_EXT_PDO_FIREBIRD_SANITY_CHECK)

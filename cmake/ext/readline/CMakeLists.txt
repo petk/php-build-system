@@ -18,10 +18,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_READLINE
-  LANGUAGES C
-)
+project(PHP_EXT_READLINE LANGUAGES C)
 
 include(CheckSymbolExists)
 include(CMakePushCheckState)
@@ -60,10 +57,7 @@ set_target_properties(php_ext_readline PROPERTIES PHP_CLI TRUE)
 
 target_sources(
   php_ext_readline
-  PRIVATE
-    readline_cli.c
-    readline.c
-    readline.stub.php
+  PRIVATE readline_cli.c readline.c readline.stub.php
 )
 
 target_include_directories(php_ext_readline PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
@@ -73,58 +67,49 @@ php_check_compiler_flag(C -Wno-strict-prototypes PHP_HAS_WNO_STRICT_PROTOTYPES)
 if(PHP_HAS_WNO_STRICT_PROTOTYPES)
   target_compile_options(
     php_ext_readline
-    PRIVATE
-      $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
+    PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wno-strict-prototypes>
   )
 endif()
 
 find_package(Editline)
 set_package_properties(
   Editline
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the readline extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the readline extension."
 )
 
 target_link_libraries(php_ext_readline PUBLIC Editline::Editline)
 
 if(TARGET Editline::Editline)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Editline::Editline)
+  set(CMAKE_REQUIRED_LIBRARIES Editline::Editline)
 
-    check_symbol_exists(
-      rl_callback_read_char
-      editline/readline.h
-      PHP_EXT_READLINE_HAVE_RL_CALLBACK_READ_CHAR
-    )
-    set(
-      HAVE_RL_CALLBACK_READ_CHAR
-      ${PHP_EXT_READLINE_HAVE_RL_CALLBACK_READ_CHAR}
-    )
+  check_symbol_exists(
+    rl_callback_read_char
+    editline/readline.h
+    PHP_EXT_READLINE_HAVE_RL_CALLBACK_READ_CHAR
+  )
+  set(HAVE_RL_CALLBACK_READ_CHAR ${PHP_EXT_READLINE_HAVE_RL_CALLBACK_READ_CHAR})
 
-    check_symbol_exists(
-      rl_on_new_line
-      editline/readline.h
-      PHP_EXT_READLINE_HAVE_RL_ON_NEW_LINE
-    )
-    set(HAVE_RL_ON_NEW_LINE ${PHP_EXT_READLINE_HAVE_RL_ON_NEW_LINE})
+  check_symbol_exists(
+    rl_on_new_line
+    editline/readline.h
+    PHP_EXT_READLINE_HAVE_RL_ON_NEW_LINE
+  )
+  set(HAVE_RL_ON_NEW_LINE ${PHP_EXT_READLINE_HAVE_RL_ON_NEW_LINE})
 
-    check_symbol_exists(
-      rl_completion_matches
-      editline/readline.h
-      PHP_EXT_READLINE_HAVE_RL_COMPLETION_MATCHES
-    )
-    set(
-      HAVE_RL_COMPLETION_MATCHES
-      ${PHP_EXT_READLINE_HAVE_RL_COMPLETION_MATCHES}
-    )
+  check_symbol_exists(
+    rl_completion_matches
+    editline/readline.h
+    PHP_EXT_READLINE_HAVE_RL_COMPLETION_MATCHES
+  )
+  set(HAVE_RL_COMPLETION_MATCHES ${PHP_EXT_READLINE_HAVE_RL_COMPLETION_MATCHES})
 
-    check_symbol_exists(
-      history_list
-      editline/readline.h
-      PHP_EXT_READLINE_HAVE_HISTORY_LIST
-    )
-    set(HAVE_HISTORY_LIST ${PHP_EXT_READLINE_HAVE_HISTORY_LIST})
+  check_symbol_exists(
+    history_list
+    editline/readline.h
+    PHP_EXT_READLINE_HAVE_HISTORY_LIST
+  )
+  set(HAVE_HISTORY_LIST ${PHP_EXT_READLINE_HAVE_HISTORY_LIST})
   cmake_pop_check_state()
 endif()
 

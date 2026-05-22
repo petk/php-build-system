@@ -41,7 +41,8 @@ cmake_minimum_required(VERSION 4.3...4.4)
 
 project(
   PHP_EXT_OPCACHE
-  SPDX_LICENSE "PHP-3.01 AND MIT AND BSD-2-Clause AND (GPL-2.0-only OR BSD-3-Clause)"
+  SPDX_LICENSE
+    "PHP-3.01 AND MIT AND BSD-2-Clause AND (GPL-2.0-only OR BSD-3-Clause)"
   LANGUAGES C
 )
 
@@ -51,11 +52,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_OPCACHE "Enable the Zend OPcache extension" ON)
 
-add_feature_info(
-  "ext/opcache"
-  PHP_EXT_OPCACHE
-  "PHP OPcode caching engine"
-)
+add_feature_info("ext/opcache" PHP_EXT_OPCACHE "PHP OPcode caching engine")
 
 cmake_dependent_option(
   PHP_EXT_OPCACHE_HUGE_CODE_PAGES
@@ -138,13 +135,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   )
 endif()
 
-set_target_properties(
-  php_ext_opcache
-  PROPERTIES
-    PHP_ZEND_EXTENSION TRUE
-)
+set_target_properties(php_ext_opcache PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
-target_compile_definitions(php_ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_opcache
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 if(PHP_EXT_OPCACHE_HUGE_CODE_PAGES)
   set(HAVE_HUGE_CODE_PAGES TRUE)
@@ -157,8 +153,10 @@ endif()
 # Check if JIT is supported by the target architecture.
 if(PHP_EXT_OPCACHE_JIT)
   if(
-    NOT CMAKE_C_COMPILER_ARCHITECTURE_ID
-    MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86|ARM64)"
+    NOT
+      CMAKE_C_COMPILER_ARCHITECTURE_ID
+        MATCHES
+        "(i[3456]86|x86_64|aarch64|arm64|x64|X86|ARM64)"
   )
     message(
       WARNING
@@ -181,9 +179,7 @@ endif()
 
 target_include_directories(
   php_ext_opcache
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 if(PHP_EXT_OPCACHE_JIT)
@@ -224,8 +220,7 @@ if(PHP_EXT_OPCACHE_JIT)
   add_executable(php_ext_opcache_jit_minilua jit/dynasm/minilua.c)
   set_target_properties(
     php_ext_opcache_jit_minilua
-    PROPERTIES
-      RUNTIME_OUTPUT_DIRECTORY CMakeFiles
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
 
   # Link math library as needed.
@@ -241,8 +236,7 @@ if(PHP_EXT_OPCACHE_JIT)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jit)
 
   cmake_path(
-    RELATIVE_PATH
-    CMAKE_CURRENT_BINARY_DIR
+    RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relative_dir
   )
@@ -252,15 +246,12 @@ if(PHP_EXT_OPCACHE_JIT)
     OUTPUT jit/zend_jit_${dasm_arch}.c
     COMMAND
       php_ext_opcache_jit_minilua
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua
-        ${dasm_flags}
-        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${dasm_arch}.dasc
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/dynasm/dynasm.lua ${dasm_flags} -o
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_${dasm_arch}.dasc
     COMMENT
       "[ext/opcache] Generating ${relative_dir}/jit/zend_jit_${dasm_arch}.c"
-    DEPENDS
-      jit/dynasm/dynasm.lua
-      jit/zend_jit_${dasm_arch}.dasc
+    DEPENDS jit/dynasm/dynasm.lua jit/zend_jit_${dasm_arch}.dasc
     VERBATIM
     COMMAND_EXPAND_LISTS
   )
@@ -281,7 +272,9 @@ if(PHP_EXT_OPCACHE_JIT)
   )
 
   foreach(
-    file IN ITEMS
+    file
+    IN
+    ITEMS
       ${CMAKE_CURRENT_BINARY_DIR}/jit/zend_jit_${dasm_arch}.c
       ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_disasm.c
       ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_gdb.c
@@ -297,8 +290,7 @@ if(PHP_EXT_OPCACHE_JIT)
     set_property(
       SOURCE jit/zend_jit.c
       APPEND
-      PROPERTY
-        OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_elf.c
+      PROPERTY OBJECT_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_elf.c
     )
   endif()
 
@@ -333,11 +325,7 @@ if(PHP_EXT_OPCACHE_JIT)
   set(HAVE_JIT TRUE)
 endif()
 
-add_feature_info(
-  "ext/opcache JIT"
-  HAVE_JIT
-  "OPcache just-in-time compilation"
-)
+add_feature_info("ext/opcache JIT" HAVE_JIT "OPcache just-in-time compilation")
 
 add_feature_info(
   "ext/opcache Capstone"

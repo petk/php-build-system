@@ -129,16 +129,20 @@ check_symbol_exists(strcasecmp strings.h ${libmbfl_NAMESPACE}_HAVE_STRCASECMP)
 set(HAVE_STRCASECMP ${${libmbfl_NAMESPACE}_HAVE_STRCASECMP})
 
 cmake_path(
-  RELATIVE_PATH
-  CMAKE_CURRENT_BINARY_DIR
+  RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
   BASE_DIRECTORY ${CMAKE_BINARY_DIR}
   OUTPUT_VARIABLE relative_dir
 )
 message(STATUS "Creating ${relative_dir}/config.h")
-file(CONFIGURE OUTPUT config.h CONTENT [[
+file(
+  CONFIGURE
+  OUTPUT config.h
+  CONTENT
+    [[
 /* Define to 1 if you have the 'strcasecmp' function. */
 #cmakedefine HAVE_STRCASECMP 1
 
 /* Define to 1 if you have the <strings.h> header file. */
 #cmakedefine HAVE_STRINGS_H 1
-]])
+]]
+)

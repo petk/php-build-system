@@ -18,10 +18,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_POSIX
-  LANGUAGES C
-)
+project(PHP_EXT_POSIX LANGUAGES C)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -35,11 +32,7 @@ include(FeatureSummary)
 
 option(PHP_EXT_POSIX "Enable the posix extension (POSIX-like functions)" ON)
 
-add_feature_info(
-  "ext/posix"
-  PHP_EXT_POSIX
-  "IEEE 1003.1 (POSIX.1) interface"
-)
+add_feature_info("ext/posix" PHP_EXT_POSIX "IEEE 1003.1 (POSIX.1) interface")
 
 if(NOT PHP_EXT_POSIX)
   return()
@@ -56,24 +49,22 @@ else()
   add_library(php_ext_posix OBJECT)
 endif()
 
-target_sources(
-  php_ext_posix
-  PRIVATE
-    posix.c
-    posix.stub.php
-)
+target_sources(php_ext_posix PRIVATE posix.c posix.stub.php)
 
 target_include_directories(php_ext_posix PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-target_compile_definitions(php_ext_posix PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_posix
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 check_symbol_exists(ctermid stdio.h PHP_EXT_POSIX_HAVE_CTERMID)
 set(HAVE_CTERMID ${PHP_EXT_POSIX_HAVE_CTERMID})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(eaccess unistd.h PHP_EXT_POSIX_HAVE_EACCESS)
-  set(HAVE_EACCESS ${PHP_EXT_POSIX_HAVE_EACCESS})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(eaccess unistd.h PHP_EXT_POSIX_HAVE_EACCESS)
+set(HAVE_EACCESS ${PHP_EXT_POSIX_HAVE_EACCESS})
 cmake_pop_check_state()
 
 check_symbol_exists(getgrgid_r grp.h PHP_EXT_POSIX_HAVE_GETGRGID_R)
@@ -147,17 +138,14 @@ include(PHP/CheckSysMacros)
 include(cmake/CheckTtynameR.cmake)
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_struct_has_member(
-    "struct utsname"
-    domainname
-    sys/utsname.h
-    PHP_EXT_POSIX_HAVE_STRUCT_UTSNAME_DOMAINNAME
-  )
-  set(
-    HAVE_UTSNAME_DOMAINNAME
-    ${PHP_EXT_POSIX_HAVE_STRUCT_UTSNAME_DOMAINNAME}
-  )
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_struct_has_member(
+  "struct utsname"
+  domainname
+  sys/utsname.h
+  PHP_EXT_POSIX_HAVE_STRUCT_UTSNAME_DOMAINNAME
+)
+set(HAVE_UTSNAME_DOMAINNAME ${PHP_EXT_POSIX_HAVE_STRUCT_UTSNAME_DOMAINNAME})
 cmake_pop_check_state()
 
 set(HAVE_POSIX TRUE)

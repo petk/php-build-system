@@ -151,10 +151,7 @@ endif()
 
 target_sources(
   php_ext_pdo_mysql
-  PRIVATE
-    mysql_driver.c
-    mysql_statement.c
-    pdo_mysql.c
+  PRIVATE mysql_driver.c mysql_statement.c pdo_mysql.c
 )
 
 set_property(
@@ -165,15 +162,12 @@ set_property(
 
 target_compile_definitions(
   php_ext_pdo_mysql
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_include_directories(
   php_ext_pdo_mysql
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 if(PHP_EXT_PDO_MYSQL_SOCKET_PATH)
