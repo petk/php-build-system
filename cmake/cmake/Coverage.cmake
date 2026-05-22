@@ -9,9 +9,7 @@ endif()
 find_package(Coverage)
 set_package_properties(
   Coverage
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable code coverage."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable code coverage."
 )
 
 if(NOT TARGET Coverage::Coverage)
@@ -41,7 +39,11 @@ set_package_properties(
 )
 
 if(TARGET CoverageGcovr::gcovr)
-  file(CONFIGURE OUTPUT gcovr.cfg CONTENT [[
+  file(
+    CONFIGURE
+    OUTPUT gcovr.cfg
+    CONTENT
+      [[
 print-summary = yes
 gcov-parallel = yes
 
@@ -63,7 +65,9 @@ exclude-lines-by-pattern = .*\b(ZEND_PARSE_PARAMETERS_(START|END|NONE)|Z_PARAM_)
 exclude-lines-by-pattern = \s*(default:\s*)?ZEND_UNREACHABLE\(\);\s*
 exclude-lines-by-pattern = \s*if \(ctx->debug_level & ZEND_DUMP_\w+\) \{\s*
 exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
-]] @ONLY)
+]]
+    @ONLY
+  )
 
   if(php_sapis)
     set(depends_argument DEPENDS ${php_sapis})
@@ -74,7 +78,8 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
   add_custom_target(
     php_coverage_gcovr_html
     ${depends_argument}
-    COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html
+    COMMAND
+      ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html
     # gersemi: off
     COMMAND
       CoverageGcovr::gcovr
@@ -158,7 +163,10 @@ if(TARGET CoverageLcov::lcov AND TARGET CoverageLcov::genhtml)
   endif()
 
   if(PHP_EXT_OPCACHE)
-    list(APPEND patterns "${CMAKE_CURRENT_SOURCE_DIR}/ext/opcache/jit/libudis86/*")
+    list(
+      APPEND patterns
+      "${CMAKE_CURRENT_SOURCE_DIR}/ext/opcache/jit/libudis86/*"
+    )
   endif()
 
   add_custom_command(

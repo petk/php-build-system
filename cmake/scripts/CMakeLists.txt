@@ -9,20 +9,26 @@ php_pkgconfig_generate_pc(
   VARIABLES
     prefix "$<INSTALL_PREFIX>"
     exec_prefix "$<INSTALL_PREFIX>"
-    includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
-    libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
+    includedir
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_INCLUDEDIR},$<INSTALL_PREFIX>>"
+    libdir
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${CMAKE_INSTALL_LIBDIR},$<INSTALL_PREFIX>>"
     PHP_INSTALL_INCLUDEDIR_SUFFIX "${PHP_INSTALL_INCLUDEDIR_SUFFIX}"
     PHP_VERSION "${PHP_VERSION}"
     PHP_VERSION_ID "${PHP_VERSION_ID}"
     PHP_HOMEPAGE_URL "${PHP_HOMEPAGE_URL}"
     PHP_SPDX_LICENSE "${PHP_SPDX_LICENSE}"
-    PHP_EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
-    PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
-    PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
+    PHP_EXTENSION_DIR
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_EXTENSION_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_SCAN_DIR
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_SCAN_DIR},$<INSTALL_PREFIX>>"
+    PHP_CONFIG_FILE_PATH
+      "$<PATH:ABSOLUTE_PATH,NORMALIZE,${PHP_CONFIG_FILE_PATH},$<INSTALL_PREFIX>>"
     PHP_DEBUG "$<IF:$<CONFIG:Debug,PhpRelWithDebInfo>,yes,no>"
     PHP_THREAD_SAFETY "$<IF:$<BOOL:${PHP_THREAD_SAFETY}>,yes,no>"
     PHP_API_VERSION "${PHP_API_VERSION}"
-    PHP_ZEND_EXTENSION_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>"
+    PHP_ZEND_EXTENSION_API_NO
+      "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_EXTENSION_API_NO>"
     PHP_ZEND_MODULE_API_NO "$<TARGET_PROPERTY:PHP::Zend,PHP_ZEND_MODULE_API_NO>"
 )
 
@@ -72,7 +78,7 @@ endblock()
 find_program(
   PHP_SED_EXECUTABLE
   NAMES
-    sed  # Default name available on most *nix systems
+    sed # Default name available on most *nix systems
     gsed # Brew gnu-sed package
   NAMES_PER_DIR
   DOC "Path to the stream editor (sed) for filtering and transforming text"
@@ -95,64 +101,70 @@ block()
   # template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/php-config.in" content)
   string(
-    REPLACE
-    [[include_dir="@includedir@/php"]]
+    REPLACE [[include_dir="@includedir@/php"]]
     [[include_dir="@includedir@"]]
     content
     "${content}"
   )
   file(
-    WRITE
-    "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-config.in"
+    WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/php-config.in"
     "${content}"
   )
 
-  string(CONFIGURE [[
-    set(SED "@PHP_SED@")
-    set(prefix "${CMAKE_INSTALL_PREFIX}")
-    set(datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATAROOTDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
-    set(PHP_VERSION "@PHP_VERSION@")
-    set(PHP_VERSION_ID "@PHP_VERSION_ID@")
-    set(includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_INCLUDEDIR@,${CMAKE_INSTALL_PREFIX}>")
-    # TODO:
-    set(PHP_LDFLAGS "")
-    # TODO:
-    set(EXTRA_LIBS "")
-    set(EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(program_prefix "@PHP_PROGRAM_PREFIX@")
-    set(program_suffix "@PHP_PROGRAM_SUFFIX@")
-    set(EXEEXT "@CMAKE_EXECUTABLE_SUFFIX@")
-    set(CONFIGURE_OPTIONS "")
-    set(PHP_INSTALLED_SAPIS "@sapis@")
-    set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
-    set(bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        set(SED "@PHP_SED@")
+        set(prefix "${CMAKE_INSTALL_PREFIX}")
+        set(datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATAROOTDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+        set(PHP_VERSION "@PHP_VERSION@")
+        set(PHP_VERSION_ID "@PHP_VERSION_ID@")
+        set(includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_INCLUDEDIR@,${CMAKE_INSTALL_PREFIX}>")
+        # TODO:
+        set(PHP_LDFLAGS "")
+        # TODO:
+        set(EXTRA_LIBS "")
+        set(EXTENSION_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_EXTENSION_DIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(mandir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_MANDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(program_prefix "@PHP_PROGRAM_PREFIX@")
+        set(program_suffix "@PHP_PROGRAM_SUFFIX@")
+        set(EXEEXT "@CMAKE_EXECUTABLE_SUFFIX@")
+        set(CONFIGURE_OPTIONS "")
+        set(PHP_INSTALLED_SAPIS "@sapis@")
+        set(EXPANDED_PHP_CONFIG_FILE_SCAN_DIR "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_SCAN_DIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(EXPANDED_PHP_CONFIG_FILE_PATH "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_CONFIG_FILE_PATH@,${CMAKE_INSTALL_PREFIX}>")
+        set(bindir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>")
+      ]]
+    code
+    @ONLY
+  )
   cmake_language(EVAL CODE "${code}")
   string(CONFIGURE "${content}" content @ONLY)
   file(
-    GENERATE
-    OUTPUT ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
+    GENERATE OUTPUT ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
     CONTENT "${content}"
   )
 
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
-  string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-config.in"
-      "@PHP_BINARY_DIR@/$<CONFIG>/scripts/php-config"
-      @ONLY
-    )
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        @code@
+        configure_file(
+          "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/php-config.in"
+          "@PHP_BINARY_DIR@/$<CONFIG>/scripts/php-config"
+          @ONLY
+        )
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-development)
 
   install(
-    PROGRAMS
-    ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
+    PROGRAMS ${PHP_BINARY_DIR}/$<CONFIG>/scripts/php-config
     DESTINATION ${PHP_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}php-config${PHP_PROGRAM_SUFFIX}
     COMPONENT php-development
@@ -170,41 +182,52 @@ block()
   # include directory to a template placeholder.
   file(READ "${CMAKE_CURRENT_SOURCE_DIR}/phpize.in" content)
   string(
-    REPLACE
-    [[includedir="`eval echo @includedir@`/php"]]
+    REPLACE [[includedir="`eval echo @includedir@`/php"]]
     [[includedir="@includedir@"]]
     content
     "${content}"
   )
-  file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/phpize.in" "${content}")
+  file(
+    WRITE "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/phpize.in"
+    "${content}"
+  )
 
-  string(CONFIGURE [[
-    set(prefix "${CMAKE_INSTALL_PREFIX}")
-    set(datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATAROOTDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
-    set(libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_LIBDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_INCLUDEDIR@,${CMAKE_INSTALL_PREFIX}>")
-    set(SED "@PHP_SED@")
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        set(prefix "${CMAKE_INSTALL_PREFIX}")
+        set(datarootdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@CMAKE_INSTALL_DATAROOTDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(exec_prefix "${CMAKE_INSTALL_PREFIX}")
+        set(libdir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_LIBDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(includedir "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_INCLUDEDIR@,${CMAKE_INSTALL_PREFIX}>")
+        set(SED "@PHP_SED@")
+      ]]
+    code
+    @ONLY
+  )
   cmake_language(EVAL CODE "${code}")
   string(CONFIGURE "${content}" content @ONLY)
   file(GENERATE OUTPUT phpize CONTENT "${content}")
 
   # Regenerate file on the install step when using different installation prefix
   # at the 'cmake --install ... --prefix <install-prefix>' phase.
-  string(CONFIGURE [[
-    @code@
-    configure_file(
-      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/phpize.in"
-      "@CMAKE_CURRENT_BINARY_DIR@/phpize"
-      @ONLY
-    )
-  ]] code @ONLY)
+  string(
+    CONFIGURE
+      [[
+        @code@
+        configure_file(
+          "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/PHP/phpize.in"
+          "@CMAKE_CURRENT_BINARY_DIR@/phpize"
+          @ONLY
+        )
+      ]]
+    code
+    @ONLY
+  )
   install(CODE "${code}" COMPONENT php-development)
 
   install(
-    PROGRAMS
-    ${CMAKE_CURRENT_BINARY_DIR}/phpize
+    PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/phpize
     DESTINATION ${PHP_INSTALL_BINDIR}
     RENAME ${PHP_PROGRAM_PREFIX}phpize${PHP_PROGRAM_SUFFIX}
     COMPONENT php-development
