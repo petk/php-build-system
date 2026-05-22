@@ -28,23 +28,23 @@ target_link_libraries(php_ext_com_dotnet_comtest PRIVATE oleaut32)
 add_dependencies(php_ext_com_dotnet php_ext_com_dotnet_comtest)
 
 add_custom_command(
-  OUTPUT
-    comtest/comtest.h
-    comtest/comtest_i.c
-    comtest/comtest.tlb
+  OUTPUT comtest/comtest.h comtest/comtest_i.c comtest/comtest.tlb
   COMMAND
-    ${PHP_MIDL_EXECUTABLE}
-    /nologo
-    /h ${CMAKE_CURRENT_BINARY_DIR}/comtest/comtest.h
-    /iid ${CMAKE_CURRENT_BINARY_DIR}/comtest/comtest_i.c
-    /tlb ${CMAKE_CURRENT_BINARY_DIR}/comtest/comtest.tlb
+    ${PHP_MIDL_EXECUTABLE} /nologo /h
+    ${CMAKE_CURRENT_BINARY_DIR}/comtest/comtest.h /iid
+    ${CMAKE_CURRENT_BINARY_DIR}/comtest/comtest_i.c /tlb
+    ${CMAKE_CURRENT_BINARY_DIR}/comtest/comtest.tlb
     ${CMAKE_CURRENT_SOURCE_DIR}/comtest/comtest.idl
   COMMENT "[ext/com_dotnet] Generating comtest library sources"
   VERBATIM
   COMMAND_EXPAND_LISTS
 )
 
-file(CONFIGURE OUTPUT register.cmake CONTENT [[
+file(
+  CONFIGURE
+  OUTPUT register.cmake
+  CONTENT
+    [[
   message(STATUS "[ext/com_dotnet] Adding keys to Windows Registry for tests")
 
   execute_process(
@@ -101,9 +101,14 @@ file(CONFIGURE OUTPUT register.cmake CONTENT [[
         /d "{B13FE324-D595-44C7-97D7-82CE20EDF878}"
         /f > NUL
   )
-]])
+]]
+)
 
-file(CONFIGURE OUTPUT unregister.cmake CONTENT [[
+file(
+  CONFIGURE
+  OUTPUT unregister.cmake
+  CONTENT
+    [[
   message(STATUS "[ext/com_dotnet] Removing keys from Windows Registry for tests")
 
   execute_process(
@@ -111,7 +116,8 @@ file(CONFIGURE OUTPUT unregister.cmake CONTENT [[
     COMMAND reg delete "HKCU\\SOFTWARE\\Classes\\CLSID\\{B13FE324-D595-44C7-97D7-82CE20EDF878}" /f > NUL
     COMMAND reg delete "HKCU\\SOFTWARE\\Classes\\TypeLib\\{AE8685BE-3758-4BDA-91DB-1459EBA24747}" /f > NUL
   )
-]])
+]]
+)
 
 add_test(
   NAME PhpExtComDotNetRegisterComTest
@@ -119,8 +125,7 @@ add_test(
 )
 set_tests_properties(
   PhpExtComDotNetRegisterComTest
-  PROPERTIES
-    FIXTURES_SETUP PhpExtComDotNetFixtures
+  PROPERTIES FIXTURES_SETUP PhpExtComDotNetFixtures
 )
 
 add_test(
@@ -129,8 +134,7 @@ add_test(
 )
 set_tests_properties(
   PhpExtComDotNetUnregisterComTest
-  PROPERTIES
-    FIXTURES_CLEANUP PhpExtComDotNetFixtures
+  PROPERTIES FIXTURES_CLEANUP PhpExtComDotNetFixtures
 )
 
 if(PHP_SOURCE_DIR)
@@ -143,6 +147,5 @@ set_property(
   TEST PhpRunTests
   DIRECTORY ${dir}
   APPEND
-  PROPERTY
-  FIXTURES_REQUIRED PhpExtComDotNetFixtures
+  PROPERTY FIXTURES_REQUIRED PhpExtComDotNetFixtures
 )

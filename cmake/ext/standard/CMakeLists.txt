@@ -25,7 +25,8 @@ bundled PHP crypt.
 project(
   PHP_EXT_STANDARD
   LANGUAGES C
-  SPDX_LICENSE "PHP-3.01 AND BSD-3-Clause AND BSD-4-Clause AND BSD-2-Clause AND ISC AND Apache-1.1 AND TCL AND Zlib"
+  SPDX_LICENSE
+    "PHP-3.01 AND BSD-3-Clause AND BSD-4-Clause AND BSD-2-Clause AND ISC AND Apache-1.1 AND TCL AND Zlib"
 )
 
 if(PROJECT_IS_TOP_LEVEL)
@@ -41,11 +42,7 @@ include(CheckSymbolExists)
 include(FeatureSummary)
 include(PHP/SearchLibraries)
 
-add_feature_info(
-  "ext/standard"
-  TRUE
-  "PHP core extension"
-)
+add_feature_info("ext/standard" TRUE "PHP core extension")
 
 option(PHP_EXT_STANDARD_ARGON2 "Include the Argon2 support in password_*")
 add_feature_info(
@@ -210,29 +207,31 @@ target_sources(
 
 if(
   NOT CMAKE_SYSTEM_NAME STREQUAL "Windows"
-  OR (
-    CMAKE_SYSTEM_NAME STREQUAL "Windows"
-    AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM|arm|aarch64)"
-  )
+  OR
+    (
+      CMAKE_SYSTEM_NAME STREQUAL "Windows"
+      AND NOT CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "(ARM|arm|aarch64)"
+    )
 )
   target_sources(php_ext_standard PRIVATE crc32_x86.c)
 endif()
 
 target_include_directories(
   php_ext_standard
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
-target_compile_definitions(php_ext_standard PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_standard
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 # The standard extension depends on the generated Zend language parser.
 add_dependencies(php_ext_standard PHP::Zend)
 
 target_link_libraries(
   php_ext_standard
-  PRIVATE
-    $<$<PLATFORM_ID:Windows>:iphlpapi>
+  PRIVATE $<$<PLATFORM_ID:Windows>:iphlpapi>
 )
 
 ################################################################################
@@ -279,9 +278,7 @@ else()
   find_package(Crypt)
   set_package_properties(
     Crypt
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to use external crypt library."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to use external crypt library."
   )
 
   if(TARGET Crypt::Crypt)
@@ -331,8 +328,7 @@ php_search_libraries(
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
-  LIBRARIES
-    resolv # Solaris/illumos
+  LIBRARIES resolv # Solaris/illumos
   RESULT_VARIABLE PHP_HAVE_DN_EXPAND
   TARGET php_ext_standard PRIVATE
 )
@@ -343,8 +339,7 @@ php_search_libraries(
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
-  LIBRARIES
-    resolv # Solaris/illumos
+  LIBRARIES resolv # Solaris/illumos
   RESULT_VARIABLE PHP_HAVE_DN_SKIPNAME
   TARGET php_ext_standard PRIVATE
 )
@@ -355,10 +350,8 @@ set(HAVE_DN_SKIPNAME ${PHP_HAVE_DN_SKIPNAME})
 # library needs to be linked on macOS.
 php_search_libraries(
   SYMBOL res_9_dn_skipname
-  HEADERS
-    resolv.h
-  LIBRARIES
-    resolv # macOS
+  HEADERS resolv.h
+  LIBRARIES resolv # macOS
   RESULT_VARIABLE PHP_HAVE_RES_9_DN_SKIPNAME
   TARGET php_ext_standard PRIVATE
 )
@@ -368,9 +361,8 @@ php_search_libraries(
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
-    dns.h        # macOS
-  LIBRARIES
-    resolv # Solaris/illumos, macOS
+    dns.h # macOS
+  LIBRARIES resolv # Solaris/illumos, macOS
   RESULT_VARIABLE PHP_HAVE_DNS_SEARCH
   TARGET php_ext_standard PRIVATE
 )
@@ -381,8 +373,7 @@ php_search_libraries(
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
-  LIBRARIES
-    resolv # Solaris/illumos
+  LIBRARIES resolv # Solaris/illumos
   RESULT_VARIABLE PHP_HAVE_RES_NDESTROY
   TARGET php_ext_standard PRIVATE
 )
@@ -393,8 +384,7 @@ php_search_libraries(
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
-  LIBRARIES
-    resolv # Solaris/illumos
+  LIBRARIES resolv # Solaris/illumos
   RESULT_VARIABLE PHP_HAVE_RES_NSEARCH
   TARGET php_ext_standard PRIVATE
 )
@@ -406,8 +396,7 @@ php_search_libraries(
   HEADERS
     netinet/in.h # BSD-based systems (FreeBSD<=13) need it for resolv.h to work.
     resolv.h
-  LIBRARIES
-    resolv # Solaris/illumos
+  LIBRARIES resolv # Solaris/illumos
   RESULT_VARIABLE PHP_HAVE_RES_SEARCH
   TARGET php_ext_standard PRIVATE
 )
@@ -423,11 +412,7 @@ set(
   ${PHP_HAVE_POSIX_SPAWN_FILE_ACTIONS_ADDCHDIR_NP}
 )
 
-check_symbol_exists(
-  elf_aux_info
-  sys/auxv.h
-  PHP_HAVE_ELF_AUX_INFO
-)
+check_symbol_exists(elf_aux_info sys/auxv.h PHP_HAVE_ELF_AUX_INFO)
 set(HAVE_ELF_AUX_INFO ${PHP_HAVE_ELF_AUX_INFO})
 
 ################################################################################
@@ -443,8 +428,8 @@ block()
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_credits.timestamp
     DEPENDS ${credits}
     COMMAND
-      ${CMAKE_COMMAND}
-        -E touch ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_credits.timestamp
+      ${CMAKE_COMMAND} -E touch
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_credits.timestamp
     COMMAND
       ${CMAKE_COMMAND} -P ${PHP_SOURCE_DIR}/cmake/scripts/GenerateCredits.cmake
     COMMENT "Regenerating ext/standard/credits_*.h"
@@ -454,8 +439,7 @@ block()
 
   add_custom_target(
     php_ext_standard_credits
-    DEPENDS
-      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_credits.timestamp
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_credits.timestamp
   )
 
   add_dependencies(php_ext_standard php_ext_standard_credits)
@@ -504,8 +488,7 @@ set_target_properties(
 
 target_compile_definitions(
   php_ext_standard_functions_cli
-  PRIVATE
-    $<$<NOT:$<PLATFORM_ID:Windows>>:ENABLE_CHROOT_FUNC>
+  PRIVATE $<$<NOT:$<PLATFORM_ID:Windows>>:ENABLE_CHROOT_FUNC>
 )
 
 # ext/standard functions objects based on the SAPI type.
@@ -532,7 +515,8 @@ php_add_command(
   EXCLUDE_FROM_ALL
   ARGS
     ${CMAKE_CURRENT_SOURCE_DIR}/html_tables/html_table_gen.php
-    > ${CMAKE_CURRENT_SOURCE_DIR}/html_tables.h
+    >
+    ${CMAKE_CURRENT_SOURCE_DIR}/html_tables.h
   REQUIRED_EXTENSIONS mbstring
   OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/html_tables.h
   DEPENDS
@@ -551,9 +535,7 @@ include(PHP/Package/ZLIB)
 find_package(ZLIB ${PHP_PACKAGE_ZLIB_MIN_VERSION})
 set_package_properties(
   ZLIB
-  PROPERTIES
-    TYPE RECOMMENDED
-    PURPOSE "Enables support for SWC files."
+  PROPERTIES TYPE RECOMMENDED PURPOSE "Enables support for SWC files."
 )
 
 if(TARGET ZLIB::ZLIB)

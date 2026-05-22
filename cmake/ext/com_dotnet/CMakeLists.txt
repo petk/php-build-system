@@ -43,10 +43,7 @@ Enables the .NET Framework support.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_COM_DOTNET
-  LANGUAGES C
-)
+project(PHP_EXT_COM_DOTNET LANGUAGES C)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
   return()
@@ -108,8 +105,7 @@ target_sources(
 
 target_compile_definitions(
   php_ext_com_dotnet
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_link_libraries(php_ext_com_dotnet PRIVATE oleaut32)

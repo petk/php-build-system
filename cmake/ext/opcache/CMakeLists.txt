@@ -42,11 +42,7 @@ Enables OPcache JIT disassembly through Capstone engine.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_OPCACHE
-  SPDX_LICENSE "PHP-3.01 AND MIT"
-  LANGUAGES C
-)
+project(PHP_EXT_OPCACHE SPDX_LICENSE "PHP-3.01 AND MIT" LANGUAGES C)
 
 if(PROJECT_IS_TOP_LEVEL)
   message(
@@ -60,11 +56,7 @@ include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
-add_feature_info(
-  "ext/opcache"
-  TRUE
-  "PHP OPcode caching engine"
-)
+add_feature_info("ext/opcache" TRUE "PHP OPcode caching engine")
 
 cmake_dependent_option(
   PHP_EXT_OPCACHE_HUGE_CODE_PAGES
@@ -116,10 +108,7 @@ target_sources(
     zend_persist.c
     zend_shared_alloc.c
     ZendAccelerator.c
-    PUBLIC
-    FILE_SET HEADERS
-      FILES
-        zend_accelerator_api.h
+  PUBLIC FILE_SET HEADERS FILES zend_accelerator_api.h
 )
 
 set_property(
@@ -136,13 +125,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
   )
 endif()
 
-set_target_properties(
-  php_ext_opcache
-  PROPERTIES
-    PHP_ZEND_EXTENSION TRUE
-)
+set_target_properties(php_ext_opcache PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
-target_compile_definitions(php_ext_opcache PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
+target_compile_definitions(
+  php_ext_opcache
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
 
 if(PHP_EXT_OPCACHE_HUGE_CODE_PAGES)
   set(HAVE_HUGE_CODE_PAGES TRUE)
@@ -165,8 +153,10 @@ if(PHP_EXT_OPCACHE_JIT)
     )
     set_property(CACHE PHP_EXT_OPCACHE_JIT PROPERTY VALUE OFF)
   elseif(
-    NOT CMAKE_C_COMPILER_ARCHITECTURE_ID
-    MATCHES "(i[3456]86|x86_64|aarch64|arm64|x64|X86)"
+    NOT
+      CMAKE_C_COMPILER_ARCHITECTURE_ID
+        MATCHES
+        "(i[3456]86|x86_64|aarch64|arm64|x64|X86)"
   )
     message(
       WARNING
@@ -189,9 +179,7 @@ endif()
 
 target_include_directories(
   php_ext_opcache
-  PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 if(PHP_EXT_OPCACHE_JIT)
@@ -240,8 +228,7 @@ if(PHP_EXT_OPCACHE_JIT)
   add_executable(php_ext_opcache_jit_minilua jit/ir/dynasm/minilua.c)
   set_target_properties(
     php_ext_opcache_jit_minilua
-    PROPERTIES
-      RUNTIME_OUTPUT_DIRECTORY CMakeFiles
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
 
   include(PHP/SearchLibraries)
@@ -259,8 +246,7 @@ if(PHP_EXT_OPCACHE_JIT)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jit/ir)
 
   cmake_path(
-    RELATIVE_PATH
-    CMAKE_CURRENT_BINARY_DIR
+    RELATIVE_PATH CMAKE_CURRENT_BINARY_DIR
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relative_dir
   )
@@ -270,15 +256,12 @@ if(PHP_EXT_OPCACHE_JIT)
     OUTPUT jit/ir/ir_emit_${dasm_arch}.h
     COMMAND
       php_ext_opcache_jit_minilua
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua
-        ${dasm_flags}
-        -o ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${dasm_arch}.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${dasm_arch}.dasc
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/dynasm/dynasm.lua ${dasm_flags} -o
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_emit_${dasm_arch}.h
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_${dasm_arch}.dasc
     COMMENT
       "[ext/opcache] Generating native code generator ${relative_dir}/jit/ir/ir_emit_${dasm_arch}.h"
-    DEPENDS
-      jit/ir/dynasm/dynasm.lua
-      jit/ir/ir_${dasm_arch}.dasc
+    DEPENDS jit/ir/dynasm/dynasm.lua jit/ir/ir_${dasm_arch}.dasc
     VERBATIM
     COMMAND_EXPAND_LISTS
   )
@@ -287,28 +270,23 @@ if(PHP_EXT_OPCACHE_JIT)
   add_executable(php_ext_opcache_jit_generator jit/ir/gen_ir_fold_hash.c)
   target_compile_definitions(
     php_ext_opcache_jit_generator
-    PRIVATE
-      ${ir_target}
-      IR_PHP
-      IR_PHP_MM=0
+    PRIVATE ${ir_target} IR_PHP IR_PHP_MM=0
   )
   set_target_properties(
     php_ext_opcache_jit_generator
-    PROPERTIES
-      RUNTIME_OUTPUT_DIRECTORY CMakeFiles
+    PROPERTIES RUNTIME_OUTPUT_DIRECTORY CMakeFiles
   )
 
   # Generate IR folding engine rules header.
   add_custom_command(
     OUTPUT jit/ir/ir_fold_hash.h
     COMMAND
-      php_ext_opcache_jit_generator
-      < ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_fold.h
-      > ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
+      php_ext_opcache_jit_generator <
+      ${CMAKE_CURRENT_SOURCE_DIR}/jit/ir/ir_fold.h >
+      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir/ir_fold_hash.h
     COMMENT
       "[ext/opcache] Generating folding engine rules ${relative_dir}/jit/ir/ir_fold_hash.h"
-    DEPENDS
-      jit/ir/ir_fold.h
+    DEPENDS jit/ir/ir_fold.h
     VERBATIM
     COMMAND_EXPAND_LISTS
   )
@@ -341,20 +319,18 @@ if(PHP_EXT_OPCACHE_JIT)
 
   target_include_directories(
     php_ext_opcache
-    PRIVATE
-      ${CMAKE_CURRENT_BINARY_DIR}/jit/ir
+    PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/jit/ir
   )
 
   target_compile_definitions(
     php_ext_opcache
-    PRIVATE
-      IR_PHP
-      ${ir_target}
-      $<$<CONFIG:Debug,PhpRelWithDebInfo>:IR_DEBUG>
+    PRIVATE IR_PHP ${ir_target} $<$<CONFIG:Debug,PhpRelWithDebInfo>:IR_DEBUG>
   )
 
   foreach(
-    file IN ITEMS
+    file
+    IN
+    ITEMS
       ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_helpers.c
       ${CMAKE_CURRENT_SOURCE_DIR}/jit/zend_jit_ir.c
   )
@@ -381,11 +357,7 @@ if(PHP_EXT_OPCACHE_JIT)
   set(HAVE_JIT TRUE)
 endif()
 
-add_feature_info(
-  "ext/opcache JIT"
-  HAVE_JIT
-  "OPcache just-in-time compilation"
-)
+add_feature_info("ext/opcache JIT" HAVE_JIT "OPcache just-in-time compilation")
 
 add_feature_info(
   "ext/opcache Capstone"

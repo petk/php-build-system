@@ -23,10 +23,7 @@ Includes libmm support for session storage (only for non-ZTS build).
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SESSION
-  LANGUAGES C
-)
+project(PHP_EXT_SESSION LANGUAGES C)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
@@ -70,26 +67,15 @@ endif()
 
 target_sources(
   php_ext_session
-  PRIVATE
-    mod_files.c
-    mod_user_class.c
-    mod_user.c
-    session.c
-    session.stub.php
-  PUBLIC
-    FILE_SET HEADERS
-      FILES
-        mod_files.h
-        mod_user.h
-        php_session.h
+  PRIVATE mod_files.c mod_user_class.c mod_user.c session.c session.stub.php
+  PUBLIC FILE_SET HEADERS FILES mod_files.h mod_user.h php_session.h
 )
 
 target_include_directories(php_ext_session PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
 target_compile_definitions(
   php_ext_session
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 set_property(
@@ -99,11 +85,7 @@ set_property(
 )
 
 # Optional dependency for spl autoloading https://bugs.php.net/53141.
-set_property(
-  TARGET php_ext_session
-  APPEND
-  PROPERTY PHP_OPTIONAL_EXTENSIONS spl
-)
+set_property(TARGET php_ext_session APPEND PROPERTY PHP_OPTIONAL_EXTENSIONS spl)
 
 # Check whether pread() and pwrite() work.
 include(cmake/CheckPreadPwrite.cmake)
@@ -121,12 +103,8 @@ if(PHP_EXT_SESSION_MM)
 
   target_sources(
     php_ext_session
-    PRIVATE
-      mod_mm.c
-    PUBLIC
-      FILE_SET HEADERS
-        FILES
-          mod_mm.h
+    PRIVATE mod_mm.c
+    PUBLIC FILE_SET HEADERS FILES mod_mm.h
   )
 
   find_package(MM)

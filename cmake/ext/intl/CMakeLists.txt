@@ -16,10 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_INTL
-  LANGUAGES C
-)
+project(PHP_EXT_INTL LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -160,9 +157,7 @@ target_sources(
 
 target_include_directories(
   php_ext_intl
-  PRIVATE
-    ${CMAKE_CURRENT_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}
+  PRIVATE ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 include(PHP/CheckCompilerFlag)
@@ -171,8 +166,7 @@ php_check_compiler_flag(C -Wno-write-strings PHP_HAS_WNO_WRITE_STRINGS_C)
 if(PHP_HAS_WNO_WRITE_STRINGS_C)
   target_compile_options(
     php_ext_intl
-    PRIVATE
-      $<$<COMPILE_LANGUAGE:C>:-Wno-write-strings>
+    PRIVATE $<$<COMPILE_LANGUAGE:C>:-Wno-write-strings>
   )
 endif()
 
@@ -180,16 +174,14 @@ php_check_compiler_flag(CXX -Wno-write-strings PHP_HAS_WNO_WRITE_STRINGS_CXX)
 if(PHP_HAS_WNO_WRITE_STRINGS_CXX)
   target_compile_options(
     php_ext_intl
-    PRIVATE
-      $<$<COMPILE_LANGUAGE:CXX>:-Wno-write-strings>
+    PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-Wno-write-strings>
   )
 endif()
 
 # /EHsc enables exception handling.
 target_compile_options(
   php_ext_intl
-  PRIVATE
-    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<COMPILE_LANGUAGE:CXX>>:/EHsc>
+  PRIVATE $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<COMPILE_LANGUAGE:CXX>>:/EHsc>
 )
 
 target_compile_definitions(
@@ -203,17 +195,14 @@ target_compile_definitions(
 if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   target_compile_definitions(
     php_ext_intl
-    PRIVATE
-      $<$<COMPILE_LANGUAGE:CXX>:_POSIX_C_SOURCE=200809L>
+    PRIVATE $<$<COMPILE_LANGUAGE:CXX>:_POSIX_C_SOURCE=200809L>
   )
 endif()
 
 find_package(ICU 57.1 COMPONENTS i18n io uc)
 set_package_properties(
   ICU
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the intl extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the intl extension."
 )
 
 if(ICU_VERSION VERSION_GREATER_EQUAL 74)
@@ -228,8 +217,4 @@ if(ICU_VERSION VERSION_GREATER_EQUAL 60)
   target_compile_definitions(php_ext_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)
 endif()
 
-set_property(
-  TARGET php_ext_intl
-  APPEND
-  PROPERTY PHP_REQUIRED_EXTENSIONS date
-)
+set_property(TARGET php_ext_intl APPEND PROPERTY PHP_REQUIRED_EXTENSIONS date)

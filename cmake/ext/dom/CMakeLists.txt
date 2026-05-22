@@ -16,11 +16,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_DOM
-  SPDX_LICENSE "PHP-3.01"
-  LANGUAGES C
-)
+project(PHP_EXT_DOM SPDX_LICENSE "PHP-3.01" LANGUAGES C)
 
 include(FeatureSummary)
 
@@ -115,9 +111,7 @@ include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the dom extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the dom extension."
 )
 
 target_link_libraries(php_ext_dom PRIVATE LibXml2::LibXml2)

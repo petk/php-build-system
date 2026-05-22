@@ -15,20 +15,13 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_SOAP
-  LANGUAGES C
-)
+project(PHP_EXT_SOAP LANGUAGES C)
 
 include(FeatureSummary)
 
 option(PHP_EXT_SOAP "Enable the soap extension" ${PROJECT_IS_TOP_LEVEL})
 
-add_feature_info(
-  "ext/soap"
-  PHP_EXT_SOAP
-  "SOAP servers and clients support"
-)
+add_feature_info("ext/soap" PHP_EXT_SOAP "SOAP servers and clients support")
 
 if(NOT PHP_EXT_SOAP)
   return()
@@ -72,9 +65,7 @@ include(PHP/Package/LibXml2)
 
 set_package_properties(
   LibXml2
-  PROPERTIES
-    TYPE REQUIRED
-    PURPOSE "Necessary to enable the soap extension."
+  PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the soap extension."
 )
 
 target_link_libraries(php_ext_soap PRIVATE LibXml2::LibXml2)

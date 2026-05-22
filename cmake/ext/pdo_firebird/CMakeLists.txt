@@ -15,10 +15,7 @@ Enables the extension.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_PDO_FIREBIRD
-  LANGUAGES C
-)
+project(PHP_EXT_PDO_FIREBIRD LANGUAGES C)
 
 include(CheckCXXSymbolExists)
 include(CMakePushCheckState)
@@ -96,12 +93,12 @@ target_link_libraries(php_ext_pdo_firebird PRIVATE Firebird::Firebird)
 # Sanity check.
 if(TARGET Firebird::Firebird)
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_LIBRARIES Firebird::Firebird)
-    check_cxx_symbol_exists(
-      Firebird::fb_get_master_interface
-      firebird/Interface.h
-      PHP_EXT_PDO_FIREBIRD_SANITY_CHECK
-    )
+  set(CMAKE_REQUIRED_LIBRARIES Firebird::Firebird)
+  check_cxx_symbol_exists(
+    Firebird::fb_get_master_interface
+    firebird/Interface.h
+    PHP_EXT_PDO_FIREBIRD_SANITY_CHECK
+  )
   cmake_pop_check_state()
 
   if(NOT PHP_EXT_PDO_FIREBIRD_SANITY_CHECK)

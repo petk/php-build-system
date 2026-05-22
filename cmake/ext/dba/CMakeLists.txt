@@ -97,20 +97,13 @@ Enables the Tokyo Cabinet abstract DB handler.
 
 cmake_minimum_required(VERSION 4.3...4.4)
 
-project(
-  PHP_EXT_DBA
-  LANGUAGES C
-)
+project(PHP_EXT_DBA LANGUAGES C)
 
 include(CMakeDependentOption)
 include(FeatureSummary)
 
 option(PHP_EXT_DBA "Enable the dba extension" ${PROJECT_IS_TOP_LEVEL})
-add_feature_info(
-  "ext/dba"
-  PHP_EXT_DBA
-  "dbm-style database abstraction"
-)
+add_feature_info("ext/dba" PHP_EXT_DBA "dbm-style database abstraction")
 
 cmake_dependent_option(
   PHP_EXT_DBA_CDB
@@ -120,11 +113,7 @@ cmake_dependent_option(
   OFF
 )
 mark_as_advanced(PHP_EXT_DBA_CDB)
-add_feature_info(
-  "ext/dba cdb"
-  PHP_EXT_DBA_CDB
-  "constant databases handler"
-)
+add_feature_info("ext/dba cdb" PHP_EXT_DBA_CDB "constant databases handler")
 
 cmake_dependent_option(
   PHP_EXT_DBA_CDB_EXTERNAL
@@ -148,11 +137,7 @@ cmake_dependent_option(
   OFF
 )
 mark_as_advanced(PHP_EXT_DBA_DB)
-add_feature_info(
-  "ext/dba DB"
-  PHP_EXT_DBA_DB
-  "Berkeley DB handler"
-)
+add_feature_info("ext/dba DB" PHP_EXT_DBA_DB "Berkeley DB handler")
 
 cmake_dependent_option(
   PHP_EXT_DBA_DB1
@@ -231,11 +216,7 @@ cmake_dependent_option(
   OFF
 )
 mark_as_advanced(PHP_EXT_DBA_NDBM)
-add_feature_info(
-  "ext/dba ndbm"
-  PHP_EXT_DBA_NDBM
-  "new dbm handler"
-)
+add_feature_info("ext/dba ndbm" PHP_EXT_DBA_NDBM "new dbm handler")
 
 cmake_dependent_option(
   PHP_EXT_DBA_QDBM
@@ -264,11 +245,7 @@ cmake_dependent_option(
   PHP_EXT_DBA
   OFF
 )
-add_feature_info(
-  "ext/dba TCADB"
-  PHP_EXT_DBA_TCADB
-  "Tokyo Cabinet handler"
-)
+add_feature_info("ext/dba TCADB" PHP_EXT_DBA_TCADB "Tokyo Cabinet handler")
 
 if(NOT PHP_EXT_DBA)
   return()
@@ -285,12 +262,7 @@ else()
   add_library(php_ext_dba OBJECT)
 endif()
 
-target_sources(
-  php_ext_dba
-  PRIVATE
-    dba.c
-    dba.stub.php
-)
+target_sources(php_ext_dba PRIVATE dba.c dba.stub.php)
 
 target_include_directories(php_ext_dba PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -328,10 +300,7 @@ if(PHP_EXT_DBA_CDB)
   else()
     target_sources(
       php_ext_dba
-      PRIVATE
-        libcdb/cdb.c
-        libcdb/cdb_make.c
-        libcdb/uint32.c
+      PRIVATE libcdb/cdb.c libcdb/cdb_make.c libcdb/uint32.c
     )
     set(DBA_CDB_BUILTIN TRUE)
   endif()
@@ -350,7 +319,8 @@ if(PHP_EXT_DBA_DB)
     BerkeleyDB
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the Berkeley DB handler in the dba extension."
+      PURPOSE
+        "Necessary to enable the Berkeley DB handler in the dba extension."
   )
   target_link_libraries(php_ext_dba PRIVATE BerkeleyDB::BerkeleyDB)
 
@@ -365,10 +335,7 @@ if(PHP_EXT_DBA_DB)
       "Berkeley DB version ${BerkeleyDB_VERSION} is not supported. Supported "
       "versions are earlier than 4.1 or 4.1.25 and newer."
     )
-  elseif(
-    type STREQUAL "MODULE_LIBRARY"
-    AND BerkeleyDB_VERSION VERSION_LESS 3.3
-  )
+  elseif(type STREQUAL "MODULE_LIBRARY" AND BerkeleyDB_VERSION VERSION_LESS 3.3)
     message(
       FATAL_ERROR
       "When building dba extension as shared, at least Berkeley DB version 3.3 "
@@ -430,12 +397,7 @@ endif()
 # Flat-file.
 ################################################################################
 if(PHP_EXT_DBA_FLATFILE)
-  target_sources(
-    php_ext_dba
-    PRIVATE
-      dba_flatfile.c
-      libflatfile/flatfile.c
-  )
+  target_sources(php_ext_dba PRIVATE dba_flatfile.c libflatfile/flatfile.c)
 
   set(DBA_FLATFILE TRUE)
 endif()
@@ -444,12 +406,7 @@ endif()
 # INI-file.
 ################################################################################
 if(PHP_EXT_DBA_INIFILE)
-  target_sources(
-    php_ext_dba
-    PRIVATE
-      dba_inifile.c
-      libinifile/inifile.c
-  )
+  target_sources(php_ext_dba PRIVATE dba_inifile.c libinifile/inifile.c)
 
   set(DBA_INIFILE TRUE)
 endif()
@@ -523,7 +480,8 @@ if(PHP_EXT_DBA_TCADB)
     TokyoCabinet
     PROPERTIES
       TYPE REQUIRED
-      PURPOSE "Necessary to enable the Tokyo Cabinet handler in the dba extension."
+      PURPOSE
+        "Necessary to enable the Tokyo Cabinet handler in the dba extension."
   )
 
   target_link_libraries(php_ext_dba PRIVATE TokyoCabinet::TokyoCabinet)
