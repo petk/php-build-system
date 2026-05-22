@@ -239,38 +239,36 @@ check_struct_has_member(
 set(HAVE_STRUCT_STAT_ST_RDEV ${PHP_HAVE_STRUCT_STAT_ST_RDEV})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_EXTRA_INCLUDE_FILES "fcntl.h")
-  check_type_size(
-    "struct flock"
-    PHP_SIZEOF_STRUCT_FLOCK
-    RESULT_VARIABLE PHP_HAVE_STRUCT_FLOCK
-  )
-  set(HAVE_STRUCT_FLOCK ${PHP_HAVE_STRUCT_FLOCK})
+set(CMAKE_EXTRA_INCLUDE_FILES "fcntl.h")
+check_type_size(
+  "struct flock"
+  PHP_SIZEOF_STRUCT_FLOCK
+  RESULT_VARIABLE PHP_HAVE_STRUCT_FLOCK
+)
+set(HAVE_STRUCT_FLOCK ${PHP_HAVE_STRUCT_FLOCK})
 cmake_pop_check_state()
 
 # Check for sockaddr_storage and sockaddr.sa_len.
 cmake_push_check_state(RESET)
-  if(PHP_HAVE_SYS_SOCKET_H)
-    list(APPEND CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
-  endif()
-  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    list(APPEND CMAKE_EXTRA_INCLUDE_FILES "winsock2.h")
-  endif()
-
-  check_type_size(
-    "struct sockaddr_storage"
-    PHP_SIZEOF_STRUCT_SOCKADDR_STORAGE
-    RESULT_VARIABLE PHP_HAVE_STRUCT_SOCKADDR_STORAGE
-  )
-  set(HAVE_STRUCT_SOCKADDR_STORAGE ${PHP_HAVE_STRUCT_SOCKADDR_STORAGE})
-
-  check_struct_has_member(
-    "struct sockaddr"
-    sa_len
-    "${CMAKE_EXTRA_INCLUDE_FILES}"
-    PHP_HAVE_STRUCT_SOCKADDR_SA_LEN
-  )
-  set(HAVE_STRUCT_SOCKADDR_SA_LEN ${PHP_HAVE_STRUCT_SOCKADDR_SA_LEN})
+if(PHP_HAVE_SYS_SOCKET_H)
+  list(APPEND CMAKE_EXTRA_INCLUDE_FILES "sys/socket.h")
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  list(APPEND CMAKE_EXTRA_INCLUDE_FILES "winsock2.h")
+endif()
+check_type_size(
+  "struct sockaddr_storage"
+  PHP_SIZEOF_STRUCT_SOCKADDR_STORAGE
+  RESULT_VARIABLE PHP_HAVE_STRUCT_SOCKADDR_STORAGE
+)
+set(HAVE_STRUCT_SOCKADDR_STORAGE ${PHP_HAVE_STRUCT_SOCKADDR_STORAGE})
+check_struct_has_member(
+  "struct sockaddr"
+  sa_len
+  "${CMAKE_EXTRA_INCLUDE_FILES}"
+  PHP_HAVE_STRUCT_SOCKADDR_SA_LEN
+)
+set(HAVE_STRUCT_SOCKADDR_SA_LEN ${PHP_HAVE_STRUCT_SOCKADDR_SA_LEN})
 cmake_pop_check_state()
 
 ################################################################################
@@ -342,18 +340,18 @@ endif()
 
 # Check for socklen_t type.
 cmake_push_check_state(RESET)
-  if(PHP_HAVE_SYS_SOCKET_H)
-    list(APPEND CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
-  endif()
-  if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    list(APPEND CMAKE_EXTRA_INCLUDE_FILES ws2tcpip.h)
-  endif()
-  check_type_size(
-    "socklen_t"
-    PHP_SIZEOF_SOCKLEN_T
-    RESULT_VARIABLE PHP_HAVE_SOCKLEN_T
-  )
-  set(HAVE_SOCKLEN_T ${PHP_HAVE_SOCKLEN_T})
+if(PHP_HAVE_SYS_SOCKET_H)
+  list(APPEND CMAKE_EXTRA_INCLUDE_FILES sys/socket.h)
+endif()
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  list(APPEND CMAKE_EXTRA_INCLUDE_FILES ws2tcpip.h)
+endif()
+check_type_size(
+  "socklen_t"
+  PHP_SIZEOF_SOCKLEN_T
+  RESULT_VARIABLE PHP_HAVE_SOCKLEN_T
+)
+set(HAVE_SOCKLEN_T ${PHP_HAVE_SOCKLEN_T})
 cmake_pop_check_state()
 
 ################################################################################
@@ -465,9 +463,9 @@ check_symbol_exists(memcntl sys/mman.h PHP_HAVE_MEMCNTL)
 set(HAVE_MEMCNTL ${PHP_HAVE_MEMCNTL})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(memfd_create sys/mman.h PHP_HAVE_MEMFD_CREATE)
-  set(HAVE_MEMFD_CREATE ${PHP_HAVE_MEMFD_CREATE})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(memfd_create sys/mman.h PHP_HAVE_MEMFD_CREATE)
+set(HAVE_MEMFD_CREATE ${PHP_HAVE_MEMFD_CREATE})
 cmake_pop_check_state()
 
 check_symbol_exists(mkstemp stdlib.h PHP_HAVE_MKSTEMP)
@@ -564,27 +562,27 @@ endif()
 set(HAVE_UTIME ${PHP_HAVE_UTIME})
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(vasprintf stdio.h PHP_HAVE_VASPRINTF)
-  set(HAVE_VASPRINTF ${PHP_HAVE_VASPRINTF})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(vasprintf stdio.h PHP_HAVE_VASPRINTF)
+set(HAVE_VASPRINTF ${PHP_HAVE_VASPRINTF})
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(asprintf stdio.h PHP_HAVE_ASPRINTF)
-  set(HAVE_ASPRINTF ${PHP_HAVE_ASPRINTF})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(asprintf stdio.h PHP_HAVE_ASPRINTF)
+set(HAVE_ASPRINTF ${PHP_HAVE_ASPRINTF})
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(memmem string.h PHP_HAVE_MEMMEM)
-  set(HAVE_MEMMEM ${PHP_HAVE_MEMMEM})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(memmem string.h PHP_HAVE_MEMMEM)
+set(HAVE_MEMMEM ${PHP_HAVE_MEMMEM})
 cmake_pop_check_state()
 
 cmake_push_check_state(RESET)
-  set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
-  check_symbol_exists(memrchr string.h PHP_HAVE_MEMRCHR)
-  set(HAVE_MEMRCHR ${PHP_HAVE_MEMRCHR})
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(memrchr string.h PHP_HAVE_MEMRCHR)
+set(HAVE_MEMRCHR ${PHP_HAVE_MEMRCHR})
 cmake_pop_check_state()
 
 check_symbol_exists(strlcat string.h PHP_HAVE_STRLCAT)
@@ -638,13 +636,11 @@ endif()
 # The socket() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL socket
-  HEADERS
-    sys/socket.h
-    winsock2.h
+  HEADERS sys/socket.h winsock2.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_SOCKET
   LIBRARY_VARIABLE PHP_HAVE_SOCKET_LIBRARY
   TARGET php_config INTERFACE
@@ -655,7 +651,7 @@ php_search_libraries(
   SYMBOL socketpair
   HEADERS sys/socket.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
   RESULT_VARIABLE PHP_HAVE_SOCKETPAIR
   TARGET php_config INTERFACE
@@ -665,12 +661,10 @@ set(HAVE_SOCKETPAIR ${PHP_HAVE_SOCKETPAIR})
 # The gethostname() is mostly in C library (Solaris/illumos...)
 php_search_libraries(
   SYMBOL gethostname
-  HEADERS
-    unistd.h
-    winsock2.h
+  HEADERS unistd.h winsock2.h
   LIBRARIES
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_GETHOSTNAME
   LIBRARY_VARIABLE PHP_HAVE_GETHOSTNAME_LIBRARY
   TARGET php_config INTERFACE
@@ -680,14 +674,11 @@ set(HAVE_GETHOSTNAME ${PHP_HAVE_GETHOSTNAME})
 # The gethostbyaddr() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL gethostbyaddr
-  HEADERS
-    netdb.h
-    sys/socket.h
-    winsock2.h
+  HEADERS netdb.h sys/socket.h winsock2.h
   LIBRARIES
-    nsl     # Solaris <= 11.3, illumos
+    nsl # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAS_GETHOSTBYADDR
   LIBRARY_VARIABLE PHP_HAS_GETHOSTBYADDR_LIBRARY
   TARGET php_config INTERFACE
@@ -700,11 +691,11 @@ php_search_libraries(
   HEADERS
     pty.h
     libutil.h # FreeBSD
-    util.h    # macOS
+    util.h # macOS
     termios.h # Solaris, illumos, some BSD-based systems
   LIBRARIES
     util # Some BSD-based systems
-    bsd  # Haiku
+    bsd # Haiku
   RESULT_VARIABLE PHP_HAVE_OPENPTY
   TARGET php_config INTERFACE
 )
@@ -713,14 +704,12 @@ set(HAVE_OPENPTY ${PHP_HAVE_OPENPTY})
 # The inet_ntop() is mostly in C library (Solaris 11.4, illumos, BSD*, Linux...)
 php_search_libraries(
   SYMBOL inet_ntop
-  HEADERS
-    arpa/inet.h
-    ws2tcpip.h
+  HEADERS arpa/inet.h ws2tcpip.h
   LIBRARIES
-    nsl     # Solaris <= 11.3
-    resolv  # Solaris 2.6..7
+    nsl # Solaris <= 11.3
+    resolv # Solaris 2.6..7
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAS_INET_NTOP
   LIBRARY_VARIABLE PHP_HAS_INET_NTOP_LIBRARY
   TARGET php_config INTERFACE
@@ -732,14 +721,12 @@ endif()
 # The inet_pton() is mostly in C library (Solaris 11.4, illumos...)
 php_search_libraries(
   SYMBOL inet_pton
-  HEADERS
-    arpa/inet.h
-    ws2tcpip.h
+  HEADERS arpa/inet.h ws2tcpip.h
   LIBRARIES
-    nsl     # Solaris <= 11.3
-    resolv  # Solaris 2.6..7
+    nsl # Solaris <= 11.3
+    resolv # Solaris 2.6..7
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAS_INET_PTON
   LIBRARY_VARIABLE PHP_HAS_INET_PTON_LIBRARY
   TARGET php_config INTERFACE
@@ -751,10 +738,8 @@ endif()
 # The nanosleep is mostly in C library (Solaris 11, illumos...)
 php_search_libraries(
   SYMBOL nanosleep
-  HEADERS
-    time.h
-  LIBRARIES
-    rt # Solaris <= 10
+  HEADERS time.h
+  LIBRARIES rt # Solaris <= 10
   RESULT_VARIABLE PHP_HAVE_NANOSLEEP
   TARGET php_config INTERFACE
 )
@@ -763,14 +748,11 @@ set(HAVE_NANOSLEEP ${PHP_HAVE_NANOSLEEP})
 # The setsockopt() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL setsockopt
-  HEADERS
-    sys/types.h
-    sys/socket.h
-    winsock2.h
+  HEADERS sys/types.h sys/socket.h winsock2.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_SETSOCKOPT
   LIBRARY_VARIABLE PHP_HAVE_SETSOCKOPT_LIBRARY
   TARGET php_config INTERFACE
@@ -779,11 +761,9 @@ php_search_libraries(
 # The gai_strerror() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL gai_strerror
-  HEADERS
-    netdb.h
-    ws2tcpip.h
+  HEADERS netdb.h ws2tcpip.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
   RESULT_VARIABLE PHP_HAVE_GAI_STRERROR
   TARGET php_config INTERFACE
@@ -793,13 +773,11 @@ set(HAVE_GAI_STRERROR ${PHP_HAVE_GAI_STRERROR})
 # The getprotobyname() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL getprotobyname
-  HEADERS
-    netdb.h
-    winsock2.h
+  HEADERS netdb.h winsock2.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_GETPROTOBYNAME
   LIBRARY_VARIABLE PHP_HAVE_GETPROTOBYNAME_LIBRARY
   TARGET php_config INTERFACE
@@ -809,13 +787,11 @@ set(HAVE_GETPROTOBYNAME ${PHP_HAVE_GETPROTOBYNAME})
 # The getprotobynumber() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL getprotobynumber
-  HEADERS
-    netdb.h
-    winsock2.h
+  HEADERS netdb.h winsock2.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_GETPROTOBYNUMBER
   LIBRARY_VARIABLE PHP_HAVE_GETPROTOBYNUMBER_LIBRARY
   TARGET php_config INTERFACE
@@ -825,13 +801,11 @@ set(HAVE_GETPROTOBYNUMBER ${PHP_HAVE_GETPROTOBYNUMBER})
 # The getservbyname() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL getservbyname
-  HEADERS
-    netdb.h
-    winsock2.h
+  HEADERS netdb.h winsock2.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_GETSERVBYNAME
   LIBRARY_VARIABLE PHP_HAVE_GETSERVBYNAME_LIBRARY
   TARGET php_config INTERFACE
@@ -841,13 +815,11 @@ set(HAVE_GETSERVBYNAME ${PHP_HAVE_GETSERVBYNAME})
 # The getservbyport() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL getservbyport
-  HEADERS
-    netdb.h
-    winsock2.h
+  HEADERS netdb.h winsock2.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_GETSERVBYPORT
   LIBRARY_VARIABLE PHP_HAVE_GETSERVBYPORT_LIBRARY
   TARGET php_config INTERFACE
@@ -857,13 +829,11 @@ set(HAVE_GETSERVBYPORT ${PHP_HAVE_GETSERVBYPORT})
 # The shutdown() is mostly in C library (Solaris 11.4...)
 php_search_libraries(
   SYMBOL shutdown
-  HEADERS
-    sys/socket.h
-    winsock2.h
+  HEADERS sys/socket.h winsock2.h
   LIBRARIES
-    socket  # Solaris <= 11.3, illumos
+    socket # Solaris <= 11.3, illumos
     network # Haiku
-    ws2_32  # Windows
+    ws2_32 # Windows
   RESULT_VARIABLE PHP_HAVE_SHUTDOWN
   LIBRARY_VARIABLE PHP_HAVE_SHUTDOWN_LIBRARY
   TARGET php_config INTERFACE
@@ -907,8 +877,7 @@ if(PHP_FD_SETSIZE MATCHES "^[0-9]+$" AND PHP_FD_SETSIZE GREATER 0)
   message(CHECK_PASS "using FD_SETSIZE=${PHP_FD_SETSIZE}")
   target_compile_definitions(
     php_config
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
+    INTERFACE $<$<COMPILE_LANGUAGE:C,CXX>:FD_SETSIZE=${PHP_FD_SETSIZE}>
   )
 elseif(NOT PHP_FD_SETSIZE STREQUAL "")
   message(
@@ -929,10 +898,12 @@ if(
   (
     NOT CMAKE_SYSTEM_NAME MATCHES "^(Android|FreeBSD|OpenBSD)$"
     AND NOT PHP_C_STANDARD_LIBRARY MATCHES "^(musl|uclibc)$"
-  ) OR (
-    CMAKE_SYSTEM_NAME STREQUAL "FreeBSD"
-    AND CMAKE_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
   )
+  OR
+    (
+      CMAKE_SYSTEM_NAME STREQUAL "FreeBSD"
+      AND CMAKE_SYSTEM_VERSION VERSION_GREATER_EQUAL 12
+    )
 )
   php_check_function_attribute(ifunc PHP_HAVE_FUNC_ATTRIBUTE_IFUNC)
   set(HAVE_FUNC_ATTRIBUTE_IFUNC ${PHP_HAVE_FUNC_ATTRIBUTE_IFUNC})
@@ -958,16 +929,14 @@ if(PHP_VALGRIND)
   find_package(Valgrind)
   set_package_properties(
     Valgrind
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable Valgrind support."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable Valgrind support."
   )
 
   if(TARGET Valgrind::Valgrind)
     cmake_push_check_state(RESET)
-      set(CMAKE_REQUIRED_LIBRARIES Valgrind::Valgrind)
-      check_include_files(valgrind/cachegrind.h PHP_HAVE_VALGRIND_CACHEGRIND_H)
-      set(HAVE_VALGRIND_CACHEGRIND_H ${PHP_HAVE_VALGRIND_CACHEGRIND_H})
+    set(CMAKE_REQUIRED_LIBRARIES Valgrind::Valgrind)
+    check_include_files(valgrind/cachegrind.h PHP_HAVE_VALGRIND_CACHEGRIND_H)
+    set(HAVE_VALGRIND_CACHEGRIND_H ${PHP_HAVE_VALGRIND_CACHEGRIND_H})
     cmake_pop_check_state()
   endif()
 
@@ -975,20 +944,14 @@ if(PHP_VALGRIND)
 
   set(HAVE_VALGRIND TRUE)
 endif()
-add_feature_info(
-  "Valgrind"
-  HAVE_VALGRIND
-  "dynamic analysis"
-)
+add_feature_info("Valgrind" HAVE_VALGRIND "dynamic analysis")
 
 # DTrace.
 if(PHP_DTRACE)
   find_package(DTrace)
   set_package_properties(
     DTrace
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to enable the DTrace support."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the DTrace support."
   )
 
   if(DTrace_FOUND)
@@ -1023,23 +986,16 @@ if(PHP_DMALLOC)
   find_package(Dmalloc)
   set_package_properties(
     Dmalloc
-    PROPERTIES
-      TYPE REQUIRED
-      PURPOSE "Necessary to use Dmalloc memory debugger."
+    PROPERTIES TYPE REQUIRED PURPOSE "Necessary to use Dmalloc memory debugger."
   )
 
   target_compile_definitions(
     php_config
-    INTERFACE
-      $<$<COMPILE_LANGUAGE:C,CXX>:DMALLOC_FUNC_CHECK>
+    INTERFACE $<$<COMPILE_LANGUAGE:C,CXX>:DMALLOC_FUNC_CHECK>
   )
 
   target_link_libraries(php_config INTERFACE Dmalloc::Dmalloc)
 
   set(HAVE_DMALLOC TRUE)
 endif()
-add_feature_info(
-  "Dmalloc"
-  HAVE_DMALLOC
-  "memory debugging"
-)
+add_feature_info("Dmalloc" HAVE_DMALLOC "memory debugging")
