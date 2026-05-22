@@ -23,7 +23,6 @@ extend-ignore-identifiers-re = [
 ]
 extend-ignore-words-re = [
   "deafults",
-  "favour",
   "flavour",
   "gost",
   "shs",
