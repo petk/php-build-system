@@ -50,29 +50,27 @@ block()
   add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
     COMMAND
-      ${CMAKE_COMMAND}
-        -E cmake_echo_color --magenta --bold "Updating targets"
+      ${CMAKE_COMMAND} -E cmake_echo_color --magenta --bold "Updating targets"
     COMMAND
-      ${CMAKE_COMMAND}
-        -E touch ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
-    COMMAND
-      ${CMAKE_COMMAND}
-        --build . --target php_rebuild ${parallel}
+      ${CMAKE_COMMAND} -E touch
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+    COMMAND ${CMAKE_COMMAND} --build . --target php_rebuild ${parallel}
     COMMENT ""
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     DEPENDS ${targets}
   )
 
   add_custom_target(
-    php_rebuild_update_targets ALL
+    php_rebuild_update_targets
+    ALL
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
   )
 
   add_custom_target(
     php_rebuild
     COMMAND
-      ${CMAKE_COMMAND}
-        -E rm -f ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
+      ${CMAKE_COMMAND} -E rm -f
+      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_rebuild.timestamp
     DEPENDS ${targets}
   )
 endblock()

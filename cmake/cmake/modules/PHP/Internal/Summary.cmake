@@ -46,11 +46,7 @@ endfunction()
 
 # Get summary preamble.
 function(_php_summary_preamble result)
-  _php_summary_preamble_add_item(
-    "PHP version"
-    "${PHP_VERSION}"
-    ${result}
-  )
+  _php_summary_preamble_add_item("PHP version" "${PHP_VERSION}" ${result})
 
   _php_summary_preamble_add_item(
     "PHP API version"
@@ -61,7 +57,11 @@ function(_php_summary_preamble result)
   if(TARGET PHP::Zend)
     get_target_property(PHP_ZEND_VERSION PHP::Zend VERSION)
     get_target_property(PHP_ZEND_MODULE_API_NO PHP::Zend PHP_ZEND_MODULE_API_NO)
-    get_target_property(PHP_ZEND_EXTENSION_API_NO PHP::Zend PHP_ZEND_EXTENSION_API_NO)
+    get_target_property(
+      PHP_ZEND_EXTENSION_API_NO
+      PHP::Zend
+      PHP_ZEND_EXTENSION_API_NO
+    )
   endif()
 
   if(PHP_ZEND_VERSION)
@@ -171,11 +171,7 @@ function(_php_summary_preamble result)
     ${result}
   )
 
-  _php_summary_preamble_add_item(
-    "CMake version"
-    "${CMAKE_VERSION}"
-    ${result}
-  )
+  _php_summary_preamble_add_item("CMake version" "${CMAKE_VERSION}" ${result})
 
   _php_summary_preamble_add_item(
     "CMake generator"
@@ -241,8 +237,7 @@ function(_php_summary_validate_extensions)
         )
           string(TOUPPER "${extension}" extension_upper)
           string(
-            APPEND
-            shared_extensions_summary
+            APPEND shared_extensions_summary
             " * ${extension}\n"
             "   Either set 'PHP_EXT_${extension_upper}' to 'shared' (its "
             "dependency, the ${dependency} extension is configured as shared) "
@@ -270,8 +265,7 @@ function(_php_summary_validate_extensions)
         if(NOT TARGET PHP::ext::${dependency})
           list(APPEND recommended_extensions ${dependency})
           list(
-            APPEND
-            _php_summary_recommended_reasons_${dependency}
+            APPEND _php_summary_recommended_reasons_${dependency}
             ${extension}
           )
         endif()
@@ -309,8 +303,7 @@ function(_php_summary_validate_extensions)
       list(JOIN _php_summary_conflicting_reasons_${extension} ", " reasons)
       string(TOUPPER "${extension}" extension_upper)
       string(
-        APPEND
-        message
+        APPEND message
         " * ${extension} conflicts with ${reasons}\n"
         "   Set 'PHP_EXT_${extension_upper}' to 'OFF' or disable conflicting "
         "extensions\n"
@@ -327,8 +320,7 @@ function(_php_summary_validate_extensions)
     foreach(extension IN LISTS missing_extensions)
       string(TOUPPER "${extension}" extension_upper)
       string(
-        APPEND
-        message
+        APPEND message
         " * ${extension}\n"
         "   Set 'PHP_EXT_${extension_upper}' to 'ON'\n"
       )
@@ -349,8 +341,7 @@ function(_php_summary_validate_extensions)
     foreach(extension IN LISTS recommended_extensions)
       string(TOUPPER "${extension}" extension_upper)
       string(
-        APPEND
-        message
+        APPEND message
         " * ${extension}\n"
         "   Set 'PHP_EXT_${extension_upper}' to 'ON'\n"
       )
@@ -410,11 +401,7 @@ function(_php_summary_validate_extension extension)
   # Check for required extensions.
   set(required_extensions "")
 
-  get_target_property(
-    extensions
-    PHP::ext::${extension}
-    PHP_REQUIRED_EXTENSIONS
-  )
+  get_target_property(extensions PHP::ext::${extension} PHP_REQUIRED_EXTENSIONS)
 
   if(extensions)
     list(REMOVE_DUPLICATES extensions)
@@ -494,17 +481,12 @@ function(_php_summary_validate_extension extension)
   set(message "")
 
   if(required_extensions)
-    string(
-      APPEND
-      message
-      "Please install missing PHP extensions. "
-    )
+    string(APPEND message "Please install missing PHP extensions. ")
   endif()
 
   if(conflicting_extensions)
     string(
-      APPEND
-      message
+      APPEND message
       "Please disable conflicting PHP extensions to use ${extension}. "
     )
   endif()
@@ -603,9 +585,8 @@ function(php_summary_print)
   # Output missing required packages.
   feature_summary(
     FATAL_ON_MISSING_REQUIRED_PACKAGES
-    WHAT
-      RECOMMENDED_PACKAGES_NOT_FOUND
-      REQUIRED_PACKAGES_NOT_FOUND
+    WHAT RECOMMENDED_PACKAGES_NOT_FOUND
+    REQUIRED_PACKAGES_NOT_FOUND
     QUIET_ON_EMPTY
   )
 endfunction()
@@ -640,10 +621,9 @@ function(php_summary_print_extension extension)
 
   feature_summary(
     FATAL_ON_MISSING_REQUIRED_PACKAGES
-    WHAT
-      ENABLED_FEATURES
-      RECOMMENDED_PACKAGES_NOT_FOUND
-      REQUIRED_PACKAGES_NOT_FOUND
+    WHAT ENABLED_FEATURES
+    RECOMMENDED_PACKAGES_NOT_FOUND
+    REQUIRED_PACKAGES_NOT_FOUND
     QUIET_ON_EMPTY
   )
 endfunction()

@@ -38,14 +38,7 @@ include_guard(GLOBAL)
 
 # Check whether interprocedural optimization can be enabled for php-src.
 function(_php_optimization_check_php_src)
-  cmake_parse_arguments(
-    PARSE_ARGV
-    0
-    parsed
-    ""
-    "RESULT;REASON"
-    ""
-  )
+  cmake_parse_arguments(PARSE_ARGV 0 parsed "" "RESULT;REASON" "")
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
@@ -64,10 +57,11 @@ function(_php_optimization_check_php_src)
 
   if(
     CMAKE_C_COMPILER_ID STREQUAL "GNU"
-    AND (
-      NOT DEFINED PHP_ZEND_GLOBAL_REGISTER_VARIABLES
-      OR PHP_ZEND_GLOBAL_REGISTER_VARIABLES
-    )
+    AND
+      (
+        NOT DEFINED PHP_ZEND_GLOBAL_REGISTER_VARIABLES
+        OR PHP_ZEND_GLOBAL_REGISTER_VARIABLES
+      )
   )
     # Zend/zend_execute.c uses global register variables and IPO is for now
     # disabled when using GNU C compiler due to a bug:

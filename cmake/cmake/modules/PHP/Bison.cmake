@@ -299,8 +299,7 @@ endmacro()
 
 function(php_bison name input)
   cmake_parse_arguments(
-    PARSE_ARGV
-    2
+    PARSE_ARGV 2
     parsed
     "ADD_DEFAULT_OPTIONS;CODEGEN;HEADER;VERBOSE;ABSOLUTE_PATHS"
     "OUTPUT;HEADER_FILE;WORKING_DIRECTORY;REPORT_FILE"
@@ -331,15 +330,13 @@ function(php_bison name input)
   endif()
 
   cmake_path(
-    ABSOLUTE_PATH
-    input
+    ABSOLUTE_PATH input
     BASE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     NORMALIZE
   )
 
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_OUTPUT
+    ABSOLUTE_PATH parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -395,8 +392,7 @@ function(php_bison name input)
     endif()
   endif()
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_WORKING_DIRECTORY
+    ABSOLUTE_PATH parsed_WORKING_DIRECTORY
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -426,8 +422,7 @@ function(php_bison name input)
 
   # Assemble status message.
   cmake_path(
-    RELATIVE_PATH
-    parsed_OUTPUT
+    RELATIVE_PATH parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_BINARY_DIR}
     OUTPUT_VARIABLE relative_path
   )
@@ -449,12 +444,11 @@ function(php_bison name input)
   # libraries/targets.
   add_custom_command(
     OUTPUT ${timestamp}
+    # gersemi: off
     COMMAND ${CMAKE_COMMAND} -E touch ${timestamp}
     ${commands}
-    DEPENDS
-      ${input}
-      ${parsed_DEPENDS}
-      $<TARGET_NAME_IF_EXISTS:Bison::Bison>
+    # gersemi: on
+    DEPENDS ${input} ${parsed_DEPENDS} $<TARGET_NAME_IF_EXISTS:Bison::Bison>
     COMMENT "${message}"
     VERBATIM
     COMMAND_EXPAND_LISTS
@@ -492,8 +486,7 @@ function(_php_bison_process_header_file)
   if(parsed_HEADER_FILE)
     set(header ${parsed_HEADER_FILE})
     cmake_path(
-      ABSOLUTE_PATH
-      header
+      ABSOLUTE_PATH header
       BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       NORMALIZE
     )
@@ -505,8 +498,7 @@ function(_php_bison_process_header_file)
       set(extension ".h")
     endif()
     cmake_path(
-      REPLACE_EXTENSION
-      parsed_OUTPUT
+      REPLACE_EXTENSION parsed_OUTPUT
       LAST_ONLY
       "${extension}"
       OUTPUT_VARIABLE header
@@ -531,8 +523,7 @@ function(_php_bison_process_header_option)
       set(header_argument "${header}")
     else()
       cmake_path(
-        RELATIVE_PATH
-        header
+        RELATIVE_PATH header
         BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
         OUTPUT_VARIABLE header_argument
       )
@@ -572,8 +563,7 @@ function(_php_bison_process_verbose_option)
     # last extension with '.output'.
     if(extension MATCHES "\\.tab\\.([^.]+)$")
       string(
-        REGEX REPLACE
-        "\\.tab\\.${CMAKE_MATCH_1}$"
+        REGEX REPLACE "\\.tab\\.${CMAKE_MATCH_1}$"
         ".output"
         report_file
         "${report_file}"
@@ -586,8 +576,7 @@ function(_php_bison_process_verbose_option)
   endif()
 
   cmake_path(
-    ABSOLUTE_PATH
-    report_file
+    ABSOLUTE_PATH report_file
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -615,8 +604,7 @@ function(_php_bison_set_package_properties)
 
   # Set package PURPOSE property.
   cmake_path(
-    RELATIVE_PATH
-    parsed_OUTPUT
+    RELATIVE_PATH parsed_OUTPUT
     BASE_DIRECTORY ${CMAKE_SOURCE_DIR}
     OUTPUT_VARIABLE relative_path
   )
@@ -637,14 +625,12 @@ function(_php_bison_get_commands result)
     set(output_argument "${parsed_OUTPUT}")
   else()
     cmake_path(
-      RELATIVE_PATH
-      input
+      RELATIVE_PATH input
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
       OUTPUT_VARIABLE input_argument
     )
     cmake_path(
-      RELATIVE_PATH
-      parsed_OUTPUT
+      RELATIVE_PATH parsed_OUTPUT
       BASE_DIRECTORY ${parsed_WORKING_DIRECTORY}
       OUTPUT_VARIABLE output_argument
     )
@@ -662,20 +648,23 @@ function(_php_bison_get_commands result)
   if(directories)
     list(REMOVE_DUPLICATES directories)
     list(
-      APPEND
-      ${result}
-      COMMAND ${CMAKE_COMMAND} -E make_directory ${directories}
+      APPEND ${result}
+      COMMAND
+      ${CMAKE_COMMAND}
+      -E
+      make_directory
+      ${directories}
     )
   endif()
 
   list(
-    APPEND
-    ${result}
+    APPEND ${result}
     COMMAND
     ${BISON_EXECUTABLE}
     ${options}
     ${input_argument}
-    --output ${output_argument}
+    --output
+    ${output_argument}
   )
 
   return(PROPAGATE ${result})
@@ -739,6 +728,7 @@ function(_php_bison_download_gnu)
 
   message(STATUS "Downloading ${url}")
 
+  # gersemi: off
   FetchContent_Declare(
     BISON
     URL ${url}
@@ -746,6 +736,7 @@ function(_php_bison_download_gnu)
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     OVERRIDE_FIND_PACKAGE
   )
+  # gersemi: on
 
   FetchContent_MakeAvailable(BISON)
 
@@ -763,12 +754,8 @@ function(_php_bison_download_gnu)
     BINARY_DIR ${bison_BINARY_DIR}
     INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/bison-install
     CONFIGURE_COMMAND
-      <SOURCE_DIR>/configure
-      --disable-dependency-tracking
-      --disable-yacc
-      --enable-silent-rules
-      --prefix=<INSTALL_DIR>
-      M4=${PHP_BISON_M4_EXECUTABLE}
+      <SOURCE_DIR>/configure --disable-dependency-tracking --disable-yacc
+      --enable-silent-rules --prefix=<INSTALL_DIR> M4=${PHP_BISON_M4_EXECUTABLE}
     LOG_INSTALL TRUE
   )
 
@@ -783,22 +770,27 @@ endfunction()
 
 # Downloads winflexbison.
 function(_php_bison_download_windows)
-  set(url https://github.com/lexxmark/winflexbison/releases/download/v${PHP_BISON_WIN_VERSION_DOWNLOAD}/win_flex_bison-${PHP_BISON_WIN_VERSION_DOWNLOAD}.zip)
+  set(
+    url
+    https://github.com/lexxmark/winflexbison/releases/download/v${PHP_BISON_WIN_VERSION_DOWNLOAD}/win_flex_bison-${PHP_BISON_WIN_VERSION_DOWNLOAD}.zip
+  )
 
   message(STATUS "Downloading ${url}")
 
   FetchContent_Declare(
     BISON
-    URL ${url}
+    URL
+      ${url}
+      # gersemi: off
     SOURCE_SUBDIR non-existing
+    # gersemi: on
     OVERRIDE_FIND_PACKAGE
   )
 
   FetchContent_MakeAvailable(BISON)
 
   set_property(
-    CACHE
-    BISON_EXECUTABLE
+    CACHE BISON_EXECUTABLE
     PROPERTY VALUE "${bison_SOURCE_DIR}/win_bison.exe"
   )
 endfunction()
@@ -810,8 +802,11 @@ function(_php_bison_download_m4)
 
   FetchContent_Declare(
     M4
-    URL ${url}
+    URL
+      ${url}
+      # gersemi: off
     SOURCE_SUBDIR non-existing
+    # gersemi: on
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
   )
 
@@ -824,14 +819,15 @@ function(_php_bison_download_m4)
     BINARY_DIR ${m4_BINARY_DIR}
     INSTALL_DIR ${FETCHCONTENT_BASE_DIR}/m4-install
     CONFIGURE_COMMAND
-      <SOURCE_DIR>/configure
-      --disable-dependency-tracking
-      --enable-silent-rules
+      <SOURCE_DIR>/configure --disable-dependency-tracking --enable-silent-rules
       --prefix=<INSTALL_DIR>
     LOG_INSTALL TRUE
   )
 
   ExternalProject_Get_Property(M4 INSTALL_DIR)
 
-  set_property(CACHE PHP_BISON_M4_EXECUTABLE PROPERTY VALUE ${INSTALL_DIR}/bin/m4)
+  set_property(
+    CACHE PHP_BISON_M4_EXECUTABLE
+    PROPERTY VALUE ${INSTALL_DIR}/bin/m4
+  )
 endfunction()

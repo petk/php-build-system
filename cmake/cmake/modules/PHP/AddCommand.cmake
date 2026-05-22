@@ -229,8 +229,7 @@ include_guard(GLOBAL)
 
 function(php_add_command)
   cmake_parse_arguments(
-    PARSE_ARGV
-    1
+    PARSE_ARGV 1
     parsed
     "EXCLUDE_FROM_ALL;AS_TARGET;ONLY_HOST_PHP;ONLY_SAPI_CLI"
     "MIN_PHP_HOST_VERSION;WORKING_DIRECTORY"
@@ -277,8 +276,7 @@ function(php_add_command)
 
     foreach(output IN LISTS parsed_OUTPUT)
       cmake_path(
-        ABSOLUTE_PATH
-        output
+        ABSOLUTE_PATH output
         BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         NORMALIZE
       )
@@ -293,8 +291,7 @@ function(php_add_command)
   endif()
 
   cmake_path(
-    ABSOLUTE_PATH
-    parsed_WORKING_DIRECTORY
+    ABSOLUTE_PATH parsed_WORKING_DIRECTORY
     BASE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     NORMALIZE
   )
@@ -469,8 +466,7 @@ endfunction()
 
 function(_php_add_command_create_script)
   cmake_parse_arguments(
-    PARSE_ARGV
-    0
+    PARSE_ARGV 0
     parsed
     ""
     "TARGET;SCRIPT;WORKING_DIRECTORY;COMMENT"
@@ -503,8 +499,7 @@ function(_php_add_command_create_script)
   if(missing_extensions)
     list(JOIN missing_extensions ", " missing_extensions)
     string(
-      APPEND
-      php_skip_reason
+      APPEND php_skip_reason
       " Missing required PHP extensions: ${missing_extensions}"
     )
   endif()
@@ -513,9 +508,8 @@ function(_php_add_command_create_script)
   set(php_shared_extensions "")
   foreach(
     extension
-    IN LISTS
-    parsed_REQUIRED_EXTENSIONS
-    parsed_OPTIONAL_EXTENSIONS
+    IN
+    LISTS parsed_REQUIRED_EXTENSIONS parsed_OPTIONAL_EXTENSIONS
   )
     if(NOT TARGET PHP::ext::${extension})
       continue()
@@ -554,141 +548,141 @@ function(_php_add_command_create_script)
   file(
     CONFIGURE
     OUTPUT ${parsed_SCRIPT}
-    CONTENT [=[
-      cmake_minimum_required(VERSION 4.3...4.4)
+    CONTENT
+      [=[
+        cmake_minimum_required(VERSION 4.3...4.4)
 
-      set(php_comment "@parsed_COMMENT@")
+        set(php_comment "@parsed_COMMENT@")
 
-      if(NOT CMAKE_SCRIPT_MODE_FILE)
-        message(
-          FATAL_ERROR
-          "${CMAKE_CURRENT_LIST_FILE} should be run in CMake script mode "
-          "(cmake -P)."
-        )
-      endif()
-
-      if(@php_skip@ OR NOT PHP_EXECUTABLE)
-        if(PHP_EXECUTE_EXPLICITLY)
-          set(reason "@php_skip_reason@")
-
-          if(NOT reason AND NOT PHP_EXECUTABLE)
-            set(reason "PHP_EXECUTABLE is not set.")
-          endif()
-
-          string(
-            PREPEND
-            reason
-            "[@parsed_TARGET@] PHP command was not executed. "
+        if(NOT CMAKE_SCRIPT_MODE_FILE)
+          message(
+            FATAL_ERROR
+            "${CMAKE_CURRENT_LIST_FILE} should be run in CMake script mode "
+            "(cmake -P)."
           )
-
-          message(WARNING "${reason}")
         endif()
 
-        return()
-      endif()
+        if(@php_skip@ OR NOT PHP_EXECUTABLE)
+          if(PHP_EXECUTE_EXPLICITLY)
+            set(reason "@php_skip_reason@")
 
-      if(NOT PHP_ARGS)
-        message(FATAL_ERROR "Missing PHP_ARGS")
-        return()
-      endif()
+            if(NOT reason AND NOT PHP_EXECUTABLE)
+              set(reason "PHP_EXECUTABLE is not set.")
+            endif()
 
-      set(output_exists FALSE)
-      foreach(output IN LISTS PHP_OUTPUT)
-        if(EXISTS ${output})
-          set(output_exists TRUE)
-          break()
-        endif()
-      endforeach()
+            string(
+              PREPEND reason
+              "[@parsed_TARGET@] PHP command was not executed. "
+            )
 
-      if(
-        NOT PHP_EXECUTE_EXPLICITLY
-        AND PHP_DEPENDS
-        AND PHP_OUTPUT
-        AND output_exists
-      )
-        set(needs_update FALSE)
-
-        foreach(input ${PHP_DEPENDS})
-          if(NOT EXISTS ${input})
-            continue()
+            message(WARNING "${reason}")
           endif()
 
-          foreach(output ${PHP_OUTPUT})
-            if("${input}" IS_NEWER_THAN "${output}")
-              set(needs_update TRUE)
-              break()
-            endif()
-          endforeach()
+          return()
+        endif()
 
-          if(needs_update)
+        if(NOT PHP_ARGS)
+          message(FATAL_ERROR "Missing PHP_ARGS")
+          return()
+        endif()
+
+        set(output_exists FALSE)
+        foreach(output IN LISTS PHP_OUTPUT)
+          if(EXISTS ${output})
+            set(output_exists TRUE)
             break()
           endif()
         endforeach()
 
-        if(NOT needs_update)
-          return()
-        endif()
-      endif()
+        if(
+          NOT PHP_EXECUTE_EXPLICITLY
+          AND PHP_DEPENDS
+          AND PHP_OUTPUT
+          AND output_exists
+        )
+          set(needs_update FALSE)
 
-      if(php_comment)
+          foreach(input ${PHP_DEPENDS})
+            if(NOT EXISTS ${input})
+              continue()
+            endif()
+
+            foreach(output ${PHP_OUTPUT})
+              if("${input}" IS_NEWER_THAN "${output}")
+                set(needs_update TRUE)
+                break()
+              endif()
+            endforeach()
+
+            if(needs_update)
+              break()
+            endif()
+          endforeach()
+
+          if(NOT needs_update)
+            return()
+          endif()
+        endif()
+
+        if(php_comment)
+          execute_process(
+            COMMAND
+              ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold
+              "${php_comment}"
+          )
+        endif()
+
+        set(args "")
+
+        set(php_arguments "")
+        set(output_redirected FALSE)
+        set(output_file "")
+
+        # The output redirection character '>' doesn't work inside the
+        # execute_process(). This bypasses such commands by capturing output
+        # into a variable and writes its content into a file.
+        foreach(argument ${PHP_ARGS})
+          if(argument STREQUAL ">")
+            set(output_redirected TRUE)
+            list(
+              APPEND args
+              RESULT_VARIABLE result
+              OUTPUT_VARIABLE output
+              ERROR_VARIABLE error
+            )
+          elseif(output_redirected AND NOT output_file)
+            set(output_file ${argument})
+          else()
+            list(APPEND php_arguments ${argument})
+          endif()
+        endforeach()
+
         execute_process(
           COMMAND
-            ${CMAKE_COMMAND} -E cmake_echo_color --blue --bold "${php_comment}"
+            ${PHP_EXECUTABLE}
+            ${PHP_OPTIONS}
+            @php_shared_extensions@
+            ${php_arguments}
+          WORKING_DIRECTORY "@parsed_WORKING_DIRECTORY@"
+          ${args}
         )
-      endif()
 
-      set(args "")
+        if(output_redirected)
+          if(result EQUAL 0 AND output_file)
+            file(WRITE ${output_file} "${output}")
+          else()
+            execute_process(COMMAND ${CMAKE_COMMAND} -E echo "${output}")
+          endif()
 
-      set(php_arguments "")
-      set(output_redirected FALSE)
-      set(output_file "")
-
-      # The output redirection character '>' doesn't work inside the
-      # execute_process(). This bypasses such commands by capturing output into
-      # a variable and writes its content into a file.
-      foreach(argument ${PHP_ARGS})
-        if(argument STREQUAL ">")
-          set(output_redirected TRUE)
-          list(
-            APPEND
-            args
-            RESULT_VARIABLE result
-            OUTPUT_VARIABLE output
-            ERROR_VARIABLE error
-          )
-        elseif(output_redirected AND NOT output_file)
-          set(output_file ${argument})
-        else()
-          list(APPEND php_arguments ${argument})
+          if(error)
+            message(NOTICE "${error}")
+          endif()
+        elseif(PHP_OUTPUT)
+          # Update modification times of output files to not re-run the command
+          # on the consecutive build runs.
+          file(TOUCH_NOCREATE ${PHP_OUTPUT})
         endif()
-      endforeach()
-
-      execute_process(
-        COMMAND
-          ${PHP_EXECUTABLE}
-          ${PHP_OPTIONS}
-          @php_shared_extensions@
-          ${php_arguments}
-        WORKING_DIRECTORY "@parsed_WORKING_DIRECTORY@"
-        ${args}
-      )
-
-      if(output_redirected)
-        if(result EQUAL 0 AND output_file)
-          file(WRITE ${output_file} "${output}")
-        else()
-          execute_process(COMMAND ${CMAKE_COMMAND} -E echo "${output}")
-        endif()
-
-        if(error)
-          message(NOTICE "${error}")
-        endif()
-      elseif(PHP_OUTPUT)
-        # Update modification times of output files to not re-run the command on
-        # the consecutive build runs.
-        file(TOUCH_NOCREATE ${PHP_OUTPUT})
-      endif()
-    ]=]
+      ]=]
     @ONLY
   )
 endfunction()
