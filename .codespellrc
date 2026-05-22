@@ -7,7 +7,6 @@ check-filenames =
 check-hidden =
 ignore-words-list =
     deafults,
-    favour,
     flavour,
     gost,
     empress,

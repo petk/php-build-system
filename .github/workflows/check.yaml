@@ -50,10 +50,7 @@ jobs:
 
       - name: Run gersemi
         if: ${{ always() }}
-        run: |
-          gersemi --config cmake/cmake/gersemi/.gersemirc.yaml --diff --check \
-            cmake \
-            CMakeLists.txt
+        run: gersemi --indent 2 --definitions . --diff --check .
 
       - name: Run normalizator.phar
         if: ${{ always() }}
