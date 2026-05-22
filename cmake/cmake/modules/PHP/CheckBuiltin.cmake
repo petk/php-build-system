@@ -81,19 +81,31 @@ function(php_check_builtin builtin result)
   elseif(builtin STREQUAL "__builtin_saddl_overflow")
     set(call "long tmpvar; return __builtin_saddl_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_saddll_overflow")
-    set(call "long long tmpvar; return __builtin_saddll_overflow(3, 7, &tmpvar);")
+    set(
+      call
+      "long long tmpvar; return __builtin_saddll_overflow(3, 7, &tmpvar);"
+    )
   elseif(builtin STREQUAL "__builtin_smull_overflow")
     set(call "long tmpvar; return __builtin_smull_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_smulll_overflow")
-    set(call "long long tmpvar; return __builtin_smulll_overflow(3, 7, &tmpvar);")
+    set(
+      call
+      "long long tmpvar; return __builtin_smulll_overflow(3, 7, &tmpvar);"
+    )
   elseif(builtin STREQUAL "__builtin_ssubl_overflow")
     set(call "long tmpvar; return __builtin_ssubl_overflow(3, 7, &tmpvar);")
   elseif(builtin STREQUAL "__builtin_ssubll_overflow")
-    set(call "long long tmpvar; return __builtin_ssubll_overflow(3, 7, &tmpvar);")
+    set(
+      call
+      "long long tmpvar; return __builtin_ssubll_overflow(3, 7, &tmpvar);"
+    )
   elseif(builtin STREQUAL "__builtin_unreachable")
     set(call "__builtin_unreachable();")
   elseif(builtin STREQUAL "__builtin_usub_overflow")
-    set(call "unsigned int tmpvar; return __builtin_usub_overflow(3, 7, &tmpvar);")
+    set(
+      call
+      "unsigned int tmpvar; return __builtin_usub_overflow(3, 7, &tmpvar);"
+    )
   else()
     message(WARNING "PHP/CheckBuiltin: ${builtin} might not be supported.")
     set(call "${builtin}();")
@@ -104,16 +116,19 @@ function(php_check_builtin builtin result)
   endif()
 
   cmake_push_check_state(RESET)
-    set(CMAKE_REQUIRED_QUIET TRUE)
-
-    check_source_compiles(C "
+  set(CMAKE_REQUIRED_QUIET TRUE)
+  check_source_compiles(
+    C
+    "
       int main(void)
       {
         ${call}
 
         return 0;
       }
-    " ${result})
+    "
+    ${result}
+  )
   cmake_pop_check_state()
 
   if(${result})

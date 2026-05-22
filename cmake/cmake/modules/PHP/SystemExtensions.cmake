@@ -153,20 +153,20 @@ add_library(PHP::SystemExtensions INTERFACE IMPORTED GLOBAL)
 block()
   set(
     definitions
-      _ALL_SOURCE=1
-      _COSMO_SOURCE
-      _GNU_SOURCE
-      _NETBSD_SOURCE=1
-      _OPENBSD_SOURCE=1
-      _TANDEM_SOURCE=1
-      __STDC_WANT_IEC_60559_ATTRIBS_EXT__=1
-      __STDC_WANT_IEC_60559_BFP_EXT__=1
-      __STDC_WANT_IEC_60559_DFP_EXT__=1
-      __STDC_WANT_IEC_60559_EXT__=1
-      __STDC_WANT_IEC_60559_FUNCS_EXT__=1
-      __STDC_WANT_IEC_60559_TYPES_EXT__=1
-      __STDC_WANT_LIB_EXT2__=1
-      __STDC_WANT_MATH_SPEC_FUNCS__=1
+    _ALL_SOURCE=1
+    _COSMO_SOURCE
+    _GNU_SOURCE
+    _NETBSD_SOURCE=1
+    _OPENBSD_SOURCE=1
+    _TANDEM_SOURCE=1
+    __STDC_WANT_IEC_60559_ATTRIBS_EXT__=1
+    __STDC_WANT_IEC_60559_BFP_EXT__=1
+    __STDC_WANT_IEC_60559_DFP_EXT__=1
+    __STDC_WANT_IEC_60559_EXT__=1
+    __STDC_WANT_IEC_60559_FUNCS_EXT__=1
+    __STDC_WANT_IEC_60559_TYPES_EXT__=1
+    __STDC_WANT_LIB_EXT2__=1
+    __STDC_WANT_MATH_SPEC_FUNCS__=1
   )
 
   target_compile_definitions(
@@ -189,7 +189,8 @@ endif()
 if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
   target_compile_definitions(
     PHP::SystemExtensions
-    INTERFACE $<$<COMPILE_LANGUAGE:C,CXX>:__EXTENSIONS__;_POSIX_PTHREAD_SEMANTICS>
+    INTERFACE
+      $<$<COMPILE_LANGUAGE:C,CXX>:__EXTENSIONS__;_POSIX_PTHREAD_SEMANTICS>
   )
 
   set(__EXTENSIONS__ TRUE)
@@ -197,7 +198,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "SunOS")
 endif()
 
 # Configuration header code template.
-string(CONFIGURE [[
+string(
+  CONFIGURE
+    [[
 /* Enable extensions on AIX, Interix, z/OS. */
 #ifndef _ALL_SOURCE
 # define _ALL_SOURCE 1
@@ -267,7 +270,9 @@ string(CONFIGURE [[
 /* Enable extensions on HP NonStop. */
 #ifndef _TANDEM_SOURCE
 # define _TANDEM_SOURCE 1
-#endif]] PHP_SYSTEM_EXTENSIONS_CODE)
+#endif]]
+  PHP_SYSTEM_EXTENSIONS_CODE
+)
 
 define_property(
   GLOBAL

@@ -13,7 +13,5 @@ include(FeatureSummary)
 
 set_package_properties(
   ZLIB
-  PROPERTIES
-    URL "https://zlib.net/"
-    DESCRIPTION "Compression library"
+  PROPERTIES URL "https://zlib.net/" DESCRIPTION "Compression library"
 )

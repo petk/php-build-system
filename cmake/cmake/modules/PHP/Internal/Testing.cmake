@@ -29,8 +29,7 @@ function(php_testing_add)
   add_test(
     NAME PhpRunTests
     COMMAND
-      ${CMAKE_COMMAND}
-      -P
+      ${CMAKE_COMMAND} -P
       ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/$<CONFIG>/run-tests.cmake
   )
 
@@ -38,7 +37,7 @@ function(php_testing_add)
 
   cmake_language(
     EVAL CODE
-    "cmake_language(DEFER CALL _php_testing_post_configure \"${ARGV0}\")"
+      "cmake_language(DEFER CALL _php_testing_post_configure \"${ARGV0}\")"
   )
 endfunction()
 
@@ -66,8 +65,7 @@ function(_php_testing_post_configure)
     # temporary files inside its containing directory.
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP)
     file(
-      COPY
-      ${PHP_INSTALL_LIBDIR}/build/run-tests.php
+      COPY ${PHP_INSTALL_LIBDIR}/build/run-tests.php
       DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP
     )
 
@@ -123,48 +121,47 @@ function(_php_testing_post_configure)
 
   string(
     CONFIGURE
-    [[
-      cmake_minimum_required(VERSION 4.3...4.4)
+      [[
+        cmake_minimum_required(VERSION 4.3...4.4)
 
-      # Configure PHP CGI SAPI that some tests require.
-      if(NOT DEFINED ENV{TEST_PHP_CGI_EXECUTABLE} AND EXISTS "@php_cgi@")
-        set(ENV{TEST_PHP_CGI_EXECUTABLE} "@php_cgi@")
-      endif()
+        # Configure PHP CGI SAPI that some tests require.
+        if(NOT DEFINED ENV{TEST_PHP_CGI_EXECUTABLE} AND EXISTS "@php_cgi@")
+          set(ENV{TEST_PHP_CGI_EXECUTABLE} "@php_cgi@")
+        endif()
 
-      # Configure PHP Debugger SAPI that some tests require.
-      if(NOT DEFINED ENV{TEST_PHPDBG_EXECUTABLE} AND EXISTS "@php_phpdbg@")
-        set(ENV{TEST_PHPDBG_EXECUTABLE} "@php_phpdbg@")
-      endif()
+        # Configure PHP Debugger SAPI that some tests require.
+        if(NOT DEFINED ENV{TEST_PHPDBG_EXECUTABLE} AND EXISTS "@php_phpdbg@")
+          set(ENV{TEST_PHPDBG_EXECUTABLE} "@php_phpdbg@")
+        endif()
 
-      # Configure PHP FPM SAPI that some tests require.
-      if(NOT DEFINED ENV{TEST_PHP_FPM_EXECUTABLE} AND EXISTS "@php_fpm@")
-        set(ENV{TEST_PHP_FPM_EXECUTABLE} "@php_fpm@")
-      endif()
+        # Configure PHP FPM SAPI that some tests require.
+        if(NOT DEFINED ENV{TEST_PHP_FPM_EXECUTABLE} AND EXISTS "@php_fpm@")
+          set(ENV{TEST_PHP_FPM_EXECUTABLE} "@php_fpm@")
+        endif()
 
-      execute_process(
-        COMMAND
-          "$<TARGET_FILE:@php_executable@>"
-            -n
-            -d open_basedir=
-            -d output_buffering=0
-            -d memory_limit=-1
-            "@run_tests@"
+        execute_process(
+          COMMAND
+            "$<TARGET_FILE:@php_executable@>"
               -n
-              -d extension_dir="@CMAKE_CURRENT_BINARY_DIR@/modules/$<CONFIG>"
-              --show-diff
-              @options@
-              @parallel@
-              -q
-        WORKING_DIRECTORY "@CMAKE_CURRENT_SOURCE_DIR@"
-        COMMAND_ERROR_IS_FATAL ANY
-      )
-    ]]
+              -d open_basedir=
+              -d output_buffering=0
+              -d memory_limit=-1
+              "@run_tests@"
+                -n
+                -d extension_dir="@CMAKE_CURRENT_BINARY_DIR@/modules/$<CONFIG>"
+                --show-diff
+                @options@
+                @parallel@
+                -q
+          WORKING_DIRECTORY "@CMAKE_CURRENT_SOURCE_DIR@"
+          COMMAND_ERROR_IS_FATAL ANY
+        )
+      ]]
     content
     @ONLY
   )
   file(
-    GENERATE
-    OUTPUT CMakeFiles/PHP/$<CONFIG>/run-tests.cmake
+    GENERATE OUTPUT CMakeFiles/PHP/$<CONFIG>/run-tests.cmake
     CONTENT "${content}"
   )
 endfunction()
