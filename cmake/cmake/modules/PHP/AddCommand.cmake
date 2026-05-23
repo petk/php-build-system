@@ -401,11 +401,11 @@ function(php_add_command)
       # gersemi: off
       COMMAND
         ${CMAKE_COMMAND}
-        -D "PHP_OUTPUT=${parsed_OUTPUT}"
-        -D "PHP_EXECUTABLE=${php_executable}"
-        -D "PHP_ARGS=${parsed_ARGS}"
-        -D "PHP_OPTIONS=-d;extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
-        -D "PHP_DEPENDS=${parsed_DEPENDS}"
+        "-DPHP_OUTPUT=${parsed_OUTPUT}"
+        "-DPHP_EXECUTABLE=${php_executable}"
+        "-DPHP_ARGS=${parsed_ARGS}"
+        "-DPHP_OPTIONS=-dextension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
+        "-DPHP_DEPENDS=${parsed_DEPENDS}"
         -P ${script}
       # gersemi: on
       DEPENDS ${parsed_DEPENDS}
@@ -417,11 +417,11 @@ function(php_add_command)
       # gersemi: off
       COMMAND
         ${CMAKE_COMMAND}
-        -D "PHP_OUTPUT=${parsed_OUTPUT}"
-        -D "PHP_EXECUTABLE=${php_executable}"
-        -D "PHP_ARGS=${parsed_ARGS}"
-        -D "PHP_OPTIONS=-d;extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
-        -D "PHP_DEPENDS=${parsed_DEPENDS}"
+        "-DPHP_OUTPUT=${parsed_OUTPUT}"
+        "-DPHP_EXECUTABLE=${php_executable}"
+        "-DPHP_ARGS=${parsed_ARGS}"
+        "-DPHP_OPTIONS=-dextension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
+        "-DPHP_DEPENDS=${parsed_DEPENDS}"
         -P ${script}
       # gersemi: on
       DEPENDS ${parsed_DEPENDS}
@@ -435,12 +435,12 @@ function(php_add_command)
     # gersemi: off
     COMMAND
       ${CMAKE_COMMAND}
-      -D "PHP_OUTPUT=${parsed_OUTPUT}"
-      -D "PHP_EXECUTABLE=${php_executable}"
-      -D "PHP_ARGS=${parsed_ARGS}"
-      -D "PHP_OPTIONS=-d;extension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
-      -D "PHP_DEPENDS=${parsed_DEPENDS}"
-      -D "PHP_EXECUTE_EXPLICITLY=TRUE"
+      "-DPHP_OUTPUT=${parsed_OUTPUT}"
+      "-DPHP_EXECUTABLE=${php_executable}"
+      "-DPHP_ARGS=${parsed_ARGS}"
+      "-DPHP_OPTIONS=-dextension_dir=${PHP_BINARY_DIR}/modules/$<CONFIG>"
+      "-DPHP_DEPENDS=${parsed_DEPENDS}"
+      "-DPHP_EXECUTE_EXPLICITLY=TRUE"
       -P ${script}
     # gersemi: on
     DEPENDS ${parsed_DEPENDS}
@@ -451,8 +451,7 @@ function(php_add_command)
   cmake_language(
     EVAL CODE
       "cmake_language(
-        DEFER
-        DIRECTORY \"${PHP_SOURCE_DIR}\"
+        DEFER DIRECTORY \"${PHP_SOURCE_DIR}\"
         CALL _php_add_command_create_script
         TARGET \"${ARGV0}\"
         SCRIPT \"${script}\"

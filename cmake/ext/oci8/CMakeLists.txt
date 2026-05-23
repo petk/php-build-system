@@ -117,15 +117,15 @@ function(php_ext_oci8_notice)
     NOTICE
     [[
 
-    The oci8 extension notice:
+      The oci8 extension notice:
 
-    If you encounter <defunc> processes when using a local Oracle
-    database, set the value 'BEQUEATH_DETACH=YES' in Oracle Net's
-    'sqlnet.ora' file on the PHP host, or set the environment variable
-    'BEQUEATH_DETACH' to 'YES' before starting Apache. If the problem
-    still occurs, then recompile PHP and specify 'PHP_SIGCHILD'
-    configuration variable.
-  ]]
+      If you encounter <defunc> processes when using a local Oracle
+      database, set the value 'BEQUEATH_DETACH=YES' in Oracle Net's
+      'sqlnet.ora' file on the PHP host, or set the environment variable
+      'BEQUEATH_DETACH' to 'YES' before starting Apache. If the problem
+      still occurs, then recompile PHP and specify 'PHP_SIGCHILD'
+      configuration variable.
+    ]]
   )
 endfunction()
 

@@ -658,10 +658,11 @@ function(_php_re2c_download)
 
   FetchContent_Declare(
     RE2C
+    # gersemi: off
     URL
       https://github.com/skvadrik/re2c/archive/refs/tags/${RE2C_VERSION}.tar.gz
-      SOURCE_SUBDIR
-      non-existing
+    SOURCE_SUBDIR non-existing
+    # gersemi: on
     OVERRIDE_FIND_PACKAGE
   )
 
