@@ -148,9 +148,9 @@ function(php_ext_xml_validate)
     CALL message
     FATAL_ERROR
     [[
-    The PHP xml extension requires either the PHP libxml extension or the
-    Expat library. Please, enable the libxml extension, or set
-    'PHP_EXT_XML_EXPAT' to 'ON'.
+      The PHP xml extension requires either the PHP libxml extension or the
+      Expat library. Please, enable the libxml extension, or set
+      'PHP_EXT_XML_EXPAT' to 'ON'.
     ]]
   )
 endfunction()

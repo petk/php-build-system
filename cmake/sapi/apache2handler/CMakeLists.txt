@@ -168,12 +168,12 @@ elseif(NOT Apache_THREADED AND NOT PHP_THREAD_SAFETY)
       NOTICE
       [[
 
-      Notice:
+        Notice:
 
-      Apache 2 handler SAPI will be built with Apache's current
-      non-threaded MPM. If you change Apache to use a threaded
-      MPM, make sure PHP is configured and built with
-      'PHP_THREAD_SAFETY' set to 'ON'.
+        Apache 2 handler SAPI will be built with Apache's current
+        non-threaded MPM. If you change Apache to use a threaded
+        MPM, make sure PHP is configured and built with
+        'PHP_THREAD_SAFETY' set to 'ON'.
 
       ]]
     )

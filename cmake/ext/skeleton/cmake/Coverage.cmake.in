@@ -70,7 +70,7 @@ exclude-lines-by-pattern = \s*zend_dump_op_array\(.*\);\s*
         --html
         --html-details
         --html-title "PHP extension ${php_target_name} code coverage"
-    # gersemi: off
+    # gersemi: on
     COMMENT "[gcovr] Generating HTML ${CMAKE_CURRENT_BINARY_DIR}/gcovr_html"
     VERBATIM
   )
