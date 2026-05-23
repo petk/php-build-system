@@ -171,18 +171,17 @@ if(PHP_TESTING)
   enable_testing()
 endif()
 
-# gersemi: off
 FetchContent_Declare(
   php
+  # gersemi: off
   URL ${php_url}
   SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/php-src
   BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/php
+  # gersemi: on
   PATCH_COMMAND
-    ${CMAKE_COMMAND}
-    -P
+    ${CMAKE_COMMAND} -P
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PhpBuildSystem/patch.cmake
 )
-# gersemi: on
 
 # Create script for the FetchContent_Declare(PATCH_COMMAND).
 file(
@@ -190,76 +189,41 @@ file(
   OUTPUT CMakeFiles/PhpBuildSystem/patch.cmake
   CONTENT
     [=[
-    message(STATUS "Adding CMake files to PHP sources")
-    file(
-      COPY
-      "@CMAKE_CURRENT_SOURCE_DIR@/cmake/"
-      DESTINATION "@CMAKE_CURRENT_BINARY_DIR@/php-src"
-    )
-
-    string(REGEX MATCH [[^([0-9]+\.[0-9]+)]] _ "@PROJECT_VERSION@")
-    file(
-      GLOB
-      patches
-      "@CMAKE_CURRENT_SOURCE_DIR@/patches/${CMAKE_MATCH_1}/*.patch"
-    )
-
-    if(NOT patches)
-      return()
-    endif()
-
-    find_package(Git QUIET)
-    if(NOT Git_FOUND)
-      find_package(Patch QUIET)
-    endif()
-
-    if(NOT Git_FOUND AND NOT Patch_FOUND)
-      message(WARNING "Patches not applied. Install Git or the patch command.")
-      return()
-    endif()
-
-    message(STATUS "Applying patches to PHP sources\n")
-
-    if(Git_FOUND)
-      # Add .git directory to be able to apply patches.
-      execute_process(
-        COMMAND ${GIT_EXECUTABLE} init
-        WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
-        RESULT_VARIABLE result
-        OUTPUT_VARIABLE output
-        ERROR_VARIABLE error
-        ERROR_STRIP_TRAILING_WHITESPACE
-        OUTPUT_QUIET
+      message(STATUS "Adding CMake files to PHP sources")
+      file(
+        COPY "@CMAKE_CURRENT_SOURCE_DIR@/cmake/"
+        DESTINATION "@CMAKE_CURRENT_BINARY_DIR@/php-src"
       )
-      if(NOT result EQUAL 0)
-        message(WARNING "Failed to create .git directory:\n${output}\n${error}")
+
+      string(REGEX MATCH [[^([0-9]+\.[0-9]+)]] _ "@PROJECT_VERSION@")
+      file(
+        GLOB patches
+        "@CMAKE_CURRENT_SOURCE_DIR@/patches/${CMAKE_MATCH_1}/*.patch"
+      )
+
+      if(NOT patches)
+        return()
       endif()
 
-      execute_process(
-        COMMAND ${GIT_EXECUTABLE} apply --ignore-whitespace ${patches}
-        WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
-        RESULT_VARIABLE result
-        OUTPUT_VARIABLE output
-        ERROR_VARIABLE error
-        ERROR_STRIP_TRAILING_WHITESPACE
-        OUTPUT_QUIET
-      )
-      if(NOT result EQUAL 0)
-        message(WARNING "Failed to apply patches:\n${output}\n${error}.")
+      find_package(Git QUIET)
+      if(NOT Git_FOUND)
+        find_package(Patch QUIET)
       endif()
 
-      # Clean temporary .git directory. Checks are done as safeguards.
-      if(
-        IS_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src/.git"
-        AND EXISTS "@CMAKE_CURRENT_BINARY_DIR@/php-src/main/php_version.h"
-        AND EXISTS "@CMAKE_CURRENT_BINARY_DIR@/php-src/CMakeLists.txt"
-      )
-        file(REMOVE_RECURSE "@CMAKE_CURRENT_BINARY_DIR@/php-src/.git/")
+      if(NOT Git_FOUND AND NOT Patch_FOUND)
+        message(
+          WARNING
+          "Patches not applied. Install Git or the patch command."
+        )
+        return()
       endif()
-    elseif(Patch_FOUND)
-      foreach(patch IN LISTS patches)
+
+      message(STATUS "Applying patches to PHP sources\n")
+
+      if(Git_FOUND)
+        # Add .git directory to be able to apply patches.
         execute_process(
-          COMMAND ${Patch_EXECUTABLE} -p1 -i "${patch}"
+          COMMAND ${GIT_EXECUTABLE} init
           WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
           RESULT_VARIABLE result
           OUTPUT_VARIABLE output
@@ -268,12 +232,51 @@ file(
           OUTPUT_QUIET
         )
         if(NOT result EQUAL 0)
-          cmake_path(GET patch FILENAME filename)
-          message(WARNING "Patch ${filename} failed:\n${output}\n${error}\n")
+          message(
+            WARNING
+            "Failed to create .git directory:\n${output}\n${error}"
+          )
         endif()
-      endforeach()
-    endif()
-  ]=]
+
+        execute_process(
+          COMMAND ${GIT_EXECUTABLE} apply --ignore-whitespace ${patches}
+          WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
+          RESULT_VARIABLE result
+          OUTPUT_VARIABLE output
+          ERROR_VARIABLE error
+          ERROR_STRIP_TRAILING_WHITESPACE
+          OUTPUT_QUIET
+        )
+        if(NOT result EQUAL 0)
+          message(WARNING "Failed to apply patches:\n${output}\n${error}.")
+        endif()
+
+        # Clean temporary .git directory. Checks are done as safeguards.
+        if(
+          IS_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src/.git"
+          AND EXISTS "@CMAKE_CURRENT_BINARY_DIR@/php-src/main/php_version.h"
+          AND EXISTS "@CMAKE_CURRENT_BINARY_DIR@/php-src/CMakeLists.txt"
+        )
+          file(REMOVE_RECURSE "@CMAKE_CURRENT_BINARY_DIR@/php-src/.git/")
+        endif()
+      elseif(Patch_FOUND)
+        foreach(patch IN LISTS patches)
+          execute_process(
+            COMMAND ${Patch_EXECUTABLE} -p1 -i "${patch}"
+            WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
+            RESULT_VARIABLE result
+            OUTPUT_VARIABLE output
+            ERROR_VARIABLE error
+            ERROR_STRIP_TRAILING_WHITESPACE
+            OUTPUT_QUIET
+          )
+          if(NOT result EQUAL 0)
+            cmake_path(GET patch FILENAME filename)
+            message(WARNING "Patch ${filename} failed:\n${output}\n${error}\n")
+          endif()
+        endforeach()
+      endif()
+    ]=]
   @ONLY
 )
 
