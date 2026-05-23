@@ -462,7 +462,7 @@ if(NOT PROJECT_IS_TOP_LEVEL)
       extensions statically, please link with the same ODBC library, or build
       one of the extensions as shared by setting 'PHP_EXT_ODBC' or
       'PHP_EXT_PDO_ODBC' to 'shared'.
-    "
+      "
     )
   endfunction()
 endif()
