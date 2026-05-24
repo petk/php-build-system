@@ -79,9 +79,9 @@ block()
     add_custom_target(
       php_zend_language_parser_patch
       COMMAND ${CMAKE_COMMAND} -P CMakeFiles/Zend/PatchLanguageParser.cmake
-      DEPENDS php_zend_language_parser
       VERBATIM
     )
+    add_dependencies(php_zend_language_parser_patch php_zend_language_parser)
     add_dependencies(php_zend php_zend_language_parser_patch)
   endif()
 endblock()
