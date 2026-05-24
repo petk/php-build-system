@@ -409,12 +409,12 @@ function(php_bison name input)
   )
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Bison)
 
-  if(role STREQUAL "PROJECT")
-    add_custom_target(${name} SOURCES ${input} DEPENDS ${timestamp})
-  endif()
-
   # Skip generation, if generated files are provided by the release archive.
   if(NOT BISON_FOUND AND NOT package_type STREQUAL "REQUIRED")
+    if(role STREQUAL "PROJECT")
+      add_custom_target(${name} SOURCES ${input})
+    endif()
+
     return()
   endif()
 
@@ -434,14 +434,15 @@ function(php_bison name input)
     return()
   endif()
 
+  add_custom_target(${name} SOURCES ${input} DEPENDS ${timestamp})
+
   set(codegen "")
   if(parsed_CODEGEN)
     set(codegen CODEGEN)
   endif()
 
-  # Two commands and dependency on custom target avoids race conditions if
-  # the same generated source file is used by multiple project
-  # libraries/targets.
+  # Two commands and dependency on custom target avoid race conditions if the
+  # same generated source file is used by multiple project libraries/targets.
   add_custom_command(
     OUTPUT ${timestamp}
     # gersemi: off
