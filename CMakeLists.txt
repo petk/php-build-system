@@ -174,10 +174,10 @@ endif()
 FetchContent_Declare(
   php
   # gersemi: off
-  URL ${php_url}
   SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/php-src
   BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/php
   # gersemi: on
+  URL ${php_url}
   PATCH_COMMAND
     ${CMAKE_COMMAND} -DPHP_SOURCE_DIR=<SOURCE_DIR> -P
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PhpBuildSystem/patch.cmake
