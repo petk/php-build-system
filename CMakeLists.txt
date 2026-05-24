@@ -179,7 +179,7 @@ FetchContent_Declare(
   BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}/php
   # gersemi: on
   PATCH_COMMAND
-    ${CMAKE_COMMAND} -P
+    ${CMAKE_COMMAND} -DPHP_SOURCE_DIR=<SOURCE_DIR> -P
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PhpBuildSystem/patch.cmake
 )
 
@@ -192,7 +192,7 @@ file(
       message(STATUS "Adding CMake files to PHP sources")
       file(
         COPY "@CMAKE_CURRENT_SOURCE_DIR@/cmake/"
-        DESTINATION "@CMAKE_CURRENT_BINARY_DIR@/php-src"
+        DESTINATION "${PHP_SOURCE_DIR}"
       )
 
       string(REGEX MATCH [[^([0-9]+\.[0-9]+)]] _ "@PROJECT_VERSION@")
@@ -224,7 +224,7 @@ file(
         # Add .git directory to be able to apply patches.
         execute_process(
           COMMAND ${GIT_EXECUTABLE} init
-          WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
+          WORKING_DIRECTORY "${PHP_SOURCE_DIR}"
           RESULT_VARIABLE result
           OUTPUT_VARIABLE output
           ERROR_VARIABLE error
@@ -240,7 +240,7 @@ file(
 
         execute_process(
           COMMAND ${GIT_EXECUTABLE} apply --ignore-whitespace ${patches}
-          WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
+          WORKING_DIRECTORY "${PHP_SOURCE_DIR}"
           RESULT_VARIABLE result
           OUTPUT_VARIABLE output
           ERROR_VARIABLE error
@@ -253,17 +253,17 @@ file(
 
         # Clean temporary .git directory. Checks are done as safeguards.
         if(
-          IS_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src/.git"
-          AND EXISTS "@CMAKE_CURRENT_BINARY_DIR@/php-src/main/php_version.h"
-          AND EXISTS "@CMAKE_CURRENT_BINARY_DIR@/php-src/CMakeLists.txt"
+          IS_DIRECTORY "${PHP_SOURCE_DIR}/.git"
+          AND EXISTS "${PHP_SOURCE_DIR}/main/php_version.h"
+          AND EXISTS "${PHP_SOURCE_DIR}/CMakeLists.txt"
         )
-          file(REMOVE_RECURSE "@CMAKE_CURRENT_BINARY_DIR@/php-src/.git/")
+          file(REMOVE_RECURSE "${PHP_SOURCE_DIR}/.git/")
         endif()
       elseif(Patch_FOUND)
         foreach(patch IN LISTS patches)
           execute_process(
             COMMAND ${Patch_EXECUTABLE} -p1 -i "${patch}"
-            WORKING_DIRECTORY "@CMAKE_CURRENT_BINARY_DIR@/php-src"
+            WORKING_DIRECTORY "${PHP_SOURCE_DIR}"
             RESULT_VARIABLE result
             OUTPUT_VARIABLE output
             ERROR_VARIABLE error
