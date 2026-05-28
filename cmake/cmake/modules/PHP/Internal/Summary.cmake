@@ -585,8 +585,7 @@ function(php_summary_print)
   # Output missing required packages.
   feature_summary(
     FATAL_ON_MISSING_REQUIRED_PACKAGES
-    WHAT RECOMMENDED_PACKAGES_NOT_FOUND
-    REQUIRED_PACKAGES_NOT_FOUND
+    WHAT RECOMMENDED_PACKAGES_NOT_FOUND REQUIRED_PACKAGES_NOT_FOUND
     QUIET_ON_EMPTY
   )
 endfunction()
@@ -621,9 +620,10 @@ function(php_summary_print_extension extension)
 
   feature_summary(
     FATAL_ON_MISSING_REQUIRED_PACKAGES
-    WHAT ENABLED_FEATURES
-    RECOMMENDED_PACKAGES_NOT_FOUND
-    REQUIRED_PACKAGES_NOT_FOUND
+    WHAT
+      ENABLED_FEATURES
+      RECOMMENDED_PACKAGES_NOT_FOUND
+      REQUIRED_PACKAGES_NOT_FOUND
     QUIET_ON_EMPTY
   )
 endfunction()
