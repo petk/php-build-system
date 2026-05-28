@@ -731,10 +731,8 @@ function(_php_bison_download_gnu)
 
   FetchContent_Declare(
     BISON
-    # gersemi: off
     URL ${url}
     SOURCE_SUBDIR non-existing
-    # gersemi: on
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
     OVERRIDE_FIND_PACKAGE
   )
@@ -780,10 +778,8 @@ function(_php_bison_download_windows)
 
   FetchContent_Declare(
     BISON
-    # gersemi: off
     URL ${url}
     SOURCE_SUBDIR non-existing
-    # gersemi: on
     OVERRIDE_FIND_PACKAGE
   )
 
@@ -802,10 +798,8 @@ function(_php_bison_download_m4)
 
   FetchContent_Declare(
     M4
-    # gersemi: off
     URL ${url}
     SOURCE_SUBDIR non-existing
-    # gersemi: on
     DOWNLOAD_EXTRACT_TIMESTAMP TRUE
   )
 
