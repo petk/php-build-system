@@ -2,7 +2,6 @@
 
 ## Index
 
-* [Index](#index)
 * [1. CMake presets](#1-cmake-presets)
 * [2. CMake configuration](#2-cmake-configuration)
 * [3. PHP configuration](#3-php-configuration)

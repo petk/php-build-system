@@ -240,6 +240,29 @@ target_compile_options(
 
 target_include_directories(php_ext_lexbor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
+include(PHP/CheckCompilerFlag)
+
+php_check_compiler_flag(
+  C
+  -Wno-unknown-warning-option
+  PHP_EXT_LEXBOR_HAS_WNO_UNKNOWN_WARNING_OPTION
+)
+if(PHP_EXT_LEXBOR_HAS_WNO_UNKNOWN_WARNING_OPTION)
+  target_compile_options(php_ext_lexbor PRIVATE -Wno-unknown-warning-option)
+endif()
+
+php_check_compiler_flag(
+  C
+  -Wno-unterminated-string-initialization
+  PHP_EXT_LEXBOR_HAS_WNO_UNTERMINATED_STRING_INITIALIZATION
+)
+if(PHP_EXT_LEXBOR_HAS_WNO_UNTERMINATED_STRING_INITIALIZATION)
+  target_compile_options(
+    php_ext_lexbor
+    PRIVATE -Wno-unterminated-string-initialization
+  )
+endif()
+
 set(HAVE_LEXBOR TRUE)
 
 configure_file(cmake/config.h.in config.h)

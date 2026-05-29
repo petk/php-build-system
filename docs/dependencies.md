@@ -6,7 +6,6 @@ projects.
 
 ## Index
 
-* [Index](#index)
 * [1. Introduction to dependencies](#1-introduction-to-dependencies)
 * [2. Why manage dependencies?](#2-why-manage-dependencies)
 * [3. Options for managing dependencies](#3-options-for-managing-dependencies)
