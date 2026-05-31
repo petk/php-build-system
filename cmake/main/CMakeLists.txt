@@ -50,6 +50,8 @@ target_sources(
     streams/memory.c
     streams/mmap.c
     streams/plain_wrapper.c
+    streams/stream_errors.c
+    streams/stream_errors.stub.php
     streams/streams.c
     streams/transports.c
     streams/userspace.c
@@ -91,6 +93,7 @@ target_sources(
         snprintf.h
         spprintf.h
         streams/php_stream_context.h
+        streams/php_stream_errors.h
         streams/php_stream_filter_api.h
         streams/php_stream_glob_wrapper.h
         streams/php_stream_mmap.h
@@ -98,6 +101,8 @@ target_sources(
         streams/php_stream_transport.h
         streams/php_stream_userspace.h
         streams/php_streams_int.h
+        streams/stream_errors_arginfo.h
+        streams/stream_errors_decl.h
         streams/userspace_arginfo.h
   PUBLIC
     FILE_SET generated
