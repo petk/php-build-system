@@ -136,7 +136,7 @@ index 12aa02005c2..abfcbcbfc12 100644
  #  define HAVE__CONTROLFP_S
  #endif /* _MSC_VER */
 diff --git a/configure.ac b/configure.ac
-index 6c517ecc0a1..dba894ff00f 100644
+index 7b1fc3af784..1d3ca45c079 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1616,7 +1616,7 @@ else
