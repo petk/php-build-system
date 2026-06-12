@@ -34,6 +34,8 @@ This document describes how the PHP build system evolved through time.
   * `--with-pic` is now `--enable-pic`. The old flag will result in an error.
 * Symbol `HAVE_ST_BLOCKS` has been removed from `php_config.h` (use
   `HAVE_STRUCT_STAT_ST_BLOCKS`).
+* Added a new configure option `--disable-apache2-conf` to prevent apxs from
+  editing `httpd.conf` during installation.
 
 #### Windows
 
