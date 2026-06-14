@@ -71,7 +71,7 @@ index 630a4b7e656..ec6bfd890c9 100644
 -#endif /* ZEND_BASIC_FUNCTIONS_DECL_3b1649a3abb3cfb5cb39d93f30a97765fe862d67_H */
 +#endif /* ZEND_BASIC_FUNCTIONS_DECL_2785478d906400fd3a2f793a3f11bbee3cfdb5c2_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
-index 1d64c7ff696..6101dfed35a 100644
+index 67c36b93ba3..e98730d847a 100644
 --- a/ext/standard/config.m4
 +++ b/ext/standard/config.m4
 @@ -383,6 +383,11 @@ AS_VAR_IF([php_cv_func_getifaddrs], [yes],
@@ -87,7 +87,7 @@ index 1d64c7ff696..6101dfed35a 100644
  dnl Setup extension sources
  dnl
 diff --git a/ext/standard/config.w32 b/ext/standard/config.w32
-index 589929027f6..4bebd74393e 100644
+index 50031ac3b8a..6ee231d84d1 100644
 --- a/ext/standard/config.w32
 +++ b/ext/standard/config.w32
 @@ -21,6 +21,13 @@ AC_DEFINE("PHP_USE_PHP_CRYPT_R", 1, "Define to 1 if PHP uses its own crypt_r, an
