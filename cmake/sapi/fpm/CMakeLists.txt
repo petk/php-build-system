@@ -233,9 +233,6 @@ set_target_properties(
 check_symbol_exists(clearenv stdlib.h PHP_SAPI_FPM_HAVE_CLEARENV)
 set(HAVE_CLEARENV ${PHP_SAPI_FPM_HAVE_CLEARENV})
 
-check_symbol_exists(port_create port.h PHP_SAPI_FPM_HAVE_PORT_CREATE)
-set(HAVE_PORT_CREATE ${PHP_SAPI_FPM_HAVE_PORT_CREATE})
-
 check_symbol_exists(setpflags priv.h PHP_SAPI_FPM_HAVE_SETPFLAGS)
 set(HAVE_SETPFLAGS ${PHP_SAPI_FPM_HAVE_SETPFLAGS})
 
@@ -254,10 +251,7 @@ set(HAVE_TIMES ${PHP_SAPI_FPM_HAVE_TIMES})
 
 include(cmake/CheckClockGetTime.cmake)
 include(cmake/CheckCompilerAtomicBuiltins.cmake)
-include(cmake/CheckEpoll.cmake)
-include(cmake/CheckKqueue.cmake)
 include(cmake/CheckListeningQueue.cmake)
-include(cmake/CheckSelect.cmake)
 
 # Check FPM trace implementation.
 include(cmake/CheckTrace.cmake)

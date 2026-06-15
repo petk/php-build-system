@@ -38,6 +38,14 @@ target_sources(
     php_syslog.c
     php_ticks.c
     php_variables.c
+    poll/poll_backend_epoll.c
+    poll/poll_backend_eventport.c
+    poll/poll_backend_kqueue.c
+    poll/poll_backend_poll.c
+    poll/poll_backend_wsapoll.c
+    poll/poll_core.c
+    poll/poll_fd_table.c
+    poll/poll_handle.c
     reentrancy.c
     rfc1867.c
     safe_bcmp.c
@@ -80,6 +88,7 @@ target_sources(
         php_odbc_utils.h
         php_open_temporary_file.h
         php_output.h
+        php_poll.h
         php_reentrancy.h
         php_scandir.h
         php_streams.h

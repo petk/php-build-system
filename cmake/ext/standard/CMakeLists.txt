@@ -107,6 +107,8 @@ target_sources(
     image.c
     incomplete_class.c
     info.c
+    io_poll.c
+    io_poll.stub.php
     iptc.c
     levenshtein.c
     libavifinfo/avifinfo.c
@@ -168,6 +170,7 @@ target_sources(
         html_tables.h
         html.h
         info.h
+        io_poll_arginfo.h
         md5.h
         pageinfo.h
         password_arginfo.h

@@ -13,14 +13,8 @@
 /* Define to 1 if you have the 'clock_gettime' function. */
 #cmakedefine HAVE_CLOCK_GETTIME 1
 
-/* Define to 1 if system has a working epoll. */
-#cmakedefine HAVE_EPOLL 1
-
 /* Define to 1 if PHP-FPM has ACL support. */
 #cmakedefine HAVE_FPM_ACL 1
-
-/* Define to 1 if system has a working 'kqueue' function. */
-#cmakedefine HAVE_KQUEUE 1
 
 /* Define to 1 if you have 'SO_LISTENQ*'. */
 #cmakedefine HAVE_LQ_SO_LISTENQ 1
@@ -35,14 +29,8 @@
    'ptrace' function doesn't work). */
 #cmakedefine HAVE_MACH_VM_READ 1
 
-/* Define to 1 if you have the 'port_create' function. */
-#cmakedefine HAVE_PORT_CREATE 1
-
 /* Define to 1 if the system has a working 'ptrace' function. */
 #cmakedefine HAVE_PTRACE 1
-
-/* Define to 1 if system has a working 'select' function. */
-#cmakedefine HAVE_SELECT 1
 
 /* Define to 1 if SELinux is available in PHP-FPM. */
 #cmakedefine HAVE_SELINUX 1

@@ -103,6 +103,15 @@
 /* Define to 1 if DTrace support is enabled. */
 #cmakedefine HAVE_DTRACE 1
 
+/* Define to 1 if system has a working epoll. */
+#cmakedefine HAVE_EPOLL 1
+
+/* Define to 1 if you have the 'epoll_pwait2' function. */
+#cmakedefine HAVE_EPOLL_PWAIT2 1
+
+/* Define to 1 if event ports are available. */
+#cmakedefine HAVE_EVENT_PORTS 1
+
 /* Define to 1 if you have the 'explicit_bzero' function. */
 #cmakedefine HAVE_EXPLICIT_BZERO 1
 
@@ -220,6 +229,9 @@
 
 /* Define to 1 if you have the 'issetugid' function. */
 #cmakedefine HAVE_ISSETUGID 1
+
+/* Define to 1 if system has a working 'kqueue' function. */
+#cmakedefine HAVE_KQUEUE 1
 
 /* Define to 1 if you have the <langinfo.h> header file. */
 #cmakedefine HAVE_LANGINFO_H 1
