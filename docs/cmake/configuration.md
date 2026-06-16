@@ -828,6 +828,18 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--disable-apache2-conf</td>
+      <td>&emsp;N/A</td>
+      <td>PHP_SAPI_APACHE2HANDLER_INSTALL_CONFIG=OFF</td>
+      <td>Default in CMake; In Autotools since PHP &gt;= 8.6</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-apache2-conf</td>
+      <td>&emsp;N/A</td>
+      <td>PHP_SAPI_APACHE2HANDLER_INSTALL_CONFIG=ON</td>
+      <td>Default in Autotools; In Autotools since PHP &gt;= 8.6</td>
+    </tr>
+    <tr>
       <td>--enable-cgi</td>
       <td>--enable-cgi</td>
       <td>PHP_SAPI_CGI=ON</td>

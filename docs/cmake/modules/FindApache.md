@@ -29,6 +29,11 @@ This module defines the following variables:
 * `Apache_THREADED` - Whether Apache requires thread safety.
 * `Apache_LIBEXECDIR` - Path to the directory containing all Apache modules and
   `httpd.exp` file (list of exported symbols).
+* `Apache_APXS_DEFINITIONS` - A list of compile definitions (`-D`) from the
+  `apxs -q CFLAGS` query string.
+* `Apache_APR_CPPFLAGS` - A list of C preprocessor flags for the `apr` library.
+* `Apache_SYSCONFDIR` - Path to the directory containing Apache HTTP
+  configuration.
 
 ## Cache variables
 
@@ -36,11 +41,8 @@ The following cache variables may also be set:
 
 * `Apache_APXS_EXECUTABLE` - Path to the APache eXtenSion tool command-line tool
   (`apxs`).
-* `Apache_APXS_DEFINITIONS` - A list of compile definitions (`-D`) from the
-  `apxs -q CFLAGS` query string.
 * `Apache_APR_CONFIG_EXECUTABLE` - Path to the `apr` library command-line
   configuration tool.
-* `Apache_APR_CPPFLAGS` - A list of C preprocessor flags for the `apr` library.
 * `Apache_APU_CONFIG_EXECUTABLE` - Path to the Apache Portable Runtime Utilities
   config command-line tool.
 * `Apache_EXECUTABLE` - Path to the Apache command-line server program
