@@ -27,6 +27,11 @@ This module defines the following variables:
 * `Apache_THREADED` - Whether Apache requires thread safety.
 * `Apache_LIBEXECDIR` - Path to the directory containing all Apache modules and
   `httpd.exp` file (list of exported symbols).
+* `Apache_APXS_DEFINITIONS` - A list of compile definitions (`-D`) from the
+  `apxs -q CFLAGS` query string.
+* `Apache_APR_CPPFLAGS` - A list of C preprocessor flags for the `apr` library.
+* `Apache_SYSCONFDIR` - Path to the directory containing Apache HTTP
+  configuration.
 
 ## Cache variables
 
@@ -34,11 +39,8 @@ The following cache variables may also be set:
 
 * `Apache_APXS_EXECUTABLE` - Path to the APache eXtenSion tool command-line tool
   (`apxs`).
-* `Apache_APXS_DEFINITIONS` - A list of compile definitions (`-D`) from the
-  `apxs -q CFLAGS` query string.
 * `Apache_APR_CONFIG_EXECUTABLE` - Path to the `apr` library command-line
   configuration tool.
-* `Apache_APR_CPPFLAGS` - A list of C preprocessor flags for the `apr` library.
 * `Apache_APU_CONFIG_EXECUTABLE` - Path to the Apache Portable Runtime Utilities
   config command-line tool.
 * `Apache_EXECUTABLE` - Path to the Apache command-line server program
@@ -70,35 +72,62 @@ set_package_properties(
     DESCRIPTION "The Apache HTTP Server"
 )
 
-set(_reason "")
-
 ################################################################################
-# APXS.
+# Find Apache.
 ################################################################################
 
-find_program(
-  Apache_APXS_EXECUTABLE
-  NAMES apxs apxs2
-  NAMES_PER_DIR
-  DOC "Path to the APache eXtenSion tool"
+block(
+  PROPAGATE
+    Apache_FOUND
+    Apache_VERSION
+    Apache_THREADED
+    Apache_LIBEXECDIR
+    Apache_SYSCONFDIR
+    Apache_APXS_DEFINITIONS
+    Apache_APR_CPPFLAGS
 )
-mark_as_advanced(Apache_APXS_EXECUTABLE)
+  set(reason "")
 
-if(NOT Apache_APXS_EXECUTABLE)
-  string(APPEND _reason "apxs tool not found. ")
-else()
-  # Sanity check for apxs.
-  execute_process(
-    COMMAND "${Apache_APXS_EXECUTABLE}" -q CFLAGS
-    OUTPUT_VARIABLE Apache_APXS_DEFINITIONS
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
-    RESULT_VARIABLE _result
+  ##############################################################################
+  # APXS.
+  ##############################################################################
+
+  find_program(
+    Apache_APXS_EXECUTABLE
+    NAMES apxs apxs2
+    NAMES_PER_DIR
+    DOC "Path to the APache eXtenSion tool"
   )
+  mark_as_advanced(Apache_APXS_EXECUTABLE)
 
-  if(_result STREQUAL "0")
-    set(_Apache_APXS_SANITY_CHECK TRUE)
+  if(NOT Apache_APXS_EXECUTABLE)
+    string(APPEND reason "apxs tool not found. ")
+  else()
+    # Also perform a sanity check whether the apxs Perl script is executable
+    # (Perl must be installed).
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q CFLAGS
+      OUTPUT_VARIABLE Apache_APXS_DEFINITIONS
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+      RESULT_VARIABLE result
+    )
 
+    if(NOT result EQUAL 0)
+      set_property(
+        CACHE Apache_APXS_EXECUTABLE
+        PROPERTY VALUE "Apache_APXS_EXECUTABLE-NOTFOUND"
+      )
+
+      string(
+        APPEND reason
+        "The apxs sanity check failed. Check if Perl is installed and Apache "
+        "is built using the --enable-so option. "
+      )
+    endif()
+  endif()
+
+  if(IS_EXECUTABLE "${Apache_APXS_EXECUTABLE}")
     # Get all compile definitions from the above CFLAGS result if found.
     separate_arguments(
       Apache_APXS_DEFINITIONS
@@ -106,73 +135,75 @@ else()
       "${Apache_APXS_DEFINITIONS}"
     )
     list(FILTER Apache_APXS_DEFINITIONS INCLUDE REGEX "^-D")
-  else()
-    string(
-      APPEND _reason
-      "The apxs sanity check failed. Check if Perl is installed and Apache is "
-      "built using the --enable-so option."
+
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q APR_BINDIR
+      OUTPUT_VARIABLE _Apache_APR_BINDIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q APU_BINDIR
+      OUTPUT_VARIABLE _Apache_APU_BINDIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q LIBEXECDIR
+      OUTPUT_VARIABLE Apache_LIBEXECDIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q SYSCONFDIR
+      OUTPUT_VARIABLE Apache_SYSCONFDIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q TARGET
+      OUTPUT_VARIABLE _Apache_NAME
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q SBINDIR
+      OUTPUT_VARIABLE _Apache_SBINDIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    execute_process(
+      COMMAND "${Apache_APXS_EXECUTABLE}" -q INCLUDEDIR
+      OUTPUT_VARIABLE _Apache_APXS_INCLUDE_DIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
     )
   endif()
-  unset(_result)
 
-  execute_process(
-    COMMAND "${Apache_APXS_EXECUTABLE}" -q APR_BINDIR
-    OUTPUT_VARIABLE _Apache_APR_BINDIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+  ##############################################################################
+  # APR.
+  ##############################################################################
+
+  find_program(
+    Apache_APR_CONFIG_EXECUTABLE
+    NAMES apr-config apr-1-config
+    NAMES_PER_DIR
+    HINTS ${_Apache_APR_BINDIR}
+    DOC
+      "Path to the apr library command-line tool for retrieving metainformation"
   )
+  mark_as_advanced(Apache_APR_CONFIG_EXECUTABLE)
 
-  execute_process(
-    COMMAND "${Apache_APXS_EXECUTABLE}" -q APU_BINDIR
-    OUTPUT_VARIABLE _Apache_APU_BINDIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+  if(
+    NOT Apache_APR_CONFIG_EXECUTABLE
+    AND IS_EXECUTABLE "${Apache_APXS_EXECUTABLE}"
   )
-
-  execute_process(
-    COMMAND "${Apache_APXS_EXECUTABLE}" -q LIBEXECDIR
-    OUTPUT_VARIABLE Apache_LIBEXECDIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
-  )
-
-  execute_process(
-    COMMAND "${Apache_APXS_EXECUTABLE}" -q TARGET
-    OUTPUT_VARIABLE _Apache_NAME
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
-  )
-
-  execute_process(
-    COMMAND "${Apache_APXS_EXECUTABLE}" -q SBINDIR
-    OUTPUT_VARIABLE _Apache_SBINDIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
-  )
-
-  execute_process(
-    COMMAND "${Apache_APXS_EXECUTABLE}" -q INCLUDEDIR
-    OUTPUT_VARIABLE _Apache_APXS_INCLUDE_DIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
-  )
-endif()
-
-################################################################################
-# APR.
-################################################################################
-
-find_program(
-  Apache_APR_CONFIG_EXECUTABLE
-  NAMES apr-config apr-1-config
-  NAMES_PER_DIR
-  HINTS ${_Apache_APR_BINDIR}
-  DOC "Path to the apr library command-line tool for retrieving metainformation"
-)
-mark_as_advanced(Apache_APR_CONFIG_EXECUTABLE)
-
-block()
-  if(NOT Apache_APR_CONFIG_EXECUTABLE AND Apache_APXS_EXECUTABLE)
     execute_process(
       COMMAND "${Apache_APXS_EXECUTABLE}" -q APR_CONFIG
       OUTPUT_VARIABLE path
@@ -183,76 +214,74 @@ block()
       set_property(CACHE Apache_APR_CONFIG_EXECUTABLE PROPERTY VALUE ${path})
     endif()
   endif()
-endblock()
 
-if(Apache_APR_CONFIG_EXECUTABLE)
-  execute_process(
-    COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --cppflags
-    OUTPUT_VARIABLE Apache_APR_CPPFLAGS
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+  if(Apache_APR_CONFIG_EXECUTABLE)
+    execute_process(
+      COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --cppflags
+      OUTPUT_VARIABLE Apache_APR_CPPFLAGS
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+
+    separate_arguments(
+      Apache_APR_CPPFLAGS
+      NATIVE_COMMAND
+      "${Apache_APR_CPPFLAGS}"
+    )
+
+    execute_process(
+      COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --includedir
+      OUTPUT_VARIABLE _Apache_APR_INCLUDE_DIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+  endif()
+
+  find_package(PkgConfig QUIET)
+  if(PkgConfig_FOUND)
+    pkg_check_modules(PC_Apache_APR QUIET apr-1)
+  endif()
+
+  find_path(
+    Apache_APR_INCLUDE_DIR
+    NAMES apr.h
+    HINTS
+      ${PC_Apache_APR_INCLUDE_DIRS}
+      ${_Apache_APR_INCLUDE_DIR}
+      ${_Apache_APU_INCLUDE_DIR}
+    PATH_SUFFIXES apr-1
+    DOC "Directory containing apr library headers"
   )
 
-  separate_arguments(
-    Apache_APR_CPPFLAGS
-    NATIVE_COMMAND
-    "${Apache_APR_CPPFLAGS}"
+  if(NOT Apache_APR_INCLUDE_DIR)
+    string(APPEND reason "<apr.h> not found. ")
+  endif()
+
+  find_library(
+    Apache_APR_LIBRARY
+    NAMES apr-1
+    HINTS ${PC_Apache_APR_LIBRARY_DIRS}
+    DOC "The path to the apr library"
   )
+  mark_as_advanced(Apache_APR_LIBRARY)
 
-  execute_process(
-    COMMAND "${Apache_APR_CONFIG_EXECUTABLE}" --includedir
-    OUTPUT_VARIABLE _Apache_APR_INCLUDE_DIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+  if(NOT Apache_APR_LIBRARY)
+    string(APPEND reason "Apache apr library not found. ")
+  endif()
+
+  ##############################################################################
+  # APU.
+  ##############################################################################
+
+  find_program(
+    Apache_APU_CONFIG_EXECUTABLE
+    NAMES apu-config apu-1-config
+    NAMES_PER_DIR
+    HINTS ${_Apache_APU_BINDIR}
+    DOC "Path to the Apache Portable Runtime Utilities config command-line tool"
   )
-endif()
+  mark_as_advanced(Apache_APU_CONFIG_EXECUTABLE)
 
-find_package(PkgConfig QUIET)
-if(PkgConfig_FOUND)
-  pkg_check_modules(PC_Apache_APR QUIET apr-1)
-endif()
-
-find_path(
-  Apache_APR_INCLUDE_DIR
-  NAMES apr.h
-  HINTS
-    ${PC_Apache_APR_INCLUDE_DIRS}
-    ${_Apache_APR_INCLUDE_DIR}
-    ${_Apache_APU_INCLUDE_DIR}
-  PATH_SUFFIXES apr-1
-  DOC "Directory containing apr library headers"
-)
-
-if(NOT Apache_APR_INCLUDE_DIR)
-  string(APPEND _reason "apr.h not found. ")
-endif()
-
-find_library(
-  Apache_APR_LIBRARY
-  NAMES apr-1
-  HINTS ${PC_Apache_APR_LIBRARY_DIRS}
-  DOC "The path to the apr library"
-)
-mark_as_advanced(Apache_APR_LIBRARY)
-
-if(NOT Apache_APR_LIBRARY)
-  string(APPEND _reason "Apache apr library not found. ")
-endif()
-
-################################################################################
-# APU.
-################################################################################
-
-find_program(
-  Apache_APU_CONFIG_EXECUTABLE
-  NAMES apu-config apu-1-config
-  NAMES_PER_DIR
-  HINTS ${_Apache_APU_BINDIR}
-  DOC "Path to the Apache Portable Runtime Utilities config command-line tool"
-)
-mark_as_advanced(Apache_APU_CONFIG_EXECUTABLE)
-
-block()
   if(NOT Apache_APU_CONFIG_EXECUTABLE AND Apache_APXS_EXECUTABLE)
     execute_process(
       COMMAND "${Apache_APXS_EXECUTABLE}" -q APU_CONFIG
@@ -264,49 +293,50 @@ block()
       set_property(CACHE Apache_APU_CONFIG_EXECUTABLE PROPERTY VALUE ${path})
     endif()
   endif()
-endblock()
 
-if(Apache_APU_CONFIG_EXECUTABLE)
-  execute_process(
-    COMMAND "${Apache_APU_CONFIG_EXECUTABLE}" --includedir
-    OUTPUT_VARIABLE _Apache_APU_INCLUDE_DIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+  if(IS_EXECUTABLE "${Apache_APU_CONFIG_EXECUTABLE}")
+    execute_process(
+      COMMAND "${Apache_APU_CONFIG_EXECUTABLE}" --includedir
+      OUTPUT_VARIABLE _Apache_APU_INCLUDE_DIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      ERROR_QUIET
+    )
+  endif()
+
+  ##############################################################################
+  # Apache.
+  ##############################################################################
+
+  find_program(
+    Apache_EXECUTABLE
+    NAMES ${_Apache_NAME} httpd apache2
+    NAMES_PER_DIR
+    HINTS ${_Apache_SBINDIR}
+    DOC "Path to the Apache HTTP server command-line utility"
   )
-endif()
+  mark_as_advanced(Apache_EXECUTABLE)
 
-################################################################################
-# Apache.
-################################################################################
+  if(NOT Apache_EXECUTABLE)
+    string(APPEND reason "Apache HTTP server command-line utility not found. ")
+  endif()
 
-find_program(
-  Apache_EXECUTABLE
-  NAMES ${_Apache_NAME} apache2
-  NAMES_PER_DIR
-  HINTS ${_Apache_SBINDIR}
-  DOC "Path to the Apache HTTP server command-line utility"
-)
-mark_as_advanced(Apache_EXECUTABLE)
+  find_path(
+    Apache_INCLUDE_DIR
+    NAMES httpd.h
+    PATH_SUFFIXES apache2
+    HINTS ${_Apache_APXS_INCLUDE_DIR}
+    DOC "Directory containing Apache headers"
+  )
+  mark_as_advanced(Apache_INCLUDE_DIR)
 
-if(NOT Apache_EXECUTABLE)
-  string(APPEND _reason "Apache HTTP server command-line utility not found. ")
-endif()
+  if(NOT Apache_INCLUDE_DIR)
+    string(APPEND reason "<httpd.h> not found. ")
+  endif()
 
-find_path(
-  Apache_INCLUDE_DIR
-  NAMES httpd.h
-  PATH_SUFFIXES apache2
-  HINTS ${_Apache_APXS_INCLUDE_DIR}
-  DOC "Directory containing Apache headers"
-)
-mark_as_advanced(Apache_INCLUDE_DIR)
+  ##############################################################################
+  # Get Apache version.
+  ##############################################################################
 
-if(NOT Apache_INCLUDE_DIR)
-  string(APPEND _reason "httpd.h not found. ")
-endif()
-
-# Get Apache version.
-block(PROPAGATE Apache_VERSION)
   if(EXISTS ${Apache_INCLUDE_DIR}/ap_release.h)
     file(
       STRINGS ${Apache_INCLUDE_DIR}/ap_release.h
@@ -349,7 +379,7 @@ block(PROPAGATE Apache_VERSION)
 
   # If Apache headers don't provide version, try apxs command-line tool.
   # The 'apxs -q' HTTPD_VERSION variable was added in Apache 2.4.17.
-  if(NOT Apache_VERSION AND Apache_APXS_EXECUTABLE)
+  if(NOT Apache_VERSION AND IS_EXECUTABLE "${Apache_APXS_EXECUTABLE}")
     execute_process(
       COMMAND "${Apache_APXS_EXECUTABLE}" -q HTTPD_VERSION
       OUTPUT_VARIABLE Apache_VERSION
@@ -359,7 +389,7 @@ block(PROPAGATE Apache_VERSION)
   endif()
 
   # If version is still not found, try Apache command-line tool.
-  if(NOT Apache_VERSION AND Apache_EXECUTABLE)
+  if(NOT Apache_VERSION AND IS_EXECUTABLE "${Apache_EXECUTABLE}")
     execute_process(
       COMMAND "${Apache_EXECUTABLE}" -v
       OUTPUT_VARIABLE version
@@ -371,17 +401,18 @@ block(PROPAGATE Apache_VERSION)
       set(Apache_VERSION "${CMAKE_MATCH_1}")
     endif()
   endif()
-endblock()
 
-################################################################################
-# Check if Apache requires thread safety.
-################################################################################
+  ##############################################################################
+  # Check if Apache requires thread safety.
+  ##############################################################################
 
-block(PROPAGATE Apache_THREADED)
   set(Apache_THREADED FALSE)
 
   # MPM_NAME query string for apxs was removed in Apache 2.4 (2.3.3 dev branch).
-  if(Apache_APXS_EXECUTABLE AND Apache_VERSION VERSION_LESS 2.4)
+  if(
+    IS_EXECUTABLE "${Apache_APXS_EXECUTABLE}"
+    AND Apache_VERSION VERSION_LESS 2.4
+  )
     execute_process(
       COMMAND "${Apache_APXS_EXECUTABLE}" -q MPM_NAME
       OUTPUT_VARIABLE name
@@ -392,7 +423,7 @@ block(PROPAGATE Apache_THREADED)
     if(NOT name MATCHES "^(prefork|peruser|itk)$")
       set(Apache_THREADED TRUE)
     endif()
-  elseif(Apache_EXECUTABLE)
+  elseif(IS_EXECUTABLE "${Apache_EXECUTABLE}")
     execute_process(
       COMMAND "${Apache_EXECUTABLE}" -V
       OUTPUT_VARIABLE result
@@ -404,40 +435,35 @@ block(PROPAGATE Apache_THREADED)
       set(Apache_THREADED TRUE)
     endif()
   endif()
+
+  ##############################################################################
+
+  find_package_handle_standard_args(
+    Apache
+    REQUIRED_VARS
+      Apache_APXS_EXECUTABLE
+      Apache_INCLUDE_DIR
+      Apache_APR_INCLUDE_DIR
+      Apache_EXECUTABLE
+    VERSION_VAR Apache_VERSION
+    HANDLE_VERSION_RANGE
+    REASON_FAILURE_MESSAGE "${reason}"
+  )
+
+  if(Apache_FOUND AND NOT TARGET Apache::Apache)
+    add_library(Apache::Apache INTERFACE IMPORTED)
+
+    set_target_properties(
+      Apache::Apache
+      PROPERTIES
+        INTERFACE_LINK_LIBRARIES "${Apache_APR_LIBRARY}"
+        INTERFACE_INCLUDE_DIRECTORIES
+          "${Apache_INCLUDE_DIR};${Apache_APR_INCLUDE_DIR}"
+    )
+
+    target_compile_definitions(
+      Apache::Apache
+      INTERFACE ${Apache_APR_CPPFLAGS} ${Apache_APXS_DEFINITIONS}
+    )
+  endif()
 endblock()
-
-find_package_handle_standard_args(
-  Apache
-  REQUIRED_VARS
-    Apache_APXS_EXECUTABLE
-    _Apache_APXS_SANITY_CHECK
-    Apache_INCLUDE_DIR
-    Apache_APR_INCLUDE_DIR
-    Apache_EXECUTABLE
-  VERSION_VAR Apache_VERSION
-  HANDLE_VERSION_RANGE
-  REASON_FAILURE_MESSAGE "${_reason}"
-)
-
-unset(_reason)
-
-if(NOT Apache_FOUND)
-  return()
-endif()
-
-if(NOT TARGET Apache::Apache)
-  add_library(Apache::Apache INTERFACE IMPORTED)
-
-  set_target_properties(
-    Apache::Apache
-    PROPERTIES
-      INTERFACE_LINK_LIBRARIES "${Apache_APR_LIBRARY}"
-      INTERFACE_INCLUDE_DIRECTORIES
-        "${Apache_INCLUDE_DIR};${Apache_APR_INCLUDE_DIR}"
-  )
-
-  target_compile_definitions(
-    Apache::Apache
-    INTERFACE ${Apache_APR_CPPFLAGS} ${Apache_APXS_DEFINITIONS}
-  )
-endif()

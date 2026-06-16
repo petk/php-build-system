@@ -13,10 +13,27 @@ Enables the shared Apache 2 handler SAPI module.
 ### PHP_SAPI_APACHE2HANDLER_INSTALL_DIR
 
 * Default: The path to the Apache modules directory of the host system
-  (`Apache_LIBEXEC`).
+  (`Apache_LIBEXECDIR`).
 
 The path where to install the PHP Apache module (`mod_php.so`). Relative path is
 interpreted as being relative to the installation prefix `CMAKE_INSTALL_PREFIX`.
+
+### PHP_SAPI_APACHE2HANDLER_INSTALL_CONFIG
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Whether to activate the PHP module in the Apache configuration file `httpd.conf`
+during installation via `apxs`. When `DESTDIR` environment variable is set,
+module isn't enabled regardless of this option. This option is provided to skip
+installation into a staging directory or when Apache configuration is managed
+separately (e.g., via `a2enmod`).
+
+This adds a line to Apache `httpd.conf` file, such as:
+
+```ApacheConf
+LoadModule php_module modules/mod_php.so
+```
 
 ## About
 
@@ -49,6 +66,16 @@ cmake \
   -DPHP_SAPI_APACHE2HANDLER=ON \
   -DPHP_SAPI_APACHE2HANDLER_INSTALL_DIR=/custom/path/to/lib/apache2/modules
 ```
+
+### Installation
+
+Enabling PHP files handling in Apache configuration, e.g., `httpd.conf`:
+
+```ApacheConf
+<FilesMatch \.php$>
+    SetHandler application/x-httpd-php
+</FilesMatch>
+```
 #]=============================================================================]
 
 include(FeatureSummary)
@@ -68,6 +95,12 @@ set(
   VALUE ""
 )
 mark_as_advanced(PHP_SAPI_APACHE2HANDLER_INSTALL_DIR)
+
+option(
+  PHP_SAPI_APACHE2HANDLER_INSTALL_CONFIG
+  "Enable PHP module in the Apache httpd.conf during installation"
+)
+mark_as_advanced(PHP_SAPI_APACHE2HANDLER_INSTALL_CONFIG)
 
 if(NOT PHP_SAPI_APACHE2HANDLER)
   return()
@@ -189,3 +222,39 @@ install(
     DESTINATION ${PHP_SAPI_APACHE2HANDLER_INSTALL_DIR}
     COMPONENT php-sapi-apache2handler
 )
+
+if(PHP_SAPI_APACHE2HANDLER_INSTALL_CONFIG)
+  string(
+    CONFIGURE
+      [[
+        if(NOT DEFINED ENV{DESTDIR})
+          message(
+            STATUS
+            "Enabling mod_@PHP_PROGRAM_PREFIX@php@PHP_PROGRAM_SUFFIX@ in "
+            "Apache configuration"
+          )
+
+          cmake_path(
+            SET install_dir
+            NORMALIZE
+            "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_SAPI_APACHE2HANDLER_INSTALL_DIR@,${CMAKE_INSTALL_PREFIX}>"
+          )
+
+          execute_process(
+            COMMAND
+              "@Apache_APXS_EXECUTABLE@"
+              -e
+              -S "LIBEXECDIR=${install_dir}"
+              -S "SYSCONFDIR=@Apache_SYSCONFDIR@"
+              -a
+              -n @PHP_PROGRAM_PREFIX@php@PHP_PROGRAM_SUFFIX@
+              "$<TARGET_FILE:php_sapi_apache2handler>"
+          )
+        endif()
+      ]]
+    code
+    @ONLY
+  )
+
+  install(CODE "${code}" COMPONENT php-sapi-apache2handler)
+endif()
