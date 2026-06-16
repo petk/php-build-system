@@ -276,22 +276,22 @@ file(
   OUTPUT CMakeFiles/PharPermissions.cmake
   CONTENT
     [[
-    if(EXISTS "@CMAKE_CURRENT_BINARY_DIR@/phar.phar")
-      file(
-        CHMOD
-        "@CMAKE_CURRENT_BINARY_DIR@/phar.phar"
-        FILE_PERMISSIONS
-          OWNER_READ
-          OWNER_WRITE
-          OWNER_EXECUTE
-          GROUP_READ
-          GROUP_WRITE
-          GROUP_EXECUTE
-          WORLD_READ
-          WORLD_EXECUTE
-      )
-    endif()
-  ]]
+      if(EXISTS "@CMAKE_CURRENT_BINARY_DIR@/phar.phar")
+        file(
+          CHMOD
+          "@CMAKE_CURRENT_BINARY_DIR@/phar.phar"
+          FILE_PERMISSIONS
+            OWNER_READ
+            OWNER_WRITE
+            OWNER_EXECUTE
+            GROUP_READ
+            GROUP_WRITE
+            GROUP_EXECUTE
+            WORLD_READ
+            WORLD_EXECUTE
+        )
+      endif()
+    ]]
   @ONLY
 )
 
@@ -329,44 +329,44 @@ install(DIRECTORY DESTINATION ${PHP_INSTALL_BINDIR} COMPONENT php)
 string(
   CONFIGURE
     [[
-    execute_process(
-      COMMAND
-        "@php_executable@"
-          @php_options@
-          "@CMAKE_CURRENT_BINARY_DIR@/phar.php"
-            pack
-            -f "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
-            -a pharcommand
-            -c auto
-            -p 0
-            -s "@CMAKE_CURRENT_SOURCE_DIR@/phar/phar.php"
-            -h sha1
-            -b "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:@php_target@>"
-            "@CMAKE_CURRENT_SOURCE_DIR@/phar"
-    )
+      execute_process(
+        COMMAND
+          "@php_executable@"
+            @php_options@
+            "@CMAKE_CURRENT_BINARY_DIR@/phar.php"
+              pack
+              -f "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
+              -a pharcommand
+              -c auto
+              -p 0
+              -s "@CMAKE_CURRENT_SOURCE_DIR@/phar/phar.php"
+              -h sha1
+              -b "$<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>/$<TARGET_FILE_NAME:@php_target@>"
+              "@CMAKE_CURRENT_SOURCE_DIR@/phar"
+      )
 
-    file(
-      CREATE_LINK
-      @PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
-      "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
-      SYMBOLIC
-    )
-
-    file(
-      INSTALL
-        "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
+      file(
+        CREATE_LINK
+        @PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar
         "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
-      DESTINATION $<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>
-      FILE_PERMISSIONS
-        OWNER_READ
-        OWNER_WRITE
-        OWNER_EXECUTE
-        GROUP_READ
-        GROUP_EXECUTE
-        WORLD_READ
-        WORLD_EXECUTE
-    )
-]]
+        SYMBOLIC
+      )
+
+      file(
+        INSTALL
+          "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@.phar"
+          "@CMAKE_CURRENT_BINARY_DIR@/CMakeFiles/@PHP_PROGRAM_PREFIX@phar@PHP_PROGRAM_SUFFIX@"
+        DESTINATION $<PATH:ABSOLUTE_PATH,NORMALIZE,@PHP_INSTALL_BINDIR@,${CMAKE_INSTALL_PREFIX}>
+        FILE_PERMISSIONS
+          OWNER_READ
+          OWNER_WRITE
+          OWNER_EXECUTE
+          GROUP_READ
+          GROUP_EXECUTE
+          WORLD_READ
+          WORLD_EXECUTE
+      )
+    ]]
   code
   @ONLY
 )
