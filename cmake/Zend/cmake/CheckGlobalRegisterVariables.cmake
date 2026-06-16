@@ -71,6 +71,7 @@ if(NOT DEFINED PHP_ZEND_HAVE_GCC_GLOBAL_REGS)
         while ((*ip)());
         FP = orig_fp;
         IP = orig_ip;
+        return 0;
       }
 
       int main(void)
