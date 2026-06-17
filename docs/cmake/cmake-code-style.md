@@ -88,7 +88,7 @@ set(VARIABLE_NAME "value")
   avoid unexpected behavior and errors in the build process:
 
   ```sh
-  cmake --warn-uninitialized -S <source-directory> -B <build-directory>
+  cmake -Wuninitialized -S <source-directory> -B <build-directory>
   ```
 
 * Long strings can be split into multiple lines by using line continuation with
