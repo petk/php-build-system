@@ -51,7 +51,7 @@ jobs:
       CMAKE_BUILD_TYPE: Release
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -111,7 +111,7 @@ jobs:
         id: cmake-and-ninja
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -125,7 +125,7 @@ jobs:
     name: Autotools build and PHP extension CMake build
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -174,7 +174,7 @@ jobs:
     name: Build php-src extensions as self-contained
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
@@ -255,7 +255,7 @@ jobs:
     name: PHP without configure command in phpinfo
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2
 
