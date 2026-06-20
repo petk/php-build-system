@@ -171,6 +171,7 @@ target_sources(
         html.h
         info.h
         io_poll_arginfo.h
+        io_poll_decl.h
         md5.h
         pageinfo.h
         password_arginfo.h
