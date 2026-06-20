@@ -351,11 +351,10 @@ CMake presets JSON file using the `configuration` field:
 
 ## 7. CMake minimum version for PHP
 
-The minimum required version of CMake is defined in the top project file
+The minimum required version of CMake is defined in the top project file(s)
 `CMakeLists.txt` using the `cmake_minimum_required()`. Picking the minimum
 required CMake version is a compromise between CMake functionalities and CMake
-version available on the operating system. The minimum required CMake version in
-this repository is **4.3**.
+version available on the operating system.
 
 CMake versions scheme across the systems is available at
 [pkgs.org](https://pkgs.org/download/cmake).
