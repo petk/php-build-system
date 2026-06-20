@@ -16,9 +16,6 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Install CMake
-        uses: lukka/get-cmake@latest
-
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -36,9 +33,6 @@ jobs:
           curl -OL https://github.com/petk/normalizator/releases/latest/download/normalizator.phar
           chmod +x normalizator.phar
           mv normalizator.phar /usr/local/bin/normalizator
-          curl -OL https://github.com/petk/cmake-normalizer/releases/latest/download/normalizer.cmake
-          chmod +x normalizer.cmake
-          mv normalizer.cmake /usr/local/bin/normalizer.cmake
 
       - name: Run Codespell
         if: ${{ always() }}
@@ -55,14 +49,6 @@ jobs:
       - name: Run normalizator.phar
         if: ${{ always() }}
         run: normalizator check --not php-src --not .git .
-
-      - name: Run normalizer.cmake
-        if: ${{ always() }}
-        run: |
-          normalizer.cmake -- \
-            --set normalize_indent_style=false \
-            --set normalize_cmake_minimum_required=4.3...4.4 \
-            -j
 
       - name: Run ShellCheck
         if: ${{ always() }}
