@@ -103,12 +103,14 @@ set(VARIABLE_NAME "value")
   # Output: This string is concatenated to a single line.
   ```
 
-* When defining path variables, exclude the trailing directory delimiter (`/`).
-  This practice facilitates concatenation of such variables:
+* When working with paths, use
+  [`cmake_path()`](https://cmake.org/cmake/help/latest/command/cmake_path.html)
+  command. For example:
 
   ```cmake
-  set(parent_dir "foo/bar")
-  set(child_dir "${parentDir}/baz")
+  cmake_path(SET some_path "${CMAKE_CURRENT_SOURCE_DIR}/foo")
+  cmake_path(APPEND some_path "${some_path}" "bar")
+  # ...
   ```
 
 > [!TIP]
@@ -117,15 +119,21 @@ set(VARIABLE_NAME "value")
 > the need for escaping characters:
 >
 > ```cmake
-> install(CODE [[
->   execute_process(
->     COMMAND ${CMAKE_COMMAND} -E echo "${variable} references aren't evaluated"
->   )
->   set(version "1.2")
->   if(version MATCHES [=[^[0-9]\.[0-9]$]=])
->     message(STATUS "Nested bracket argument with varying '=' characters")
->   endif()
-> ]])
+> install(
+>   CODE
+>     [[
+>       execute_process(
+>         COMMAND
+>           ${CMAKE_COMMAND} -E echo "${variable} references aren't evaluated"
+>       )
+>
+>       set(version "1.2")
+>
+>       if(version MATCHES [=[^[0-9]\.[0-9]$]=])
+>         message(STATUS "Nested bracket argument with varying '=' characters")
+>       endif()
+>     ]]
+>  )
 > ```
 
 ### 2.1. End commands
