@@ -127,9 +127,9 @@ if(TARGET Intl::Intl)
     )
 
     if(DEFINED PHP_IS_TOP_LEVEL)
-      set(dir "${PHP_SOURCE_DIR}")
+      cmake_path(SET dir "${PHP_SOURCE_DIR}")
     else()
-      set(dir "${CMAKE_CURRENT_SOURCE_DIR}")
+      cmake_path(SET dir "${CMAKE_CURRENT_SOURCE_DIR}")
     endif()
 
     set_property(

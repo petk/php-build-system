@@ -85,7 +85,10 @@ function(_php_ext_session_check_pread result)
 
   check_symbol_exists(pread unistd.h PHP_EXT_SESSION_HAVE_PREAD_SYMBOL)
 
-  set(file ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread.tmp)
+  cmake_path(
+    SET file
+    ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php_check_pread.tmp
+  )
   file(WRITE "${file}" "test\n")
 
   # Check for missing declaration is obsolete. Some systems once didn't provide

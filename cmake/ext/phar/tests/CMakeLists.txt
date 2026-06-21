@@ -3,9 +3,9 @@ if(NOT TARGET PHP::sapi::cli AND NOT TARGET PHP::Interpreter)
 endif()
 
 if(DEFINED PHP_IS_TOP_LEVEL)
-  set(dir ${PHP_SOURCE_DIR})
+  cmake_path(SET dir ${PHP_SOURCE_DIR})
 else()
-  set(dir ${PROJECT_SOURCE_DIR})
+  cmake_path(SET dir ${PROJECT_SOURCE_DIR})
 endif()
 
 cmake_language(DEFER DIRECTORY ${dir} CALL php_ext_phar_add_tests)

@@ -118,7 +118,10 @@ block(PROPAGATE php_url)
   else()
     # Get the latest PHP stable version from JSON API.
     string(TIMESTAMP timestamp %s)
-    set(file "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-${timestamp}.json")
+    cmake_path(
+      SET file
+      "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/php-${timestamp}.json"
+    )
     file(
       DOWNLOAD
         "https://www.php.net/releases/?json&version=${PHP_VERSION_DOWNLOAD}"
