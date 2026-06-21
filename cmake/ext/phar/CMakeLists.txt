@@ -197,10 +197,10 @@ php_add_command(
 )
 
 if(DEFINED PHP_IS_TOP_LEVEL)
-  set(dir ${PHP_BINARY_DIR})
+  cmake_path(SET dir ${PHP_BINARY_DIR})
   set(shebang "$<TARGET_FILE:PHP::sapi::cli>")
 else()
-  set(dir ${CMAKE_CURRENT_BINARY_DIR})
+  cmake_path(SET dir ${CMAKE_CURRENT_BINARY_DIR})
   set(shebang "$<TARGET_FILE:PHP::Interpreter>")
 endif()
 

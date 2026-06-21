@@ -287,7 +287,7 @@ function(php_add_command)
   endif()
 
   if(NOT parsed_WORKING_DIRECTORY)
-    set(parsed_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+    cmake_path(SET parsed_WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
   endif()
 
   cmake_path(

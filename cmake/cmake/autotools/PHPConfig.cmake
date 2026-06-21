@@ -50,7 +50,7 @@ include(${CMAKE_CURRENT_LIST_DIR}/FindPHP.cmake)
 ################################################################################
 
 # Set path where additional PHP CMake modules are installed:
-set(PHP_CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
+cmake_path(SET PHP_CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/modules")
 list(APPEND CMAKE_MODULE_PATH ${PHP_CMAKE_MODULE_PATH})
 
 ################################################################################

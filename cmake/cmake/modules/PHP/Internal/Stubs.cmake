@@ -120,9 +120,15 @@ endif()
 
 block()
   if(TARGET PHP::Interpreter)
-    set(php_gen_stub_script_source ${PHP_INSTALL_LIBDIR}/build/gen_stub.php)
+    cmake_path(
+      SET php_gen_stub_script_source
+      ${PHP_INSTALL_LIBDIR}/build/gen_stub.php
+    )
   else()
-    set(php_gen_stub_script_source ${PROJECT_SOURCE_DIR}/build/gen_stub.php)
+    cmake_path(
+      SET php_gen_stub_script_source
+      ${PROJECT_SOURCE_DIR}/build/gen_stub.php
+    )
   endif()
 
   file(

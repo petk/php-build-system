@@ -17,9 +17,8 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
 endif()
 
 cmake_path(SET PHP_SOURCE_DIR NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../..)
-
-set(CMAKE_SOURCE_DIR ${PHP_SOURCE_DIR})
-set(CMAKE_BINARY_DIR ${PHP_SOURCE_DIR})
+cmake_path(SET CMAKE_SOURCE_DIR ${PHP_SOURCE_DIR})
+cmake_path(SET CMAKE_BINARY_DIR ${PHP_SOURCE_DIR})
 
 if(NOT EXISTS ${PHP_SOURCE_DIR}/main/php_version.h)
   message(FATAL_ERROR "This script should be run in the php-src repository.")
@@ -52,8 +51,8 @@ file(
 foreach(script IN LISTS scripts)
   cmake_path(GET script PARENT_PATH path)
   cmake_path(GET path PARENT_PATH path)
-  set(CMAKE_CURRENT_SOURCE_DIR ${path})
-  set(CMAKE_CURRENT_BINARY_DIR ${path})
+  cmake_path(SET CMAKE_CURRENT_SOURCE_DIR ${path})
+  cmake_path(SET CMAKE_CURRENT_BINARY_DIR ${path})
 
   cmake_path(RELATIVE_PATH path BASE_DIRECTORY ${PHP_SOURCE_DIR})
   message(STATUS "Processing ${path} directory")
