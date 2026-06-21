@@ -103,9 +103,9 @@ function(_php_extension_post_configure)
     if(NOT location)
       # Check whether extension is built as self-contained or inside php-src.
       if(DEFINED PHP_IS_TOP_LEVEL)
-        set(library_output_dir "${PHP_BINARY_DIR}/modules")
+        cmake_path(SET library_output_dir "${PHP_BINARY_DIR}/modules")
       else()
-        set(library_output_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
+        cmake_path(SET library_output_dir "${CMAKE_CURRENT_BINARY_DIR}/modules")
       endif()
 
       set_property(

@@ -208,17 +208,17 @@ function(mc_target)
 
   # Set default header export directory if empty.
   if(NOT parsed_HEADER_DIR)
-    set(parsed_HEADER_DIR ${CMAKE_CURRENT_BINARY_DIR})
+    cmake_path(SET parsed_HEADER_DIR ${CMAKE_CURRENT_BINARY_DIR})
   endif()
 
   # Set default rc export directory.
   if(NOT parsed_RC_DIR)
-    set(parsed_RC_DIR ${CMAKE_CURRENT_BINARY_DIR})
+    cmake_path(SET parsed_RC_DIR ${CMAKE_CURRENT_BINARY_DIR})
   endif()
 
   # Set filename stem.
   cmake_path(GET parsed_INPUT STEM output LAST_ONLY)
-  set(output "${parsed_HEADER_DIR}/${output}.h")
+  cmake_path(SET output "${parsed_HEADER_DIR}/${output}.h")
 
   # Path where to create the .dbg C include file.
   if(parsed_XDBG_DIR)

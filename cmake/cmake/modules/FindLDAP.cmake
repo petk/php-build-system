@@ -194,9 +194,9 @@ block(PROPAGATE LDAP_FOUND LDAP_VERSION)
   ##############################################################################
 
   if(EXISTS ${LDAP_INCLUDE_DIR}/ldap_features.h)
-    set(include_dir "${LDAP_INCLUDE_DIR}")
+    cmake_path(SET include_dir "${LDAP_INCLUDE_DIR}")
   elseif(EXISTS ${LDAP_LBER_INCLUDE_DIR}/ldap_features.h)
-    set(include_dir ${LDAP_LBER_INCLUDE_DIR})
+    cmake_path(SET include_dir ${LDAP_LBER_INCLUDE_DIR})
   else()
     set(include_dir "")
   endif()
