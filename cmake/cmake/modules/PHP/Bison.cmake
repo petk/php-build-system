@@ -382,10 +382,10 @@ function(php_bison name input)
   # Set working directory.
   if(NOT parsed_WORKING_DIRECTORY)
     if(PHP_BISON_WORKING_DIRECTORY)
-      set(parsed_WORKING_DIRECTORY ${PHP_BISON_WORKING_DIRECTORY})
+      cmake_path(SET parsed_WORKING_DIRECTORY ${PHP_BISON_WORKING_DIRECTORY})
     elseif(DEFINED PHP_IS_TOP_LEVEL)
       # Building php-src.
-      set(parsed_WORKING_DIRECTORY ${PHP_SOURCE_DIR})
+      cmake_path(SET parsed_WORKING_DIRECTORY ${PHP_SOURCE_DIR})
     else()
       # Otherwise set working directory to the directory of the output file.
       cmake_path(GET parsed_OUTPUT PARENT_PATH parsed_WORKING_DIRECTORY)
@@ -403,8 +403,8 @@ function(php_bison name input)
 
   # Generate timestamp file name for the custom command below.
   string(MAKE_C_IDENTIFIER "${name}_${input}" id)
-  set(
-    timestamp
+  cmake_path(
+    SET timestamp
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Bison/${id}.timestamp
   )
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/Bison)

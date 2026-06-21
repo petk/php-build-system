@@ -69,7 +69,10 @@ function(_php_testing_post_configure)
       DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP
     )
 
-    set(run_tests "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/run-tests.php")
+    cmake_path(
+      SET run_tests
+      "${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/PHP/run-tests.php"
+    )
 
     set(extensions "${ARGV0}")
   else()

@@ -21,7 +21,7 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
 endif()
 
-cmake_path(SET PHP_SOURCE_DIR NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../..)
+cmake_path(SET php_source_dir NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../..)
 
 # Get CMake files.
 block(PROPAGATE cmake_files cmake_presets)
@@ -63,7 +63,7 @@ block(PROPAGATE cmake_files cmake_presets)
   endforeach()
 
   if(NOT files AND NOT directories)
-    list(APPEND directories ${PHP_SOURCE_DIR})
+    list(APPEND directories ${php_source_dir})
   endif()
 
   foreach(dir IN LISTS directories)
@@ -127,7 +127,7 @@ block()
   cmake_path(
     SET file
     NORMALIZE
-    ${PHP_SOURCE_DIR}/cmake/autotools/PHPConfig.cmake
+    ${php_source_dir}/cmake/autotools/PHPConfig.cmake
   )
 
   if("${file}" IN_LIST cmake_files)

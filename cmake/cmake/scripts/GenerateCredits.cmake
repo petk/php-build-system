@@ -11,9 +11,9 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
 endif()
 
-set(PHP_SOURCE_DIR ${CMAKE_CURRENT_LIST_DIR}/../../)
+cmake_path(SET php_source_dir NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../..)
 
-if(NOT EXISTS ${PHP_SOURCE_DIR}/ext/standard/credits.h)
+if(NOT EXISTS ${php_source_dir}/ext/standard/credits.h)
   message(FATAL_ERROR "This script should be run in the php-src repository.")
 endif()
 
@@ -35,7 +35,7 @@ set(
 ]]
 )
 
-file(GLOB credits ${PHP_SOURCE_DIR}/*/*/CREDITS)
+file(GLOB credits ${php_source_dir}/*/*/CREDITS)
 # Case-sensitive filtering, GLOB on macOS/Windows/Cygwin is case insensitive.
 list(FILTER credits INCLUDE REGEX ".*CREDITS$")
 
@@ -58,13 +58,13 @@ foreach(dir IN LISTS dirs)
   list(JOIN ${dir}_credits ";\n" content)
   set(content "${template}${content};\n")
 
-  if(EXISTS ${PHP_SOURCE_DIR}/ext/standard/credits_${dir}.h)
-    file(READ ${PHP_SOURCE_DIR}/ext/standard/credits_${dir}.h current)
+  if(EXISTS ${php_source_dir}/ext/standard/credits_${dir}.h)
+    file(READ ${php_source_dir}/ext/standard/credits_${dir}.h current)
     if(content STREQUAL "${current}")
       continue()
     endif()
   endif()
 
-  file(WRITE ${PHP_SOURCE_DIR}/ext/standard/credits_${dir}.h "${content}")
+  file(WRITE ${php_source_dir}/ext/standard/credits_${dir}.h "${content}")
   message("Updated ext/standard/credits_${dir}.h")
 endforeach()

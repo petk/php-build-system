@@ -8,7 +8,7 @@ if(NOT CMAKE_SCRIPT_MODE_FILE)
   message(FATAL_ERROR "This is a command-line script.")
 endif()
 
-set(php_source_dir ${CMAKE_CURRENT_LIST_DIR}/../../..)
+cmake_path(SET php_source_dir NORMALIZE ${CMAKE_CURRENT_LIST_DIR}/../../..)
 
 if(NOT EXISTS ${php_source_dir}/Zend/zend_language_parser.y)
   message(FATAL_ERROR "Zend/zend_language_parser.y not found.")
