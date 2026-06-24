@@ -19,4 +19,5 @@ if(CMAKE_SYSTEM_NAME MATCHES "^(Linux|SunOS|Haiku|FreeBSD)$")
   set(PHP_HAVE_STRUCT_STAT_ST_RDEV TRUE)
 
   set(PHP_HAVE_GRP_H TRUE)
+  set(PHP_HAVE_PWD_H TRUE)
 endif()
