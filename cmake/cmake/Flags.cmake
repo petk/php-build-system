@@ -299,10 +299,7 @@ if(PHP_ADDRESS_SANITIZER)
       INTERFACE $<$<LINK_LANGUAGE:C,CXX>:-fsanitize=address>
     )
 
-    target_compile_definitions(
-      php_config
-      INTERFACE $<$<COMPILE_LANGUAGE:ASM,C,CXX>:ZEND_TRACK_ARENA_ALLOC>
-    )
+    set(ZEND_TRACK_ARENA_ALLOC TRUE)
 
     message(CHECK_PASS "Success")
   else()

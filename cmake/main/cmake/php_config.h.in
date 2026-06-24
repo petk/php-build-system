@@ -629,6 +629,10 @@
 /* Define to 1 if PHP debugging is enabled, and to 0 if not. */
 #define ZEND_DEBUG $<IF:$<CONFIG:Debug,PhpRelWithDebInfo>,1,0>
 
+/* Define to 1 if tracking arena allocations should be done individually for
+   AddressSanitizer. */
+#cmakedefine ZEND_TRACK_ARENA_ALLOC 1
+
 /* Define to 1 if thread safety (ZTS) is enabled. */
 #cmakedefine ZTS 1
 
