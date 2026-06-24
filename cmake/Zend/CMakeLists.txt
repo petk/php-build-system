@@ -477,7 +477,6 @@ include(cmake/CheckGlobalRegisterVariables.cmake)
 include(cmake/CheckMaxExecutionTimers.cmake)
 include(cmake/CheckSignals.cmake)
 include(cmake/CheckStackDirection.cmake)
-include(cmake/CheckStrerrorR.cmake)
 include(cmake/Fibers.cmake)
 include(cmake/GenerateGrammar.cmake)
 
