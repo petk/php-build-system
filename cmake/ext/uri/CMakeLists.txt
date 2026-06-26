@@ -138,7 +138,6 @@ target_compile_definitions(
   php_ext_uri
   PRIVATE
     $<$<AND:$<PLATFORM_ID:Windows>,$<NOT:$<STREQUAL:$<TARGET_PROPERTY:TYPE>,MODULE_LIBRARY>>>:LEXBOR_STATIC>
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 set_property(TARGET php_ext_uri APPEND PROPERTY PHP_REQUIRED_EXTENSIONS lexbor)

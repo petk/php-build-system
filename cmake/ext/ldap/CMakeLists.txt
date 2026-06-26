@@ -137,13 +137,6 @@ if(TARGET LDAP::LDAP)
   set(HAVE_LDAP_CONTROL_FIND ${PHP_EXT_LDAP_HAVE_LDAP_CONTROL_FIND})
 
   check_symbol_exists(
-    ldap_extended_operation
-    ldap.h
-    PHP_EXT_LDAP_HAVE_LDAP_EXTENDED_OPERATION
-  )
-  set(HAVE_LDAP_EXTENDED_OPERATION ${PHP_EXT_LDAP_HAVE_LDAP_EXTENDED_OPERATION})
-
-  check_symbol_exists(
     ldap_extended_operation_s
     ldap.h
     PHP_EXT_LDAP_HAVE_LDAP_EXTENDED_OPERATION_S

@@ -127,11 +127,6 @@ endif()
 
 set_target_properties(php_ext_opcache PROPERTIES PHP_ZEND_EXTENSION TRUE)
 
-target_compile_definitions(
-  php_ext_opcache
-  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
-
 if(PHP_EXT_OPCACHE_HUGE_CODE_PAGES)
   set(HAVE_HUGE_CODE_PAGES TRUE)
 endif()

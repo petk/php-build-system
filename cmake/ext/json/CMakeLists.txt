@@ -32,8 +32,6 @@ target_sources(
   PUBLIC FILE_SET HEADERS FILES php_json_parser.h php_json_scanner.h php_json.h
 )
 
-target_compile_definitions(php_ext_json PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
-
 ################################################################################
 # Generate parser and lexer files.
 ################################################################################

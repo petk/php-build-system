@@ -51,11 +51,6 @@ target_sources(
       FILES php_random_csprng.h php_random_uint128.h php_random.h random_decl.h
 )
 
-target_compile_definitions(
-  php_ext_random
-  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
-
 check_symbol_exists(arc4random_buf stdlib.h PHP_EXT_RANDOM_HAVE_ARC4RANDOM_BUF)
 set(HAVE_ARC4RANDOM_BUF ${PHP_EXT_RANDOM_HAVE_ARC4RANDOM_BUF})
 

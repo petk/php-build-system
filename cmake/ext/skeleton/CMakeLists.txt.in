@@ -119,7 +119,9 @@ target_include_directories(
 target_compile_definitions(
   php_ext_%EXTNAME%
   PRIVATE
-    # Enable "Thread Safety Resource Manager Local Storage" static cache.
+    # Enable "Thread Safety Resource Manager Local Storage" static cache. When
+    # extension is built statically in php-src, TSRMLS for extension is also
+    # automatically enabled.
     ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 

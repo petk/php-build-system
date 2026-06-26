@@ -150,6 +150,20 @@ function(_php_extension_post_configure)
   endif()
 
   ##############################################################################
+  # Enable "Thread Safety Resource Manager Local Storage" static cache when
+  # building extension statically in php-src. Statically linked extensions share
+  # the engine's _tsrm_ls_cache symbol, so in ZTS builds they can read the
+  # TSRMLS cache directly.
+  ##############################################################################
+
+  if(NOT type STREQUAL "MODULE_LIBRARY")
+    target_compile_definitions(
+      php_ext_${extension}
+      PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+    )
+  endif()
+
+  ##############################################################################
   # Generate *_arginfo.h headers from *.stub.php sources.
   ##############################################################################
 

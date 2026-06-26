@@ -226,11 +226,6 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/libavifinfo
 )
 
-target_compile_definitions(
-  php_ext_standard
-  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
-)
-
 # The standard extension depends on the generated Zend language parser.
 add_dependencies(php_ext_standard PHP::Zend)
 

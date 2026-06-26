@@ -62,8 +62,6 @@ target_sources(
         spl_observer.h
 )
 
-target_compile_definitions(php_ext_spl PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
-
 set_property(
   TARGET php_ext_spl
   APPEND

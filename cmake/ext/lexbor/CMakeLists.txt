@@ -228,9 +228,7 @@ target_sources(
 
 target_compile_definitions(
   php_ext_lexbor
-  PRIVATE
-    ZEND_ENABLE_STATIC_TSRMLS_CACHE
-    $<$<PLATFORM_ID:Windows>:LEXBOR_BUILDING>
+  PRIVATE $<$<PLATFORM_ID:Windows>:LEXBOR_BUILDING>
 )
 
 target_compile_options(

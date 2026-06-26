@@ -104,8 +104,6 @@ target_sources(
         xxhash/xxhash.h
 )
 
-target_compile_definitions(php_ext_hash PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
-
 if(CMAKE_C_BYTE_ORDER STREQUAL "BIG_ENDIAN")
   set(HAVE_SLOW_HASH3 TRUE)
   message(WARNING "Using slow SHA3 implementation on big-endian")

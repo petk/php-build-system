@@ -120,8 +120,6 @@ target_sources(
   PUBLIC FILE_SET HEADERS FILES php_pcre.h
 )
 
-target_compile_definitions(php_ext_pcre PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
-
 set(PCRE2_CODE_UNIT_WIDTH 8)
 
 if(PHP_EXT_PCRE_EXTERNAL)

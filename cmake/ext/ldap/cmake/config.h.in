@@ -7,9 +7,6 @@
 /* Define to 1 if you have the 'ldap_control_find' function. */
 #cmakedefine HAVE_LDAP_CONTROL_FIND 1
 
-/* Define to 1 if you have the 'ldap_extended_operation' function. */
-#cmakedefine HAVE_LDAP_EXTENDED_OPERATION 1
-
 /* Define to 1 if you have the 'ldap_extended_operation_s' function. */
 #cmakedefine HAVE_LDAP_EXTENDED_OPERATION_S 1
 
