@@ -118,6 +118,7 @@ target_sources(
     intl_convert.c
     intl_convertcpp.cpp
     intl_error.c
+    intl_icu_compat.c
     listformatter/listformatter_class.cpp
     listformatter/listformatter.stub.php
     locale/locale_class.cpp
