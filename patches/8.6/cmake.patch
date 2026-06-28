@@ -290,7 +290,7 @@ index e691bd3964b..12745d29cb9 100644
 +# Local user presets
 +/CMakeUserPresets.json
 diff --git a/ext/standard/proc_open.c b/ext/standard/proc_open.c
-index bd7a2e58854..30bc6411a0c 100644
+index 29744018a16..c3a7ec02768 100644
 --- a/ext/standard/proc_open.c
 +++ b/ext/standard/proc_open.c
 @@ -52,7 +52,7 @@
