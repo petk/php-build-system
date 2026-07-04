@@ -290,6 +290,7 @@ target_sources(
         zend_objects.h
         zend_observer.h
         zend_operators.h
+        zend_perf_stat.h
         zend_portability.h
         zend_property_hooks.h
         zend_ptr_stack.h
