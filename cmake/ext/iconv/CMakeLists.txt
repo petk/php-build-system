@@ -246,6 +246,8 @@ if(TARGET Iconv::Iconv)
           (char **) &out_p,
           &out_left
         );
+        free(out);
+        iconv_close(cd);
         if(result == (size_t)-1) {
           return 0;
         }
