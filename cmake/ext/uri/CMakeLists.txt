@@ -69,7 +69,7 @@ target_sources(
 )
 
 if(PHP_EXT_URI_EXTERNAL)
-  find_package(uriparser 1.0.0)
+  find_package(uriparser 1.0.3)
   set_package_properties(
     uriparser
     PROPERTIES
