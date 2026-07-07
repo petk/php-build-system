@@ -82,7 +82,7 @@ index c7c14b8705c..d762292b7e8 100644
  
  EXTENSION("standard", "array.c base64.c basic_functions.c browscap.c \
 diff --git a/ext/standard/image.c b/ext/standard/image.c
-index 08cf8983d02..38b7270ac04 100644
+index 7ea8f6010b3..c2c19b8596b 100644
 --- a/ext/standard/image.c
 +++ b/ext/standard/image.c
 @@ -28,7 +28,7 @@
@@ -103,7 +103,7 @@ index 08cf8983d02..38b7270ac04 100644
  /* {{{ php_handle_swc */
  static struct php_gfxinfo *php_handle_swc(php_stream * stream)
  {
-@@ -1503,10 +1503,10 @@ static void php_getimagesize_from_stream(php_stream *stream, char *input, zval *
+@@ -1506,10 +1506,10 @@ static void php_getimagesize_from_stream(php_stream *stream, char *input, zval *
  			break;
  		case IMAGE_FILETYPE_SWC:
  			/* TODO: with the new php_image_register_handler() APIs, this restriction could be solved */
