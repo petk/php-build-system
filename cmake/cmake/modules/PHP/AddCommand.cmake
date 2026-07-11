@@ -549,7 +549,7 @@ function(_php_add_command_create_script)
     OUTPUT ${parsed_SCRIPT}
     CONTENT
       [=[
-        cmake_minimum_required(VERSION 4.3...4.4)
+        cmake_minimum_required(VERSION 4.4...4.5)
 
         set(php_comment "@parsed_COMMENT@")
 

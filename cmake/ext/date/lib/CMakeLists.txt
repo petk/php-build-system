@@ -29,7 +29,7 @@ add_subdirectory(lib)
 ```
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 if(NOT TIMELIB_NAMESPACE)
   set(TIMELIB_NAMESPACE "TIMELIB")

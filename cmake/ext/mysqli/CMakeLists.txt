@@ -57,7 +57,7 @@ and targeting some other with different MySQL socket pointer location.
 > This option is not available when the target system is Windows.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_MYSQLI LANGUAGES C)
 

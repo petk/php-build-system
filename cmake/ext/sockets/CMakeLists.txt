@@ -13,7 +13,7 @@ This extension provides support for a low-level socket communication interface.
 Enables the extension.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_SOCKETS LANGUAGES C)
 

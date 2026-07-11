@@ -20,7 +20,7 @@ Enables the extension.
 Enables multibyte regex support (requires Oniguruma).
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_MBSTRING SPDX_LICENSE "PHP-3.01 AND OLDAP-2.8" LANGUAGES C)
 

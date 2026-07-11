@@ -14,7 +14,7 @@ Enables the extension.
 # CMakeLists.txt file for the PHP %EXTNAME% extension.
 
 # Set minimum required CMake version.
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 # Define the PHP extension project and its metadata.
 project(
