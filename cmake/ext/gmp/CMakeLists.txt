@@ -16,7 +16,7 @@ Enables the extension.
 > When the target system is Windows, the MPIR library is used instead of GMP.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_GMP LANGUAGES C)
 

@@ -6,7 +6,7 @@ This extension provides date and time support.
 This extension is always enabled.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_DATE LANGUAGES C)
 

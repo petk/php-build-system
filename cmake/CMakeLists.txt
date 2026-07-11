@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 message(STATUS "Initializing PHP build system")
 message(STATUS "=============================")
@@ -90,7 +90,7 @@ target_compile_definitions(
 string(
   CONFIGURE
     [[
-      cmake_minimum_required(VERSION 4.3...4.4)
+      cmake_minimum_required(VERSION 4.4...4.5)
 
       if(NOT "@CMAKE_INSTALL_PREFIX@" PATH_EQUAL "$<INSTALL_PREFIX>")
         message(

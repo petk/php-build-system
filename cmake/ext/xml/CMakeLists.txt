@@ -20,7 +20,7 @@ Enables the extension.
 Builds xml extension with the Expat library support instead of the libxml2.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_XML LANGUAGES C)
 

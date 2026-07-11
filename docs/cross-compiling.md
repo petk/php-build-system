@@ -2,6 +2,7 @@
 
 ## Index
 
+* [Index](#index)
 * [1. Cross-compilation considerations](#1-cross-compilation-considerations)
 * [2. Cross-compilation with CMake](#2-cross-compilation-with-cmake)
   * [2.1. Setting known cache variables manually](#21-setting-known-cache-variables-manually)
@@ -27,7 +28,7 @@ A minimum simplistic example:
 
 ```cmake
 # CMakeLists.txt
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP C)
 

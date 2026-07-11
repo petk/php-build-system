@@ -413,7 +413,7 @@ The `CMakeLists.txt` example:
 ```cmake
 # CMakeLists.txt
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 # Append project local CMake modules.
 list(APPEND CMAKE_MODULE_PATH "cmake/modules")
