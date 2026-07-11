@@ -41,7 +41,7 @@ Enables the extension.
 Enables the .NET Framework support.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_COM_DOTNET LANGUAGES C)
 

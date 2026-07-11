@@ -19,7 +19,7 @@ This extension provides support for process control support.
 Enables the extension.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_PCNTL LANGUAGES C)
 

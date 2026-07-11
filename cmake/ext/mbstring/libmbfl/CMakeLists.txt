@@ -23,7 +23,7 @@ Adding libmbfl with add_subdirectory():
   add_subdirectory(libmbfl)
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 if(NOT libmbfl_NAMESPACE)
   set(libmbfl_NAMESPACE "libmbfl")

@@ -16,7 +16,7 @@ Enables the extension.
 This extension is always built as shared when enabled.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_DL_TEST LANGUAGES C)
 
