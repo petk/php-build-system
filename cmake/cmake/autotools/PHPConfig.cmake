@@ -13,7 +13,7 @@ info.
 # Create a user-friendly not-found message for unsupported CMake versions.
 ################################################################################
 
-set(min_cmake_version 4.3)
+set(min_cmake_version 4.4)
 
 if(CMAKE_VERSION VERSION_LESS ${min_cmake_version})
   string(
@@ -32,7 +32,7 @@ endif()
 
 unset(min_cmake_version)
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 # No components given, look for default components.
 if(NOT ${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS)

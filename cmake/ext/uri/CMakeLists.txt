@@ -14,7 +14,7 @@ Uses external/system uriparser library instead of the bundled uriparser library
 that comes with PHP.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_URI SPDX_LICENSE "PHP-3.01 AND BSD-3-Clause" LANGUAGES C)
 

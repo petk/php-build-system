@@ -55,7 +55,7 @@ See build system documentation for available PHP configuration variables and
 further information.
 #]=============================================================================]
 
-cmake_minimum_required(VERSION 4.3...4.4)
+cmake_minimum_required(VERSION 4.4...4.5)
 
 include(cmake/cmake/modules/PHP/Internal/DisableInSourceBuilds.cmake)
 

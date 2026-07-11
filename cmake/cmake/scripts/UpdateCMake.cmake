@@ -7,9 +7,9 @@
 #
 #   cmake -P cmake/scripts/UpdateCMake.cmake [-- <paths>...]
 
-set(version_min 4.3)
-set(version_max 4.4)
-set(presets_version 11)
+set(version_min 4.4)
+set(version_max 4.5)
+set(presets_version 12)
 set(
   presets_schema
   "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json"
