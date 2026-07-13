@@ -28,7 +28,9 @@ add_library(php_ext_json OBJECT)
 
 target_sources(
   php_ext_json
-  PRIVATE json_encoder.c json_parser.tab.c json_scanner.c json.c json.stub.php
+  PRIVATE
+    FILE_SET SOURCES
+      FILES json_encoder.c json_parser.tab.c json_scanner.c json.c json.stub.php
   PUBLIC FILE_SET HEADERS FILES php_json_parser.h php_json_scanner.h php_json.h
 )
 

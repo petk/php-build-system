@@ -63,23 +63,22 @@ if(NOT TIMELIB_TARGET)
   add_library(${TIMELIB_TARGET})
 endif()
 
-set(
-  timelib_sources
-  astro.c
-  dow.c
-  interval.c
-  parse_date.c
-  parse_iso_intervals.c
-  parse_posix.c
-  parse_tz.c
-  timelib.c
-  tm2unixtime.c
-  unixtime2tm.c
-)
-
 target_sources(
   ${TIMELIB_TARGET}
-  PRIVATE ${timelib_sources}
+  PRIVATE
+    FILE_SET timelib_sources
+      TYPE SOURCES
+      FILES
+        astro.c
+        dow.c
+        interval.c
+        parse_date.c
+        parse_iso_intervals.c
+        parse_posix.c
+        parse_tz.c
+        timelib.c
+        tm2unixtime.c
+        unixtime2tm.c
   PUBLIC FILE_SET HEADERS FILES timelib.h
   PUBLIC
     FILE_SET generated
