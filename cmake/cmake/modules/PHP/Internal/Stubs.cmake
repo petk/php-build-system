@@ -145,11 +145,41 @@ block()
   _php_stubs_get_binary_targets(targets ${PROJECT_SOURCE_DIR})
 
   set(stubs "")
+  set(code "")
+
   foreach(target ${targets})
+    # Get source files from the default SOURCES target property.
     list(
       APPEND stubs
       $<PATH:ABSOLUTE_PATH,NORMALIZE,$<LIST:FILTER,$<TARGET_PROPERTY:${target},SOURCES>,INCLUDE,\.stub\.php$>,$<TARGET_PROPERTY:${target},SOURCE_DIR>>
     )
+
+    # Get source files from target's FILE_SET specifications.
+    get_target_property(source_sets ${target} SOURCE_SETS)
+
+    string(APPEND code "set(file_sets_${target} \"${source_sets}\")\n")
+
+    foreach(set IN LISTS source_sets)
+      get_target_property(current_sources ${target} SOURCE_SET_${set})
+      if(current_sources)
+        string(
+          APPEND code
+          "set(file_set_sources_${target}_${set} \"${current_sources}\")\n"
+        )
+      else()
+        string(APPEND code "set(file_set_sources_${target}_${set} \"\")\n")
+      endif()
+
+      get_target_property(base_dirs ${target} SOURCE_DIRS_${set})
+      if(base_dirs)
+        string(APPEND code "set(base_dirs_${target}_${set} \"${base_dirs}\")\n")
+      else()
+        string(
+          APPEND code
+          "set(base_dirs_${target}_${set} \"$<TARGET_PROPERTY:${target},SOURCE_DIR>\")\n"
+        )
+      endif()
+    endforeach()
 
     if(PHP_HOST_FOUND OR TARGET PHP::Interpreter)
       add_dependencies(${target} php_stubs)
@@ -172,6 +202,32 @@ block()
         endif()
 
         set(sources "$<JOIN:$<REMOVE_DUPLICATES:@stubs@>,$<SEMICOLON>>")
+
+        set(targets "@targets@")
+        @code@
+
+        foreach(target IN LISTS targets)
+          foreach(set IN LISTS file_sets_${target})
+            foreach(source IN LISTS file_set_sources_${target}_${set})
+              if(IS_ABSOLUTE "${source}")
+                list(APPEND sources "${source}")
+                continue()
+              endif()
+
+              foreach(base_dir IN LISTS base_dirs_${target}_${set})
+                cmake_path(
+                  ABSOLUTE_PATH source
+                  BASE_DIRECTORY "${base_dir}"
+                  NORMALIZE
+                )
+
+                if(EXISTS "${source}")
+                  list(APPEND sources "${source}")
+                endif()
+              endforeach()
+            endforeach()
+          endforeach()
+        endforeach()
 
         # Ensure sources include only *.stub.php files.
         list(FILTER sources INCLUDE REGEX [[\.stub\.php$]])

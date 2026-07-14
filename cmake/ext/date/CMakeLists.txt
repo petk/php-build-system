@@ -29,7 +29,7 @@ add_library(php_ext_date OBJECT)
 
 target_sources(
   php_ext_date
-  PRIVATE php_date.c php_date.stub.php
+  PRIVATE FILE_SET SOURCES FILES php_date.c php_date.stub.php
   PUBLIC FILE_SET HEADERS FILES php_date.h
 )
 
