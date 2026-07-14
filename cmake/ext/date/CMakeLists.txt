@@ -27,17 +27,17 @@ php_extension(date)
 
 add_library(php_ext_date OBJECT)
 
-set(sources php_date.c)
-
 target_sources(
   php_ext_date
-  PRIVATE ${sources} php_date.stub.php
+  PRIVATE FILE_SET sources TYPE SOURCES FILES php_date.c php_date.stub.php
   PUBLIC FILE_SET HEADERS FILES php_date.h
 )
 
-set_source_files_properties(
-  ${sources}
-  PROPERTIES COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE
+set_property(
+  FILE_SET sources
+  TARGET php_ext_date
+  APPEND
+  PROPERTY COMPILE_DEFINITIONS ZEND_ENABLE_STATIC_TSRMLS_CACHE
 )
 
 target_compile_options(
