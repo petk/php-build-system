@@ -219,10 +219,12 @@ block()
                   ABSOLUTE_PATH source
                   BASE_DIRECTORY "${base_dir}"
                   NORMALIZE
+                  OUTPUT_VARIABLE absolute_source
                 )
 
-                if(EXISTS "${source}")
-                  list(APPEND sources "${source}")
+                if(EXISTS "${absolute_source}")
+                  list(APPEND sources "${absolute_source}")
+                  break()
                 endif()
               endforeach()
             endforeach()
