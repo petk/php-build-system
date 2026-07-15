@@ -164,11 +164,18 @@ if(PHP_EXT_OPCACHE_JIT)
     AND CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "arm64"
     AND PHP_THREAD_SAFETY
   )
-    message(
-      WARNING
-      "JIT is not supported on Apple Silicon with thread safety enabled"
+    check_symbol_exists(
+      pthread_jit_write_protect_np
+      pthread.h
+      PHP_HAVE_PTHREAD_JIT_WRITE_PROTECT_NP
     )
-    set_property(CACHE PHP_EXT_OPCACHE_JIT PROPERTY VALUE OFF)
+    if(NOT PHP_HAVE_PTHREAD_JIT_WRITE_PROTECT_NP)
+      message(
+        FATAL_ERROR
+        "OPcache JIT on Apple Silicon with thread safety enabled requires "
+        "pthread_jit_write_protect_np()."
+      )
+    endif()
   endif()
 endif()
 
