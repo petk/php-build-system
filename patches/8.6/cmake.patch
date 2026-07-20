@@ -136,10 +136,10 @@ index 12aa02005c2..abfcbcbfc12 100644
  #  define HAVE__CONTROLFP_S
  #endif /* _MSC_VER */
 diff --git a/configure.ac b/configure.ac
-index 9014869fb94..938f860fb1d 100644
+index ec64637b186..2fcd803f670 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1619,7 +1619,7 @@ else
+@@ -1624,7 +1624,7 @@ else
  fi;
  
  all_targets="\$(OVERALL_TARGET) \$(PHP_MODULES) \$(PHP_ZEND_EX) \$(PHP_BINARIES) $pharcmd"
@@ -303,7 +303,7 @@ index beeb157e53a..03b895c4c1b 100644
   * Other platforms may modify that configure check and add suitable #ifdefs
   * around the alternate code. */
 diff --git a/run-tests.php b/run-tests.php
-index f5c7be8b4f4..631edc1dfde 100755
+index 1d8be660388..687d8bfbeaa 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -858,10 +858,12 @@ function write_information(array $user_tests, $phpdbg): void
