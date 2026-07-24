@@ -169,7 +169,7 @@ unset(_reason)
 
 function(mc_target)
   cmake_parse_arguments(
-    PARSE_ARGV 0
+    PARSE_ARGN
     parsed
     ""
     "NAME;INPUT;HEADER_DIR;RC_DIR;XDBG_DIR"

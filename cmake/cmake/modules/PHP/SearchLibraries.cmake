@@ -264,7 +264,7 @@ endfunction()
 
 function(php_search_libraries)
   cmake_parse_arguments(
-    PARSE_ARGV 0
+    PARSE_ARGN
     parsed
     "RECHECK_HEADERS"
     "SYMBOL;SOURCE_COMPILES;SOURCE_RUNS;RESULT_VARIABLE;LIBRARY_VARIABLE"

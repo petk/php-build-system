@@ -142,7 +142,7 @@ function(_php_check_attribute_get_variable_code attribute result)
 endfunction()
 
 function(_php_check_attribute what attribute result)
-  cmake_parse_arguments(PARSE_ARGV 3 parsed "" "" "")
+  cmake_parse_arguments(PARSE_ARGN parsed "" "" "")
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")
