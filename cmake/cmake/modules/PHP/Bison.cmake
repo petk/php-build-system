@@ -299,7 +299,7 @@ endmacro()
 
 function(php_bison name input)
   cmake_parse_arguments(
-    PARSE_ARGV 2
+    PARSE_ARGN
     parsed
     "ADD_DEFAULT_OPTIONS;CODEGEN;HEADER;VERBOSE;ABSOLUTE_PATHS"
     "OUTPUT;HEADER_FILE;WORKING_DIRECTORY;REPORT_FILE"
