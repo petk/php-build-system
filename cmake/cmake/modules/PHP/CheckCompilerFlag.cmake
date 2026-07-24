@@ -73,7 +73,7 @@ include(CheckCompilerFlag)
 include(CMakePushCheckState)
 
 function(php_check_compiler_flag lang flags result)
-  cmake_parse_arguments(PARSE_ARGV 3 parsed "" "" "")
+  cmake_parse_arguments(PARSE_ARGN parsed "" "" "")
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")

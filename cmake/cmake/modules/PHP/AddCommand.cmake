@@ -465,7 +465,7 @@ endfunction()
 
 function(_php_add_command_create_script)
   cmake_parse_arguments(
-    PARSE_ARGV 0
+    PARSE_ARGN
     parsed
     ""
     "TARGET;SCRIPT;WORKING_DIRECTORY;COMMENT"

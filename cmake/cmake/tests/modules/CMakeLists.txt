@@ -1,5 +1,5 @@
 function(php_add_test)
-  cmake_parse_arguments(PARSE_ARGV 0 parsed "" "NAME;DIR" "")
+  cmake_parse_arguments(PARSE_ARGN parsed "" "NAME;DIR" "")
 
   if(parsed_UNPARSED_ARGUMENTS)
     message(FATAL_ERROR "Unrecognized arguments: ${parsed_UNPARSED_ARGUMENTS}")

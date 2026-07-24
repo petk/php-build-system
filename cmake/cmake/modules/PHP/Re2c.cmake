@@ -278,7 +278,7 @@ endmacro()
 
 function(php_re2c name input)
   cmake_parse_arguments(
-    PARSE_ARGV 2
+    PARSE_ARGN
     parsed
     "ADD_DEFAULT_OPTIONS;CODEGEN;ABSOLUTE_PATHS"
     "OUTPUT;HEADER;WORKING_DIRECTORY;COMPUTED_GOTOS"
