@@ -24,6 +24,12 @@ target_sources(
     $<$<NOT:$<PLATFORM_ID:Windows>>:explicit_bzero.c>
     fopen_wrappers.c
     getopt.c
+    $<$<NOT:$<PLATFORM_ID:Windows>>:io/php_io_copy_freebsd.c>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:io/php_io_copy_linux.c>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:io/php_io_copy_macos.c>
+    $<$<NOT:$<PLATFORM_ID:Windows>>:io/php_io_copy_solaris.c>
+    $<$<PLATFORM_ID:Windows>:io/php_io_copy_windows.c>
+    io/php_io.c
     main.c
     main.stub.php
     network.c
@@ -82,6 +88,7 @@ target_sources(
         php_globals.h
         php_ini_builder.h
         php_ini.h
+        php_io.h
         php_main.h
         php_memory_streams.h
         php_network.h

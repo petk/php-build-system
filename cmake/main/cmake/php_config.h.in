@@ -322,6 +322,9 @@
 /* Define to 1 if you have the 'scandir' function. */
 #cmakedefine HAVE_SCANDIR 1
 
+/* Define to 1 if you have the 'sendfile' function. */
+#cmakedefine HAVE_SENDFILE 1
+
 /* Define to 1 if you have the 'setenv' function. */
 #cmakedefine HAVE_SETENV 1
 
@@ -339,6 +342,9 @@
 
 /* Define to 1 if the system has the type 'socklen_t'. */
 #cmakedefine HAVE_SOCKLEN_T 1
+
+/* Define to 1 if you have the 'splice' function. */
+#cmakedefine HAVE_SPLICE 1
 
 /* Define to 1 if you have the 'statfs' function. */
 #cmakedefine HAVE_STATFS 1

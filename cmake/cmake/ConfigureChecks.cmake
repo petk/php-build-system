@@ -497,6 +497,12 @@ set(HAVE_SETENV ${PHP_HAVE_SETENV})
 check_symbol_exists(sigprocmask signal.h PHP_HAVE_SIGPROCMASK)
 set(HAVE_SIGPROCMASK ${PHP_HAVE_SIGPROCMASK})
 
+cmake_push_check_state(RESET)
+set(CMAKE_REQUIRED_DEFINITIONS -D_GNU_SOURCE)
+check_symbol_exists(splice fcntl.h PHP_HAVE_SPLICE)
+set(HAVE_SPLICE ${PHP_HAVE_SPLICE})
+cmake_pop_check_state()
+
 # Check for statfs().
 block(PROPAGATE HAVE_STATFS)
   set(headers "")
@@ -730,6 +736,16 @@ php_search_libraries(
   TARGET php_config INTERFACE
 )
 set(HAVE_NANOSLEEP ${PHP_HAVE_NANOSLEEP})
+
+# The sendfile() is mostly in C library (Solaris 11.4, Linux, FreeBSD...)
+php_search_libraries(
+  SYMBOL sendfile
+  HEADERS sys/sendfile.h
+  LIBRARIES sendfile # Solaris <= 11.3, illumos.
+  RESULT_VARIABLE PHP_HAVE_SENDFILE
+  TARGET php_config INTERFACE
+)
+set(HAVE_SENDFILE ${PHP_HAVE_SENDFILE})
 
 # The setsockopt() is mostly in C library (Solaris 11.4...)
 php_search_libraries(

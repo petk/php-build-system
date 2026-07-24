@@ -194,6 +194,7 @@ target_sources(
     zend_observer.c
     zend_opcode.c
     zend_operators.c
+    zend_partial.c
     zend_property_hooks.c
     zend_ptr_stack.c
     $<$<NOT:$<PLATFORM_ID:Windows>>:zend_signal.c>
@@ -290,6 +291,7 @@ target_sources(
         zend_objects.h
         zend_observer.h
         zend_operators.h
+        zend_partial.h
         zend_perf_stat.h
         zend_portability.h
         zend_property_hooks.h
