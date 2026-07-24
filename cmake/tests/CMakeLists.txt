@@ -25,6 +25,10 @@ if(NOT cmocka_FOUND)
   return()
 endif()
 
+################################################################################
+# tests/unit/main/test_network.c
+################################################################################
+
 add_executable(php_unit_test_network unit/main/test_network.c)
 
 target_link_libraries(
@@ -48,3 +52,33 @@ if(PHP_HAS_C_FLAG_WRAP)
 endif()
 
 add_test(NAME PhpUnitTestNetwork COMMAND php_unit_test_network)
+
+################################################################################
+# tests/unit/main/test_io_copy.c
+################################################################################
+
+add_executable(php_unit_test_io_copy unit/main/test_io_copy.c)
+
+target_link_libraries(
+  php_unit_test_io_copy
+  PRIVATE PHP::sapi::embed PHP::config cmocka::cmocka
+)
+
+# TODO: Fix this.
+set_target_properties(php_unit_test_io_copy PROPERTIES PHP_CLI TRUE)
+
+if(PHP_HAS_C_FLAG_WRAP)
+  target_link_options(
+    php_unit_test_io_copy
+    PRIVATE
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=copy_file_range>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=sendfile>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=splice>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=read>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=write>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=poll>
+      $<$<LINK_LANGUAGE:C>:LINKER:--wrap=setsockopt>
+  )
+endif()
+
+add_test(NAME PhpUnitTestIoCopy COMMAND php_unit_test_io_copy)
