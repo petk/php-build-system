@@ -235,7 +235,7 @@ index d4eb89c36c6..dcd7db6f400 100644
  <?php
  $file = __DIR__ . '/gh18431.zip';
 diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
-index a98a2227120..14feac6b24d 100644
+index 298041cc065..2b39fbd447e 100644
 --- a/ext/zip/tests/oo_addglob2.phpt
 +++ b/ext/zip/tests/oo_addglob2.phpt
 @@ -6,6 +6,12 @@
