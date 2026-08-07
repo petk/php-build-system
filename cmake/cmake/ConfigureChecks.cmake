@@ -494,6 +494,9 @@ set(HAVE_SETITIMER ${PHP_HAVE_SETITIMER})
 check_symbol_exists(setenv stdlib.h PHP_HAVE_SETENV)
 set(HAVE_SETENV ${PHP_HAVE_SETENV})
 
+check_symbol_exists(setproctitle "unistd.h;stdlib.h" PHP_HAVE_SETPROCTITLE)
+set(HAVE_SETPROCTITLE ${PHP_HAVE_SETPROCTITLE})
+
 check_symbol_exists(sigprocmask signal.h PHP_HAVE_SIGPROCMASK)
 set(HAVE_SIGPROCMASK ${PHP_HAVE_SIGPROCMASK})
 
