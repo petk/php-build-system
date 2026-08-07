@@ -334,6 +334,9 @@
 /* Define to 1 if you have the 'setitimer' function. */
 #cmakedefine HAVE_SETITIMER 1
 
+/* Define to 1 if you have the 'setproctitle' function. */
+#cmakedefine HAVE_SETPROCTITLE 1
+
 /* Define to 1 if you have the 'shutdown' function. */
 #cmakedefine HAVE_SHUTDOWN 1
 

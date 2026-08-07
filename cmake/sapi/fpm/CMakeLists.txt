@@ -236,9 +236,6 @@ set(HAVE_CLEARENV ${PHP_SAPI_FPM_HAVE_CLEARENV})
 check_symbol_exists(setpflags priv.h PHP_SAPI_FPM_HAVE_SETPFLAGS)
 set(HAVE_SETPFLAGS ${PHP_SAPI_FPM_HAVE_SETPFLAGS})
 
-check_symbol_exists(setproctitle "unistd.h;stdlib.h" PHP_SAPI_HAVE_SETPROCTITLE)
-set(HAVE_SETPROCTITLE ${PHP_SAPI_HAVE_SETPROCTITLE})
-
 check_symbol_exists(
   setproctitle_fast
   unistd.h

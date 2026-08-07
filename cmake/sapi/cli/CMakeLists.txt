@@ -22,7 +22,6 @@ Same as the main CLI SAPI (`php`) but without the console (no output is given).
 > This option is only available when the target system is Windows.
 #]=============================================================================]
 
-include(CheckSymbolExists)
 include(CMakeDependentOption)
 include(FeatureSummary)
 
@@ -49,13 +48,6 @@ add_feature_info(
 if(NOT PHP_SAPI_CLI)
   return()
 endif()
-
-################################################################################
-# Configuration checks.
-################################################################################
-
-check_symbol_exists(setproctitle "unistd.h;stdlib.h" PHP_SAPI_HAVE_SETPROCTITLE)
-set(HAVE_SETPROCTITLE ${PHP_SAPI_HAVE_SETPROCTITLE})
 
 ################################################################################
 # The cli SAPI.
