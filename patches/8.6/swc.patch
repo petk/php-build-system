@@ -16,7 +16,7 @@ See https://github.com/php/php-src/issues/20868
  10 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
-index 7fc31e7d80c..4853bd20f13 100644
+index 07e61957d19..5645c7f1f01 100644
 --- a/ext/standard/basic_functions.stub.php
 +++ b/ext/standard/basic_functions.stub.php
 @@ -593,7 +593,7 @@ enum SortDirection {
@@ -29,13 +29,13 @@ index 7fc31e7d80c..4853bd20f13 100644
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index c5266c5a877..acf67914824 100644
+index d24de1fef99..a5a75135d8b 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: 3b1649a3abb3cfb5cb39d93f30a97765fe862d67
-+ * Stub hash: 2785478d906400fd3a2f793a3f11bbee3cfdb5c2
+- * Stub hash: 0c8af3b78b3d6e1ee3e59c60363d0d941bea9faa
++ * Stub hash: d8fc8aebde6c7430683126ae6a888d58fbcf87eb
   * Has decl header: yes */
  
  ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
@@ -49,18 +49,18 @@ index c5266c5a877..acf67914824 100644
  #endif
  	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
 diff --git a/ext/standard/basic_functions_decl.h b/ext/standard/basic_functions_decl.h
-index 630a4b7e656..ec6bfd890c9 100644
+index 97d896e8bb6..9304bffcf1d 100644
 --- a/ext/standard/basic_functions_decl.h
 +++ b/ext/standard/basic_functions_decl.h
 @@ -1,8 +1,8 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: 3b1649a3abb3cfb5cb39d93f30a97765fe862d67 */
-+ * Stub hash: 2785478d906400fd3a2f793a3f11bbee3cfdb5c2 */
+- * Stub hash: 0c8af3b78b3d6e1ee3e59c60363d0d941bea9faa */
++ * Stub hash: d8fc8aebde6c7430683126ae6a888d58fbcf87eb */
  
--#ifndef ZEND_BASIC_FUNCTIONS_DECL_3b1649a3abb3cfb5cb39d93f30a97765fe862d67_H
--#define ZEND_BASIC_FUNCTIONS_DECL_3b1649a3abb3cfb5cb39d93f30a97765fe862d67_H
-+#ifndef ZEND_BASIC_FUNCTIONS_DECL_2785478d906400fd3a2f793a3f11bbee3cfdb5c2_H
-+#define ZEND_BASIC_FUNCTIONS_DECL_2785478d906400fd3a2f793a3f11bbee3cfdb5c2_H
+-#ifndef ZEND_BASIC_FUNCTIONS_DECL_0c8af3b78b3d6e1ee3e59c60363d0d941bea9faa_H
+-#define ZEND_BASIC_FUNCTIONS_DECL_0c8af3b78b3d6e1ee3e59c60363d0d941bea9faa_H
++#ifndef ZEND_BASIC_FUNCTIONS_DECL_d8fc8aebde6c7430683126ae6a888d58fbcf87eb_H
++#define ZEND_BASIC_FUNCTIONS_DECL_d8fc8aebde6c7430683126ae6a888d58fbcf87eb_H
  
  typedef enum zend_enum_SortDirection {
  	ZEND_ENUM_SortDirection_Ascending = 1,
@@ -68,8 +68,8 @@ index 630a4b7e656..ec6bfd890c9 100644
  	ZEND_ENUM_RoundingMode_PositiveInfinity = 8,
  } zend_enum_RoundingMode;
  
--#endif /* ZEND_BASIC_FUNCTIONS_DECL_3b1649a3abb3cfb5cb39d93f30a97765fe862d67_H */
-+#endif /* ZEND_BASIC_FUNCTIONS_DECL_2785478d906400fd3a2f793a3f11bbee3cfdb5c2_H */
+-#endif /* ZEND_BASIC_FUNCTIONS_DECL_0c8af3b78b3d6e1ee3e59c60363d0d941bea9faa_H */
++#endif /* ZEND_BASIC_FUNCTIONS_DECL_d8fc8aebde6c7430683126ae6a888d58fbcf87eb_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
 index 7edfcf1da1f..fe98bc19938 100644
 --- a/ext/standard/config.m4
