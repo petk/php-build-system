@@ -62,6 +62,9 @@
 /* Define to 1 if you have the 'pthread_getattr_np' function. */
 #cmakedefine HAVE_PTHREAD_GETATTR_NP 1
 
+/* Define to 1 if you have the 'pthread_getthrds_np' function. */
+#cmakedefine HAVE_PTHREAD_GETTHRDS_NP 1
+
 /* Define to 1 if you have the 'pthread_stackseg_np' function. */
 #cmakedefine HAVE_PTHREAD_STACKSEG_NP 1
 

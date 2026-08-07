@@ -20,6 +20,8 @@ cmake_minimum_required(VERSION 4.4...4.5)
 
 project(PHP_EXT_GMP LANGUAGES C)
 
+include(CheckSymbolExists)
+include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_GMP "Enable the gmp extension" ${PROJECT_IS_TOP_LEVEL})
@@ -71,6 +73,20 @@ set_package_properties(
 )
 
 target_link_libraries(php_ext_gmp PUBLIC ${imported_target})
+
+if(TARGET GMP::GMP)
+  cmake_push_check_state(RESET)
+
+  set(CMAKE_REQUIRED_LIBRARIES GMP::GMP)
+
+  check_symbol_exists(mpz_powm_sec gmp.h PHP_EXT_GMP_HAVE___GMPZ_POWM_SEC)
+  set(HAVE___GMPZ_POWM_SEC ${PHP_EXT_GMP_HAVE___GMPZ_POWM_SEC})
+
+  check_symbol_exists(mpz_prevprime gmp.h PHP_EXT_GMP_HAVE___GMPZ_PREVPRIME)
+  set(HAVE___GMPZ_PREVPRIME ${PHP_EXT_GMP_HAVE___GMPZ_PREVPRIME})
+
+  cmake_pop_check_state()
+endif()
 
 set_property(TARGET php_ext_gmp APPEND PROPERTY PHP_REQUIRED_EXTENSIONS random)
 

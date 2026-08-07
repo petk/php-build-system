@@ -73,6 +73,7 @@ target_sources(
       FILES
         astro.c
         dow.c
+        duration.c
         interval.c
         parse_date.c
         parse_iso_intervals.c

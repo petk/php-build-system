@@ -482,6 +482,13 @@ set(HAVE_PTHREAD_GETATTR_NP ${PHP_ZEND_HAVE_PTHREAD_GETATTR_NP})
 cmake_pop_check_state()
 
 check_symbol_exists(
+  pthread_getthrds_np
+  pthread.h
+  PHP_ZEND_HAVE_PTHREAD_GETTHRDS_NP
+)
+set(HAVE_PTHREAD_GETTHRDS_NP ${PHP_ZEND_HAVE_PTHREAD_GETTHRDS_NP})
+
+check_symbol_exists(
   pthread_stackseg_np
   pthread.h
   PHP_ZEND_HAVE_PTHREAD_STACKSEG_NP

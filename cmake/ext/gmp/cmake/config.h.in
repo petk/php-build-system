@@ -1,2 +1,8 @@
+/* Define to 1 if you have the 'mpz_powm_sec' function. */
+#cmakedefine HAVE___GMPZ_POWM_SEC 1
+
+/* Define to 1 if you have the 'mpz_prevprime' function. */
+#cmakedefine HAVE___GMPZ_PREVPRIME 1
+
 /* Define to 1 if the PHP extension 'gmp' is available. */
 #cmakedefine HAVE_GMP 1
