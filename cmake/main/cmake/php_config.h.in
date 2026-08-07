@@ -308,6 +308,9 @@
 /* Define to 1 if you have the 'procctl' function. */
 #cmakedefine HAVE_PROCCTL 1
 
+/* Define if the PS_STRINGS exists. */
+#cmakedefine HAVE_PS_STRINGS
+
 /* Define to 1 if you have the 'pthread_jit_write_protect_np' function. */
 #cmakedefine HAVE_PTHREAD_JIT_WRITE_PROTECT_NP 1
 
