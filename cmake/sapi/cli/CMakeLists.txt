@@ -22,10 +22,8 @@ Same as the main CLI SAPI (`php`) but without the console (no output is given).
 > This option is only available when the target system is Windows.
 #]=============================================================================]
 
-include(CheckSourceCompiles)
 include(CheckSymbolExists)
 include(CMakeDependentOption)
-include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_SAPI_CLI "Enable the CLI SAPI module" ON)
@@ -58,35 +56,6 @@ endif()
 
 check_symbol_exists(setproctitle "unistd.h;stdlib.h" PHP_SAPI_HAVE_SETPROCTITLE)
 set(HAVE_SETPROCTITLE ${PHP_SAPI_HAVE_SETPROCTITLE})
-
-# For some BSD-based systems.
-message(CHECK_START "Checking for PS_STRINGS")
-cmake_push_check_state(RESET)
-set(CMAKE_REQUIRED_QUIET TRUE)
-
-check_source_compiles(
-  C
-  [[
-    #include <machine/vmparam.h> // For old BSD.
-    #include <sys/exec.h>
-
-    int main(void)
-    {
-      PS_STRINGS->ps_nargvstr = 1;
-      PS_STRINGS->ps_argvstr = "foo";
-
-      return 0;
-    }
-  ]]
-  PHP_SAPI_CLI_HAVE_PS_STRINGS
-)
-cmake_pop_check_state()
-if(PHP_SAPI_CLI_HAVE_PS_STRINGS)
-  message(CHECK_PASS "yes")
-else()
-  message(CHECK_FAIL "no")
-endif()
-set(HAVE_PS_STRINGS ${PHP_SAPI_CLI_HAVE_PS_STRINGS})
 
 ################################################################################
 # The cli SAPI.
