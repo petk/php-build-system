@@ -61,10 +61,6 @@ target_sources(
 
 target_include_directories(php_ext_libxml PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND TARGET php_sapi)
-  target_sources(php_sapi INTERFACE php_libxml2.def)
-endif()
-
 target_compile_definitions(
   php_ext_libxml
   PRIVATE
@@ -88,6 +84,10 @@ if(LibXml2_VERSION VERSION_LESS 2.10)
 endif()
 
 target_link_libraries(php_ext_libxml PUBLIC LibXml2::LibXml2)
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND TARGET php_sapi)
+  target_sources(php_sapi INTERFACE php_libxml2.def)
+endif()
 
 set(HAVE_LIBXML TRUE)
 
