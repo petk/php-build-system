@@ -86,6 +86,8 @@ endif()
 target_link_libraries(php_ext_libxml PUBLIC LibXml2::LibXml2)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows" AND TARGET php_sapi)
+  # The HTTP and FTP modules, SAX1, the shell, xmlunicode.h and various other
+  # legacy symbols were removed in 2.15.
   if(libxml2_VERSION VERSION_GREATER_EQUAL 2.15)
     target_sources(php_sapi INTERFACE php_libxml2.def)
   else()
