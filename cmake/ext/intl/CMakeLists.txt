@@ -202,7 +202,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   )
 endif()
 
-find_package(ICU 57.1 COMPONENTS i18n io uc)
+find_package(ICU 57.1 COMPONENTS i18n uc)
 set_package_properties(
   ICU
   PROPERTIES TYPE REQUIRED PURPOSE "Necessary to enable the intl extension."
@@ -214,7 +214,7 @@ else()
   target_compile_features(php_ext_intl PRIVATE cxx_std_11)
 endif()
 
-target_link_libraries(php_ext_intl PRIVATE ICU::i18n ICU::io ICU::uc)
+target_link_libraries(php_ext_intl PRIVATE ICU::i18n ICU::uc)
 
 if(ICU_VERSION VERSION_GREATER_EQUAL 60)
   target_compile_definitions(php_ext_intl PRIVATE U_HIDE_OBSOLETE_UTF_OLD_H=1)

@@ -21,6 +21,7 @@ This document describes how the PHP build system evolved through time.
   `_arginfo.h` file, if the stub declares enums and is annotated with
   `@generate-c-enums`. For each enum the file will contain a C enum. Enum values
   can be compared to the result of `zend_enum_fetch_case_id(zend_object*)`.
+* Removed the dependency on the ICU IO library in ext/intl.
 
 #### Autotools
 
