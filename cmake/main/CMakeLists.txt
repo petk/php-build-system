@@ -152,18 +152,6 @@ target_link_libraries(php_sapi INTERFACE PHP::main)
 target_sources(php_sapi INTERFACE $<TARGET_OBJECTS:PHP::main>)
 
 ################################################################################
-# Add FastCGI target with objects for use in PHP SAPIs such as CGI and FPM.
-################################################################################
-add_library(php_main_fastcgi OBJECT fastcgi.c)
-add_dependencies(php_main_fastcgi php_main)
-
-target_sources(
-  php_sapi
-  INTERFACE
-    $<$<BOOL:$<TARGET_PROPERTY:PHP_SAPI_FASTCGI>>:$<TARGET_OBJECTS:php_main_fastcgi>>
-)
-
-################################################################################
 # Create main/internal_functions*.c files with a list of static enabled PHP
 # extensions based on the PHP SAPI type.
 ################################################################################
