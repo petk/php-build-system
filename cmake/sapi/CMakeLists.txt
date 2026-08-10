@@ -49,7 +49,7 @@ foreach(sapi IN LISTS sapis)
   list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 endforeach()
 
-# Add FastCGI target with objects for use in PHP SAPIs such as CGI and FPM.
+# Add FastCGI object target for PHP SAPIs such as cgi and fpm.
 add_library(php_sapi_common_fastcgi OBJECT ../main/fastcgi.c)
 target_compile_definitions(
   php_sapi_common_fastcgi
@@ -58,7 +58,7 @@ target_compile_definitions(
 target_link_libraries(php_sapi_common_fastcgi PRIVATE PHP::config)
 set_target_properties(php_sapi_common_fastcgi PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-# Add common cli target with objects for use in embed and cli PHP SAPIs.
+# Add cli object target for using do_php_cli() in embed and cli PHP SAPIs.
 add_library(php_sapi_common_cli OBJECT)
 target_sources(
   php_sapi_common_cli

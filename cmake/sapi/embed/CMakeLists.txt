@@ -50,7 +50,12 @@ foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
     PRIVATE php_embed.c $<TARGET_OBJECTS:php_sapi_common_cli>
   )
 
-  target_link_libraries(${target} PRIVATE $<BUILD_INTERFACE:PHP::sapi>)
+  target_link_libraries(
+    ${target}
+    PRIVATE
+      $<BUILD_INTERFACE:PHP::sapi>
+      $<$<PLATFORM_ID:Windows>:ws2_32;shell32>
+  )
 
   target_compile_definitions(${target} PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
