@@ -201,7 +201,9 @@ if(PHP_SAPI_PHPDBG_READLINE OR PHP_EXT_READLINE)
     target_link_libraries(php_sapi_phpdbg_shared PRIVATE Editline::Editline)
   endif()
 
-  set(HAVE_LIBEDIT TRUE)
+  target_compile_definitions(php_sapi_phpdbg PRIVATE HAVE_LIBEDIT)
+  target_compile_definitions(php_sapi_phpdbg_shared PRIVATE HAVE_LIBEDIT)
+
   set(HAVE_PHPDBG_READLINE TRUE)
 else()
   message(CHECK_FAIL "disabled")

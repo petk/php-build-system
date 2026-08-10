@@ -88,22 +88,6 @@ set_target_properties(
     PHP_CLI TRUE
 )
 
-# Link editline library conditionally based on readline extension.
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(type "")
-  if(PHP_EXT_READLINE)
-    get_target_property(type PHP::ext::readline TYPE)
-  endif()
-
-  if(NOT PHP_EXT_READLINE OR NOT type STREQUAL "MODULE_LIBRARY")
-    find_package(Editline)
-    if(Editline_FOUND)
-      target_link_libraries(php_sapi_cli PRIVATE Editline::Editline)
-      set(HAVE_LIBEDIT TRUE)
-    endif()
-  endif()
-endif()
-
 install(
   TARGETS php_sapi_cli
   EXPORT php_sapi_cli_export
@@ -202,12 +186,6 @@ block()
     )
   endif()
 endblock()
-
-################################################################################
-# Configuration header.
-################################################################################
-
-configure_file(cmake/config.h.in config.h)
 
 ################################################################################
 # Tests.
