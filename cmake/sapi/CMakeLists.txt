@@ -49,7 +49,7 @@ foreach(sapi IN LISTS sapis)
   list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 endforeach()
 
-# Add FastCGI target with objects for use in PHP SAPIs such as CGI and FPM.
+# Add FastCGI object target for PHP SAPIs such as cgi and fpm.
 add_library(php_sapi_common_fastcgi OBJECT ../main/fastcgi.c)
 target_compile_definitions(
   php_sapi_common_fastcgi
