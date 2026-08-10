@@ -208,6 +208,7 @@ target_sources(
     fpm/fpm_worker_pool.c
     fpm/fpm.c
     fpm/zlog.c
+    $<TARGET_OBJECTS:php_sapi_common_fastcgi>
 )
 
 target_include_directories(
@@ -224,7 +225,6 @@ set_target_properties(
   PROPERTIES
     EXPORT_NAME fpm
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-fpm${PHP_PROGRAM_SUFFIX}
-    PHP_SAPI_FASTCGI TRUE
 )
 
 ################################################################################

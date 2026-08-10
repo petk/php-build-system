@@ -49,12 +49,21 @@ foreach(sapi IN LISTS sapis)
   list(POP_BACK CMAKE_MESSAGE_CONTEXT)
 endforeach()
 
+# Add FastCGI target with objects for use in PHP SAPIs such as CGI and FPM.
+add_library(php_sapi_common_fastcgi OBJECT ../main/fastcgi.c)
+target_compile_definitions(
+  php_sapi_common_fastcgi
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
+target_link_libraries(php_sapi_common_fastcgi PRIVATE PHP::config)
+set_target_properties(php_sapi_common_fastcgi PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
 # Check if at least one SAPI is enabled.
 get_property(sapis GLOBAL PROPERTY PHP_ENABLED_SAPIS)
 if(NOT sapis)
   message(
     WARNING
-    "None of the PHP SAPIs have been enabled. If this is intentional, you "
-    "can disregard this warning."
+    "None of the PHP SAPIs have been enabled. If this is intentional, you can "
+    "disregard this warning."
   )
 endif()

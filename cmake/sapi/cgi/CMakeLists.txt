@@ -25,7 +25,10 @@ endif()
 add_executable(php_sapi_cgi)
 add_executable(PHP::sapi::cgi ALIAS php_sapi_cgi)
 
-target_sources(php_sapi_cgi PRIVATE cgi_main.c cgi_main.stub.php)
+target_sources(
+  php_sapi_cgi
+  PRIVATE cgi_main.c cgi_main.stub.php $<TARGET_OBJECTS:php_sapi_common_fastcgi>
+)
 
 target_compile_definitions(php_sapi_cgi PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE)
 
@@ -46,7 +49,6 @@ set_target_properties(
     EXPORT_NAME cgi
     OUTPUT_NAME ${PHP_PROGRAM_PREFIX}php-cgi${PHP_PROGRAM_SUFFIX}
     PHP_CLI TRUE
-    PHP_SAPI_FASTCGI TRUE
 )
 
 # BSD systems.
