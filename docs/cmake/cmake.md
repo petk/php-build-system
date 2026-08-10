@@ -486,12 +486,6 @@ Target properties:
   )
   ```
 
-* `PHP_SAPI_FASTCGI`
-
-  Target property that marks the selected PHP SAPI target as FastCGI-related.
-  These SAPIs get the `main/fastcgi.c` object linked in the binary. For example,
-  PHP CGI and PHP FPM SAPIs.
-
 * `PHP_ZEND_EXTENSION`
 
   PHP extensions can utilize this custom target property, which designates the
