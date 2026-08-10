@@ -115,12 +115,6 @@ string(
 )
 install(CODE "${code}" ALL_COMPONENTS)
 
-define_property(
-  TARGET
-  PROPERTY PHP_SAPI_FASTCGI
-  BRIEF_DOCS "Whether the PHP SAPI is FastCGI-based"
-)
-
 # Check whether IPO/LTO can be enabled.
 if(PHP_IPO)
   include(PHP/Internal/Optimization)
