@@ -58,14 +58,7 @@ add_executable(PHP::sapi::cli ALIAS php_sapi_cli)
 
 target_sources(
   php_sapi_cli
-  PRIVATE
-    php_cli_process_title.c
-    php_cli_process_title.stub.php
-    php_cli_server.c
-    php_cli_server.stub.php
-    php_cli.c
-    php_http_parser.c
-    ps_title.c
+  PRIVATE php_cli_main.c $<TARGET_OBJECTS:php_sapi_common_cli>
   PUBLIC FILE_SET HEADERS FILES cli.h
 )
 

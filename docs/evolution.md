@@ -22,6 +22,9 @@ This document describes how the PHP build system evolved through time.
   `@generate-c-enums`. For each enum the file will contain a C enum. Enum values
   can be compared to the result of `zend_enum_fetch_case_id(zend_object*)`.
 * Removed the dependency on the ICU IO library in ext/intl.
+* The PHP embed SAPI now uses PHP CLI SAPI functionality via the `do_php_cli()`
+  function. PHP CLI SAPI cannot be disabled when building the embed SAPI
+  (`--enable-embed` is incompatible with `--disable-cli`).
 
 #### Autotools
 

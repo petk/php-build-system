@@ -58,6 +58,26 @@ target_compile_definitions(
 target_link_libraries(php_sapi_common_fastcgi PRIVATE PHP::config)
 set_target_properties(php_sapi_common_fastcgi PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
+# Add common cli target with objects for use in embed and cli PHP SAPIs.
+add_library(php_sapi_common_cli OBJECT)
+target_sources(
+  php_sapi_common_cli
+  PRIVATE
+    cli/php_cli_process_title.c
+    cli/php_cli_process_title.stub.php
+    cli/php_cli_server.c
+    cli/php_cli_server.stub.php
+    cli/php_cli.c
+    cli/php_http_parser.c
+    cli/ps_title.c
+)
+target_compile_definitions(
+  php_sapi_common_cli
+  PRIVATE ZEND_ENABLE_STATIC_TSRMLS_CACHE
+)
+target_link_libraries(php_sapi_common_cli PRIVATE PHP::config)
+set_target_properties(php_sapi_common_cli PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
 # Check if at least one SAPI is enabled.
 get_property(sapis GLOBAL PROPERTY PHP_ENABLED_SAPIS)
 if(NOT sapis)

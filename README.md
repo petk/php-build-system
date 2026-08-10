@@ -287,6 +287,10 @@ The following features are only available in CMake:
 
   * `PHP_CONFIGURE_COMMAND`
 
+* In CMake, the `sapi/embed` can be built regardless of `sapi/cli` being
+  enabled. In Autotools and JScript Windows, the `sapi/embed` requires
+  `sapi/cli` to be enabled.
+
 ### Behavior differences
 
 * sapi/apache2handler in CMake doesn't automatically enable PHP thread safety

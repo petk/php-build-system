@@ -45,7 +45,10 @@ add_library(PHP::sapi::embed_shared ALIAS php_sapi_embed_shared)
 target_sources(php_sapi_embed PUBLIC FILE_SET HEADERS FILES php_embed.h)
 
 foreach(target IN ITEMS php_sapi_embed php_sapi_embed_shared)
-  target_sources(${target} PRIVATE php_embed.c)
+  target_sources(
+    ${target}
+    PRIVATE php_embed.c $<TARGET_OBJECTS:php_sapi_common_cli>
+  )
 
   target_link_libraries(${target} PRIVATE $<BUILD_INTERFACE:PHP::sapi>)
 
