@@ -6,14 +6,46 @@
 Finds the libwebp library:
 
 ```cmake
-find_package(WebP [<version>] [...])
+find_package(WebP [<version>] [COMPONENTS <components>...] [...])
 ```
+
+## Components
+
+This module supports optional components which can be specified using the
+`find_package()` command:
+
+```cmake
+find_package(
+  WebP
+  [COMPONENTS <components>...]
+  [OPTIONAL_COMPONENTS <components>...]
+  [...]
+)
+```
+
+Supported components include:
+
+* `webp` - Finds the main WebP library.
+* `webpdecoder` - Finds the WebP decoder library.
+* `webpdemux` - Finds the WebP Demux library.
+* `libwebpmux` - Finds the WebP Mux library. Named after the upstream target
+  name from CMake config files.
+
+If no components are specified, by default, the `webp` is searched as required
+component.
 
 ## Imported targets
 
 This module provides the following imported targets:
 
-* `WebP::WebP` - The package library, if found.
+* `WebP::webp` - Target encapsulating the Webp main webp library, if `webp`
+  component was found.
+* `WebP::webpdecoder` - Target encapsulating the webpdecoder library, if
+  `webpdecoder` component was found.
+* `WebP::webpdemux` - Target encapsulating the webpdemux library, if
+  `webpdemux` component was found.
+* `WebP::libwebpmux` - Target encapsulating the webpmux library, if `libwebpmux`
+  component was found.
 
 ## Result variables
 
@@ -28,16 +60,27 @@ This module defines the following variables:
 The following cache variables may also be set:
 
 * `WebP_INCLUDE_DIR` - Directory containing package library headers.
-* `WebP_LIBRARY` - The path to the package library.
+* `WebP_<component>_LIBRARY` - The path to the package component library.
 
 ## Examples
 
-Basic usage:
+## Example: Basic usage
 
 ```cmake
 # CMakeLists.txt
 find_package(WebP)
-target_link_libraries(example PRIVATE WebP::WebP)
+target_link_libraries(example PRIVATE WebP::webp)
+```
+
+## Example: Finding WebP components
+
+```cmake
+# CMakeLists.txt
+find_package(WebP COMPONENTS webp webpdemux libwebpmux)
+target_link_libraries(
+  example
+  PRIVATE WebP::webp WebP::webpdemux WebP::libwebpmux
+)
 ```
 
 ## Customizing search locations
