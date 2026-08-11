@@ -237,7 +237,6 @@ include(CMakePackageConfigHelpers)
 
 write_basic_package_version_file(
   PHPConfigVersion.cmake
-  VERSION "${PHP_VERSION}" # Explicitly set so also PHP_VERSION_LABEL is added.
   COMPATIBILITY AnyNewerVersion
 )
 
