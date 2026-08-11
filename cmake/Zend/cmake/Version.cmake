@@ -30,6 +30,8 @@ function(_php_zend_version_post_project)
 
   # Append extra version label suffix to version.
   string(APPEND PHP_ZEND_VERSION "${PHP_ZEND_VERSION_LABEL}")
+  string(APPEND PROJECT_VERSION "${PHP_ZEND_VERSION_LABEL}")
+
   message(STATUS "Zend Engine version: ${PHP_ZEND_VERSION}")
 
   # Get extensions API number.
@@ -50,9 +52,11 @@ function(_php_zend_version_post_project)
 
   return(
     PROPAGATE
+      PROJECT_VERSION
       PHP_ZEND_VERSION
       PHP_ZEND_VERSION_EXTENSION_API_NO
       PHP_ZEND_VERSION_MODULE_API_NO
   )
 endfunction()
+
 variable_watch(PHP_ZEND_DESCRIPTION _php_zend_version_post_project)

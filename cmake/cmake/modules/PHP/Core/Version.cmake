@@ -39,6 +39,8 @@ function(_php_version_post_project)
 
   # Append extra version label suffix to version.
   string(APPEND PHP_VERSION "${PHP_VERSION_LABEL}")
+  string(APPEND PROJECT_VERSION "${PHP_VERSION_LABEL}")
+
   message(STATUS "PHP version: ${PHP_VERSION}")
 
   # Set PHP version ID.
@@ -58,6 +60,7 @@ function(_php_version_post_project)
   )
   set(PHP_API_VERSION "${CMAKE_MATCH_1}")
 
-  return(PROPAGATE PHP_VERSION PHP_VERSION_ID PHP_API_VERSION)
+  return(PROPAGATE PROJECT_VERSION PHP_VERSION PHP_VERSION_ID PHP_API_VERSION)
 endfunction()
+
 variable_watch(PHP_HOMEPAGE_URL _php_version_post_project)
