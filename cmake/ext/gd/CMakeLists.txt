@@ -411,7 +411,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
         PURPOSE "Necessary to enable the WebP support in the gd extension."
     )
 
-    target_link_libraries(php_ext_gd PRIVATE WebP::WebP)
+    target_link_libraries(php_ext_gd PRIVATE WebP::webp)
 
     set(HAVE_LIBWEBP TRUE)
     set(HAVE_GD_WEBP TRUE)
