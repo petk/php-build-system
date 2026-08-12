@@ -1648,23 +1648,35 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td>default in JScript Windows</td>
     </tr>
     <tr>
-      <td>&emsp;--without-webp</td>
-      <td>--without-libwebp</td>
-      <td>PHP_EXT_GD_WEBP=OFF</td>
-      <td>default in Autotools and CMake</td>
+      <td>&emsp;--without-freetype</td>
+      <td>N/A</td>
+      <td>PHP_EXT_GD_FREETYPE=OFF</td>
+      <td>default</td>
     </tr>
     <tr>
       <td>
-        &emsp;--with-webp<br>
-        &emsp;[WEBP_CFLAGS=...]<br>
-        &emsp;[WEBP_LIBS=...]
+        &emsp;--with-freetype<br>
+        &emsp;[FREETYPE2_CFLAGS=...]<br>
+        &emsp;[FREETYPE2_LIBS=...]
       </td>
-      <td>--with-libwebp</td>
+      <td>N/A</td>
       <td>
-        PHP_EXT_GD_WEBP=ON<br>
-        [WEBP_ROOT=DIR]
+        PHP_EXT_GD_FREETYPE=ON<br>
+        [FREETYPE_ROOT=DIR]
       </td>
-      <td>default in JScript Windows</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--disable-gd-jis-conv</td>
+      <td>N/A</td>
+      <td>PHP_EXT_GD_JIS=OFF</td>
+      <td>default</td>
+    </tr>
+    <tr>
+      <td>&emsp;--enable-gd-jis-conv</td>
+      <td>N/A</td>
+      <td>PHP_EXT_GD_JIS=ON</td>
+      <td></td>
     </tr>
     <tr>
       <td>&emsp;--without-jpeg</td>
@@ -1700,6 +1712,25 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--without-webp</td>
+      <td>--without-libwebp</td>
+      <td>PHP_EXT_GD_WEBP=OFF</td>
+      <td>default in Autotools and CMake</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-webp<br>
+        &emsp;[WEBP_CFLAGS=...]<br>
+        &emsp;[WEBP_LIBS=...]
+      </td>
+      <td>--with-libwebp</td>
+      <td>
+        PHP_EXT_GD_WEBP=ON<br>
+        [WEBP_ROOT=DIR]
+      </td>
+      <td>default in JScript Windows</td>
+    </tr>
+    <tr>
       <td>&emsp;--without-xpm</td>
       <td>N/A</td>
       <td>PHP_EXT_GD_XPM=OFF</td>
@@ -1716,37 +1747,6 @@ A list of Autoconf `configure` command-line configuration options, Windows
         PHP_EXT_GD_XPM=ON<br>
         [XPM_ROOT=DIR]
       </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--without-freetype</td>
-      <td>N/A</td>
-      <td>PHP_EXT_GD_FREETYPE=OFF</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>
-        &emsp;--with-freetype<br>
-        &emsp;[FREETYPE2_CFLAGS=...]<br>
-        &emsp;[FREETYPE2_LIBS=...]
-      </td>
-      <td>N/A</td>
-      <td>
-        PHP_EXT_GD_FREETYPE=ON<br>
-        [FREETYPE_ROOT=DIR]
-      </td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>&emsp;--disable-gd-jis-conv</td>
-      <td>N/A</td>
-      <td>PHP_EXT_GD_JIS=OFF</td>
-      <td>default</td>
-    </tr>
-    <tr>
-      <td>&emsp;--enable-gd-jis-conv</td>
-      <td>N/A</td>
-      <td>PHP_EXT_GD_JIS=ON</td>
       <td></td>
     </tr>
     <tr>

@@ -29,27 +29,6 @@ sources.
 
 Enables the AVIF support (only for bundled libgd).
 
-### PHP_EXT_GD_WEBP
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enables the WebP support (only for bundled libgd).
-
-### PHP_EXT_GD_JPEG
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enables the JPEG support (only for bundled libgd).
-
-### PHP_EXT_GD_XPM
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enables the XPM support (only for bundled libgd).
-
 ### PHP_EXT_GD_FREETYPE
 
 * Default: `OFF`
@@ -64,6 +43,27 @@ Enables the FreeType 2 support (only for bundled libgd).
 
 Enables the JIS-mapped (Japanese Industrial Standards) Japanese font support
 (only for bundled libgd).
+
+### PHP_EXT_GD_JPEG
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the JPEG support (only for bundled libgd).
+
+### PHP_EXT_GD_WEBP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the WebP support (only for bundled libgd).
+
+### PHP_EXT_GD_XPM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the XPM support (only for bundled libgd).
 
 ## Examples
 
