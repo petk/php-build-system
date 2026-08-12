@@ -365,8 +365,8 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
   target_link_libraries(php_ext_gd PRIVATE PNG::PNG)
 
-  set(HAVE_GD_PNG TRUE)
   set(HAVE_GD_GET_INTERPOLATION TRUE)
+  set(HAVE_GD_PNG TRUE)
   set(HAVE_LIBPNG TRUE)
 
   # GD library uses iconv if available when converting Kanji.
