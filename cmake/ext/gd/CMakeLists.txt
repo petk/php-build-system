@@ -27,27 +27,6 @@ sources.
 
 Enables the AVIF support (only for bundled libgd).
 
-### PHP_EXT_GD_WEBP
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enables the WebP support (only for bundled libgd).
-
-### PHP_EXT_GD_JPEG
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enables the JPEG support (only for bundled libgd).
-
-### PHP_EXT_GD_XPM
-
-* Default: `OFF`
-* Values: `ON|OFF`
-
-Enables the XPM support (only for bundled libgd).
-
 ### PHP_EXT_GD_FREETYPE
 
 * Default: `OFF`
@@ -62,6 +41,27 @@ Enables the FreeType 2 support (only for bundled libgd).
 
 Enables the JIS-mapped (Japanese Industrial Standards) Japanese font support
 (only for bundled libgd).
+
+### PHP_EXT_GD_JPEG
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the JPEG support (only for bundled libgd).
+
+### PHP_EXT_GD_WEBP
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the WebP support (only for bundled libgd).
+
+### PHP_EXT_GD_XPM
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the XPM support (only for bundled libgd).
 
 ## Examples
 
@@ -150,7 +150,6 @@ include(CMakePushCheckState)
 include(FeatureSummary)
 
 option(PHP_EXT_GD "Enable the gd extension" ${PROJECT_IS_TOP_LEVEL})
-
 add_feature_info("ext/gd" PHP_EXT_GD "image processing and graphics draw (GD)")
 
 cmake_dependent_option(
@@ -160,7 +159,6 @@ cmake_dependent_option(
   PHP_EXT_GD
   OFF
 )
-
 add_feature_info(
   "ext/gd external GD"
   PHP_EXT_GD_EXTERNAL
@@ -174,38 +172,7 @@ cmake_dependent_option(
   [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
-
 add_feature_info("ext/gd AVIF" PHP_EXT_GD_AVIF "AV1 Image File Format support")
-
-cmake_dependent_option(
-  PHP_EXT_GD_WEBP
-  "GD: Enable WebP support (only for bundled libgd)"
-  OFF
-  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
-  OFF
-)
-
-add_feature_info("ext/gd WebP" PHP_EXT_GD_WEBP "WebP support")
-
-cmake_dependent_option(
-  PHP_EXT_GD_JPEG
-  "GD: Enable JPEG support (only for bundled libgd)"
-  OFF
-  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
-  OFF
-)
-
-add_feature_info("ext/gd JPEG" PHP_EXT_GD_JPEG "JPEG support")
-
-cmake_dependent_option(
-  PHP_EXT_GD_XPM
-  "GD: Enable XPM support (only for bundled libgd)"
-  OFF
-  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
-  OFF
-)
-
-add_feature_info("ext/gd XPM" PHP_EXT_GD_XPM "X PixMap support")
 
 cmake_dependent_option(
   PHP_EXT_GD_FREETYPE
@@ -214,7 +181,6 @@ cmake_dependent_option(
   [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
-
 add_feature_info(
   "ext/gd FreeType"
   PHP_EXT_GD_FREETYPE
@@ -228,8 +194,34 @@ cmake_dependent_option(
   [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
   OFF
 )
-
 add_feature_info("ext/gd JIS" PHP_EXT_GD_JIS "JIS-mapped Japanese font support")
+
+cmake_dependent_option(
+  PHP_EXT_GD_JPEG
+  "GD: Enable JPEG support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd JPEG" PHP_EXT_GD_JPEG "JPEG support")
+
+cmake_dependent_option(
+  PHP_EXT_GD_WEBP
+  "GD: Enable WebP support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd WebP" PHP_EXT_GD_WEBP "WebP support")
+
+cmake_dependent_option(
+  PHP_EXT_GD_XPM
+  "GD: Enable XPM support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd XPM" PHP_EXT_GD_XPM "X PixMap support")
 
 if(NOT PHP_EXT_GD)
   return()
@@ -372,9 +364,9 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
   target_link_libraries(php_ext_gd PRIVATE PNG::PNG)
 
-  set(HAVE_LIBPNG TRUE)
   set(HAVE_GD_PNG TRUE)
   set(HAVE_GD_GET_INTERPOLATION TRUE)
+  set(HAVE_LIBPNG TRUE)
 
   # GD library uses iconv if available when converting Kanji.
   find_package(Iconv)
@@ -398,53 +390,8 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
     target_link_libraries(php_ext_gd PRIVATE libavif::libavif)
 
-    set(HAVE_LIBAVIF TRUE)
     set(HAVE_GD_AVIF TRUE)
-  endif()
-
-  if(PHP_EXT_GD_WEBP)
-    find_package(WebP 0.2.0)
-    set_package_properties(
-      WebP
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable the WebP support in the gd extension."
-    )
-
-    target_link_libraries(php_ext_gd PRIVATE WebP::webp)
-
-    set(HAVE_LIBWEBP TRUE)
-    set(HAVE_GD_WEBP TRUE)
-  endif()
-
-  if(PHP_EXT_GD_JPEG)
-    find_package(JPEG)
-    set_package_properties(
-      JPEG
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable the JPEG support in the gd extension."
-    )
-
-    target_link_libraries(php_ext_gd PRIVATE JPEG::JPEG)
-
-    set(HAVE_LIBJPEG TRUE)
-    set(HAVE_GD_JPG TRUE)
-  endif()
-
-  if(PHP_EXT_GD_XPM)
-    find_package(XPM)
-    set_package_properties(
-      XPM
-      PROPERTIES
-        TYPE REQUIRED
-        PURPOSE "Necessary to enable the XPM support in the gd extension."
-    )
-
-    target_link_libraries(php_ext_gd PRIVATE XPM::XPM)
-
-    set(HAVE_XPM TRUE)
-    set(HAVE_GD_XPM TRUE)
+    set(HAVE_LIBAVIF TRUE)
   endif()
 
   if(PHP_EXT_GD_FREETYPE)
@@ -458,13 +405,58 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
     target_link_libraries(php_ext_gd PRIVATE Freetype::Freetype)
 
-    set(HAVE_LIBFREETYPE TRUE)
     set(HAVE_GD_FREETYPE TRUE)
+    set(HAVE_LIBFREETYPE TRUE)
   endif()
 
   if(PHP_EXT_GD_JIS)
     set(JISX0208 TRUE)
     set(USE_GD_JISX0208 TRUE)
+  endif()
+
+  if(PHP_EXT_GD_JPEG)
+    find_package(JPEG)
+    set_package_properties(
+      JPEG
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the JPEG support in the gd extension."
+    )
+
+    target_link_libraries(php_ext_gd PRIVATE JPEG::JPEG)
+
+    set(HAVE_GD_JPG TRUE)
+    set(HAVE_LIBJPEG TRUE)
+  endif()
+
+  if(PHP_EXT_GD_WEBP)
+    find_package(WebP 0.2.0)
+    set_package_properties(
+      WebP
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the WebP support in the gd extension."
+    )
+
+    target_link_libraries(php_ext_gd PRIVATE WebP::webp)
+
+    set(HAVE_GD_WEBP TRUE)
+    set(HAVE_LIBWEBP TRUE)
+  endif()
+
+  if(PHP_EXT_GD_XPM)
+    find_package(XPM)
+    set_package_properties(
+      XPM
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the XPM support in the gd extension."
+    )
+
+    target_link_libraries(php_ext_gd PRIVATE XPM::XPM)
+
+    set(HAVE_GD_XPM TRUE)
+    set(HAVE_XPM TRUE)
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
@@ -546,10 +538,10 @@ else()
       return(PROPAGATE ${result})
     endfunction()
 
-    php_ext_gd_check_format(Png HAVE_GD_PNG)
     php_ext_gd_check_format(Avif HAVE_GD_AVIF)
-    php_ext_gd_check_format(Webp HAVE_GD_WEBP)
     php_ext_gd_check_format(Jpeg HAVE_GD_JPG)
+    php_ext_gd_check_format(Png HAVE_GD_PNG)
+    php_ext_gd_check_format(Webp HAVE_GD_WEBP)
     php_ext_gd_check_format(Xpm HAVE_GD_XPM)
 
     cmake_push_check_state(RESET)
@@ -559,15 +551,15 @@ else()
     check_symbol_exists(gdFontCacheShutdown gd.h PHP_EXT_GD_HAVE_GD_FREETYPE)
     set(HAVE_GD_FREETYPE ${PHP_EXT_GD_HAVE_GD_FREETYPE})
 
-    check_symbol_exists(gdVersionString gd.h PHP_EXT_GD_HAVE_GD_LIBVERSION)
-    set(HAVE_GD_LIBVERSION ${PHP_EXT_GD_HAVE_GD_LIBVERSION})
-
     check_symbol_exists(
       gdImageGetInterpolationMethod
       gd.h
       PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION
     )
     set(HAVE_GD_GET_INTERPOLATION ${PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION})
+
+    check_symbol_exists(gdVersionString gd.h PHP_EXT_GD_HAVE_GD_LIBVERSION)
+    set(HAVE_GD_LIBVERSION ${PHP_EXT_GD_HAVE_GD_LIBVERSION})
 
     cmake_pop_check_state()
   endif()
