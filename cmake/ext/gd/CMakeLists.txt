@@ -468,7 +468,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    target_link_libraries(php_ext_gd PRIVATE Gdi32)
+    target_link_libraries(php_ext_gd PRIVATE Gdi32 user32)
   endif()
 else()
   find_package(GD 2.1.0)
