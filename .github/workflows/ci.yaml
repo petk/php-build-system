@@ -26,7 +26,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - { label: ubuntu-latest }
+          - { label: ubuntu-26.04 }
         compiler:
           - { name: GNU, CC: gcc, CXX: g++ }
           - { name: Clang, CC: clang, CXX: clang++ }
@@ -127,7 +127,7 @@ jobs:
           ${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake --build --preset windows
 
   autotools:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     name: Autotools build and PHP extension CMake build
     steps:
       - name: Checkout
@@ -176,7 +176,7 @@ jobs:
           php -d extension=phantom -m | grep phantom
 
   self-contained-extensions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     name: Build php-src extensions as self-contained
     steps:
       - name: Checkout
@@ -260,7 +260,7 @@ jobs:
           done
 
   configure-command:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     name: PHP without configure command in phpinfo
     steps:
       - name: Checkout
