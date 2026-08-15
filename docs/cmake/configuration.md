@@ -1667,6 +1667,42 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;--without-heif</td>
+      <td>--without-heif</td>
+      <td>PHP_EXT_GD_HEIF=OFF</td>
+      <td>PHP &gt;= 8.6; default in Autotools and CMake</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-heif<br>
+        &emsp;[HEIF_CFLAGS=...]<br>
+        &emsp;[HEIF_LIBS=...]
+      </td>
+      <td>--with-heif</td>
+      <td>
+        PHP_EXT_GD_HEIF=ON<br>
+        [libheif_DIR=DIR]
+      </td>
+      <td>PHP &gt;= 8.6; default in JScript Windows</td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-imagequant</td>
+      <td>--without-imagequant</td>
+      <td>PHP_EXT_GD_IMAGEQUANT=OFF</td>
+      <td>PHP &gt;= 8.6; default</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-imagequant
+      </td>
+      <td>--with-imagequant</td>
+      <td>
+        PHP_EXT_GD_IMAGEQUANT=ON<br>
+        [Imagequant_ROOT=DIR]
+      </td>
+      <td>PHP &gt;= 8.6</td>
+    </tr>
+    <tr>
       <td>&emsp;--disable-gd-jis-conv</td>
       <td>N/A</td>
       <td>PHP_EXT_GD_JIS=OFF</td>
@@ -1698,6 +1734,21 @@ A list of Autoconf `configure` command-line configuration options, Windows
       <td></td>
     </tr>
     <tr>
+      <td>&emsp;N/A</td>
+      <td>--without-jxl</td>
+      <td>PHP_EXT_GD_JXL=OFF</td>
+      <td>PHP &gt;= 8.6; default in CMake</td>
+    </tr>
+    <tr>
+      <td>&emsp;N/A</td>
+      <td>--with-jxl</td>
+      <td>
+        PHP_EXT_GD_JXL=ON<br>
+        [JXL_ROOT=DIR]
+      </td>
+      <td>PHP &gt;= 8.6; default in JScript Windows</td>
+    </tr>
+    <tr>
       <td>
         &emsp;[PNG_CFLAGS=...]<br>
         &emsp;[PNG_LIBS=...]<br>
@@ -1710,6 +1761,44 @@ A list of Autoconf `configure` command-line configuration options, Windows
         [ZLIB_ROOT=DIR]
       </td>
       <td></td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-tiff</td>
+      <td>--without-tiff</td>
+      <td>PHP_EXT_GD_TIFF=OFF</td>
+      <td>PHP &gt;= 8.6; default</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-tiff<br>
+        &emsp;[TIFF_CFLAGS=...]<br>
+        &emsp;[TIFF_LIBS=...]
+      </td>
+      <td>--with-tiff</td>
+      <td>
+        PHP_EXT_GD_TIFF=ON<br>
+        [TIFF_ROOT=DIR]
+      </td>
+      <td>PHP &gt;= 8.6</td>
+    </tr>
+    <tr>
+      <td>&emsp;--without-uhdr</td>
+      <td>--without-uhdr</td>
+      <td>PHP_EXT_GD_UHDR=OFF</td>
+      <td>PHP &gt;= 8.6; default in Autotools and CMake</td>
+    </tr>
+    <tr>
+      <td>
+        &emsp;--with-uhdr<br>
+        &emsp;[UHDR_CFLAGS=...]<br>
+        &emsp;[UHDR_LIBS=...]
+      </td>
+      <td>--with-uhdr</td>
+      <td>
+        PHP_EXT_GD_UHDR=ON<br>
+        [UHDR_ROOT=DIR]
+      </td>
+      <td>PHP &gt;= 8.6; default in JScript Windows</td>
     </tr>
     <tr>
       <td>&emsp;--without-webp</td>

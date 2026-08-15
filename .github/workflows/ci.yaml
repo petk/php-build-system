@@ -61,6 +61,18 @@ jobs:
         uses: lukka/get-cmake@latest
         id: cmake-and-ninja
 
+      - name: Install libultrahdr
+        run: |
+          sudo mkdir -p /opt/ultrahdr
+          sudo chmod a+rwx /opt/ultrahdr
+          cd /opt/ultrahdr
+          wget https://github.com/google/libultrahdr/archive/refs/tags/v2.0.2.tar.gz
+          tar -xvf v2.0.2.tar.gz
+          cd libultrahdr-2.0.2
+          cmake -B cmake-build -DCMAKE_INSTALL_PREFIX=/usr
+          cmake --build cmake-build -j
+          sudo "${{ steps.cmake-and-ninja.outputs.cmake-path }}/cmake" --install cmake-build
+
       - name: Configure and build PHP
         run: |
           cmake --preset all-enabled \

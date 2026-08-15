@@ -24,6 +24,10 @@ runs:
           libdb5.3++-dev \
           libenchant-2-dev \
           libgmp-dev \
+          libheif-dev \
+          libimagequant-dev \
+          libjxl-dev \
+          libtiff-dev \
           unixodbc-dev \
           freetds-dev \
           apache2-dev \
