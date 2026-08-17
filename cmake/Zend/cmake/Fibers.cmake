@@ -107,6 +107,15 @@ block()
   if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(asm_file "combined_sysv_macho_gas.S")
   elseif(CMAKE_SYSTEM_NAME STREQUAL "AIX")
+    # In Autotools, AIX triplets start with powerpc- even though it may be
+    # 64-bit (as AIX has a multiple bitness world). This is synced with
+    # Autotools where it ends up using the wrong fibre asm (without forcing a
+    # powerpc64 triplet). If this issue exists also when using CMake is not
+    # confirmed.
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+      set(prefix "ppc64_sysv")
+    endif()
+
     # AIX uses a different calling convention (shared with non-_CALL_ELF Linux).
     # The AIX assembler isn't GNU, but the file is compatible.
     set(asm_file "${prefix}_xcoff_gas.S")
