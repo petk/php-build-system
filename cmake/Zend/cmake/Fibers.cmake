@@ -113,7 +113,7 @@ block()
   elseif(CMAKE_SYSTEM_NAME STREQUAL "AIX")
     # In Autotools, AIX triplets start with powerpc- even though it may be
     # 64-bit (as AIX has a multiple bitness world). This is synced with
-    # Autotools where it ends up using the wrong fibre asm (without forcing a
+    # Autotools where it ends up using the wrong fiber asm (without forcing a
     # powerpc64 triplet). If this issue exists also when using CMake is not
     # confirmed.
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
