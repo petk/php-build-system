@@ -49,6 +49,9 @@ This document describes how the PHP build system evolved through time.
   `HAVE_SQLITE3EXT_H` preprocessor macros anymore.
 * Added a new function `CHECK_HEADER()` which is intended to be used instead of
   the `CHECK_HEADER_ADD_INCLUDE()`.
+* The libxml2 library used by the official Windows builds has been upgraded to
+  version 2.15.3. As a result, `DOMDocument::$documentURI` for documents loaded
+  from a local file now contains a native filesystem path instead of a file URI.
 
 </details>
 
