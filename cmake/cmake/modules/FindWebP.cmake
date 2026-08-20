@@ -57,7 +57,8 @@ This module defines the following variables:
 
 The following cache variables may also be set:
 
-* `WebP_INCLUDE_DIR` - Directory containing package library headers.
+* `WebP_<component>_INCLUDE_DIR` - Directory containing package component
+  library headers.
 * `WebP_<component>_LIBRARY` - The path to the package component library.
 
 ## Examples
@@ -108,28 +109,28 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
   endif()
 
   find_path(
-    WebP_INCLUDE_DIR
-    NAMES webp/decode.h
+    WebP_webp_INCLUDE_DIR
+    NAMES webp/encode.h
     HINTS ${PC_WebP_webp_INCLUDE_DIRS}
     DOC "Directory containing libwebp library headers"
   )
-  mark_as_advanced(WebP_INCLUDE_DIR)
+  mark_as_advanced(WebP_webp_INCLUDE_DIR)
 
-  if(NOT WebP_INCLUDE_DIR)
-    string(APPEND reason "webp/decode.h not found. ")
+  if(NOT WebP_webp_INCLUDE_DIR)
+    string(APPEND reason "<webp/encode.h> not found. ")
   endif()
 
   # WebP headers don't provide version. Try pkg-config.
   if(
     PC_WebP_webp_VERSION
-    AND WebP_INCLUDE_DIR IN_LIST PC_WebP_webp_INCLUDE_DIRS
+    AND WebP_webp_INCLUDE_DIR IN_LIST PC_WebP_webp_INCLUDE_DIRS
   )
     set(WebP_VERSION ${PC_WebP_webp_VERSION})
   endif()
 
   if("webp" IN_LIST WebP_FIND_COMPONENTS)
     if(WebP_FIND_REQUIRED_webp)
-      list(APPEND required_vars WebP_webp_LIBRARY WebP_INCLUDE_DIR)
+      list(APPEND required_vars WebP_webp_LIBRARY WebP_webp_INCLUDE_DIR)
     endif()
 
     find_library(
@@ -144,7 +145,7 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       string(APPEND reason "webp library not found. ")
     endif()
 
-    if(WebP_webp_LIBRARY AND WebP_INCLUDE_DIR)
+    if(WebP_webp_LIBRARY AND WebP_webp_INCLUDE_DIR)
       set(WebP_webp_FOUND TRUE)
     else()
       set(WebP_webp_FOUND FALSE)
@@ -157,7 +158,11 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
     endif()
 
     if(WebP_FIND_REQUIRED_webpdecoder)
-      list(APPEND required_vars WebP_webpdecoder_LIBRARY WebP_INCLUDE_DIR)
+      list(
+        APPEND required_vars
+        WebP_webpdecoder_LIBRARY
+        WebP_webpdecoder_INCLUDE_DIR
+      )
     endif()
 
     find_library(
@@ -172,7 +177,19 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       string(APPEND reason "webpdecoder library not found. ")
     endif()
 
-    if(WebP_webpdecoder_LIBRARY AND WebP_INCLUDE_DIR)
+    find_path(
+      WebP_webpdecoder_INCLUDE_DIR
+      NAMES webp/decode.h
+      HINTS ${PC_WebP_webp_INCLUDE_DIRS}
+      DOC "Directory containing libwebp library header <webp/decode.h>"
+    )
+    mark_as_advanced(WebP_webpdecoder_INCLUDE_DIR)
+
+    if(NOT WebP_webpdecoder_INCLUDE_DIR)
+      string(APPEND reason "<webp/decode.h> not found. ")
+    endif()
+
+    if(WebP_webpdecoder_LIBRARY AND WebP_webpdecoder_INCLUDE_DIR)
       set(WebP_webpdecoder_FOUND TRUE)
     else()
       set(WebP_webpdecoder_FOUND FALSE)
@@ -185,7 +202,11 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
     endif()
 
     if(WebP_FIND_REQUIRED_webpdemux)
-      list(APPEND required_vars WebP_webpdemux_LIBRARY WebP_INCLUDE_DIR)
+      list(
+        APPEND required_vars
+        WebP_webpdemux_LIBRARY
+        WebP_webpdemux_INCLUDE_DIR
+      )
     endif()
 
     find_library(
@@ -200,7 +221,19 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       string(APPEND reason "webpdemux library not found. ")
     endif()
 
-    if(WebP_webpdemux_LIBRARY AND WebP_INCLUDE_DIR)
+    find_path(
+      WebP_webpdemux_INCLUDE_DIR
+      NAMES webp/demux.h
+      HINTS ${PC_WebP_webp_INCLUDE_DIRS}
+      DOC "Directory containing libwebp library header <webp/demux.h>"
+    )
+    mark_as_advanced(WebP_webpdemux_INCLUDE_DIR)
+
+    if(NOT WebP_webpdemux_INCLUDE_DIR)
+      string(APPEND reason "<webp/demux.h> not found. ")
+    endif()
+
+    if(WebP_webpdemux_LIBRARY AND WebP_webpdemux_INCLUDE_DIR)
       set(WebP_webpdemux_FOUND TRUE)
     else()
       set(WebP_webpdemux_FOUND FALSE)
@@ -213,7 +246,11 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
     endif()
 
     if(WebP_FIND_REQUIRED_libwebpmux)
-      list(APPEND required_vars WebP_libwebpmux_LIBRARY WebP_INCLUDE_DIR)
+      list(
+        APPEND required_vars
+        WebP_libwebpmux_LIBRARY
+        WebP_libwebpmux_INCLUDE_DIR
+      )
     endif()
 
     find_library(
@@ -228,7 +265,19 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       string(APPEND reason "webpmux library not found. ")
     endif()
 
-    if(WebP_libwebpmux_LIBRARY AND WebP_INCLUDE_DIR)
+    find_path(
+      WebP_libwebpmux_INCLUDE_DIR
+      NAMES webp/mux.h
+      HINTS ${PC_WebP_webp_INCLUDE_DIRS}
+      DOC "Directory containing libwebp library header <webp/mux.h>"
+    )
+    mark_as_advanced(WebP_libwebpmux_INCLUDE_DIR)
+
+    if(NOT WebP_libwebpmux_INCLUDE_DIR)
+      string(APPEND reason "<webp/mux.h> not found. ")
+    endif()
+
+    if(WebP_libwebpmux_LIBRARY AND WebP_libwebpmux_INCLUDE_DIR)
       set(WebP_libwebpmux_FOUND TRUE)
     else()
       set(WebP_libwebpmux_FOUND FALSE)
@@ -259,7 +308,7 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       WebP::webp
       PROPERTIES
         IMPORTED_LOCATION "${WebP_webp_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${WebP_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${WebP_webp_INCLUDE_DIR}"
     )
   endif()
 
@@ -274,7 +323,7 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       WebP::webpdecoder
       PROPERTIES
         IMPORTED_LOCATION "${WebP_webpdecoder_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${WebP_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${WebP_webpdecoder_INCLUDE_DIR}"
     )
   endif()
 
@@ -289,7 +338,7 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       WebP::webpdemux
       PROPERTIES
         IMPORTED_LOCATION "${WebP_webpdemux_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${WebP_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${WebP_webpdemux_INCLUDE_DIR}"
     )
   endif()
 
@@ -304,7 +353,7 @@ block(PROPAGATE WebP_FOUND WebP_VERSION)
       WebP::libwebpmux
       PROPERTIES
         IMPORTED_LOCATION "${WebP_libwebpmux_LIBRARY}"
-        INTERFACE_INCLUDE_DIRECTORIES "${WebP_INCLUDE_DIR}"
+        INTERFACE_INCLUDE_DIRECTORIES "${WebP_libwebpmux_INCLUDE_DIR}"
     )
   endif()
 endblock()
