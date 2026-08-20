@@ -25,6 +25,13 @@ This document describes how the PHP build system evolved through time.
 * The PHP embed SAPI now uses PHP CLI SAPI functionality via the `do_php_cli()`
   function. PHP CLI SAPI cannot be disabled when building the embed SAPI
   (`--enable-embed` is incompatible with `--disable-cli`).
+* Bundled gd library in ext/gd has been upgraded to 2.4.
+* Added new configure options for ext/gd which aren't applicable to PHP-8.6 yet,
+  targeted for a separate RFC in one of the next PHP versions:
+  * `--with-heif`
+  * `--with-imagequant`
+  * `--with-uhdr`
+  * `--with-tiff`
 
 #### Autotools
 
@@ -52,6 +59,8 @@ This document describes how the PHP build system evolved through time.
 * The libxml2 library used by the official Windows builds has been upgraded to
   version 2.15.3. As a result, `DOMDocument::$documentURI` for documents loaded
   from a local file now contains a native filesystem path instead of a file URI.
+* Added new configure option for ext/gd `--with-jxl`, which isn't applicable in
+  PHP-8.6 yet. Targeted for a separate RFC in one of the next PHP versions.
 
 </details>
 

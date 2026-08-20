@@ -34,6 +34,20 @@ Enables the AVIF support (only for bundled libgd).
 
 Enables the FreeType 2 support (only for bundled libgd).
 
+### PHP_EXT_GD_HEIF
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the HEIF support (only for bundled libgd).
+
+### PHP_EXT_GD_IMAGEQUANT
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the Imagequant support (only for bundled libgd).
+
 ### PHP_EXT_GD_JIS
 
 * Default: `OFF`
@@ -48,6 +62,27 @@ Enables the JIS-mapped (Japanese Industrial Standards) Japanese font support
 * Values: `ON|OFF`
 
 Enables the JPEG support (only for bundled libgd).
+
+### PHP_EXT_GD_JXL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the JPEG XL support (only for bundled libgd).
+
+### PHP_EXT_GD_TIFF
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the TIFF support (only for bundled libgd).
+
+### PHP_EXT_GD_UHDR
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the UltraHDR support (only for bundled libgd).
 
 ### PHP_EXT_GD_WEBP
 
@@ -188,6 +223,24 @@ add_feature_info(
 )
 
 cmake_dependent_option(
+  PHP_EXT_GD_HEIF
+  "GD: Enable HEIF support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd HEIF" PHP_EXT_GD_HEIF "HEIF support")
+
+cmake_dependent_option(
+  PHP_EXT_GD_IMAGEQUANT
+  "GD: Enable Imagequant support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd Imagequant" PHP_EXT_GD_IMAGEQUANT "Imagequant support")
+
+cmake_dependent_option(
   PHP_EXT_GD_JIS
   "GD: Enable JIS-mapped Japanese font support (only for bundled libgd)"
   OFF
@@ -204,6 +257,33 @@ cmake_dependent_option(
   OFF
 )
 add_feature_info("ext/gd JPEG" PHP_EXT_GD_JPEG "JPEG support")
+
+cmake_dependent_option(
+  PHP_EXT_GD_JXL
+  "GD: Enable JPEG XL support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd JPEG XL" PHP_EXT_GD_JXL "JPEG XL support")
+
+cmake_dependent_option(
+  PHP_EXT_GD_TIFF
+  "GD: Enable TIFF support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd TIFF" PHP_EXT_GD_TIFF "TIFF support")
+
+cmake_dependent_option(
+  PHP_EXT_GD_UHDR
+  "GD: Enable UltraHDR support (only for bundled libgd)"
+  OFF
+  [[PHP_EXT_GD AND NOT PHP_EXT_GD_EXTERNAL]]
+  OFF
+)
+add_feature_info("ext/gd libuhdr" PHP_EXT_GD_UHDR "UltraHDR support")
 
 cmake_dependent_option(
   PHP_EXT_GD_WEBP
@@ -256,29 +336,57 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   target_sources(
     php_ext_gd
     PRIVATE
+      libgd/ftraster/gd_ft_math.c
+      libgd/ftraster/gd_ft_raster.c
+      libgd/ftraster/gd_ft_stroker.c
+      libgd/gd_array.c
       libgd/gd_avif.c
       libgd/gd_bmp.c
+      libgd/gd_color_map.c
       libgd/gd_color_match.c
+      libgd/gd_color.c
+      libgd/gd_compositor.c
       libgd/gd_crop.c
+      libgd/gd_draw_blend.c
+      libgd/gd_draw.c
+      libgd/gd_filename.c
       libgd/gd_filter.c
       libgd/gd_gd.c
       libgd/gd_gd2.c
       libgd/gd_gif_in.c
       libgd/gd_gif_out.c
+      libgd/gd_gradient.c
+      libgd/gd_heif.c
       libgd/gd_interpolation.c
       libgd/gd_io_dp.c
       libgd/gd_io_file.c
       libgd/gd_io_ss.c
       libgd/gd_io.c
       libgd/gd_jpeg.c
+      libgd/gd_jxl.c
       libgd/gd_matrix.c
+      libgd/gd_metadata.c
+      libgd/gd_nnquant.c
+      libgd/gd_path_arc.c
+      libgd/gd_path_dash.c
+      libgd/gd_path_matrix.c
+      libgd/gd_path_stroke.c
+      libgd/gd_path.c
+      libgd/gd_perceptual_diff.c
       libgd/gd_png.c
+      libgd/gd_qoi.c
+      libgd/gd_readimage.c
       libgd/gd_rotate.c
       libgd/gd_security.c
+      libgd/gd_span_rle.c
       libgd/gd_ss.c
+      libgd/gd_surface.c
       libgd/gd_tga.c
+      libgd/gd_tiff.c
       libgd/gd_topal.c
       libgd/gd_transform.c
+      libgd/gd_uhdr.c
+      libgd/gd_version.c
       libgd/gd_wbmp.c
       libgd/gd_webp.c
       libgd/gd_xbm.c
@@ -299,10 +407,29 @@ if(NOT PHP_EXT_GD_EXTERNAL)
       FILE_SET HEADERS
         FILES
           libgd/bmp.h
+          libgd/entities.h
+          libgd/gd_array.h
+          libgd/gd_color_map.h
+          libgd/gd_color.h
+          libgd/gd_compositor.h
+          libgd/gd_draw_blend.h
           libgd/gd_errors.h
+          libgd/gd_fixed.h
+          libgd/gd_gradient.h
           libgd/gd_intern.h
           libgd/gd_io.h
+          libgd/gd_nnquant.h
+          libgd/gd_path_arc.h
+          libgd/gd_path_dash.h
+          libgd/gd_path_matrix.h
+          libgd/gd_path_outline.h
+          libgd/gd_path.h
+          libgd/gd_qoi.h
+          libgd/gd_span_rle.h
+          libgd/gd_surface.h
           libgd/gd_tga.h
+          libgd/gd_vector2d_private.h
+          libgd/gd_vector2d.h
           libgd/gd.h
           libgd/gdcache.h
           libgd/gdfontg.h
@@ -310,6 +437,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
           libgd/gdfontmb.h
           libgd/gdfonts.h
           libgd/gdfontt.h
+          libgd/gdfx.h
           libgd/gdhelpers.h
           libgd/jisx0208.h
           libgd/wbmp.h
@@ -366,6 +494,7 @@ if(NOT PHP_EXT_GD_EXTERNAL)
 
   set(HAVE_GD_GET_INTERPOLATION TRUE)
   set(HAVE_GD_PNG TRUE)
+  set(HAVE_GD_PNG_GET_VERSION_STRING TRUE)
   set(HAVE_LIBPNG TRUE)
 
   # GD library uses iconv if available when converting Kanji.
@@ -376,11 +505,24 @@ if(NOT PHP_EXT_GD_EXTERNAL)
   )
   if(Iconv_FOUND)
     target_link_libraries(php_ext_gd PRIVATE Iconv::Iconv)
+
+    # The bundled libgd/gdkanji.c includes <iconv.h> only when HAVE_ICONV_H or
+    # HAVE_ICONV is defined, and skips its own 'typedef void *iconv_t' when
+    # HAVE_ICONV_T_DEF is defined. HAVE_ICONV comes from the iconv extension,
+    # which might not be part of the gd extension build.
     set(HAVE_ICONV_H TRUE)
+
+    # Obsolete (all <iconv.h> headers provide an iconv_t typedef).
+    # Some systems (e.g. Solaris) declare iconv_t in <iconv.h> as something
+    # other than 'void *'. The bundled libgd/gdkanji.c only falls back
+    # to its own 'typedef void *iconv_t' when HAVE_ICONV_T_DEF is undefined.
+    # When iconv and its iconv.h header are found on the system set to boolean
+    # true to use system definition to avoid a conflicting typedef.
+    set(HAVE_ICONV_T_DEF TRUE)
   endif()
 
   if(PHP_EXT_GD_AVIF)
-    find_package(libavif 0.8.2)
+    find_package(libavif 1.0.0)
     set_package_properties(
       libavif
       PROPERTIES
@@ -409,6 +551,37 @@ if(NOT PHP_EXT_GD_EXTERNAL)
     set(HAVE_LIBFREETYPE TRUE)
   endif()
 
+  if(PHP_EXT_GD_HEIF)
+    find_package(libheif 1.7)
+    set_package_properties(
+      libheif
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the HEIF support in the gd extension."
+    )
+
+    target_link_libraries(php_ext_gd PRIVATE libheif::libheif)
+
+    set(HAVE_GD_HEIF TRUE)
+    set(HAVE_LIBHEIF TRUE)
+  endif()
+
+  if(PHP_EXT_GD_IMAGEQUANT)
+    find_package(Imagequant 2.0.0)
+    set_package_properties(
+      Imagequant
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE
+          "Necessary to enable the Imagequant support in the gd extension."
+    )
+
+    target_link_libraries(php_ext_gd PRIVATE Imagequant::Imagequant)
+
+    set(HAVE_GD_IMAGEQUANT TRUE)
+    set(HAVE_LIBIMAGEQUANT TRUE)
+  endif()
+
   if(PHP_EXT_GD_JIS)
     set(JISX0208 TRUE)
     set(USE_GD_JISX0208 TRUE)
@@ -429,8 +602,65 @@ if(NOT PHP_EXT_GD_EXTERNAL)
     set(HAVE_LIBJPEG TRUE)
   endif()
 
+  if(PHP_EXT_GD_JXL)
+    find_package(JXL 0.9 COMPONENTS jxl jxl_cms)
+    set_package_properties(
+      JXL
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the JPEG XL support in the gd extension."
+    )
+
+    target_link_libraries(php_ext_gd PRIVATE JXL::jxl JXL::jxl_cms)
+
+    set(HAVE_GD_JXL TRUE)
+    set(HAVE_LIBJXL TRUE)
+  endif()
+
+  if(PHP_EXT_GD_TIFF)
+    find_package(TIFF)
+    set_package_properties(
+      TIFF
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the TIFF support in the gd extension."
+    )
+
+    target_link_libraries(php_ext_gd PRIVATE TIFF::TIFF)
+
+    set(HAVE_GD_TIFF TRUE)
+    set(HAVE_LIBTIFF TRUE)
+  endif()
+
+  if(PHP_EXT_GD_UHDR)
+    find_package(libuhdr 1.4.0)
+    set_package_properties(
+      libuhdr
+      PROPERTIES
+        TYPE REQUIRED
+        PURPOSE "Necessary to enable the UltraHDR support in the gd extension."
+    )
+
+    # TODO: PHP Autotools build system uses non-existing UHDR_WRITE_XMP
+    # pkg-config variable to detect whether libultrahdr was built with
+    # UHDR_WRITE_XMP compile definition. And upstream library doesn't provide
+    # any useful option to check this.
+    if(TODO)
+      message(
+        FATAL_ERROR
+        "libultrahdr was compiled with UHDR_WRITE_XMP compile definition "
+        "enabled, but the ext/gd extension requires it to be OFF."
+      )
+    endif()
+
+    target_link_libraries(php_ext_gd PRIVATE libuhdr::libuhdr)
+
+    set(HAVE_GD_UHDR TRUE)
+    set(HAVE_LIBUHDR TRUE)
+  endif()
+
   if(PHP_EXT_GD_WEBP)
-    find_package(WebP 0.2.0)
+    find_package(WebP 0.2.0 COMPONENTS webp webpdemux libwebpmux)
     set_package_properties(
       WebP
       PROPERTIES
@@ -438,7 +668,10 @@ if(NOT PHP_EXT_GD_EXTERNAL)
         PURPOSE "Necessary to enable the WebP support in the gd extension."
     )
 
-    target_link_libraries(php_ext_gd PRIVATE WebP::webp)
+    target_link_libraries(
+      php_ext_gd
+      PRIVATE WebP::webp WebP::webpdemux WebP::libwebpmux
+    )
 
     set(HAVE_GD_WEBP TRUE)
     set(HAVE_LIBWEBP TRUE)
@@ -456,11 +689,12 @@ if(NOT PHP_EXT_GD_EXTERNAL)
     target_link_libraries(php_ext_gd PRIVATE XPM::XPM)
 
     set(HAVE_GD_XPM TRUE)
+    set(HAVE_LIBXPM TRUE)
     set(HAVE_XPM TRUE)
   endif()
 
   if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    target_link_libraries(php_ext_gd PRIVATE Gdi32 user32)
+    target_link_libraries(php_ext_gd PRIVATE advapi32 Gdi32 user32)
   endif()
 else()
   find_package(GD 2.1.0)
@@ -539,8 +773,11 @@ else()
     endfunction()
 
     php_ext_gd_check_format(Avif HAVE_GD_AVIF)
+    php_ext_gd_check_format(Heif HAVE_GD_HEIF)
     php_ext_gd_check_format(Jpeg HAVE_GD_JPG)
+    php_ext_gd_check_format(Jxl HAVE_GD_JXL)
     php_ext_gd_check_format(Png HAVE_GD_PNG)
+    php_ext_gd_check_format(Tiff HAVE_GD_TIFF)
     php_ext_gd_check_format(Webp HAVE_GD_WEBP)
     php_ext_gd_check_format(Xpm HAVE_GD_XPM)
 
@@ -557,6 +794,16 @@ else()
       PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION
     )
     set(HAVE_GD_GET_INTERPOLATION ${PHP_EXT_GD_HAVE_GD_GET_INTERPOLATION})
+
+    check_symbol_exists(
+      gdPngGetVersionString
+      gd.h
+      PHP_EXT_GD_HAVE_GD_PNG_GET_VERSION_STRING
+    )
+    set(
+      HAVE_GD_PNG_GET_VERSION_STRING
+      ${PHP_EXT_GD_HAVE_GD_PNG_GET_VERSION_STRING}
+    )
 
     check_symbol_exists(gdVersionString gd.h PHP_EXT_GD_HAVE_GD_LIBVERSION)
     set(HAVE_GD_LIBVERSION ${PHP_EXT_GD_HAVE_GD_LIBVERSION})

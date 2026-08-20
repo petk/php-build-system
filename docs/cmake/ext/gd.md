@@ -36,6 +36,20 @@ Enables the AVIF support (only for bundled libgd).
 
 Enables the FreeType 2 support (only for bundled libgd).
 
+### PHP_EXT_GD_HEIF
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the HEIF support (only for bundled libgd).
+
+### PHP_EXT_GD_IMAGEQUANT
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the Imagequant support (only for bundled libgd).
+
 ### PHP_EXT_GD_JIS
 
 * Default: `OFF`
@@ -50,6 +64,27 @@ Enables the JIS-mapped (Japanese Industrial Standards) Japanese font support
 * Values: `ON|OFF`
 
 Enables the JPEG support (only for bundled libgd).
+
+### PHP_EXT_GD_JXL
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the JPEG XL support (only for bundled libgd).
+
+### PHP_EXT_GD_TIFF
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the TIFF support (only for bundled libgd).
+
+### PHP_EXT_GD_UHDR
+
+* Default: `OFF`
+* Values: `ON|OFF`
+
+Enables the UltraHDR support (only for bundled libgd).
 
 ### PHP_EXT_GD_WEBP
 
