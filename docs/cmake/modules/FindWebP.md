@@ -59,7 +59,8 @@ This module defines the following variables:
 
 The following cache variables may also be set:
 
-* `WebP_INCLUDE_DIR` - Directory containing package library headers.
+* `WebP_<component>_INCLUDE_DIR` - Directory containing package component
+  library headers.
 * `WebP_<component>_LIBRARY` - The path to the package component library.
 
 ## Examples
