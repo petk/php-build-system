@@ -26,6 +26,8 @@ works and how it can be used.
   * [13.1. Parser and lexer files](#131-parser-and-lexer-files)
 * [14. Performance](#14-performance)
 * [15. Testing](#15-testing)
+  * [15.1 Environment variables](#151-environment-variables)
+  * [15.2 Running tests in parallel](#152-running-tests-in-parallel)
 * [16. Windows notes](#16-windows-notes)
   * [16.1. Module-definition (.def) files](#161-module-definition-def-files)
 * [17. PHP installation](#17-php-installation)
@@ -779,8 +781,8 @@ ctest --test-dir build-dir -j --progress --verbose
 ```
 
 The optional `--progress` option displays a progress, `-j` option enables
-running tests in parallel, and `--verbose` option outputs additional info to the
-stdout. In PHP case the `--verbose` is added so the output of the
+running CMake tests in parallel, and `--verbose` option outputs additional info
+to the stdout. In PHP case the `--verbose` is added so the output of the
 `run-tests.php` script is displayed.
 
 Testing can be also specified in CMake presets so configuration can be coded and
@@ -796,6 +798,40 @@ configuration option:
 
 ```sh
 cmake -B build-dir -DPHP_TESTING=OFF
+```
+
+### 15.1 Environment variables
+
+The `run-tests.php` script and various `*.phpt` files also read some environment
+variables. Environment variables can be passed to `ctest` via the command line:
+
+```sh
+cmake -E env TEST_PHP_ARGS="ext/ctype -j8" ctest --test-dir php-build -j -V
+
+# For shells that support passing environment variables directly:
+TEST_PHP_ARGS="ext/ctype -j8" ctest --test-dir php-build -j -V
+```
+
+Some of the environment variables are:
+
+* `TEST_PHP_ARGS` - a space-separated string of command-line options to
+  pass to `run-tests.php` script.
+* `TEST_PHP_CGI_EXECUTABLE` - the path to the CGI SAPI executable used for
+  tests.
+* `TEST_PHP_FPM_EXECUTABLE` - the path to the FPM SAPI executable used for
+  tests.
+* `TEST_PHPDBG_EXECUTABLE` - the path to the PHPDBG SAPI executable used
+  for tests.
+
+### 15.2 Running tests in parallel
+
+The `run-tests.php` by default runs in parallel using up to 10 automatically
+detected workers. When using a `ctest` testing wrapper, `-j` option is
+automatically adjusted to the maximum number of workers of the current host
+system. Customizing can be done via its `-j` option:
+
+```sh
+TEST_PHP_ARGS="-j8" ctest --test-dir php-build -j -V
 ```
 
 ## 16. Windows notes

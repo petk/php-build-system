@@ -32,6 +32,9 @@ This document describes how the PHP build system evolved through time.
   * `--with-imagequant`
   * `--with-uhdr`
   * `--with-tiff`
+* The `run-tests.php` script now runs in parallel by default, using up to
+  10 automatically detected workers. Pass `-j1` for sequential execution.
+  `--asan`, `--msan`, and Valgrind default to at most two workers.
 
 #### Autotools
 
