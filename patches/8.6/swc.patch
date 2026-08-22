@@ -4,7 +4,7 @@ Subject: Enable linking with zlib for SWC files
 See https://github.com/php/php-src/issues/20868
 ---
  ext/standard/basic_functions.stub.php         |   2 +-
- ext/standard/basic_functions_arginfo.h        | Bin 182327 -> 182361 bytes
+ ext/standard/basic_functions_arginfo.h        | Bin 182326 -> 182360 bytes
  ext/standard/basic_functions_decl.h           | Bin 918 -> 918 bytes
  ext/standard/config.m4                        |   5 +++++
  ext/standard/config.w32                       |   7 +++++++
@@ -16,7 +16,7 @@ See https://github.com/php/php-src/issues/20868
  10 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
-index c87e2243340..7c7475387d5 100644
+index 42cb711512b..cd785630f00 100644
 --- a/ext/standard/basic_functions.stub.php
 +++ b/ext/standard/basic_functions.stub.php
 @@ -594,7 +594,7 @@ enum SortDirection {
@@ -29,13 +29,13 @@ index c87e2243340..7c7475387d5 100644
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index ab8c57d4e8d..c56007156ca 100644
+index a057d3d48be..831fa955cfa 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: cf2ea35cd867f7091ee1fcf83bbfb543b51e5786
-+ * Stub hash: bc9094b621c9eaeb07be908513c8725655d630f9
+- * Stub hash: 13b6fd340958d1a7c782c8f5f3685517e62e5edc
++ * Stub hash: 5eb9b3db27f6b2bc6d80a94ba28e83add30a4a73
   * Has decl header: yes */
  
  ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
@@ -49,18 +49,18 @@ index ab8c57d4e8d..c56007156ca 100644
  #endif
  	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
 diff --git a/ext/standard/basic_functions_decl.h b/ext/standard/basic_functions_decl.h
-index 02203be0df4..88234677b54 100644
+index ab0a8ec94f7..d2474974ec7 100644
 --- a/ext/standard/basic_functions_decl.h
 +++ b/ext/standard/basic_functions_decl.h
 @@ -1,8 +1,8 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: cf2ea35cd867f7091ee1fcf83bbfb543b51e5786 */
-+ * Stub hash: bc9094b621c9eaeb07be908513c8725655d630f9 */
+- * Stub hash: 13b6fd340958d1a7c782c8f5f3685517e62e5edc */
++ * Stub hash: 5eb9b3db27f6b2bc6d80a94ba28e83add30a4a73 */
  
--#ifndef ZEND_BASIC_FUNCTIONS_DECL_cf2ea35cd867f7091ee1fcf83bbfb543b51e5786_H
--#define ZEND_BASIC_FUNCTIONS_DECL_cf2ea35cd867f7091ee1fcf83bbfb543b51e5786_H
-+#ifndef ZEND_BASIC_FUNCTIONS_DECL_bc9094b621c9eaeb07be908513c8725655d630f9_H
-+#define ZEND_BASIC_FUNCTIONS_DECL_bc9094b621c9eaeb07be908513c8725655d630f9_H
+-#ifndef ZEND_BASIC_FUNCTIONS_DECL_13b6fd340958d1a7c782c8f5f3685517e62e5edc_H
+-#define ZEND_BASIC_FUNCTIONS_DECL_13b6fd340958d1a7c782c8f5f3685517e62e5edc_H
++#ifndef ZEND_BASIC_FUNCTIONS_DECL_5eb9b3db27f6b2bc6d80a94ba28e83add30a4a73_H
++#define ZEND_BASIC_FUNCTIONS_DECL_5eb9b3db27f6b2bc6d80a94ba28e83add30a4a73_H
  
  typedef enum zend_enum_SortDirection {
  	ZEND_ENUM_SortDirection_Ascending = 1,
@@ -68,8 +68,8 @@ index 02203be0df4..88234677b54 100644
  	ZEND_ENUM_RoundingMode_PositiveInfinity = 8,
  } zend_enum_RoundingMode;
  
--#endif /* ZEND_BASIC_FUNCTIONS_DECL_cf2ea35cd867f7091ee1fcf83bbfb543b51e5786_H */
-+#endif /* ZEND_BASIC_FUNCTIONS_DECL_bc9094b621c9eaeb07be908513c8725655d630f9_H */
+-#endif /* ZEND_BASIC_FUNCTIONS_DECL_13b6fd340958d1a7c782c8f5f3685517e62e5edc_H */
++#endif /* ZEND_BASIC_FUNCTIONS_DECL_5eb9b3db27f6b2bc6d80a94ba28e83add30a4a73_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
 index 7edfcf1da1f..fe98bc19938 100644
 --- a/ext/standard/config.m4
