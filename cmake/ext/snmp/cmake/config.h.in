@@ -1,3 +1,6 @@
+/* Define to 1 if the Net-SNMP library has the 'netsnmp_init_mib' function. */
+#cmakedefine HAVE_NETSNMP_INIT_MIB 1
+
 /* Define to 1 if SNMP library has the 'shutdown_snmp_logging' function
    (available since Net-SNMP 5.4). */
 #cmakedefine HAVE_SHUTDOWN_SNMP_LOGGING 1

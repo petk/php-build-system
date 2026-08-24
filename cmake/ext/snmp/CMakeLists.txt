@@ -64,6 +64,13 @@ if(TARGET NetSnmp::NetSnmp)
   set(CMAKE_REQUIRED_LIBRARIES NetSnmp::NetSnmp)
 
   check_symbol_exists(
+    "netsnmp_init_mib"
+    "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
+    PHP_EXT_SNMP_HAVE_NETSNMP_INIT_MIB
+  )
+  set(HAVE_NETSNMP_INIT_MIB ${PHP_EXT_SNMP_HAVE_NETSNMP_INIT_MIB})
+
+  check_symbol_exists(
     shutdown_snmp_logging
     "net-snmp/net-snmp-config.h;net-snmp/net-snmp-includes.h"
     PHP_EXT_SNMP_HAVE_SHUTDOWN_SNMP_LOGGING
