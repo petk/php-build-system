@@ -112,6 +112,21 @@ if(TARGET PostgreSQL::PostgreSQL)
 
   # Available since PostgreSQL library version 17.
   if(PostgreSQL_VERSION VERSION_GREATER_EQUAL 17)
+    # Indicates the presence of PQsetChunkedRowsMode and PGRES_TUPLES_CHUNK.
+    check_symbol_exists(
+      LIBPQ_HAS_CHUNK_MODE
+      libpq-fe.h
+      PHP_EXT_HAVE_LIBPQ_HAS_CHUNK_MODE
+    )
+    check_symbol_exists(
+      PQsetChunkedRowsMode
+      libpq-fe.h
+      PHP_EXT_HAVE_PQSETCHUNKEDROWSMODE
+    )
+    if(PHP_EXT_HAVE_LIBPQ_HAS_CHUNK_MODE AND PHP_EXT_HAVE_PQSETCHUNKEDROWSMODE)
+      set(HAVE_PG_SET_CHUNKED_ROWS_SIZE TRUE)
+    endif()
+
     # Indicates the presence of PQclosePrepared, PQclosePortal, etc.
     check_symbol_exists(
       LIBPQ_HAS_CLOSE_PREPARED
