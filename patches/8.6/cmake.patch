@@ -297,7 +297,7 @@ index beeb157e53a..03b895c4c1b 100644
   * Other platforms may modify that configure check and add suitable #ifdefs
   * around the alternate code. */
 diff --git a/run-tests.php b/run-tests.php
-index ce6bd94db1e..5ede724698e 100755
+index 8728c0d7524..541cd8d53af 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -934,10 +934,12 @@ function write_information(array $user_tests, $phpdbg): void
