@@ -78,6 +78,7 @@ target_link_libraries(php_ext_pdo_pgsql PUBLIC PostgreSQL::PostgreSQL)
 # Check PostgreSQL library (libpq) features.
 if(TARGET PostgreSQL::PostgreSQL)
   cmake_push_check_state(RESET)
+
   set(CMAKE_REQUIRED_LIBRARIES PostgreSQL::PostgreSQL)
 
   # PostgreSQL library minimum version sanity check.
@@ -89,6 +90,7 @@ if(TARGET PostgreSQL::PostgreSQL)
       "or later is required."
     )
   endif()
+
   cmake_pop_check_state()
 endif()
 
