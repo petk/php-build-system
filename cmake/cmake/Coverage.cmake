@@ -62,6 +62,7 @@ exclude = .*/ext/pcre/pcre2lib/.*
 exclude = .*/ext/uri/uriparser/.*
 exclude = .*/Zend/Optimizer/ssa_integrity\.c
 exclude = .*/Zend/Optimizer/zend_dump\.c
+exclude = .*/Zend/zend_gdb\.c
 
 exclude-lines-by-pattern = .*\b(ZEND_PARSE_PARAMETERS_(START|END|NONE)|Z_PARAM_).*
 exclude-lines-by-pattern = \s*(default:\s*)?ZEND_UNREACHABLE\(\);\s*
