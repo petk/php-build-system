@@ -4,7 +4,7 @@ Subject: Enable linking with zlib for SWC files
 See https://github.com/php/php-src/issues/20868
 ---
  ext/standard/basic_functions.stub.php         |   2 +-
- ext/standard/basic_functions_arginfo.h        | Bin 182557 -> 182591 bytes
+ ext/standard/basic_functions_arginfo.h        | Bin 183204 -> 183238 bytes
  ext/standard/basic_functions_decl.h           | Bin 918 -> 918 bytes
  ext/standard/config.m4                        |   5 +++++
  ext/standard/config.w32                       |   7 +++++++
@@ -16,7 +16,7 @@ See https://github.com/php/php-src/issues/20868
  10 files changed, 17 insertions(+), 13 deletions(-)
 
 diff --git a/ext/standard/basic_functions.stub.php b/ext/standard/basic_functions.stub.php
-index 8ae94d8c6d9..2b4bb760978 100644
+index 6b3b11a5fa3..9c1f6caab49 100644
 --- a/ext/standard/basic_functions.stub.php
 +++ b/ext/standard/basic_functions.stub.php
 @@ -594,7 +594,7 @@ enum SortDirection {
@@ -29,17 +29,17 @@ index 8ae94d8c6d9..2b4bb760978 100644
   * @var int
   * @cvalue IMAGE_FILETYPE_SWC
 diff --git a/ext/standard/basic_functions_arginfo.h b/ext/standard/basic_functions_arginfo.h
-index 4bcf008f5fd..8d75f40660f 100644
+index 677c5e66860..3b8f4d64b32 100644
 --- a/ext/standard/basic_functions_arginfo.h
 +++ b/ext/standard/basic_functions_arginfo.h
 @@ -1,5 +1,5 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: 31018a787ba261316941b0d88f090b9cf271aa0e
-+ * Stub hash: b434b8c984540347b7d820e1496db165f8c77f91
+- * Stub hash: 4feeab72edf6b7440af99a60e1401492828f141e
++ * Stub hash: b338cc649f24272c4a6cc881070c715611316ae1
   * Has decl header: yes */
  
- ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_set_time_limit, 0, 1, _IS_BOOL, 0)
-@@ -3695,7 +3695,7 @@ static void register_basic_functions_symbols(int module_number)
+ #include "zend_attributes.h"
+@@ -3715,7 +3715,7 @@ static void register_basic_functions_symbols(int module_number)
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JP2", IMAGE_FILETYPE_JP2, CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JPX", IMAGE_FILETYPE_JPX, CONST_PERSISTENT);
  	REGISTER_LONG_CONSTANT("IMAGETYPE_JB2", IMAGE_FILETYPE_JB2, CONST_PERSISTENT);
@@ -49,18 +49,18 @@ index 4bcf008f5fd..8d75f40660f 100644
  #endif
  	REGISTER_LONG_CONSTANT("IMAGETYPE_IFF", IMAGE_FILETYPE_IFF, CONST_PERSISTENT);
 diff --git a/ext/standard/basic_functions_decl.h b/ext/standard/basic_functions_decl.h
-index db81e0bfc07..60e6547ddb0 100644
+index d6031776699..504cbe4efd1 100644
 --- a/ext/standard/basic_functions_decl.h
 +++ b/ext/standard/basic_functions_decl.h
 @@ -1,8 +1,8 @@
  /* This is a generated file, edit basic_functions.stub.php instead.
-- * Stub hash: 31018a787ba261316941b0d88f090b9cf271aa0e */
-+ * Stub hash: b434b8c984540347b7d820e1496db165f8c77f91 */
+- * Stub hash: 4feeab72edf6b7440af99a60e1401492828f141e */
++ * Stub hash: b338cc649f24272c4a6cc881070c715611316ae1 */
  
--#ifndef ZEND_BASIC_FUNCTIONS_DECL_31018a787ba261316941b0d88f090b9cf271aa0e_H
--#define ZEND_BASIC_FUNCTIONS_DECL_31018a787ba261316941b0d88f090b9cf271aa0e_H
-+#ifndef ZEND_BASIC_FUNCTIONS_DECL_b434b8c984540347b7d820e1496db165f8c77f91_H
-+#define ZEND_BASIC_FUNCTIONS_DECL_b434b8c984540347b7d820e1496db165f8c77f91_H
+-#ifndef ZEND_BASIC_FUNCTIONS_DECL_4feeab72edf6b7440af99a60e1401492828f141e_H
+-#define ZEND_BASIC_FUNCTIONS_DECL_4feeab72edf6b7440af99a60e1401492828f141e_H
++#ifndef ZEND_BASIC_FUNCTIONS_DECL_b338cc649f24272c4a6cc881070c715611316ae1_H
++#define ZEND_BASIC_FUNCTIONS_DECL_b338cc649f24272c4a6cc881070c715611316ae1_H
  
  typedef enum zend_enum_SortDirection {
  	ZEND_ENUM_SortDirection_Ascending = 1,
@@ -68,8 +68,8 @@ index db81e0bfc07..60e6547ddb0 100644
  	ZEND_ENUM_RoundingMode_PositiveInfinity = 8,
  } zend_enum_RoundingMode;
  
--#endif /* ZEND_BASIC_FUNCTIONS_DECL_31018a787ba261316941b0d88f090b9cf271aa0e_H */
-+#endif /* ZEND_BASIC_FUNCTIONS_DECL_b434b8c984540347b7d820e1496db165f8c77f91_H */
+-#endif /* ZEND_BASIC_FUNCTIONS_DECL_4feeab72edf6b7440af99a60e1401492828f141e_H */
++#endif /* ZEND_BASIC_FUNCTIONS_DECL_b338cc649f24272c4a6cc881070c715611316ae1_H */
 diff --git a/ext/standard/config.m4 b/ext/standard/config.m4
 index 7edfcf1da1f..fe98bc19938 100644
 --- a/ext/standard/config.m4
