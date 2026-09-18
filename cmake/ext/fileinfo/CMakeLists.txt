@@ -71,6 +71,7 @@ target_sources(
     libmagic/print.c
     libmagic/readcdf.c
     libmagic/softmagic.c
+    libmagic/swap.c
     php_libmagic.c
 )
 

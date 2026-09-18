@@ -35,6 +35,7 @@ This document describes how the PHP build system evolved through time.
 * The `run-tests.php` script now runs in parallel by default, using up to
   10 automatically detected workers. Pass `-j1` for sequential execution.
   `--asan`, `--msan`, and Valgrind default to at most two workers.
+* Bundled file library in ext/fileinfo has been upgraded to 5.48.
 
 #### Autotools
 
