@@ -7,10 +7,10 @@ if test -z "$REPO"; then
 fi
 
 # A list of supported PHP versions.
-phpVersions="8.3 8.4 8.5 8.6"
+phpVersions="8.3 8.4 8.5 8.6 8.7"
 
 # The PHP MAJOR.MINOR version currently in development (the master branch).
-phpVersionDev="8.6"
+phpVersionDev="8.7"
 
 # Temporary Git branch for applying patches and rebasing the branch.
 temporaryBranch=cmake-patching
