@@ -3,7 +3,7 @@
 * Default: `PHP`
 
 The name of the directory inside the `lib/cmake/` where to install PHP CMake
-package config files (`PHPConfig.cmake`). For example, `PHP-8.6` to specify
+package config files (`PHPConfig.cmake`). For example, `PHP-8.x` to specify
 version or other build-related characteristics and have multiple PHP versions
 installed. If absolute path needs to be set, configure `CMAKE_INSTALL_LIBDIR`
 instead.

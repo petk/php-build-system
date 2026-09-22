@@ -2,9 +2,24 @@
 
 This document describes how the PHP build system evolved through time.
 
-## PHP 8.6 (in development)
+## PHP 8.7 (in development)
 
 ...
+
+<details>
+<summary>Changelog</summary>
+
+### PHP 8.7 build system changes
+
+#### Abstract
+
+#### Autotools
+
+#### Windows
+
+</details>
+
+## PHP 8.6
 
 <details>
 <summary>Changelog</summary>

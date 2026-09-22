@@ -44,7 +44,7 @@ jobs:
               install_options: "--config Release"
             }
         php:
-          - 8.6-dev
+          - 8.7-dev
     env:
       CC: ${{ matrix.compiler.CC }}
       CXX: ${{ matrix.compiler.CXX }}

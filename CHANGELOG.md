@@ -3,6 +3,10 @@
 This document lists all notable changes across the main Git branches of this
 repository.
 
+## PHP 8.7
+
+* ...
+
 ## PHP 8.6
 
 * ...
