@@ -143,7 +143,7 @@ index 5a62f91848f..29741fffe0a 100644
  PHP_SUBST([all_targets])
  PHP_SUBST([install_targets])
 diff --git a/ext/ext_skel.php b/ext/ext_skel.php
-index 3237ca625c9..fad486e42ca 100755
+index b81170e91f5..8258289b66b 100755
 --- a/ext/ext_skel.php
 +++ b/ext/ext_skel.php
 @@ -22,14 +22,6 @@ function error($message) {
