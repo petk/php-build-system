@@ -15,6 +15,8 @@ This document describes how the PHP build system evolved through time.
 
 #### Autotools
 
+* Autoconf minimum required version upgraded to 2.71.
+
 #### Windows
 
 </details>
