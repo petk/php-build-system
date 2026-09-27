@@ -73,7 +73,7 @@ target_link_libraries(php_ext_soap PRIVATE LibXml2::LibXml2)
 set_property(
   TARGET php_ext_soap
   APPEND
-  PROPERTY PHP_REQUIRED_EXTENSIONS date hash libxml random
+  PROPERTY PHP_REQUIRED_EXTENSIONS date libxml random
 )
 
 set_property(

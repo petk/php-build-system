@@ -130,10 +130,10 @@ index 12aa02005c2..abfcbcbfc12 100644
  #  define HAVE__CONTROLFP_S
  #endif /* _MSC_VER */
 diff --git a/configure.ac b/configure.ac
-index 5a62f91848f..29741fffe0a 100644
+index 50df06a6b47..26e17932363 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -1632,7 +1632,7 @@ else
+@@ -1622,7 +1622,7 @@ else
  fi;
  
  all_targets="\$(OVERALL_TARGET) \$(PHP_MODULES) \$(PHP_ZEND_EX) \$(PHP_BINARIES) $pharcmd"
