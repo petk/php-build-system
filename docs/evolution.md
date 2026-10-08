@@ -19,6 +19,10 @@ This document describes how the PHP build system evolved through time.
 
 #### Windows
 
+* C sources are now compiled as C17 and require C11 atomics. MSVC builds require
+  Visual Studio 2026 or later and enable `/experimental:c11atomics`.
+* C++-only extension compiler flags can be added to `CXXFLAGS_<EXTENSION>`.
+
 </details>
 
 ## PHP 8.6

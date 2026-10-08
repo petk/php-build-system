@@ -111,7 +111,6 @@ target_sources(
     mysqlnd_read_buffer.c
     mysqlnd_result_meta.c
     mysqlnd_result.c
-    mysqlnd_reverse_api.c
     mysqlnd_statistics.c
     mysqlnd_vio.c
     mysqlnd_wireprotocol.c
@@ -139,7 +138,6 @@ target_sources(
         mysqlnd_read_buffer.h
         mysqlnd_result_meta.h
         mysqlnd_result.h
-        mysqlnd_reverse_api.h
         mysqlnd_statistics.h
         mysqlnd_structs.h
         mysqlnd_vio.h

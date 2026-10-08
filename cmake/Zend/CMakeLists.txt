@@ -141,7 +141,6 @@ target_sources(
     zend_alloc.c
     zend_API.c
     zend_ast.c
-    zend_atomic.c
     zend_attributes.c
     zend_attributes.stub.php
     zend_autoload.c
@@ -228,7 +227,6 @@ target_sources(
         zend_API.h
         zend_arena.h
         zend_ast.h
-        zend_atomic.h
         zend_attributes_arginfo.h
         zend_attributes.h
         zend_autoload.h
