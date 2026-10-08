@@ -300,6 +300,29 @@ set_property(
   PROPERTY PHP_REQUIRED_EXTENSIONS libxml random
 )
 
+include(PHP/CheckCompilerFlag)
+
+php_check_compiler_flag(
+  C
+  -Wno-unknown-warning-option
+  PHP_EXT_DOM_HAS_WNO_UNKNOWN_WARNING_OPTION
+)
+if(PHP_EXT_DOM_HAS_WNO_UNKNOWN_WARNING_OPTION)
+  target_compile_options(php_ext_dom PRIVATE -Wno-unknown-warning-option)
+endif()
+
+php_check_compiler_flag(
+  C
+  -Wno-unterminated-string-initialization
+  PHP_EXT_DOM_HAS_WNO_UNTERMINATED_STRING_INITIALIZATION
+)
+if(PHP_EXT_DOM_HAS_WNO_UNTERMINATED_STRING_INITIALIZATION)
+  target_compile_options(
+    php_ext_dom
+    PRIVATE -Wno-unterminated-string-initialization
+  )
+endif()
+
 set(HAVE_DOM TRUE)
 
 configure_file(cmake/config.h.in config.h)
