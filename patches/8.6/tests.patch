@@ -9,8 +9,6 @@ Subject: Fix tests
   When PHP is compiled and built against libzip that doesn't have AES
   support enabled (if all encryption options are set to OFF in CMake),
   ZipArchive::EM_AES_256 and ZipArchive::EM_AES_192 aren't supported.
-  ZipArchive::registerProgressCallback() is only available when using
-  libzip 1.3.0 or newer.
 
   On Solaris 10, unlink() removes entire ext/standard/tests/file
   directory, as the system unlink functionality is different. This bug
@@ -35,10 +33,9 @@ Subject: Fix tests
  .../general_functions/php_uname_basic.phpt    |  2 +-
  .../tests/network/gethostbyname_error002.phpt |  4 +++
  ext/standard/tests/network/gethostname.phpt   |  2 +-
- ext/zip/tests/gh18431.phpt                    |  4 +++
  ext/zip/tests/oo_addglob2.phpt                |  6 ++++
  ext/zip/tests/oo_encryption.phpt              |  6 ++++
- 10 files changed, 72 insertions(+), 18 deletions(-)
+ 9 files changed, 68 insertions(+), 18 deletions(-)
 
 diff --git a/ext/dom/tests/dom_xinclude.phpt b/ext/dom/tests/dom_xinclude.phpt
 index 0dfeb2dfb4a..410431de877 100644
@@ -219,21 +216,6 @@ index 57f4c498d0f..2a94413e027 100644
  --EXPECTF--
 -string(%d) "%s"
 +string(%d) "%S"
-diff --git a/ext/zip/tests/gh18431.phpt b/ext/zip/tests/gh18431.phpt
-index d4eb89c36c6..dcd7db6f400 100644
---- a/ext/zip/tests/gh18431.phpt
-+++ b/ext/zip/tests/gh18431.phpt
-@@ -2,6 +2,10 @@
- GH-18431 (Registering ZIP progress callback twice doesn't work)
- --EXTENSIONS--
- zip
-+--SKIPIF--
-+<?php
-+if (!method_exists('ZipArchive', 'registerProgressCallback')) die('skip libzip too old');
-+?>
- --FILE--
- <?php
- $file = __DIR__ . '/gh18431.zip';
 diff --git a/ext/zip/tests/oo_addglob2.phpt b/ext/zip/tests/oo_addglob2.phpt
 index 298041cc065..2b39fbd447e 100644
 --- a/ext/zip/tests/oo_addglob2.phpt

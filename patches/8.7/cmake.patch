@@ -130,7 +130,7 @@ index 12aa02005c2..abfcbcbfc12 100644
  #  define HAVE__CONTROLFP_S
  #endif /* _MSC_VER */
 diff --git a/configure.ac b/configure.ac
-index 50df06a6b47..26e17932363 100644
+index f48f1e8de90..8a89da3df32 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1622,7 +1622,7 @@ else
@@ -248,7 +248,7 @@ index b81170e91f5..8258289b66b 100755
              error('Unable to copy config script: ' . $config_script);
          }
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
-index af4717a00a4..8d631ad0137 100644
+index dad797ee14b..df4878248ed 100644
 --- a/ext/iconv/iconv.c
 +++ b/ext/iconv/iconv.c
 @@ -42,7 +42,7 @@
@@ -284,7 +284,7 @@ index e691bd3964b..12745d29cb9 100644
 +# Local user presets
 +/CMakeUserPresets.json
 diff --git a/ext/standard/proc_open.c b/ext/standard/proc_open.c
-index 8bd3361f59c..b7dcaac7994 100644
+index 4fd24058f7c..0e1de8c20cd 100644
 --- a/ext/standard/proc_open.c
 +++ b/ext/standard/proc_open.c
 @@ -62,7 +62,7 @@
@@ -297,7 +297,7 @@ index 8bd3361f59c..b7dcaac7994 100644
   * Other platforms may modify that configure check and add suitable #ifdefs
   * around the alternate code. */
 diff --git a/run-tests.php b/run-tests.php
-index 8728c0d7524..541cd8d53af 100755
+index b0645cbef0d..14d435d8254 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -934,10 +934,12 @@ function write_information(array $user_tests, $phpdbg): void
