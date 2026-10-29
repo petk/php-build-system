@@ -254,7 +254,7 @@ index d396dfa3da7..ca6b15d7f42 100755
              error('Unable to copy config script: ' . $config_script);
          }
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
-index de1eb76ac52..ab87cb57f04 100644
+index 2713e4cd70d..be1194619a9 100644
 --- a/ext/iconv/iconv.c
 +++ b/ext/iconv/iconv.c
 @@ -44,7 +44,7 @@
@@ -290,7 +290,7 @@ index e691bd3964b..12745d29cb9 100644
 +# Local user presets
 +/CMakeUserPresets.json
 diff --git a/ext/standard/proc_open.c b/ext/standard/proc_open.c
-index 22c92b916cc..fbdb7aba4eb 100644
+index 3b5a46a2014..53eb22ab912 100644
 --- a/ext/standard/proc_open.c
 +++ b/ext/standard/proc_open.c
 @@ -64,7 +64,7 @@
@@ -303,7 +303,7 @@ index 22c92b916cc..fbdb7aba4eb 100644
   * Other platforms may modify that configure check and add suitable #ifdefs
   * around the alternate code. */
 diff --git a/run-tests.php b/run-tests.php
-index d9ac185a21a..27393c70deb 100755
+index 3d0bc7241ba..d97e297c708 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -859,10 +859,12 @@ function write_information(array $user_tests, $phpdbg): void
@@ -362,7 +362,7 @@ index d9ac185a21a..27393c70deb 100755
      $failed_tests_data .= "System Libtool:\n$sys_libtool\n";
      $failed_tests_data .= "Compiler:\n$compiler\n";
 diff --git a/sapi/fpm/tests/tester.inc b/sapi/fpm/tests/tester.inc
-index 90798865433..87814cab898 100644
+index 0a2c393881c..4d1628cdabd 100644
 --- a/sapi/fpm/tests/tester.inc
 +++ b/sapi/fpm/tests/tester.inc
 @@ -225,6 +225,10 @@ class Tester
