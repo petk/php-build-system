@@ -136,7 +136,7 @@ index c8e91122a35..47baedbbb78 100644
  #  define HAVE__CONTROLFP_S
  #endif /* _MSC_VER */
 diff --git a/configure.ac b/configure.ac
-index 1cf8531999b..b252fafb795 100644
+index 1f68408c274..ad13f006111 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -1706,7 +1706,7 @@ else
@@ -254,7 +254,7 @@ index ae7a3a987c0..5d9e81ed840 100755
              error('Unable to copy config script: ' . $config_script);
          }
 diff --git a/ext/iconv/iconv.c b/ext/iconv/iconv.c
-index ae93e0573e2..0b7aec88a4a 100644
+index cc0bba205b7..7d2fbc2da82 100644
 --- a/ext/iconv/iconv.c
 +++ b/ext/iconv/iconv.c
 @@ -45,7 +45,7 @@
@@ -303,7 +303,7 @@ index 96e5a4ced99..0f117159508 100644
   * Other platforms may modify that configure check and add suitable #ifdefs
   * around the alternate code. */
 diff --git a/run-tests.php b/run-tests.php
-index 266d3522602..bc90c405946 100755
+index a4551713219..8e0b2184913 100755
 --- a/run-tests.php
 +++ b/run-tests.php
 @@ -891,10 +891,12 @@ function write_information(): void
